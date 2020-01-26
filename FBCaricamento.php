@@ -1,0 +1,2 @@
+<a id="CaricamentoFB"><img id="imgFotoProfilo" class="FotoProfilo" src="<?=($_SESSION["FotoProfilo"] ? $_SESSION["FotoProfilo"] : "images/null.png")?>" width="<?=($_SESSION["FotoProfilo"] ? "60" : "0")?>">&nbsp;&nbsp;<a id="PulsanteFB"><img src="images/FB_Logo.png">&nbsp;&nbsp;<img src="images/attendere.gif"></a></a>
+<script>const UID = "<?=$_SESSION['ID']?>";</script>
