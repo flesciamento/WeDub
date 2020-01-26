@@ -1,0 +1,11 @@
+const strOpzioniTraccia = "Opzioni clip audio";
+const strMinuti = "Minuti";
+const strSecondi = "Secondi";
+const strPosizione = "Posizione:";
+const strVolume = "Volume:";
+const strAscoltaClip = "Ascolta la clip";
+const strInterrompiAscolto = "Interrompi";
+const strScaricaRegistrazione = "Scarica registrazione";
+const strAnnullalemodifiche = "Annulla le modifiche";
+const strSalva = "SALVA";
+const strErroreConnessioneAJAX = "Errore di connessione! Nuovo tentativo in corso...";
