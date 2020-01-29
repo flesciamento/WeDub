@@ -221,7 +221,7 @@
 			</table>
 	</div>
 	
-	<?php define('versione', "4.2.1.0"); ?>
+	<?php define('versione', "4.2.1.2"); ?>
 	<script>
 		const N = "<?=$N?>", P = "<?=$P?>", TipoProgetto = "<?=$DatiProgetto['Tipo']?>";
 		const NomeProgetto = "<?=Sistema($DatiProgetto['NomeProgetto'], true)?>", NomeDoppiaggio = "<?=Sistema($Provino? "Provino per " . $DatiProgetto['RuoloProvino'] : $DatiProgetto['NomeDoppiaggio'], true)?>";
@@ -229,25 +229,25 @@
 		const SessioneOspite = <?=($SessioneOspite? "true" : "false")?>, ProgettoCompletato = <?=($DatiProgetto['Stato']? "true" : "false")?>, SolaVisione = <?=(($SessioneOspite || $DatiProgetto['Stato']) ? "true" : "false") ?>;
 		const PercorsoVideoGuida = "<?=$DatiProgetto['PercorsoVideo']?>";
 	</script>
-	<script src="FunzioniComuni5.4.3.js"></script><script src="FunzioniComuni5.1.0_stringheITA.js"></script>
-	<script src="MediaStreamRecorder/MediaStreamRecorder-v2.1.js"></script><script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
-	<script type='text/javascript' src="RenderingAudio/Rendering/ffmpeg-terminal4.0.0.2_stringheITA.js"></script><script type='text/javascript' src="RenderingAudio/Rendering/ffmpeg-terminal-doppiaggio4.1.0.0.js"></script>
-	<script src="waveform.js"></script>
-	<script src="StatisticheSuono.js"></script>
-	<script src="Registrazione4.1.4.5_stringheITA.js"></script><script src="Registrazione<?=versione?>.js"></script>
-	<script src="SelezioneDispositivo3.2.js"></script>
+	<script defer src="FunzioniComuni5.4.3.js"></script><script defer src="FunzioniComuni5.1.0_stringheITA.js"></script>
+	<script defer src="MediaStreamRecorder/MediaStreamRecorder-v2.1.js"></script><script defer src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+	<script defer type='text/javascript' src="RenderingAudio/Rendering/ffmpeg-terminal4.0.0.2_stringheITA.js"></script><script defer type='text/javascript' src="RenderingAudio/Rendering/ffmpeg-terminal-doppiaggio4.1.0.0.js"></script>
+	<script defer src="waveform.js"></script>
+	<script defer src="StatisticheSuono.js"></script>
+	<script defer src="Registrazione4.1.4.5_stringheITA.js"></script><script defer src="Registrazione<?=versione?>.js"></script>
+	<script defer src="SelezioneDispositivo3.2.js"></script>
 	<?php
 	$NecessarieLibrerieFB = ($_SESSION['FB'] == 1);
 	switch($DatiProgetto['PiattaformaVideo']) {
-		case "YouTube": echo "<script src='https://www.youtube.com/iframe_api'></script><script src='InterfacciaVideoYouTube4.0.js'></script>"; break;
-		case "DailyMotion": echo "<script src='https://api.dmcdn.net/all.js'></script><script src='InterfacciaVideoDailyMotion6.8.1.js'></script>"; break;
-		case "Facebook": echo "<div id='fb-root'></div><script src='InterfacciaVideoFacebook4.0.3.2.js'></script>"; $NecessarieLibrerieFB = true; break;
-		case "Integrata": echo "<script src='InterfacciaVideoIntegrato3.6.2.js'></script>"; break;
+		case "YouTube": echo "<script defer src='https://www.youtube.com/iframe_api'></script><script defer src='InterfacciaVideoYouTube4.0.js'></script>"; break;
+		case "DailyMotion": echo "<script defer src='https://api.dmcdn.net/all.js'></script><script defer src='InterfacciaVideoDailyMotion6.8.1.js'></script>"; break;
+		case "Facebook": echo "<div id='fb-root'></div><script defer src='InterfacciaVideoFacebook4.0.3.2.js'></script>"; $NecessarieLibrerieFB = true; break;
+		case "Integrata": echo "<script defer src='InterfacciaVideoIntegrato3.6.2.js'></script>"; break;
 	}
 	?>
 	
 	<?php
-		echo (($_SESSION['FB'] == 1) ? "<script src='FBVerificaAccount.js'></script>" : "") . ($NecessarieLibrerieFB? "<script src='FBDiramaStatoLoginUtente.js'></script><script src='FBLibrerie.js'></script><script src='Logout1.3.js'></script>" : "");
+		echo (($_SESSION['FB'] == 1) ? "<script defer src='FBVerificaAccount.js'></script>" : "") . ($NecessarieLibrerieFB? "<script defer src='FBDiramaStatoLoginUtente.js'></script><script defer src='FBLibrerie.js'></script><script defer src='Logout1.3.js'></script>" : "");
 	?>
 	<div id="Versione"><?=versione?></div>
 </body>
