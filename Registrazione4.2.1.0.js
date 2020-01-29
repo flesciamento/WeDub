@@ -6,7 +6,7 @@ var recordedBlobs;
 var sampleAudioData;
 var options;
 var AudioVideoRegistrato = [];
-var MinutaggioUltimaRegistrazione = 0;
+var MinutaggioUltimaRegistrazione = 0, DurataUltimaRegistrazione = 0;
 
 var ContenitoreVideoGuida = document.getElementById('ContenitoreVideoGuida');
 var Monitors = document.getElementById('Monitors');
@@ -53,16 +53,16 @@ pulPlay.addEventListener('mousedown', play);
 
 /*** Verifiche compatibilità browser ***/
 try {
-  window.AudioContext = window.AudioContext || window.webkitAudioContext;
-  window.audioContext = new AudioContext();
+	window.AudioContext = window.AudioContext || window.webkitAudioContext;
+	window.audioContext = new AudioContext();
 } catch (e) {
-  alert('Web Audio API non supportata!');
+	alert('Web Audio API non supportata!');
 }
 /***************************************/
 
 var ingressi = {
-  audio: true,
-  video: false
+	audio: true,
+	video: false
 };
 
 function MinutiESecondi(Secondi) {
@@ -71,24 +71,24 @@ function MinutiESecondi(Secondi) {
 }
 
 var MinutaggiRighello = {
-	StepRighello : 0, NumeroMinutaggi : 0,
-	
-	Disegna : function () {
+	StepRighello: 0, NumeroMinutaggi: 0,
+
+	Disegna: function () {
 		var R, Minutaggio;
 		this.StepRighello = parseInt(50 * VideoGuidaDurataTotale() / Righello.clientWidth) + 1; console.log("StepRighello", this.StepRighello, Righello.clientWidth, VideoGuidaDurataTotale());
 		Minutaggio = new MinutiESecondi(VideoGuidaDurataTotale());
 		MinutaggioMinuti.max = Minutaggio.Minuti; MinutaggioSecondi.max = 59.999;
-	
-		for(var I = 0; I < VideoGuidaDurataTotale() - this.StepRighello; I += this.StepRighello) {
+
+		for (var I = 0; I < VideoGuidaDurataTotale() - this.StepRighello; I += this.StepRighello) {
 			Minutaggio = new MinutiESecondi(I); this.NumeroMinutaggi++;
 			R = CreaElemento('span', 'R' + this.NumeroMinutaggi, 'MinutaggiRighello', "<img src='images/Cursore.png' class='SegnoRighello'>&nbsp;" + Minutaggio.Minuti + ":" + ("0" + parseInt(Minutaggio.Secondi)).slice(-2));
 			R.style.position = "absolute"; R.style.left = (I / VideoGuidaDurataTotale() * DimensioneRighello) + "%"; R.style.top = "0px"; R.style.width = "100px";
 			R.style.fontFamily = "Verdana"; R.style.fontSize = "10px"; R.style.verticalAlign = "top";
 		}
 	},
-	
-	Ridisegna : function () {
-		for(var I = 1; I <= this.NumeroMinutaggi; I++) {document.getElementById('MinutaggiRighello').removeChild(document.getElementById('R' + I));}
+
+	Ridisegna: function () {
+		for (var I = 1; I <= this.NumeroMinutaggi; I++) { document.getElementById('MinutaggiRighello').removeChild(document.getElementById('R' + I)); }
 		this.NumeroMinutaggi = 0;
 		this.Disegna();
 	},
@@ -98,11 +98,11 @@ var MinutaggiRighello = {
 function CambiaZoom() {
 	clearTimeout(tmrRidimensionamento);
 	DimensioneRighello = document.getElementById('Zoom').value;
-	
+
 	OndeSonore.forEach(CancellaOndeSonore);
 	CambiaDimensioneContenitoreTracce();
 	PosizionaCursore(Number(MinutaggioSecondi.value) + Number(MinutaggioMinuti.value) * 60);
-	tmrRidimensionamento = window.setTimeout(function () {SeguiCursore(); OndeSonore.forEach(RidisegnaOndeSonore);}, 1300);
+	tmrRidimensionamento = window.setTimeout(function () { SeguiCursore(); OndeSonore.forEach(RidisegnaOndeSonore); }, 1300);
 }
 
 function CambiaDimensioneContenitoreTracce() {
@@ -111,14 +111,14 @@ function CambiaDimensioneContenitoreTracce() {
 }
 
 function CambiaDimensione(Elementi, Differenza) {
-	Elementi.forEach(function (ID) {document.getElementById(ID).style.width = (DimensioneRighello - Differenza) + "%";});
+	Elementi.forEach(function (ID) { document.getElementById(ID).style.width = (DimensioneRighello - Differenza) + "%"; });
 }
 
 document.getElementById('Zoom').addEventListener('change', CambiaZoom);
 /*********************/
 
 /*** Mantiene fissi gli elementi principali ***/
-window.addEventListener('scroll', function() {document.getElementById('NomiTracce').style.left = window.scrollX + "px"; document.getElementById('MinutaggiRighello').style.top = (15 + window.scrollY) + "px";});
+window.addEventListener('scroll', function () { document.getElementById('NomiTracce').style.left = window.scrollX + "px"; document.getElementById('MinutaggiRighello').style.top = (15 + window.scrollY) + "px"; });
 /**********************************************/
 
 function OpacitaRighello(LivelloOpacita) {
@@ -127,20 +127,20 @@ function OpacitaRighello(LivelloOpacita) {
 
 function CaricamentoVideo() {
 	var Colore = new Array("blue", "brown", "green", "orange", "red");
-	
+
 	var MessaggiIniziali = document.getElementById('MessaggiIniziali');
-	
-	if (typeof CaricamentoVideo.MessaggioCorrente == 'undefined') {CaricamentoVideo.MessaggioCorrente = 0;}
-	
+
+	if (typeof CaricamentoVideo.MessaggioCorrente == 'undefined') { CaricamentoVideo.MessaggioCorrente = 0; }
+
 	MessaggiIniziali.style.color = Colore[CaricamentoVideo.MessaggioCorrente]; MessaggiIniziali.innerHTML = "<i>Consiglio</i>: " + strAttesa[CaricamentoVideo.MessaggioCorrente];
-	if (CaricamentoVideo.MessaggioCorrente == strAttesa.length - 1) {Monitors.style.opacity = 0.8;} //Visualizza il video nel caso ci siano problemi
-	
+	if (CaricamentoVideo.MessaggioCorrente == strAttesa.length - 1) { Monitors.style.opacity = 0.8; } //Visualizza il video nel caso ci siano problemi
+
 	CaricamentoVideo.MessaggioCorrente = ++CaricamentoVideo.MessaggioCorrente * (CaricamentoVideo.MessaggioCorrente < strAttesa.length);
 }
 
 function AttivaProgramma() {
 	clearInterval(tmrCaricamento); VideoGuidaRimuoviEventoAlTermineCaricamento(AttivaProgramma);
-	
+
 	/*** Visualizzazione ***/
 	document.getElementById('divCaricamento').style.display = "none";
 	document.getElementById('Versione').style.display = "none";
@@ -148,18 +148,18 @@ function AttivaProgramma() {
 	document.getElementById('ComandiPlayer').style.display = "block";
 	document.getElementById('Contenitore').style.display = "block"; DisabilitaSchermata();
 	/***********************/
-	
+
 	/*** Disegno del righello ***/
 	MinutaggiRighello.Disegna();
-	
+
 	Righello.dataset.DisattivaClick = "no";
 	/****************************/
-	
+
 	CaricaAVR();
-	
+
 	VideoGuidaPause(); VideoGuidaPosizionati(0); VideoGuidaImpostaVolume(1); VolumeVideoGuida.value = 1;
-	
-	setTimeout(function () {OndeSonore.forEach(CancellaOndeSonore); document.getElementById('Zoom').value = 110; CambiaZoom();}, 1000); // Evita un noioso bug di Chrome che rende la linea temporale leggermente "ballerina"
+
+	setTimeout(function () { OndeSonore.forEach(CancellaOndeSonore); document.getElementById('Zoom').value = 110; CambiaZoom(); }, 1000); // Evita un noioso bug di Chrome che rende la linea temporale leggermente "ballerina"
 
 	InizializzaVideo(); initWorker();
 }
@@ -171,31 +171,31 @@ function InizializzaVideo() {
 }
 
 function handleSuccess(stream) {
-  pulRegistra.disabled = SolaVisione;
-  console.log('Ingressi attivati', stream);
-  window.stream = stream;
-  mediaRecorder = new MediaStreamRecorder(stream);
-  // mediaRecorder.stream = stream;
-  mediaRecorder.mimeType = 'audio/wav';
-  mediaRecorder.audioChannels = 1;
-  mediaRecorder.bufferSize = 0;
-  
-  console.log('Creato MediaRecorder', mediaRecorder, 'di tipo', mediaRecorder.mimeType);
-  
-  var soundMeter = window.soundMeter = new SoundMeter(window.audioContext);
-	soundMeter.connectToSource(stream, function(e) {
-	    if (e) {alert(e); return;}
-	    
-	    setInterval(function() {
+	pulRegistra.disabled = SolaVisione;
+	console.log('Ingressi attivati', stream);
+	window.stream = stream;
+	mediaRecorder = new MediaStreamRecorder(stream);
+	// mediaRecorder.stream = stream;
+	mediaRecorder.mimeType = 'audio/wav';
+	mediaRecorder.audioChannels = 1;
+	mediaRecorder.bufferSize = 0;
+
+	console.log('Creato MediaRecorder', mediaRecorder, 'di tipo', mediaRecorder.mimeType);
+
+	var soundMeter = window.soundMeter = new SoundMeter(window.audioContext);
+	soundMeter.connectToSource(stream, function (e) {
+		if (e) { alert(e); return; }
+
+		setInterval(function () {
 			instantMeter.value = instantValueDisplay.innerText = soundMeter.instant.toFixed(2);
 			slowMeter.value = slowValueDisplay.innerText = soundMeter.slow.toFixed(2);
 			clipMeter.value = clipValueDisplay.innerText = soundMeter.clip.toFixed(5);
-	    }, 200);
+		}, 200);
 	});
 }
 
 function handleError(error) {
-  console.log('navigator.getUserMedia error: ', error);
+	console.log('navigator.getUserMedia error: ', error);
 }
 
 function AttivaIngressi() {
@@ -204,16 +204,16 @@ function AttivaIngressi() {
 }
 
 function AggiornaDispositivi() {
-	var Microfono = SelezioneMicrofono.value ? {exact: SelezioneMicrofono.value} : undefined;
-	var WebCam = SelezioneWebcam.selectedIndex ? {deviceId: {exact: SelezioneWebcam.value}, width: {exact: 320}, height: {exact: 240} } : false;
-	
+	var Microfono = SelezioneMicrofono.value ? { exact: SelezioneMicrofono.value } : undefined;
+	var WebCam = SelezioneWebcam.selectedIndex ? { deviceId: { exact: SelezioneWebcam.value }, width: { exact: 320 }, height: { exact: 240 } } : false;
+
 	ingressi = {
-		audio: {deviceId: Microfono},
+		audio: { deviceId: Microfono },
 		video: WebCam
 	};
-	
+
 	AggiornaElencoDispositivi();
-	
+
 	AttivaIngressi();
 }
 
@@ -227,23 +227,23 @@ function AggiornaElencoDispositivi() {
   console.log('Source buffer: ', sourceBuffer);
 }*/
 
-function AggiornaTimeline() {	
+function AggiornaTimeline() {
 	PosizionaCursore(VideoGuidaMinutaggioCorrente());
 	AggiornaMinutaggioVideo(VideoGuidaMinutaggioCorrente());
-	
+
 	if (StoRegistrando === false && ContenitoreVideoGuida.dataset.Riproduzione == "si") {
 		var PartenzaAudio = 0;
-		for(var I = 0; I < AudioVideoRegistrato.length; I++) {
-			
+		for (var I = 0; I < AudioVideoRegistrato.length; I++) {
+
 			if ((AudioVideoRegistrato[I].dataset.Rimosso == "no") && (AudioVideoRegistrato[I].dataset.StoRiproducendoRegistrazione == "no")) {
 
 				PartenzaAudio = Number(AudioVideoRegistrato[I].dataset.MinutaggioRegistrazione);
 				if ((PartenzaAudio <= VideoGuidaMinutaggioCorrente()) && (VideoGuidaMinutaggioCorrente() <= PartenzaAudio + Number(AudioVideoRegistrato[I].dataset.Durata))) {
 					playRegistrazione(I, Number(VideoGuidaMinutaggioCorrente() - PartenzaAudio));
 				}
-				
+
 			}
-			
+
 		}
 	}
 }
@@ -258,8 +258,8 @@ document.getElementById('MinutaggiRighello').addEventListener('mousedown', Posiz
 
 function PosizionatiAlMinutoCliccato(e) {
 	if (Righello.dataset.DisattivaClick == "no") {
-		if (!e) {e = window.event;}
-		if (e.clientY > window.innerHeight - 50) {return;}
+		if (!e) { e = window.event; }
+		if (e.clientY > window.innerHeight - 50) { return; }
 		var MN = 0;
 		var X = e.clientX + window.scrollX;
 		var MinutaggioNuovo = (MN = (X - Righello.offsetLeft) * VideoGuidaDurataTotale() / (Righello.clientWidth * (DimensioneRighello / 100))) * (MN > 0);
@@ -272,14 +272,14 @@ Righello.addEventListener('mousemove', SpostaELT);
 function SpostaELT(e) {
 	try {
 		if (ELTDaSpostare.dataset.cliccato == "si") {
-			if (!e) {e = window.event;}
+			if (!e) { e = window.event; }
 			var X = e.clientX + window.scrollX;
 			var MN = 0;
 			var MinutaggioNuovo = (MN = (X - (Righello.offsetLeft + (ELTDaSpostare.offsetWidth / 2))) * VideoGuidaDurataTotale() / (Righello.clientWidth * (DimensioneRighello / 100))) * (MN > 0);
 			console.log(MN, MinutaggioNuovo);
 			SpostaMinutaggioRegistrazione(ELTDaSpostare.dataset.RiferimentoRegistrazione, MinutaggioNuovo);
 		}
-	} catch(e) {}
+	} catch (e) { }
 }
 
 function PosizionaCursore(Minutaggio) {
@@ -293,13 +293,13 @@ function SeguiCursore() {
 
 function AggiornaMinutaggioVideo(Minutaggio) {
 	var M = new MinutiESecondi(Minutaggio);
-	MinutaggioMinuti.value = M.Minuti;	MinutaggioSecondi.value = M.Secondi.toFixed(3);
+	MinutaggioMinuti.value = M.Minuti; MinutaggioSecondi.value = M.Secondi.toFixed(3);
 }
 
 function Posizionati(MinutaggioNuovo) {
 	PosizionaCursore(MinutaggioNuovo);
 	AggiornaMinutaggioVideo(MinutaggioNuovo);
-	VideoGuidaPosizionati(MinutaggioNuovo);	
+	VideoGuidaPosizionati(MinutaggioNuovo);
 	AudioVideoRegistrato.forEach(StoppaRegistrazioni);
 	DisabilitaSchermata(true);
 	VideoGuidaImpostaEventoAlTermineCaricamento(RiattivaVideoGuida);
@@ -312,9 +312,9 @@ function RiattivaVideoGuida() {
 
 function DisabilitaSchermata(ImmagineAttesa) {
 	Righello.dataset.DisattivaClick = "si"; OpacitaRighello(0.5); clearInterval(tmrAggiornaAltriUtenti);
-	pulPlay.disabled = true;  pulRegistra.disabled = true; MinutaggioMinuti.readOnly = true; MinutaggioSecondi.readOnly = true;
+	pulPlay.disabled = true; pulRegistra.disabled = true; MinutaggioMinuti.readOnly = true; MinutaggioSecondi.readOnly = true;
 	SelezioneMicrofono.disabled = true; SelezioneWebcam.disabled = true; document.getElementById('pulEsci').disabled = true;
-	if (ImmagineAttesa) {tmrImmagineAttesa = window.setTimeout(function () {imgAttesa.style.display = "block";}, 300);}
+	if (ImmagineAttesa) { tmrImmagineAttesa = window.setTimeout(function () { imgAttesa.style.display = "block"; }, 300); }
 }
 
 function RiabilitaSchermata(Aggiorna) {
@@ -322,7 +322,7 @@ function RiabilitaSchermata(Aggiorna) {
 	pulPlay.disabled = false; pulRegistra.disabled = SolaVisione; MinutaggioMinuti.readOnly = false; MinutaggioSecondi.readOnly = false;
 	SelezioneMicrofono.disabled = SolaVisione; SelezioneWebcam.disabled = SolaVisione; document.getElementById('pulEsci').disabled = false;
 	imgAttesa.style.display = "none"; clearTimeout(tmrImmagineAttesa);
-	if (Aggiorna) {AggiornaAltriUtenti();}
+	if (Aggiorna) { AggiornaAltriUtenti(); }
 }
 
 
@@ -338,42 +338,42 @@ function handleDataAvailable(blob) {
 }
 
 function handleStop(event) {
-  console.log('Recorder stopped: ', event);
+	console.log('Recorder stopped: ', event);
 }
 
 function toggleRecording() {
 	if (StoRegistrando === false) {
-	    startRecording();
+		startRecording();
 	} else {
-	    stopRecording();
+		stopRecording();
 	}
 }
 
 function startRecording() {
 	recordedBlobs = [];
-	
+
 	StopVideoGuida(); DisabilitaSchermata(); pulPlay.style.opacity = 0;
 	VideoGuidaRimuoviEventoAlPlay(PlayVideoGuida);
 	VideoGuidaImpostaEventoAlPlay(StopVideoGuida);
 	StoRegistrando = true;
 	mediaRecorder.onstop = handleStop;
 	mediaRecorder.ondataavailable = handleDataAvailable;
-	
+
 	imgRegistra.style.display = "none"; TestoPulRegistra.style.display = "inline"; TestoPulRegistra.innerHTML = "<span class='fa fa-circle'></span>";
 	tmrContoAllaRovescia = window.setInterval(ContoAllaRovescia, 1000);
 }
 
 function ContoAllaRovescia() {
 	var Partenza = 4;
-	
-	if (typeof ContoAllaRovescia.Conteggio == 'undefined') {ContoAllaRovescia.Conteggio = Partenza;}
+
+	if (typeof ContoAllaRovescia.Conteggio == 'undefined') { ContoAllaRovescia.Conteggio = Partenza; }
 	ContoAllaRovescia.Conteggio--;
 	TestoPulRegistra.innerHTML = ContoAllaRovescia.Conteggio;
 	if (ContoAllaRovescia.Conteggio === 0) {
 		clearInterval(tmrContoAllaRovescia);
 		ContoAllaRovescia.Conteggio = Partenza;
 		TestoPulRegistra.innerHTML = ""; TestoPulRegistra.style.display = "none"; imgRegistra.style.display = "block";
-		
+
 		MinutaggioUltimaRegistrazione = VideoGuidaMinutaggioCorrente();
 		VideoGuidaRimuoviEventoAlPlay(StopVideoGuida);
 		VideoGuidaImpostaEventoAlPlay(RegistrazioneParti);
@@ -391,26 +391,28 @@ function RegistrazioneParti() {
 
 function AnnullaRegistrazione() {
 	FermaRegistrazione(); RiabilitaSchermata(true); StoRegistrando = false;
-	window.setTimeout(function () {Posizionati(MinutaggioUltimaRegistrazione);}, 500);
+	window.setTimeout(function () { Posizionati(MinutaggioUltimaRegistrazione); }, 500);
 	Messaggio("Registrazione annullata.");
 }
 
 function FermaRegistrazione() {
 	mediaRecorder.stop(); // mediaRecorder.stream.stop();
 	console.log('Recorded Blobs: ', recordedBlobs);
-	
+
 	VideoGuidaImpostaEventoAlPlay(PlayVideoGuida);
 	StopVideoGuida(); pulPlay.style.opacity = ""; pulStopRegistrazione.disabled = true; pulAnnullaRegistrazione.disabled = true;
-	
+
 	TerminaAnimazioneRegistrazione();
 }
 
 /*** Salvataggio registrazione ***/
 function stopRecording() {
-	FermaRegistrazione();	
-    imgAttesa.style.display = "block";
-    StoRegistrando = false;
-	
+	FermaRegistrazione();
+	imgAttesa.style.display = "block";
+	StoRegistrando = false;
+
+	DurataUltimaRegistrazione = VideoGuidaMinutaggioCorrente() - MinutaggioUltimaRegistrazione;
+
 	MandaACreaRegistrazione();
 }
 
@@ -422,23 +424,24 @@ function CreaRegistrazione() {
 	mediaRecorder.GeneraAudio(
 		function (superBuffer) {
 			var reader = new FileReader();
-			
-			reader.addEventListener("loadend", function() {
-                sampleAudioData = new Uint8Array(this.result);
-                runCommand("-i clip1 output.flac");
+
+			reader.addEventListener("loadend", function () {
+				sampleAudioData = new Uint8Array(this.result);
+				runCommand("-i clip1 output.flac");
+				Messaggio(strCaricamentoInCorso);
 			});
-			
+
 			reader.addEventListener("error", MandaACreaRegistrazione);
-			
+
 			reader.readAsArrayBuffer(superBuffer);
 		}
-    );
+	);
 }
 
 function SalvaNuovaRegistrazione(Contenuto) {
-	var MinutaggioAttualeRegistrazione = MinutaggioUltimaRegistrazione, Durata = VideoGuidaMinutaggioCorrente() - MinutaggioAttualeRegistrazione, Video = (ingressi.video ? "si" : "no");
-	
-	AJAX("SalvaNuovaRegistrazione.php", CreaParametri({"NumProgetto": N, "NumProvino": P, "Utente": ID_Utente, "Registrazione": Contenuto, "MinutaggioRegistrazione": MinutaggioAttualeRegistrazione, "DurataRegistrazione": Durata, "Video": Video}),
+	var MinutaggioAttualeRegistrazione = MinutaggioUltimaRegistrazione, Durata = DurataUltimaRegistrazione, Video = (ingressi.video ? "si" : "no");
+
+	AJAX("SalvaNuovaRegistrazione.php", CreaParametri({ "NumProgetto": N, "NumProvino": P, "Utente": ID_Utente, "Registrazione": Contenuto, "MinutaggioRegistrazione": MinutaggioAttualeRegistrazione, "DurataRegistrazione": Durata, "Video": Video }),
 		function (Dati) {
 			var NuovoAudioVideo = AudioVideoRegistrato[CreaNuovoAVR()];
 			NuovoAudioVideo.dataset.NumeroUnivoco = Dati.Numero;
@@ -446,14 +449,14 @@ function SalvaNuovaRegistrazione(Contenuto) {
 			NuovoAudioVideo.src = Dati.NomeFile; NuovoAudioVideo.load();
 			NuovoAudioVideo.dataset.MinutaggioRegistrazione = MinutaggioAttualeRegistrazione;
 			NuovoAudioVideo.dataset.Durata = Durata;
-			var d = new Date();	NuovoAudioVideo.dataset.Data = "di oggi alle " + d.getHours() + ":" + d.getMinutes().duecifre();
+			var d = new Date(); NuovoAudioVideo.dataset.Data = "di oggi alle " + d.getHours() + ":" + d.getMinutes().duecifre();
 			NuovoAudioVideo.dataset.StoRiproducendoRegistrazione = "no"; NuovoAudioVideo.dataset.Rimosso = "no";
 			NuovoAudioVideo.dataset.Video = Video;
 			VisualizzazioneNellaLineaTemporale(NuovoAudioVideo);
 		}, strSalvataggioInCorso, strSalvataggioCompletato, true, true
-    );
+	);
 
-    RiabilitaSchermata(true);
+	RiabilitaSchermata(true);
 }
 /*********************/
 
@@ -474,7 +477,7 @@ function playRegistrazione(Numero, Partenza) {
 }
 
 function play() {
-	if (ContenitoreVideoGuida.dataset.Riproduzione == "no") {PlayVideoGuida();} else {StopVideoGuida();}
+	if (ContenitoreVideoGuida.dataset.Riproduzione == "no") { PlayVideoGuida(); } else { StopVideoGuida(); }
 }
 
 function StoppaRegistrazioni(AVR) {
@@ -501,7 +504,7 @@ function StopVideoGuida() {
 }
 
 function StoppaEventualeRegistrazione() {
-	if (pulStopRegistrazione.disabled === false) {stopRecording();} else {StopVideoGuida();}
+	if (pulStopRegistrazione.disabled === false) { stopRecording(); } else { StopVideoGuida(); }
 }
 
 function AttivaAnimazioneRegistrazione() {
@@ -522,19 +525,19 @@ function SpostaMinutaggioRegistrazione(Numero, NuovaPartenzaRegistrazione) {
 	var IDELT_Opzioni = (IDELT = 'ELT' + AudioVideoRegistrato[Numero].id) + 'Opzioni';
 	var M = document.getElementById(IDELT_Opzioni + 'MinutaggioMinuti');
 	var S = document.getElementById(IDELT_Opzioni + 'MinutaggioSecondi');
-	
+
 	if (!NuovaPartenzaRegistrazione) { // Se NuovaPartenzaRegistrazione è passata come argomento vuol dire che il valore non è stato direttamente selezionato dall'utente, ma è stato inviato da una chiamata automatica (v. ad es.: AggiornaAltriUtenti) 
 		NuovaPartenzaRegistrazione = Number(S.value) + Number(M.value) * 60;
 	}
-	
+
 	NuovaPartenzaRegistrazione = NuovaPartenzaRegistrazione * (NuovaPartenzaRegistrazione > 0) + ((-NuovaPartenzaRegistrazione + VideoGuidaDurataTotale() - AudioVideoRegistrato[Numero].dataset.Durata) * (NuovaPartenzaRegistrazione > VideoGuidaDurataTotale() - 2));
-	
+
 	try {
 		var Minutaggio = new MinutiESecondi(NuovaPartenzaRegistrazione);
 		M.value = Minutaggio.Minuti; S.value = Minutaggio.Secondi;
-	} catch(e) {}
+	} catch (e) { }
 
-	
+
 	AudioVideoRegistrato[Numero].dataset.MinutaggioRegistrazione = NuovaPartenzaRegistrazione;
 	InserimentoInProporzioneNellaLineaTemporale(document.getElementById(IDELT), NuovaPartenzaRegistrazione, AudioVideoRegistrato[Numero].dataset.Durata);
 }
@@ -552,13 +555,13 @@ function CambiaVolumeClip(Numero, Volume) {
 	GuadagnoAVR[Numero].gain.value = Volume;
 	try {
 		document.getElementById(IDELT_Opzioni + 'SlideVolume').value = Volume;
-		document.getElementById(IDELT_Opzioni + 'CasellaVolume').value = parseInt(Volume * 100);		
-	} catch (e) {}
+		document.getElementById(IDELT_Opzioni + 'CasellaVolume').value = parseInt(Volume * 100);
+	} catch (e) { }
 }
 
 function Download(Numero) {
 	var Parametri = "NomeProgetto=" + encodeURIComponent(NomeProgetto) + "&NomeDoppiaggio=" + encodeURIComponent(NomeDoppiaggio) + "&NomeUtente=" + encodeURIComponent(document.getElementById('NomeDoppiatore_' + AudioVideoRegistrato[Numero].dataset.ID_Utente).value) + "&MinutaggioRegistrazione=" + encodeURIComponent(AudioVideoRegistrato[Numero].dataset.MinutaggioRegistrazione) + "&FileOriginale=" + encodeURIComponent(AudioVideoRegistrato[Numero].src);
-	
+
 	AJAX("DownloadSingolaRegistrazione.php", Parametri,
 		function (Dati) {
 			Messaggio(strCreazioneCompletata + " <a class='btn btn-default' href='" + AudioVideoRegistrato[Numero].src + "' download='" + Dati.NomeFile + "'>" + strScaricaQuiAudio + "</a>", "OK");
@@ -569,12 +572,12 @@ function Download(Numero) {
 function DownloadTraccia(NumeroTraccia) {
 	var ID_UtenteTraccia = document.getElementById('DownloadTraccia' + NumeroTraccia).dataset.utente;
 	var Parametri = "NumProgetto=" + encodeURIComponent(N) + "&NumProvino=" + encodeURIComponent(P) + "&IDUtente=" + encodeURIComponent(ID_UtenteTraccia);
-	
+
 	AJAX("DownloadTraccia.php", Parametri,
 		function (Dati) {
 			var NomeFileZip = NomeProgetto + " - " + NomeDoppiaggio + " - " + strBattute + " " + document.getElementById('NomeDoppiatore_' + ID_UtenteTraccia).value + ".zip";
 			NomeFileZip.replace(/[^a-zA-Z0-9\. ]/g, "_");
-			
+
 			Messaggio(strCreazioneZipCompletata + " <a class='btn btn-default' href=\"" + Dati.NomeArchivioZip + "\" download=\"" + NomeFileZip + "\">" + strScaricaQuiZip + "</a>", "OK");
 		}, strCreazioneZipInCorso, "", true
 	);
@@ -582,49 +585,49 @@ function DownloadTraccia(NumeroTraccia) {
 
 function CancellaRegistrazione(Numero) {
 	VisualizzaAVRCancellato(Numero);
-		
+
 	OpzioniTraccia(Numero, false);
 }
 
 function VisualizzaAVRCancellato(Numero) {
 	AudioVideoRegistrato[Numero].dataset.Rimosso = "si";
-	
+
 	var IDELT = 'ELT' + AudioVideoRegistrato[Numero].id;
 	var ELT = document.getElementById(IDELT);
 	ELT.style.opacity = "0.2"; ELT.style.backgroundColor = "white";
-	
+
 	try {
 		var c = document.getElementById(IDELT + 'OpzioniCancella');
 		c.className = 'btn btn-info fa fa-undo';
 		c.title = strRipristinaClip;
-		c.onclick = function () {RipristinaRegistrazione(this.dataset.RiferimentoRegistrazione);};
-	} catch(e) {}
+		c.onclick = function () { RipristinaRegistrazione(this.dataset.RiferimentoRegistrazione); };
+	} catch (e) { }
 }
 
 function RipristinaRegistrazione(Numero) {
 	VisualizzaAVRAttivo(Numero);
-	
+
 	OpzioniTraccia(Numero, false);
 }
 
 function VisualizzaAVRAttivo(Numero) {
 	AudioVideoRegistrato[Numero].dataset.Rimosso = "no";
-	
+
 	var IDELT = 'ELT' + AudioVideoRegistrato[Numero].id;
 	var ELT = document.getElementById(IDELT);
 	ELT.style.backgroundColor = "orange"; ELT.style.opacity = "0.6";
-	
+
 	try {
 		var c = document.getElementById(IDELT + 'OpzioniCancella');
 		c.className = 'btn btn-danger fa fa-trash-o';
 		c.title = strCancellaClip;
-		c.onclick = function () {CancellaRegistrazione(this.dataset.RiferimentoRegistrazione);};
-	} catch(e) {}
+		c.onclick = function () { CancellaRegistrazione(this.dataset.RiferimentoRegistrazione); };
+	} catch (e) { }
 }
 
 function SalvaModificheAVR(Numero) {
 	var Parametri = "N=" + encodeURIComponent(AudioVideoRegistrato[Numero].dataset.NumeroUnivoco) + "&MinutaggioRegistrazione=" + encodeURIComponent(AudioVideoRegistrato[Numero].dataset.MinutaggioRegistrazione) + "&Guadagno=" + encodeURIComponent(GuadagnoAVR[Numero].gain.value) + "&Rimosso=" + encodeURIComponent(AudioVideoRegistrato[Numero].dataset.Rimosso);
-	
+
 	AJAX("AggiornaRegistrazione.php", Parametri, "", strAggiornamento, strSalvataggioCompletato, true);
 }
 
@@ -632,30 +635,30 @@ function CaricaAVR() {
 	AJAX("CaricaRegistrazione.php", "NumProgetto=" + encodeURIComponent(N) + "&NumProvino=" + encodeURIComponent(P),
 		function (Dati) {
 			var Numero = 0, I;
-			for(I = 0; I < Dati.length; I++) {
+			for (I = 0; I < Dati.length; I++) {
 				CreaNuovoAVR(Dati[I]);
 			}
-			
+
 			AttivaAggiornamentoAltriUtenti();
 		}, strCaricamentoInCorso, strCaricamentoCompletato
 	);
 }
 
 function AggiornaAltriUtenti() {
-	var d = new Date(), ora = parseInt(d.getTime() / 1000); 
+	var d = new Date(), ora = parseInt(d.getTime() / 1000);
 
-	AJAX("CaricaRegistrazione.php", "NumProgetto=" + encodeURIComponent(N) + "&NumProvino=" + encodeURIComponent(P), 
+	AJAX("CaricaRegistrazione.php", "NumProgetto=" + encodeURIComponent(N) + "&NumProvino=" + encodeURIComponent(P),
 		function (Dati) {
 			var I, NumAVR;
-			for(I = 0; I < Dati.length; I++) {
-				for(NumAVR = 0; (NumAVR < AudioVideoRegistrato.length) && (AudioVideoRegistrato[NumAVR].dataset.NumeroUnivoco != Dati[I].N); NumAVR++);
+			for (I = 0; I < Dati.length; I++) {
+				for (NumAVR = 0; (NumAVR < AudioVideoRegistrato.length) && (AudioVideoRegistrato[NumAVR].dataset.NumeroUnivoco != Dati[I].N); NumAVR++);
 				if (NumAVR >= AudioVideoRegistrato.length) {
 					CreaNuovoAVR(Dati[I]);
 				} else {
-					if (AudioVideoRegistrato[NumAVR].dataset.MinutaggioRegistrazione != Dati[I].MinutaggioRegistrazione) {SpostaMinutaggioRegistrazione(NumAVR, Dati[I].MinutaggioRegistrazione);}
+					if (AudioVideoRegistrato[NumAVR].dataset.MinutaggioRegistrazione != Dati[I].MinutaggioRegistrazione) { SpostaMinutaggioRegistrazione(NumAVR, Dati[I].MinutaggioRegistrazione); }
 					CambiaVolumeClip(NumAVR, Dati[I].Guadagno);
 					if (AudioVideoRegistrato[NumAVR].dataset.Rimosso != Dati[I].Rimosso) {
-						if (Dati[I].Rimosso == "si") {VisualizzaAVRCancellato(NumAVR);} else {VisualizzaAVRAttivo(NumAVR);}
+						if (Dati[I].Rimosso == "si") { VisualizzaAVRCancellato(NumAVR); } else { VisualizzaAVRAttivo(NumAVR); }
 					}
 				}
 
@@ -676,7 +679,7 @@ function CreaNuovoAVR(Dati) {
 	Numero = AudioVideoRegistrato.length - 1;
 	AudioVideoRegistrato[Numero].dataset.numero = Numero;
 	/******************************/
-	
+
 	/** Crea il controller del guadagno **/
 	var audioCtx = new AudioContext();
 	var sorgente = audioCtx.createMediaElementSource(AudioVideoRegistrato[Numero]);
@@ -686,7 +689,7 @@ function CreaNuovoAVR(Dati) {
 	GuadagnoAVR[Numero].connect(FiltroAVR[Numero]);
 	FiltroAVR[Numero].connect(audioCtx.destination);
 	/**************************************/
-	
+
 	/** Inserisce i dati eventualmente passati **/
 	if (Dati) {
 		AudioVideoRegistrato[Numero].dataset.NumeroUnivoco = Dati.N;
@@ -702,33 +705,33 @@ function CreaNuovoAVR(Dati) {
 		VisualizzazioneNellaLineaTemporale(AudioVideoRegistrato[Numero]);
 	}
 	/*********************************************/
-	
+
 	/** Eventi vari **/
-	AudioVideoRegistrato[Numero].addEventListener('ended', function (e) {window.setTimeout(function () {e.target.dataset.StoRiproducendoRegistrazione = "no";}, 350);});
+	AudioVideoRegistrato[Numero].addEventListener('ended', function (e) { window.setTimeout(function () { e.target.dataset.StoRiproducendoRegistrazione = "no"; }, 350); });
 	/*****************/
-	
+
 	return Numero;
 }
 
 
 function VideoGuidaPronto() {
 	VideoGuidaCaricaEAvvia(PercorsoVideoGuida);
-	
+
 	document.getElementById('MsgCaricamentoIniziale').innerHTML = strAttendereFineCaricamento;
-	
+
 	AJAX("CreatoreProgetto.php", "NumProgetto=" + encodeURIComponent(N),
 		function (Dati) {
 			var Stringa = "";
-			
+
 			CreatoreAttualeProgetto = Dati.ID_CreatoreProgetto;
 
-			if (SessioneOspite) {Stringa = (Provino? strModalitaVisualizzazione + "<br>" : strNonHaiNessunRuolo + "<br>" + ((ID_Utente != CreatoreAttualeProgetto) ? strPuoiSoloVisualizzare : ""));}
-			
-			if (SolaVisione) {document.getElementById('SelezioneMicrofono').style.display = "none";} else {AggiornaElencoDispositivi(); AttivaIngressi();}
-			
+			if (SessioneOspite) { Stringa = (Provino ? strModalitaVisualizzazione + "<br>" : strNonHaiNessunRuolo + "<br>" + ((ID_Utente != CreatoreAttualeProgetto) ? strPuoiSoloVisualizzare : "")); }
+
+			if (SolaVisione) { document.getElementById('SelezioneMicrofono').style.display = "none"; } else { AggiornaElencoDispositivi(); AttivaIngressi(); }
+
 			Stringa += (ID_Utente == CreatoreAttualeProgetto) ? "<span style='font-size: 13px; font-weight: bold; font-style: italic;'>" + strPoteriCreatoreProgetto + "</span>" : "";
 			document.getElementById('MessaggiUlteriori').innerHTML = Stringa;
-			
+
 			VideoGuidaImpostaEventoPrimoCaricamento(AttivaProgramma);
 		}, "", "", true
 	);
