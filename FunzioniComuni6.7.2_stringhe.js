@@ -1,0 +1,9 @@
+const strErroreConnessioneAJAX = "Errore di connessione! Nuovo tentativo in corso...";
+const strFileTroppoGrandeAJAX = "Il file caricato è troppo grande! Dimensione massima consentita: 20 Mb.";
+const strCampoCondizioneMinima = "Il campo non può essere vuoto e dev'essere lungo almeno 5 caratteri.";
+const strAttenderePrego = "Attendere prego...";
+const strCaricamentoInCorso = "Caricamento in corso...";
+const strEliminazioneInCorso = "Eliminazione in corso...";
+const strUtenteOnline_NonNelProgetto = "L'utente è online, ma non è attualmente collegato in questo progetto.";
+const strUtenteOnline_NelProgetto = "L'utente è online e sta attualmente lavorando in questo progetto!";
+const strUtenteOffline = "L'utente è offline.";

@@ -1,0 +1,2 @@
+<?php $indirizzoRadice = "http://" . $_SERVER['SERVER_NAME'] . "/WEDUB/"; ?>
+<script src="<?=$indirizzoRadice?>FunzioniComuni6.7.9.js"></script><script src="<?=$indirizzoRadice?>FunzioniComuni6.7.2_stringhe.js"></script>
