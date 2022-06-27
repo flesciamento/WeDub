@@ -384,7 +384,7 @@
 		<p id="MessaggiIniziali" class='alert alert-info'></p>
 	</div>
 	
-	<?php define('versione', "5.9.4.7"); ?>
+	<?php define('versione', "5.9.4.8"); ?>
 	<script>
 		const N = "<?=$N?>", P = "<?=$P?>", TipoProgetto = "<?=$DatiProgetto['Tipo']?>";
 		const NomeProgetto = "<?=Sistema($DatiProgetto['NomeProgetto'], true)?>", NomeDoppiaggio = "<?=Sistema($Provino? "Provino per " . $DatiProgetto['RuoloProvino'] : $DatiProgetto['NomeDoppiaggio'], true)?>";
