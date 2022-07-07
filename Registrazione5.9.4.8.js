@@ -1574,7 +1574,7 @@ function PlayVideoGuida() {
 
     setTimeout(() => {
         if (RiproduzioneInCorso == false) {
-            LatenzaAudio = (+audioContext.baseLatency * 2) //+ (((+audioContext.outputLatency * 2) + 0.2) * SistemaAttualeAndroid);
+            LatenzaAudio = (+audioContext.baseLatency * 2); //+ (((+audioContext.outputLatency * 2) + 0.2) * SistemaAttualeAndroid);
             currentTimeIniziale = audioContext.currentTime; orarioIniziale = new Date().getTime();
             clearInterval(tmrAggiornaClip);
             if (VerificaEventualeColonnaInternazionalePrecaricata() == false) {return;}
