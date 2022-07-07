@@ -3186,6 +3186,7 @@ function VideoGuidaPronto() {
 
     if (!BrowserOK) {document.getElementById('MsgCaricamentoIniziale').innerHTML = strBrowserNonAdatto; document.getElementById('imgAttesaIniziale').className = ""; clearInterval(tmrCaricamento); setTimeout(() => {const M = document.getElementById('MessaggiIniziali'); M.innerHTML = strBrowserNonAdatto; M.style.color = "blue";}, 5000); return;}
 
+    console.log("prova");
     if (!ModalitaStreaming) {
         var Stringa = "";
         if (SessioneOspite) { Stringa = ((Provino || ProgettoCompletato) ? strModalitaVisualizzazione + "<br />" : strNonHaiNessunRuolo + "<br />" + (!SonoCreatoreProgetto ? strPuoiSoloVisualizzare : "")); }
