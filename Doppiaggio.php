@@ -384,7 +384,7 @@
 		<p id="MessaggiIniziali" class='alert alert-info'></p>
 	</div>
 	
-	<?php define('versione', "5.9.4.8"); ?>
+	<?php define('versione', "5.9.4.8-p"); ?>
 	<script>
 		const N = "<?=$N?>", P = "<?=$P?>", TipoProgetto = "<?=$DatiProgetto['Tipo']?>";
 		const NomeProgetto = "<?=Sistema($DatiProgetto['NomeProgetto'], true)?>", NomeDoppiaggio = "<?=Sistema($Provino? "Provino per " . $DatiProgetto['RuoloProvino'] : $DatiProgetto['NomeDoppiaggio'], true)?>";
@@ -416,7 +416,7 @@
 	}
 	?>
 	<script defer src="FunzioniComuniRiproduzione1.6.js"></script>
-	<script defer src="Registrazione5.9.0.5_stringhe.js"></script><script defer src="Registrazione<?=versione?>.js"></script>
+	<script defer src="Registrazione5.9.0.5_stringhe.js"></script><script src='https://cdn.jsdelivr.net/gh/flesciamento/WeDub@latest/Registrazione<?=versione?>.js'></script><!-- <script defer src="Registrazione<!=versione?>.js"></script> -->
 	<script defer src="SelezioneDispositivo4.0.js"></script><script defer src="StartAudioContext1.0.js"></script>
 	<?php
 	require("fLibrerieGestioneVideoGuida.php"); LibrerieGestioneVideoGuida($DatiProgetto);
