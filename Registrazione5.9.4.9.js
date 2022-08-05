@@ -266,7 +266,7 @@ function RideterminaLimitiAltezzaTracce() {
 
 function CaricamentoVideo() {
 	const Colore = new Array("blue", "brown", "green", "blue", "red");
-	const MessaggiIniziali = document.getElementById('MessaggiIniziali'), vMessaggiAttesa = (ModalitaStreaming? strAttesaStreaming : (SolaVisione? strAttesaOspite : (SistemaAttualeAndroid ? strAttesaAndroid : strAttesa)));
+	const MessaggiIniziali = document.getElementById('MessaggiIniziali'), vMessaggiAttesa = (ModalitaStreaming? strAttesaStreaming : (SolaVisione? strAttesaOspite : (SistemaAttualeAndroid? strAttesaAndroid : strAttesa)));
 
 	MessaggiIniziali.style.color = Colore[CaricamentoVideo.MessaggioCorrente]; MessaggiIniziali.innerHTML = ((SolaVisione || ModalitaStreaming) ? "" : "<i>" + strConsiglio + "</i>: ") + vMessaggiAttesa[CaricamentoVideo.MessaggioCorrente];
 	if (CaricamentoVideo.MessaggioCorrente == vMessaggiAttesa.length - 1) { Monitors.style.opacity = 0.8; } // Visualizza il video nel caso ci siano problemi
