@@ -763,7 +763,7 @@ function RiproduciClipInSync(MinutaggioVideo) {
         datiAudio.audio.start(audioContext.currentTime + SecondiPartenzaAudio, InizioClip, FineClip * (FineClip > 0));
         datiAudio.avviato = true;
         if (datiAudio.alPlay) {clearTimeout(datiAudio.tmrEventoAlPlay); datiAudio.tmrEventoAlPlay = setTimeout(() => {datiAudio.alPlay(datiAudio);}, (SecondiPartenzaAudio + 2) * 1000);}
-        (ModalitaStreaming && (datiAudio.audio.onended = (e) => {const da = e.currentTarget; console.log(e, "d"); delete da.audio; delete DatiAudioRegistrato[da.numero].buffer; console.log("delete", da, da.numero);}));
+        (ModalitaStreaming && (datiAudio.audio.onended = (e) => {const audio = e.currentTarget; console.log("delete", audio, audio.numero); delete DatiAudioRegistrato[audio.numero].buffer; delete audio; console.log("deleted", audio, audio.numero, DatiAudioRegistrato[audio.numero].buffer);}));
     });
 
     ClipDaRiprodurre = [];
