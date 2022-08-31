@@ -763,7 +763,7 @@ function RiproduciClipInSync(MinutaggioVideo) {
         datiAudio.audio.start(audioContext.currentTime + SecondiPartenzaAudio, InizioClip, FineClip * (FineClip > 0));
         datiAudio.avviato = true;
         if (datiAudio.alPlay) {clearTimeout(datiAudio.tmrEventoAlPlay); datiAudio.tmrEventoAlPlay = setTimeout(() => {datiAudio.alPlay(datiAudio);}, (SecondiPartenzaAudio + 2) * 1000);}
-        (ModalitaStreaming && (datiAudio.audio.onended = (e) => {const da = DatiAudioRegistrato[e.currentTarget.numero]; da.audio = null; da.buffer = null; da.RichiestoCaricamentoBuffer = false;})); // Scarica la memoria
+        (ModalitaStreaming && (datiAudio.audio.onended = (e) => {const da = DatiAudioRegistrato[e.currentTarget.numero]; da.buffer = null; da.audio = null; da.RichiestoCaricamentoBuffer = false;})); // Scarica la memoria
     });
 
     ClipDaRiprodurre = [];
