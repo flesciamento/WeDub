@@ -891,7 +891,7 @@ function PrecaricaClip(DalMinutaggio, FinoAlMinutaggio, FunzioneAlTermine = fals
             FunzioneAlTerminePrecaricamento();
 
         } else {
-            setTimeout(() => {MinutaggioPrecaricamentoClip = FinoAlMinutaggio; PrecaricaClipSuccessiva(); console.log("Timeout avviato.", MinutaggioPrecaricamentoClip);}, (SecondiPrecaricamentoMax / 2) * 1000);
+            setTimeout(() => {MinutaggioPrecaricamentoClip = FinoAlMinutaggio; PrecaricaClipSuccessiva(); console.log("Timeout avviato.", MinutaggioPrecaricamentoClip);}, (+FinoAlMinutaggio + (SecondiPrecaricamentoMax / 2)) * 1000);
             console.log("Settato Timeout fra", (SecondiPrecaricamentoMax / 2), "sec. Precaricamento clip dal secondo", FinoAlMinutaggio);
         }
     }
