@@ -2150,7 +2150,7 @@ function AggiornaClip(FunzioneAlTermine) {
 	AJAX("CaricaRegistrazione.php", "NumProgetto=" + encodeURIComponent(N) + "&NumProvino=" + encodeURIComponent(P) + "&SoloMieRegistrazioni=" + (ModalitaLightAttiva? "1" : "0") + "&IDCandidatoRuoliDaAssegnare=" + encodeURIComponent(RuoliDaAssegnare_CandidatoSelezionato),
 		function (Dati) {
             const totDati = Dati.length, totAudio = DatiAudioRegistrato.length;
-            var I, NumAudio, datiAudio, AudioRimosso, AudioDaRipristinare = [];
+            var I, NumAudio, datiAudio, AudioRimosso, AudioDaRipristinare = [], NuoviAudio = false;
             
 			for (I = 0; I < totDati; I++) {
                 /* Trova il numero identificativo della clip, se non la trova si tratta di una nuova clip */
@@ -2159,6 +2159,7 @@ function AggiornaClip(FunzioneAlTermine) {
 				if (NumAudio >= totAudio) {
                     /** Nuova clip audio **/
                     CreaNuovaClipAudio(Dati[I], RiposizionamentoAutomaticoELTRiferitoAllaRegistrazione);
+                    NuoviAudio = true;
                     
 				} else {
                     /** Aggiorna i valori della clip già presente **/
@@ -2203,7 +2204,7 @@ function AggiornaClip(FunzioneAlTermine) {
             setTimeout(() => {
                 AudioDaRipristinare.forEach(VisualizzaClipRimosse);
                 if (FunzioneAlTermine) {FunzioneAlTermine();}
-                PrecaricaClipSuccessiva(); // Verifica se deve precaricare e quindi riprodurre le clip appena caricate
+                if (NuoviAudio) {PrecaricaClipSuccessiva();} // Verifica se deve precaricare e quindi riprodurre le clip appena caricate
                 CheckUtentiAttivi();
             }, 250);
 		}, "", "", true
