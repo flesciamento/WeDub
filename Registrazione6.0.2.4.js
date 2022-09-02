@@ -938,7 +938,9 @@ function CaricaBufferAudio(Numero, FunzioneAlTermine = () => {}, SoloBuffer = fa
         }).catch((err) => {
             /** In caso di errore nel caricamento: **/
             console.log(err, datiAudio.NumeroUnivoco, datiAudio.Registrazione);
+            /* Se in modalità streaming avvisa soltanto */
             if (ModalitaStreaming) {Messaggio(strErroreCaricamentoClip); return;}
+            
             /* Flagga l'audio come danneggiato */
             AJAX("AggiornaAudioDanneggiato.php", "N=" + datiAudio.NumeroUnivoco + "&Info=" + encodeURIComponent(err + " - " + datiAudio.infoAggiuntive),
                 () => {/* Passa avanti col caricamento */
