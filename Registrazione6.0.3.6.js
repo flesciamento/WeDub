@@ -793,7 +793,7 @@ function AnteprimaCursoreSeVuoto(e) {
 }
 
 function AnteprimaCursore(e) {
-    const X = e.clientX + window.scrollX - ContenitoreRighello.offsetLeft;/*  */
+    const X = e.clientX + window.scrollX - ContenitoreRighello.offsetLeft;
     CursoreAnteprima.iStyle({left: X + "px", opacity: 0.5});
 }
 
