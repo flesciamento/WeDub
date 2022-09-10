@@ -2321,13 +2321,13 @@ function appendBuffer(vBuffer) {
     var lunghezzaTotale = 0; vBuffer.forEach((b) => {lunghezzaTotale += b.length;});
     var tmp = audioContext.createBuffer(CanaliAudio, lunghezzaTotale, vBuffer[0].sampleRate);
     for (var i = 0; i < CanaliAudio; i++) {
-      var channel = tmp.getChannelData(i);
+        var channel = tmp.getChannelData(i);
 
-      var partenza = 0;
-      for (let b = 0; b < totBuffer; b++) {
-        channel.set(vBuffer[b].getChannelData(i), partenza);
-        partenza += vBuffer[b].length;
-      }
+        var partenza = 0;
+        for (let b = 0; b < totBuffer; b++) {
+            channel.set(vBuffer[b].getChannelData(i), partenza);
+            partenza += vBuffer[b].length;
+        }
     }
     return tmp;
   }
