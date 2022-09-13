@@ -819,7 +819,7 @@ function AggiornaMinutaggioVideo(Minutaggio) {
 	var M = new MinutiESecondi(Minutaggio);
 	MinutaggioMinuti.value = M.Minuti; MinutaggioSecondi.value = M.Secondi.toFixed(DecimaliSecondiMinutaggio).padStart(2, "0");
     
-    if ((RiproduzioneInCorso)) {
+    if (RiproduzioneInCorso) {
         if (Minutaggio >= totDurataVideoGuida) {
             if (StoRegistrando) {stopRecording();} else {StopVideoGuida();}
             return;
