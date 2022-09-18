@@ -121,7 +121,7 @@ var MinutaggiRighello = {
 
 	Disegna: function () {
 		var R, Minutaggio;
-        this.StepRighello = parseInt(50 * totDurataVideoGuida / document.getElementById('MinutaggiRighello').clientWidth) + 1; /*  console.log("StepRighello", this.StepRighello, Righello.clientWidth, totDurataVideoGuida); */
+        this.StepRighello = parseInt(50 * totDurataVideoGuida / document.getElementById('MinutaggiRighello').clientWidth) + 1; /* console.log("StepRighello", this.StepRighello, Righello.clientWidth, totDurataVideoGuida); */
         const LunghezzaRighello = totDurataVideoGuida - this.StepRighello;
 		Minutaggio = new MinutiESecondi(totDurataVideoGuida);
 		MinutaggioMinuti.max = Minutaggio.Minuti; MinutaggioSecondi.max = 59.999;
