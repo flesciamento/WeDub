@@ -309,7 +309,7 @@ function AttivaProgramma() {
         document.getElementById('VideoGuida').style.pointerEvents = "none";
         if (RidimensionaVideo) {setTimeout(RidimensionaVideo, 1000);}
         if ((FineVideoGuida - InizioVideoGuida) < InizioVideoGuida) {document.getElementById('Zoom').value = 1000; setTimeout(CambiaZoom, 1000);}
-    }, 1000);
+    }, 800);
 
     CaricamentoInizialeRegistrazioniAudio();
 
@@ -2103,7 +2103,7 @@ function CreazioneClipPrimoCaricamento(Dati) {
             divVetro.style.display = "none";
             if (!CaricamentoInizialeTerminato) {AttivaImmagineAttesa('TrePunti');}
             setTimeout(CheckUtentiAttivi, 1000);
-        }, 800);
+        }, 1000);
     }
 
     if (NumeroTotaleAudioCaricamentoIniziale == 0) {TermineCaricamentoClip();}
