@@ -1731,7 +1731,7 @@ function StoppaTutteLeRegistrazioni(EsclusaCI = false) {
  * se ci sono attende il precaricamento di esse prima di avviare il video e dopo fa partire il precaricamento leggero delle successive
  * se non ce ne sono fa soltanto partire il precaricamento leggero delle successive */
 function VerificaClipPrecaricate(SecondiMinimiClipPrecaricate, PrecaricamentoLeggero = true) {
-    const totAudio = DatiAudioRegistrato.length, MinutaggioVideo = VideoGuidaMinutaggioCorrente(), MinutaggioClipPrecaricate = MinutaggioVideo + SecondiMinimiClipPrecaricate, t = new Date().getTime();
+    const totAudio = DatiAudioRegistrato.length, MinutaggioVideo = VideoGuidaMinutaggioCorrente(), MinutaggioClipPrecaricate = MinutaggioVideo + SecondiMinimiClipPrecaricate;
 
     for (var I = 0; I < totAudio; I++) {
         if (ClipDaPrecaricare(I, MinutaggioVideo, MinutaggioClipPrecaricate)) {
