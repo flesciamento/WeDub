@@ -35,7 +35,7 @@ require("p1.php");
 							<h4><i><b>Età</b></i>: <?=$EtaPersonaggio[$DatiProgetto['SessoProvino']][$DatiProgetto['EtaProvino']]?></h4>
 							<p style="text-align: justify; padding: 20px;"><?=$DatiProgetto['DescrizioneProvino']?></p><br>
 							<?php require("AggiungiLinkCopione.php"); ?><br><br>
-							<span style="font-family: Verdana; font-size: 10px;">Provino creato da <?=$DatiProgetto['Nome']?> il: <?=Date("d/m/Y", $DatiProgetto['DataCreazione'])?></span>
+							<span style="font-family: Verdana; font-size: 10px;">Provino creato da <?=$DatiProgetto['Nome']?> il: <?=Date(formato_data, $DatiProgetto['DataCreazione'])?></span>
 						</div>
 					</div>
 				</div>
@@ -45,7 +45,7 @@ require("p1.php");
 					while($Provino = mysqli_fetch_assoc($DatiProvini)) {
 						echo "<a href='Doppiaggio.php?N=$NumeroProgetto&P=" . $Provino['NumProvino'] . "' class='btn " . ($Provino['ProvinoPubblicato'] ? "btn-success" : "btn-primary") . " btn-lg'>
 								<span class='fa fa-edit' style='font-size: 21px;'>&nbsp;&nbsp;</span><b>Provino " . ($Provino['ProvinoPubblicato'] ? "pubblicato" : "da mandare") . "<br>
-								<span style='font-size: 16px;'>" . ($Provino['ProvinoPubblicato'] ? "il " : "creato il ") . Date("d/m/Y", $Provino['DataProvino']) . " alle " . Date("H:i", $Provino['DataProvino']) . "</span></b>
+								<span style='font-size: 16px;'>" . ($Provino['ProvinoPubblicato'] ? "il " : "creato il ") . Date(formato_data, $Provino['DataProvino']) . " alle " . Date("H:i", $Provino['DataProvino']) . "</span></b>
 							  </a><br><br>";
 					}
 				?>

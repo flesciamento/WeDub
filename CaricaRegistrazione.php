@@ -27,7 +27,7 @@ if ($StatoProgetto == 0) {require("ControllaAccesso_AJAX.php"); $FiltraSoloMieRe
 			}
 		}
 		
-		$Elementi['Data'] = "del " . Date("d/m/Y", $Elementi['Data']) . " alle " . Date("H:i", $Elementi['Data']);
+		$Elementi['Data'] = "del " . Date(formato_data, $Elementi['Data']) . " alle " . Date("H:i", $Elementi['Data']);
 		
 		$strRegistrazioni .= CreaRigaJSON($Elementi) . ",";
 	}

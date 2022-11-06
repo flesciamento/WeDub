@@ -235,7 +235,7 @@
 							$Indirizzo = ($CreatoreDelProgetto? "GestioneProvino.php" : "FaiProvino.php");
 							if ($SessioneOspite) {
 								echo "<div class='alert alert-success text-center'><b>" . s_ProvinoDi . strtoupper($DatiProvinante['Nome']) . "</b><br>
-											<span style='color: grey;'>del " . Date("d/m/Y", $DatiProvinante['DataProvino']) . s_alle . Date("H:i", $DatiProvinante['DataProvino']) . "</span>
+											<span style='color: grey;'>del " . Date(formato_data, $DatiProvinante['DataProvino']) . s_alle . Date("H:i", $DatiProvinante['DataProvino']) . "</span>
 										</div>";
 							}
 							$strScrittaSotto = "<a style='float: left;' href='$Indirizzo?N=$N' id='pulEsci' class='btn btn-info' target='_self'>&lt; " . s_Esci . "</a>";

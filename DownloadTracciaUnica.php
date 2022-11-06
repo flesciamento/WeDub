@@ -46,7 +46,7 @@ Session_start();
 			//~ 'artist'  => array($DatiUtente['Nome']),
 			//~ 'album'   => array($DatiProgetto['NomeProgetto']),
 			//~ 'year'    => array($DatiProgetto['NomeDoppiaggio']),
-			//~ 'track'   => array(Date("d/m/Y")),
+			//~ 'track'   => array(Date(formato_data)),
 		//~ );
 		//~ $tagwriter->tag_data = $TagData;
 		//~ // write tags

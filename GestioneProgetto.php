@@ -49,7 +49,7 @@ require("p1.php");
 							<?php require("AggiungiLinkCopione.php"); ?>
 							
 							<a class="btn btn-primary" href="ModificaDatiProgetto.php?N=<?=$NumeroProgetto?>"><i class="fa fa-edit "></i> Modifica</a>
-							<br><br><span style="font-family: Verdana; font-size: 10px;">Progetto creato il: <?=Date("d/m/Y", $DatiProgetto['DataCreazione'])?></span>
+							<br><br><span style="font-family: Verdana; font-size: 10px;">Progetto creato il: <?=Date(formato_data, $DatiProgetto['DataCreazione'])?></span>
 						</div>
 					</div>
 				</div>

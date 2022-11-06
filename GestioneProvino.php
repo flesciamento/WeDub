@@ -43,7 +43,7 @@ require("p1.php");
 							<p style="text-align: justify; padding: 20px;"><?=$DatiProgetto['DescrizioneProvino']?></p><br>
 							<?php require("AggiungiLinkCopione.php"); ?>
 							<a class="btn btn-primary" href="ModificaDatiProvino.php?N=<?=$NumeroProgetto?>"><i class="fa fa-edit"></i> Modifica</a>
-							<br><br><span style="font-family: Verdana; font-size: 10px;">Provino creato il: <?=Date("d/m/Y", $DatiProgetto['DataCreazione'])?></span>
+							<br><br><span style="font-family: Verdana; font-size: 10px;">Provino creato il: <?=Date(formato_data, $DatiProgetto['DataCreazione'])?></span>
 						</div>
 					</div>
 				</div>
@@ -54,7 +54,7 @@ require("p1.php");
 						<div class="panel-body">
 						<?php
 							while($Provino = mysqli_fetch_assoc($DatiProvini)) {
-								echo "<a href='Doppiaggio.php?N=$NumeroProgetto&P=" . $Provino['NumProvino'] . "' class='btn btn-primary btn-lg'><span class='fa fa-play-circle' style='font-size: 21px'>&nbsp;&nbsp;</span><img src='" . $Provino['FotoProfilo'] . "'>&nbsp;<b>" . $Provino['Nome']  . "</b><br>il " . Date("d/m/Y", $Provino['DataProvino']) . " alle " . Date("H:i", $Provino['DataProvino']) . "</a><br><br>";
+								echo "<a href='Doppiaggio.php?N=$NumeroProgetto&P=" . $Provino['NumProvino'] . "' class='btn btn-primary btn-lg'><span class='fa fa-play-circle' style='font-size: 21px'>&nbsp;&nbsp;</span><img src='" . $Provino['FotoProfilo'] . "'>&nbsp;<b>" . $Provino['Nome']  . "</b><br>il " . Date(formato_data, $Provino['DataProvino']) . " alle " . Date("H:i", $Provino['DataProvino']) . "</a><br><br>";
 							}
 						?>
 						</div>
