@@ -866,7 +866,7 @@ function AggiungiMarcatore(e) {
     if (IDTraccia.slice(0, 7) != "Traccia") {return;}
 
     const IDUtente = document.getElementById(IDTraccia).dataset.idutente, MinutaggioMarcatore = DeterminaMinutaggioCliccato(e);
-    if ((IDUtente == ID_Utente) || (SonoCreatoreProgetto)) {
+    if ((ID_Utente == IDUtente) || (SonoCreatoreProgetto)) {
         AJAX('SalvaNuovoMarcatore.php', `NumProgetto=${N}&NumProvino=${P}&Utente=${encodeURIComponent(IDUtente)}&Minutaggio=${encodeURIComponent(MinutaggioMarcatore)}&Testo=${encodeURIComponent(strMarcatoreDescrDefault)}`,
             (Dati) => {
                 DisegnaMarcatore(IDUtente, MinutaggioMarcatore, strMarcatoreDescrDefault, Dati.IDMarcatore).select();
