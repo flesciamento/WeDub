@@ -900,7 +900,7 @@ function DisegnaMarcatore(ID_UtenteMarcatore, Minutaggio, Stringa, IDMarcatore) 
 
             const Casella = CreaElemento('input', 'input' + Marcatore.id, Marcatore.id); Casella.value = Stringa; Casella.readOnly = !Modificabile; Casella.style.pointerEvents = (Modificabile? "auto" : "none");
                   Casella.onmousedown = (e) => {e.stopPropagation();};
-                  Casella.onfocus  = (e) => {
+                  Casella.onfocus = (e) => {
                         const C = e.currentTarget;
                         SelezionaTutto(e);
                         C.className = ""; // Rimette la casella in orizzontale.
