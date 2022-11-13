@@ -2112,8 +2112,8 @@ function DividiClip(Numero, secondiInizioTaglio, secondiFineTaglio) {
 }
 
 function EliminaEventiPuntatoreDividiClip(ELT) {
-    ELT.removeEventListener('mousemove', AnteprimaSelezioneClip.Visualizza);        ELT.removeEventListener('touchmove', AnteprimaSelezioneClip.Visualizza);
-    document.body.removeEventListener('mouseup', DividiClip_puntatorerilasciato);   Righello.removeEventListener('touchend', DividiClip_puntatorerilasciato);
+    ELT.removeEventListener('mousemove', AnteprimaSelezioneClip.Visualizza);        document.body.removeEventListener('touchmove', AnteprimaSelezioneClip.Visualizza);
+    document.body.removeEventListener('mouseup', DividiClip_puntatorerilasciato);   document.body.removeEventListener('touchend', DividiClip_puntatorerilasciato);
 }
 
 function TerminaDividiClip() {
