@@ -2069,7 +2069,7 @@ function DividiClip_puntatorerilasciato(e) {
 
         /* Barra del titolo */
         const divTitolo = CreaElemento('div', PannelloOpzioni.id + 'Titolo', PannelloOpzioni.id, strCosaVuoiFare); divTitolo.className = "panel-heading text-center";
-                    const a = CreaElemento('a', divTitolo.id + 'Annulla', divTitolo.id); a.className = "btn btn-danger fa fa-times"; a.iStyle({position: "absolute", top: "5px", left: "10px"}); a.onclick = TerminaDividiClip;
+            const a = CreaElemento('a', divTitolo.id + 'Annulla', divTitolo.id); a.className = "btn btn-danger fa fa-times"; a.iStyle({position: "absolute", top: "5px", left: "10px"}); a.onclick = TerminaDividiClip;
 
         /* Opzioni */
         const divContenuto = CreaElemento('div', PannelloOpzioni.id + 'Contenuto', PannelloOpzioni.id); divContenuto.className = "panel-body text-center";
