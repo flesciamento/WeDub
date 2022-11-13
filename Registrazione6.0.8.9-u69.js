@@ -2890,7 +2890,7 @@ function AnteprimaSelezioneClip(ELTConsiderato, ClientX) {
         e.preventDefault();
         if (SistemaAttualeAndroid) {
             clearTimeout(AnteprimaSelezioneClip.tmr);
-            AnteprimaSelezioneClip.tmr = setTimeout(() => {ELT.dispatchEvent(new Event('mouseup'));}, 1000);
+            AnteprimaSelezioneClip.tmr = setTimeout(() => {ELT.dispatchEvent(new Event('mouseup', {bubbles: true}));}, 1000);
         }
     };
 
