@@ -2048,7 +2048,7 @@ function MinutaggioCliccatoNellaClip(X) {
 function DividiClip_puntatorerilasciato(e) {
     const ELT = ELTCliccato, ClientX = e.clientX || e.touches[0].clientX, MinutaggioPrimoClick = MinutaggioCliccatoNellaClip(+ELT.dataset.posizionePuntatoreInizioTaglio), MinutaggioRilascio = MinutaggioCliccatoNellaClip(ClientX), TrascinatoVersoDestra = MinutaggioPrimoClick < MinutaggioRilascio;
     const secondiInizioTaglio = (TrascinatoVersoDestra? MinutaggioPrimoClick : MinutaggioRilascio), secondiFineTaglio = (TrascinatoVersoDestra? MinutaggioRilascio : MinutaggioPrimoClick);
-    EliminaEventiPuntatoreDividiClip(ELT);
+    EliminaEventiPuntatoreDividiClip();
     CambiaTool(toolStandard);
     DisabilitaSchermata();
 
@@ -2112,8 +2112,8 @@ function DividiClip(Numero, secondiInizioTaglio, secondiFineTaglio) {
     );
 }
 
-function EliminaEventiPuntatoreDividiClip(ELT) {
-    Righello.removeEventListener('mousemove', AnteprimaSelezioneClip.Visualizza);   Righello.removeEventListener('touchmove', AnteprimaSelezioneClip.Visualizza);
+function EliminaEventiPuntatoreDividiClip() {
+    Righello.removeEventListener('mousemove', AnteprimaSelezioneClip.Visualizza); Righello.removeEventListener('touchmove', AnteprimaSelezioneClip.Visualizza);
     Righello.removeEventListener('mouseup',   DividiClip_puntatorerilasciato);
 }
 
@@ -2825,7 +2825,7 @@ function CreaElementoLineaTemporale(ID, DoveInserirlo, PartenzaRegistrazione, Lu
                         if ((datiAudio.taglioIniziale < MinutaggioSelezionatoClip) && (MinutaggioSelezionatoClip < datiAudio.taglioFinale)) {
                             ELT.dataset.posizionePuntatoreInizioTaglio = X;
                             AnteprimaSelezioneClip(ELT, X);
-                            EliminaEventiPuntatoreDividiClip(ELT);
+                            EliminaEventiPuntatoreDividiClip();
                             Righello.addEventListener('mousemove', AnteprimaSelezioneClip.Visualizza); Righello.addEventListener('touchmove', AnteprimaSelezioneClip.Visualizza);
                             Righello.addEventListener('mouseup',   DividiClip_puntatorerilasciato);
                             Righello.dataset.DisattivaClick = "si";
