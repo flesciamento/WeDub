@@ -2849,10 +2849,9 @@ function GestioneEventoELTCliccato (e) {
                 ELTDaSpostare = ELTCliccato;
                 ELTDaSpostare.dataset.posizionedelmouse = (+X + window.scrollX) - ContenitoreRighello.offsetLeft - ELTDaSpostare.offsetLeft;
                 tmrELTCliccato = setTimeout(() => {
-                        ELTDaSpostare.className = "ELT transizione-morbida-no";
-                        Righello.addEventListener('mousemove', SpostaELT); Righello.addEventListener('touchmove', SpostaELT);
-                    }, 200
-                );
+                    ELTDaSpostare.className = "ELT transizione-morbida-no";
+                    Righello.addEventListener('mousemove', SpostaELT); Righello.addEventListener('touchmove', SpostaELT);
+                }, 200);
             break;
 
             case toolDividiClip:
