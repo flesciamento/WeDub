@@ -2063,7 +2063,7 @@ function DividiClip_puntatorerilasciato(e) {
     DisabilitaSchermata();
 
     /*** Se taglio senza trascinamento, si limita a dividere la clip in due senza chiedere niente ***/
-    if ((secondiFineTaglio - secondiInizioTaglio) < taglioclip_diffmin) {DividiClip(ELT.dataset.RiferimentoRegistrazione, secondiInizioTaglio, secondiFineTaglio, strDividiClip); return;}
+    if ((secondiFineTaglio - secondiInizioTaglio) < taglioclip_diffmin) {DividiClip(ELT.dataset.RiferimentoRegistrazione, secondiInizioTaglio, secondiFineTaglio, strClipDivisa); return;}
     /************************************************************************************************/
 
     /*** Se taglio con trascinamento, apre la finestrella per conferma operazione effettuata ***/
