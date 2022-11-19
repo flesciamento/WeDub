@@ -2230,17 +2230,15 @@ function VisualizzaClipAudio(Numero, Attivo) {
 }
 
 async function ApriCestinoTraccia(e) {
-    const Cestino = e.currentTarget, totAudio = DatiAudioRegistrato.length;
+    const Cestino = e.currentTarget;
     var AudioDellaTraccia = [];
 
-    for (let I = 0; I < totAudio; I++) {
-        DatiAudioRegistrato_Utente[Cestino.dataset.idutente].forEach((datiAudio) => {
-            if (!datiAudio.danneggiato) {
-                document.getElementById('ELTReg' + datiAudio.numero).style.display = "inline";
-                AudioDellaTraccia.push(datiAudio);
-            }
-        })
-    }
+    DatiAudioRegistrato_Utente[Cestino.dataset.idutente].forEach((datiAudio) => {
+        if (!datiAudio.danneggiato) {
+            document.getElementById('ELTReg' + datiAudio.numero).style.display = "inline";
+            AudioDellaTraccia.push(datiAudio);
+        }
+    });
 
     const totAudioDellaTraccia = AudioDellaTraccia.length;
     if (totAudioDellaTraccia) {
@@ -2248,10 +2246,8 @@ async function ApriCestinoTraccia(e) {
         if (Cestino.dataset.ripristinati == "si") {
             for (let I = 0; I < totAudioDellaTraccia; I++) {
                 CestinaClipRimosse(AudioDellaTraccia[I]);
-                console.log(I);
                 await pausa(30);
             }
-            console.log("Terminato.");
             Cestino.className = "btn btn-default btn-xs fa fa-trash-o";
             await pausa(1000);
             PosizioneOriginaleClipSovrapposte();
@@ -2329,24 +2325,27 @@ function CreazioneClipPrimoCaricamento(Dati) {
     if (NumeroTotaleAudioCaricamentoIniziale == 0) {TermineCaricamentoClip();}
 }
 
-function TermineCaricamentoClip() {
+async function TermineCaricamentoClip() {
     if (!CaricamentoInizialeTerminato) {
         Messaggio(strCaricamentoCompletato, "OK");
-        setTimeout(() => {
-            if (ModalitaStreaming) {
-                const pulPlayIniziale = CreaElemento('div', 'divPulsantonePlayIniziale', divVetro.id, "<span class='fa fa-play-circle'></span> Play"); pulPlayIniziale.className = "btn btn-success"; pulPlayIniziale.iStyle({position: "relative", top: "40%", width: "100%", margin: "0px auto", fontSize: "30px", fontWeight: "bold"});
-                ComandiPlayer.addEventListener('mousemove', () => {ComandiPlayer.style.opacity = "";});
-                pulPlayIniziale.onclick = () => {CancMex(); AttivaScorciatoieDiTastiera_ModalitaStreaming(); pulPlayIniziale.onclick = ""; divVetro.style.display = "none"; PlayVideoGuida();};
-                DisattivaMessaggiAttesa();
-                AttivaInterfaccia();
-                document.getElementById('LogoWEDUB').iStyle({top: 0, right: 0, opacity: 0.5});
+        await pausa(1000);
+        if (ModalitaStreaming) {
+            const pulPlayIniziale = CreaElemento('div', 'divPulsantonePlayIniziale', divVetro.id, "<span class='fa fa-play-circle'></span> Play"); pulPlayIniziale.className = "btn btn-success"; pulPlayIniziale.iStyle({position: "relative", top: "40%", width: "100%", margin: "0px auto", fontSize: "30px", fontWeight: "bold"});
+            ComandiPlayer.addEventListener('mousemove', () => {ComandiPlayer.style.opacity = "";});
+            pulPlayIniziale.onclick = () => {CancMex(); AttivaScorciatoieDiTastiera_ModalitaStreaming(); pulPlayIniziale.onclick = ""; divVetro.style.display = "none"; PlayVideoGuida();};
+            DisattivaMessaggiAttesa();
+            AttivaInterfaccia();
+            document.getElementById('LogoWEDUB').iStyle({top: 0, right: 0, opacity: 0.5});
 /*                 PrecaricaClip(SecondiPrecaricamentoAlPlay); */
-            } else {
-                DatiAudioRegistrato.forEach(CestinaClipRimosse);
-                AttivaAggiornamentoClip();
-                EliminaImgAttesa();
+        } else {
+            const totAudio = DatiAudioRegistrato.length;
+            for (let I = 0; I < totAudio; I++) {
+                CestinaClipRimosse(DatiAudioRegistrato[I]);
+                await pausa(30);
             }
-        }, 1000);
+            AttivaAggiornamentoClip();
+            EliminaImgAttesa();
+        }
         CaricamentoInizialeTerminato = true;
     }
     setTimeout(() => {AzzeraBarraCaricamento(BC, ContornoBC, 1);}, 1000);
