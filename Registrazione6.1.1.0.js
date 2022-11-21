@@ -2216,7 +2216,7 @@ function CancellaRipristinaRegistrazione(Numero, Ripristina) {
 function CestinaClip(Numero) {
     const ELT = document.getElementById('ELTReg' + Numero), Cestino = document.getElementById('ApriCestinoTraccia' + DatiAudioRegistrato[Numero].ID_Utente);
 
-    if (ELT) {ELT.iStyle({left: "-5px", width: "10px"}); setTimeout(() => {ELT.style.display = "none";}, 2000);}
+    if (ELT) {ELT.iStyle({left: "-5px", width: "10px", animation: "scomparsa 0s ease 2s 1"});}
 
     if (Cestino) {
         Cestino.style.animation = ""; Cestino.dataset.ripristinati = "no"; clearTimeout(tmrLampeggiaCestino[Cestino.id]);
@@ -2270,6 +2270,7 @@ function CestinaClipRimosse(datiAudio) {
 
 function VisualizzaClipRimosse(datiAudio) {
     const Numero = datiAudio.numero, ELT = document.getElementById('ELTReg' + Numero);
+    ELT.style.animation = "";
     VisualizzaELTNormale(Numero);
     InserimentoInProporzioneNellaLineaTemporale(ELT, datiAudio.MinutaggioRegistrazione, datiAudio.Durata);
     setTimeout(() => {RiposizionamentoAutomaticoELT_NumClipAudio(Numero);}, 1000);
