@@ -131,7 +131,7 @@ var MinutaggiRighello = {
 		for (var I = InizioVideoGuida; I < LunghezzaRighello; I += StepRighello) {
 			const Minutaggio = new MinutiESecondi(I);
             divMinutaggiRighello.insertAdjacentHTML('beforeend', `<span style="position: absolute; top: 0px; left: ${(I / totDurataVideoGuida) * 100}%; width: 100%; font-family: Verdana; font-size: 8px; line-height: 10pt; vertical-align: top;"><img src='images/Cursore.png' class='SegnoRighello'>&nbsp;${Minutaggio.Minuti}:${("0" + (Minutaggio.Secondi | 0)).slice(-2)}</span>`);
-            ((++Contatore % 50) && await pausa(100));
+            (((++Contatore % 50) == 0) && await pausa(100));
 		}
     },
     
