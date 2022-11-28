@@ -485,7 +485,7 @@ function SelezionaCandidatoRuoliDaAssegnare(ID) {
             document.getElementById('DownloadTraccia' + RuoliDaAssegnare_NumeroTraccia).dataset.utente = ID;
             document.getElementById('EsportaTraccia' + RuoliDaAssegnare_NumeroTraccia).dataset.link = `RenderingAudio/Rendering/Rendering.php?N=${N}&P=${P}&ID=${ID}`;
             divEscludiRipristinaTraccia.onclick = () => {EscludiRipristinaTraccia(ID);}; divEscludiRipristinaTraccia.id = 'EscludiRipristinaTraccia' + ID;
-            divCestino.dataset.idutente = ID; divCestino.id = 'ApriCestinoTraccia' + ID; divCestino.dataset.ripristinati = "si"; ApriCestinoTraccia({currentTarget: divCestino}); // Mette nel cestino solo le clip rimosse che erano state eventualmente già caricate per il candidato selezionato
+            divCestino.dataset.idutente = ID; divCestino.id = 'ApriCestinoTraccia' + ID; divCestino.dataset.ripristinati = "si";
             if (SonoCreatoreProgetto) {
                 divChatCandidato.style.display = "inline"; divChatCandidato.dataset.link = `ChatRoom.php?S=${N}&A=${ID}`; divChatCandidato.dataset.idcandidato = ID;
                 if (tmrAggiornaChatCandidato === false) {tmrAggiornaChatCandidato = setInterval(NotificaMessaggiChatCandidato, 60000);} NotificaMessaggiChatCandidato();
@@ -871,7 +871,7 @@ function AggiungiMarcatore(e) {
     if ((ID_Utente == IDUtente) || (SonoCreatoreProgetto)) {
         AJAX('SalvaNuovoMarcatore.php', `NumProgetto=${N}&NumProvino=${P}&Utente=${encodeURIComponent(IDUtente)}&Minutaggio=${encodeURIComponent(MinutaggioMarcatore)}&Testo=${encodeURIComponent(strMarcatoreDescrDefault)}`,
             (Dati) => {
-                CaricaMarcatori(() => {document.getElementById('Marcatore' + Dati.IDMarcatore).children[0].select();});
+                CaricaMarcatori(() => {document.getElementById('inputMarcatore' + Dati.IDMarcatore).select();});
             }, "", "", true
         );
     }
@@ -893,7 +893,7 @@ function DisegnaMarcatore(ID_UtenteMarcatore, Minutaggio, Stringa, IDMarcatore) 
                     
                     e.stopPropagation();
 
-                    if (confirm(strVuoiEliminareMarcatore)) {
+                    if (confirm(strVuoiEliminareMarcatore + " (" + e.currentTarget.children[0].value + ") ?")) {
                         AJAX('EliminaMarcatore.php', `N=${encodeURIComponent(e.currentTarget.dataset.id)}`, "", "", "", true);
                         EliminaElemento(e.currentTarget);
                     }
