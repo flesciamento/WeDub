@@ -893,7 +893,7 @@ function DisegnaMarcatore(ID_UtenteMarcatore, Minutaggio, Stringa, IDMarcatore) 
                     
                     e.stopPropagation();
 
-                    if (confirm(strVuoiEliminareMarcatore + " (" + e.currentTarget.children[0].value + ") ?")) {
+                    if (confirm(strVuoiEliminareMarcatore + "(" + e.currentTarget.children[0].value + ") ?")) {
                         AJAX('EliminaMarcatore.php', `N=${encodeURIComponent(e.currentTarget.dataset.id)}`, "", "", "", true);
                         EliminaElemento(e.currentTarget);
                     }
