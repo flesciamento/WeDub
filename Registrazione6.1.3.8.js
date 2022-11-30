@@ -2599,7 +2599,7 @@ function CaricaAudio(Numero, Dati, TipoDato, Funzione, FunzioneAlTermine1, Funzi
         console.log("Errore caricamento clip audio", Numero, Dati.Registrazione);
 
         /** Verifica se si tratta di Colonna Internazionale **
-        * in questo caso disattiva le vecchie clip e la ricarica aggiornata */
+        * in questo caso disattiva le vecchie clip e ricarica la CI aggiornata */
         if (Dati.Registrazione.slice(0, 13) == "ColonneAudio/") {
             AudioBufferColonnaInternazionale.forEach((datiAudio) => {
                 datiAudio.disattivato = true;
@@ -2611,7 +2611,7 @@ function CaricaAudio(Numero, Dati, TipoDato, Funzione, FunzioneAlTermine1, Funzi
                     if (FunzioneAlTerminePrecaricamento) {FunzioneAlTerminePrecaricamento();} // Se è PlayVideoGuida() rifarà la verifica delle clip da precaricare.
                 }, "", "", true
             );
-            
+
         } else {
             window.setTimeout(() => {CaricaAudio(Numero, Dati, TipoDato, Funzione, FunzioneAlTermine1, FunzioneAlTermine2);}, 1000);
         }
