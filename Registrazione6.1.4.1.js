@@ -2237,11 +2237,13 @@ async function ApriCestinoTraccia(e) {
     const Cestino = e.currentTarget;
     var AudioDellaTraccia = [];
 
-    DatiAudioRegistrato_Utente[Cestino.dataset.idutente].forEach((datiAudio) => {
-        if (!datiAudio.danneggiato) {
-            AudioDellaTraccia.push(datiAudio);
-        }
-    });
+    if (datiAudioTraccia = DatiAudioRegistrato_Utente[Cestino.dataset.idutente]) {
+        datiAudioTraccia.forEach((datiAudio) => {
+            if (!datiAudio.danneggiato) {
+                AudioDellaTraccia.push(datiAudio);
+            }
+        });
+    }
 
     const totAudioDellaTraccia = AudioDellaTraccia.length;
     if (totAudioDellaTraccia) {
