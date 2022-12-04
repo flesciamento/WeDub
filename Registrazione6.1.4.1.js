@@ -2239,9 +2239,7 @@ async function ApriCestinoTraccia(e) {
 
     if (datiAudioTraccia = DatiAudioRegistrato_Utente[Cestino.dataset.idutente]) {
         datiAudioTraccia.forEach((datiAudio) => {
-            if (!datiAudio.danneggiato) {
-                AudioDellaTraccia.push(datiAudio);
-            }
+            if (!datiAudio.danneggiato) {AudioDellaTraccia.push(datiAudio);}
         });
     }
 
