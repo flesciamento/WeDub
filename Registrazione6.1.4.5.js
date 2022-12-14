@@ -2605,9 +2605,7 @@ function CaricaAudio(Numero, Dati, TipoDato, Funzione, FunzioneAlTermine1, Funzi
         /** Verifica se si tratta di Colonna Internazionale **
         * in questo caso disattiva le vecchie clip e ricarica la CI aggiornata */
         if (Dati.Registrazione.slice(0, 13) == "ColonneAudio/") {
-            AudioBufferColonnaInternazionale.forEach((datiAudio) => {
-                datiAudio.disattivato = true;
-            });
+            AudioBufferColonnaInternazionale.forEach((datiAudio) => {datiAudio.disattivato = true;});
 
             AJAX("AcquisisciPercorsoCI.php", "NumProgetto=" + N,
                 (Dati) => {
