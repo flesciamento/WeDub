@@ -2116,7 +2116,7 @@ function DividiClip(Numero, secondiInizioTaglio, secondiFineTaglio, MessaggioAlT
                         OperazioniAlBufferCaricato(ClipNuova.numero);
                     }
 
-                    /** Applica lo stesso posizionamento della clip divisa **/
+                    /** Applica lo stesso posizionamento verticale della clip divisa **/
                     const ELTClipDivisa = document.getElementById('ELTReg' + Numero);
                     document.getElementById('ELTReg' + ClipNuova.numero).iStyle({top: ELTClipDivisa.style.top, height: ELTClipDivisa.style.height});
                 }
