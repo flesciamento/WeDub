@@ -1005,7 +1005,6 @@ async function Posizionati(MinutaggioNuovo, RiabilitaLaSchermata = true) {
     AggiornaMinutaggioVideo(MinutaggioNuovo);
     VideoGuidaImpostaEventoAlTermineCaricamento(RiattivaVideoGuida);
     VideoGuidaPosizionati(MinutaggioNuovo);
-//    Posizionati.tmr = setTimeout(() => {Posizionati(MinutaggioNuovo + 0.1, RiabilitaLaSchermata);}, 15000);
 }
 Posizionati.tmr = false;
 
