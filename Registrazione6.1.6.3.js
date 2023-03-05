@@ -991,11 +991,15 @@ async function Posizionati(MinutaggioNuovo, RiabilitaLaSchermata = true) {
         if (stavoRiproducendo) {
             PlayVideoGuida();
         } else {
-            if (RiabilitaLaSchermata) {RiabilitaSchermata(true);}
+            RiabilitaLaSchermataSeRichiesto();
         }
     }
 
-    if ((VideoGuidaMinutaggioCorrente() == MinutaggioNuovo) || (MinutaggioNuovo > totDurataVideoGuida)) {return;}
+    function RiabilitaLaSchermataSeRichiesto() {
+        if (RiabilitaLaSchermata) {RiabilitaSchermata(true);}
+    }
+
+    if ((VideoGuidaMinutaggioCorrente() == MinutaggioNuovo) || (MinutaggioNuovo > totDurataVideoGuida)) {RiabilitaLaSchermataSeRichiesto(); return;}
     DisabilitaSchermata(true);
     setTimeout(() => {PosizionaCursore(MinutaggioNuovo);}, 100);
     StopVideoGuida(); ClipDaRiprodurre = [];
@@ -2362,7 +2366,7 @@ async function TermineCaricamentoClip() {
 function AttivaInterfaccia() {
     FunzioneNormaleAlTimeUpdate = (ModalitaStreaming? AggiornaTimeline_Streaming : AggiornaTimeline);
     StartAudioContext(audioContext);
-    Posizionati(InizioVideoGuida); // Riabilita la schermata non appena si posiziona
+    Posizionati(InizioVideoGuida); // Riabilita la schermata non appena si posiziona.
 }
 
 function AttivaScorciatoieDiTastiera() {
