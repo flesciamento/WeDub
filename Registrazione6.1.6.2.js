@@ -2364,7 +2364,7 @@ async function TermineCaricamentoClip() {
 function AttivaInterfaccia() {
     FunzioneNormaleAlTimeUpdate = (ModalitaStreaming? AggiornaTimeline_Streaming : AggiornaTimeline);
     StartAudioContext(audioContext);
-    Posizionati(InizioVideoGuida); // Riattiva l'interfaccia non appena si posiziona
+    Posizionati(InizioVideoGuida); // Riabilita la schermata non appena si posiziona
 }
 
 function AttivaScorciatoieDiTastiera() {
