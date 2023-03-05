@@ -278,7 +278,8 @@ function AttivaProgramma() {
     /*** Visualizzazione ***/
     if (!ModalitaStreaming) {
         DisattivaMessaggiAttesa();
-        document.getElementById('Contenitore').style.display = "block"; DisabilitaSchermata();
+        document.getElementById('Contenitore').style.display = "block";
+        DisabilitaSchermata();
         MinutaggiRighello.Disegna();
         setTimeout(() => {
             /* Adatta la dimensione degli elementi in base al contenuto e allo spazio a disposizione */
