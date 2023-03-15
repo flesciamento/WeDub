@@ -988,7 +988,7 @@ async function Posizionati(MinutaggioNuovo, RiabilitaLaSchermata = true) {
     async function RiattivaVideoGuida() {
         VideoGuidaRimuoviEventoAlTermineCaricamento(RiattivaVideoGuida);
         await pausa(500);
-        if ((VideoGuidaMinutaggioCorrente() | 0) != (MinutaggioNuovo | 0)) {setTimeout(() => {Posizionati(MinutaggioNuovo + 0.1, RiabilitaLaSchermata || (Righello.dataset.DisattivaClick == "no"));}, 100); return;} // Se si incanta prova a riposizionarsi leggermente più avanti, riabilita la schermata se previsto o se era stata riabilitata in precedenza.
+        if ((VideoGuidaMinutaggioCorrente() | 0) != (MinutaggioNuovo | 0)) {setTimeout(() => {Posizionati(MinutaggioNuovo + 0.1, RiabilitaLaSchermata || (Righello.dataset.DisattivaClick == "no"));}, 1000); return;} // Se si incanta prova a riposizionarsi leggermente più avanti, riabilita la schermata se previsto o se era stata riabilitata in precedenza.
         if (stavoRiproducendo) {
             PlayVideoGuida();
         } else {
