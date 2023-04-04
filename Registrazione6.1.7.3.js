@@ -1766,7 +1766,7 @@ function CreaRegistrazione_wav() {
 }
 
 function SalvaNuovaRegistrazione(Contenuto, OndaSonora) {
-    const ContenutoRegistrazione = Contenuto.slice(), OndaSonoraRegistrazione = OndaSonora.slice(), MinutaggioAttualeRegistrazione = MinutaggioUltimaRegistrazione - 0.3, FormatoFile = (QualitaAltaRegistrazione? formatoQualitaAlta : formatoQualitaMedia), InfoAggiuntiveRegistrazione = `${SistemaOperativoAttuale} ${NomeBrowserAttuale} ${VersioneBrowserAttuale} - ${audioContext.sampleRate} Hz - qualità ${(QualitaAltaRegistrazione? "alta" : "media")}, modalità ${(ModalitaLightAttiva? (ModalitaUltraLightAttiva? "ultra light" : "light") : "normale")} ${VersioneJS}`;
+    const ContenutoRegistrazione = Contenuto.slice(), OndaSonoraRegistrazione = OndaSonora.slice(), MinutaggioAttualeRegistrazione = MinutaggioUltimaRegistrazione, FormatoFile = (QualitaAltaRegistrazione? formatoQualitaAlta : formatoQualitaMedia), InfoAggiuntiveRegistrazione = `${SistemaOperativoAttuale} ${NomeBrowserAttuale} ${VersioneBrowserAttuale} - ${audioContext.sampleRate} Hz - qualità ${(QualitaAltaRegistrazione? "alta" : "media")}, modalità ${(ModalitaLightAttiva? (ModalitaUltraLightAttiva? "ultra light" : "light") : "normale")} ${VersioneJS}`;
     RiattivaInterfacciaDopoRegistrazione();
     clearInterval(tmrAggiornaClip); EliminaAnteprimaOndaSonora(); 
     
