@@ -3118,7 +3118,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
 
     /*** Crea la finestrella delle opzioni ***/
     const divContenitoreOpzioni = CreaElemento('div', ID_Opzioni, document.body.id); divContenitoreOpzioni.className = "panel panel-info";
-    divContenitoreOpzioni.iStyle({display: 'none', position: 'fixed', top: '160px', left: "30%", zIndex: 100000000 + Number(RiferimentoRegistrazione)});
+    divContenitoreOpzioni.iStyle({display: 'none', position: 'fixed', top: '160px', left: '30%', zIndex: 100000000 + Number(RiferimentoRegistrazione)});
     divContenitoreOpzioni.addEventListener('mouseup', () => {OggettoDaSpostare = false; document.body.removeEventListener('mousemove', SpostaOggettoColMouse);});
     
     /** Barra del titolo **/
