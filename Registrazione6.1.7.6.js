@@ -1804,7 +1804,7 @@ function StoppaClipAudio(datiAudio) {
 }
 
 async function PlayVideoGuida() {
-    pulPlay.style.pointerEvents = "none";
+    pulPlay.style.pointerEvents = "none"; // Evita il doppio click involontario
     if (VideoGuidaMinutaggioCorrente() >= totDurataVideoGuida) {RiproduzioneInCorso = true; Posizionati(InizioVideoGuida); return;}
 
     await pausa(100);
