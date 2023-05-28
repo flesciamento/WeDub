@@ -105,7 +105,7 @@ function VisualizzaMinutaggioAttuale() {
 function SalvaCopione() {
 	SalvataggioCopione(N, T.value, VideoGuidaMinutaggioCorrente(),
 		function (Dati) {
-			Messaggio("<span class='fa fa-save'></span> " + strModificheSalvate);
+			Messaggio("<span class='fa fa-save'></span> " + strModificheSalvate, 'OK');
 		}
 	);
 }
