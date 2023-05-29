@@ -7,6 +7,8 @@ for (var NomeTasto in TastiIndicazioni) {
 	CreaElemento('li', 'li' + NomeTasto, 'infoTasti', "<a class='btn btn-default' data-tasto='" + NomeTasto + "' onclick='ClickPulsanteGraficoScorciatoiaTastiera(event);'><b>" + NomeTasto + "</b></a> " + TastiIndicazioni[NomeTasto]);
 }
 
+function Play() {VideoGuidaPlay(); VideoGuidaRimuoviEventoAlTermineCaricamento(Play);}
+
 function Indietro(Secondi = false) {
 	const Posizione = VideoGuidaMinutaggioCorrente() - Secondi;
 	
@@ -14,9 +16,16 @@ function Indietro(Secondi = false) {
 }
 
 function RiprendiDaPocoPrima(Secondi = SecondiRitornoIndietro) {
-	Indietro(Secondi); VideoGuidaImpostaEventoAlTermineCaricamento(function Play() {VideoGuidaPlay(); VideoGuidaRimuoviEventoAlTermineCaricamento(Play);});
-	
+	VideoGuidaImpostaEventoAlTermineCaricamento(Play);
+    Indietro(Secondi);
 	SalvaCopione();
+}
+
+function RiprendiDaMinutaggioBloccoTesto(e) {
+    const T = e.currentTarget;
+    VideoGuidaImpostaEventoAlTermineCaricamento(Play);
+    VideoGuidaPosizionati(T.dataset.minutaggio);
+    SalvaCopione();
 }
 
 function SospendiVideo(e) {
@@ -25,12 +34,12 @@ function SospendiVideo(e) {
 	
 	VideoGuidaPause();
 	
-	tmrSospendi = window.setTimeout(RiprendiDaPocoPrima, MillisecondiRiprendiVideo);
+	tmrSospendi = window.setTimeout(RiprendiDaMinutaggioBloccoTesto, MillisecondiRiprendiVideo, e);
 	
 	switch (e.key) {
 		case "(": T.value = T.value.slice(0, PosizioneCursore) + ")" + T.value.slice(PosizioneCursore); T.selectionEnd = PosizioneCursore; return 2;
 		case "[": T.value = T.value.slice(0, PosizioneCursore) + VisualizzaMinutaggioAttuale() + "] " + T.value.slice(PosizioneCursore); setTimeout(RiprendiDaPocoPrima, 1000); return 2;
-		case "Control": if (e.location == 2) {RiprendiDaPocoPrima(6);}
+/* 		case "Control": if (e.location == 2) {RiprendiDaPocoPrima(6);} */
 		case "AltGraph": clearTimeout(tmrSospendi); break;
 		case "Enter":
             /** Nuova sezione di testo **/
