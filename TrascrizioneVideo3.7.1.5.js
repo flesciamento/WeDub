@@ -104,7 +104,7 @@ function VisualizzaMinutaggioAttuale() {
 
 function SalvaCopione(e) {
 	const Testo = e.currentTarget;
-	AJAX("TrascrizioneVideo_SalvaCopione.php", "N=" + encodeURIComponent(N) + "&Testo=" + encodeURIComponent(Testo.value) + "&PosizionePartenzaTesto=" + encodeURIComponent(Testo.dataset.iniziobattitura) + "&Minutaggio=" + encodeURIComponent(VideoGuidaMinutaggioCorrente()), "", "", "<span class='fa fa-save'></span> " + strModificheSalvate, true);
+	AJAX("TrascrizioneVideo_SalvaCopione.php", "N=" + encodeURIComponent(N) + "&Testo=" + encodeURIComponent(Testo.value) + "&Minutaggio=" + encodeURIComponent(Testo.dataset.minutaggio), "", "", "<span class='fa fa-save'></span> " + strModificheSalvate, true);
 }
 
 function CaricaCopione() {
