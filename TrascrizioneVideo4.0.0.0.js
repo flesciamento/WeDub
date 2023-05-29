@@ -1,4 +1,4 @@
-var SP = document.getElementById('SceltaPersonaggi'), TestoGuida = document.getElementById('TestoGuida');
+const SP = document.getElementById('SceltaPersonaggi'), TestoGuida = document.getElementById('TestoGuida'), divVetro = document.getElementById('Vetro');
 var tmrSospendi;
 
 const SecondiRitornoIndietro = 2, MillisecondiRiprendiVideo = 1500;
@@ -7,10 +7,8 @@ for (var NomeTasto in TastiIndicazioni) {
 	CreaElemento('li', 'li' + NomeTasto, 'infoTasti', "<a class='btn btn-default' data-tasto='" + NomeTasto + "' onclick='ClickPulsanteGraficoScorciatoiaTastiera(event);'><b>" + NomeTasto + "</b></a> " + TastiIndicazioni[NomeTasto]);
 }
 
-function Indietro(Secondi) {
-	if (!Secondi) {Secondi = false;}
-	
-	var Posizione = VideoGuidaMinutaggioCorrente() - Secondi;
+function Indietro(Secondi = false) {
+	const Posizione = VideoGuidaMinutaggioCorrente() - Secondi;
 	
 	if (Posizione < 0) {VideoGuidaPosizionati(0);} else {VideoGuidaPosizionati(Posizione);}
 }
@@ -94,7 +92,7 @@ function ScegliPersonaggio(e) {
         () => {
             tmrSospendi = window.setTimeout(VideoGuidaPlay, 1000);
         }, strAttenderePrego, strModificheSalvate
-    )
+    );
 }
 
 function AltriAutomatismiTastiera(e) {
@@ -128,17 +126,35 @@ function SalvaCopione(e) {
 }
 
 function CaricaCopione() {
-	ScorriAFinePagina();
-	
-	CaricamentoCopione(N, 
+	AJAX("TrascrizioneVideo_CaricaCopione.php", "N=" + encodeURIComponent(N),
 		function (Dati) {
-				T.value = Dati.Copione;
-				T.addEventListener('keyup', SospendiVideo);
-				T.addEventListener('keydown', AltriAutomatismiTastiera);
-				T.scrollTop = T.scrollHeight;
-				T.selectionStart = T.value.length; T.selectionEnd = T.selectionStart;
-				
-				document.getElementById('divContenitoreVideoGuida').dataset.PosizioneInizialeVideo = Dati.PosizioneVideo;
+                const BlocchiDiTesto = Dati.BlocchiDiTesto, totBlocchiDiTesto = BT.length;
+                for (let I = 0; I < totBlocchiDiTesto; I++) {
+                    const BT = BlocchiDiTesto[I];
+                    const T = CreaNuovaTextarea(BT.Minutaggio);
+                    T.value = BT.Testo;
+                    T.addEventListener('keyup', SospendiVideo);
+                    T.addEventListener('keydown', AltriAutomatismiTastiera);
+                    T.scrollTop = T.scrollHeight;
+                    T.selectionStart = T.value.length; T.selectionEnd = T.selectionStart;
+                }
+
+                if (totBlocchiDiTesto == 0) {
+                    const T = CreaNuovaTextarea(0);
+                    T.onclick = (e) => {
+                        const primatextarea = e.currentTarget;
+                        VideoGuidaPause();
+                        AJAX("TrascrizioneVideo_AggiungiNuovoMinutaggio.php", "N=" + encodeURIComponent(N) + "&Testo=&Minutaggio=" + encodeURIComponent(VideoGuidaMinutaggioCorrente()), 
+                            () => {
+                                EliminaElemento(primatextarea);
+                                CaricaCopione();
+                                document.getElementsByTagName('textarea')[0].focus();
+                            }, strAttenderePrego, strModificheSalvate
+                        );
+                    };
+                }
+
+				//document.getElementById('divContenitoreVideoGuida').dataset.PosizioneInizialeVideo = Dati.PosizioneVideo;
 				FunzioneDopoInizializzazioneVideoGuida = PartenzaProgramma;
 			}, strCaricamentoInCorso, strCopioneCaricato
 	);
@@ -150,8 +166,8 @@ function CaricamentoCopione(N, Funzione, MessaggioIniziale, MessaggioFinale) {
 }
 
 function PartenzaProgramma() {
-	VideoGuidaPosizionati(document.getElementById('divContenitoreVideoGuida').dataset.PosizioneInizialeVideo);
-	document.getElementById('Attendere').style.display = "none"; AttivazioneSchermata(true);
+	//VideoGuidaPosizionati(document.getElementById('divContenitoreVideoGuida').dataset.PosizioneInizialeVideo);
+	document.getElementById('Attendere').style.display = "none"; AttivazioneSchermata();
 }
 
 function CreaNuovaTextarea(Minutaggio) {
@@ -160,14 +176,19 @@ function CreaNuovaTextarea(Minutaggio) {
     return NuovaTextarea;
 }
 
-function AttivazioneSchermata(Attiva) {
-	
-	document.getElementById('divContenitoreVideoGuida').style.opacity = 1 * Attiva;
+function AttivazioneSchermata() {
+	AltreFunzioniRiabilitaSchermata();
+	document.getElementById('divContenitoreVideoGuida').style.opacity = 1;
     document.getElementById('ContenitoreInfo').style.display = "inline";
 	VideoGuidaPause();
 }
 
-AltreFunzioniDisabilitaSchermata = () => {}
+AltreFunzioniDisabilitaSchermata = () => {AttivaVetro(true);};
+AltreFunzioniRiabilitaSchermata  = () => {AttivaVetro(false);};
+
+function AttivaVetro(Attiva) {
+    divVetro.style.display = (Attiva? "inline" : "none");
+}
 
 function ScorriAFinePagina() {
 	var AltezzaMassimaFinestra = Math.max(
@@ -180,7 +201,5 @@ function ScorriAFinePagina() {
 }
 
 CaricaCopione();
-
-T.addEventListener('click', SospendiVideo);
 
 SP.style.zIndex = -10;
