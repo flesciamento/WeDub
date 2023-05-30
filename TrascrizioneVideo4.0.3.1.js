@@ -46,20 +46,20 @@ function SospendiVideo(e) {
             SalvaCopione(T); clearTimeout(tmrSospendi); VideoGuidaPause();
 
             /* Si posiziona o crea la textarea del minutaggio corrispondente e mette il focus su di essa */
-            const Minutaggio = (VideoGuidaMinutaggioCorrente() | 0);
+            const MinutaggioCorrente = (VideoGuidaMinutaggioCorrente() | 0), Minutaggio = MinutaggioCorrente - (SecondiRitornoIndietro * (MinutaggioCorrente > SecondiRitornoIndietro));
             var nuovatextarea;            
             if (+Minutaggio <= ((+T.dataset.minutaggio) + 2)) {
                 nuovatextarea = T;
             } else {
                 const textarea = document.getElementsByTagName('textarea'), totTextarea = textarea.length;
 
-                for (var I = 1; (I < totTextarea) && (textarea[I].dataset.minutaggio < Minutaggio); I++);
+                for (var I = 1; (I < totTextarea) && (textarea[I].dataset.minutaggio != Minutaggio); I++);
                 if (I < totTextarea) {
                     nuovatextarea = textarea[I - 1];
                     nuovatextarea.value = "\n" + nuovatextarea.value;
                     nuovatextarea.selectionStart = nuovatextarea.selectionEnd = 0;
                 } else {
-                    nuovatextarea = CreaNuovaTextarea(Minutaggio - (SecondiRitornoIndietro * (Minutaggio > SecondiRitornoIndietro)));
+                    nuovatextarea = CreaNuovaTextarea(Minutaggio);
                 }
             }
             nuovatextarea.focus();
