@@ -199,7 +199,7 @@ function PartenzaProgramma() {
 function CreaNuovaTextarea(Minutaggio) {
     const NumRigo = (++CreaNuovaTextarea.num), MinutaggioMassimo = new MinutiESecondi(totDurataVideoGuida), MinutaggioAttuale = new MinutiESecondi(Minutaggio);
     const tr = CreaElemento('tr', 'tr' + NumRigo, "ContenitoreTesto");
-            td = CreaElemento('td', 'tdInfoMinutaggio' + NumRigo, tr.id); td.iStyle({width: "130px", backgroundColor: "white", textAlign: "center"});
+            td = CreaElemento('td', 'tdInfoMinutaggio' + NumRigo, tr.id); td.iStyle({width: "130px", backgroundColor: "white", textAlign: "center", verticalAlign: "top"});
                     CreaElemento('a', 'pulPlay' + NumRigo, td.id, "<span class='fa fa-play-circle'></span>").className = 'btn btn-default btn-xs';
 
                     M = CreaElemento('input', 'MinutaggioMinuti' + NumRigo, td.id); M.setAttribute("type", "text"); M.readOnly = true; M.iStyle({width: "50px", textAlign: "right"});
