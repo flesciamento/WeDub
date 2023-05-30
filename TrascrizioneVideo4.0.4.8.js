@@ -60,7 +60,7 @@ function SospendiVideo(e) {
         
                 /* Attiva gli eventi */
                 nuovatextarea.removeEventListener('keydown', SospendiVideo); nuovatextarea.removeEventListener('input', RiprendiVideoAutomaticamente);
-                nuovatextarea.addEventListener('keydown', ScegliPersonaggio); document.body.addEventListener('click', ScegliPersonaggio);
+                setTimeout(() => {nuovatextarea.addEventListener('keyup', ScegliPersonaggio); document.body.addEventListener('click', ScegliPersonaggio);}, 100);
             }
 
             if (textareasuccessiva = document.getElementById('t' + (+T.dataset.rifRigo + 1))) {
@@ -123,7 +123,7 @@ function ScegliPersonaggio(e) {
 	T.selectionEnd = NuovaPosizioneCursore + strElencoPersonaggiNellaScena.length - strElencoPersonaggiPrecedente.length;
 	console.log(T.selectionEnd, "Differenza caratteri personaggi scena:", strElencoPersonaggiNellaScena.length, strElencoPersonaggiPrecedente.length, strElencoPersonaggiPrecedente);
 
-	T.removeEventListener('keydown', ScegliPersonaggio);
+	T.removeEventListener('keyup', ScegliPersonaggio);
     document.body.removeEventListener('click', ScegliPersonaggio);
     T.addEventListener('keydown', SospendiVideo);
     T.addEventListener('input', RiprendiVideoAutomaticamente);
