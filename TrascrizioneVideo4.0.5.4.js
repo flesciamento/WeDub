@@ -108,7 +108,7 @@ function ScriviPersonaggio(T, Personaggio) {
 		
     if (Personaggio) {
         T.value = T.value + Personaggio + ": " + T.value.slice(PosizioneCursore);
-        NuovaPosizioneCursore += (+Personaggio.length) + 2;
+        NuovaPosizioneCursore += (+Personaggio.length) + 3;
     }
 	
 	var Porzione = T.value.slice(0, T.value.indexOf('\nScena', PosizioneCursore)), strElencoPersonaggiNellaScena = "", strElencoPersonaggiPrecedente = "", ElencoPersonaggiNellaScena = [];
