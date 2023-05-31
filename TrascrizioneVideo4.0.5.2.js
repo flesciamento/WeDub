@@ -54,7 +54,6 @@ function SospendiVideo(e) {
 
             function AttivaSceltaPersonaggio() {
                 EventiTextarea(nuovatextarea, false);
-                nuovatextarea.focus();
         
                 /* Visualizza la lista dei personaggi */
                 SP.style.opacity = 1; SP.style.zIndex = 10;
@@ -132,6 +131,7 @@ function ScriviPersonaggio(T, Personaggio) {
 	T.removeEventListener('keyup', ScriviPersonaggio);
     document.body.removeEventListener('click', ScriviPersonaggio);
     EventiTextarea(T, true);
+    T.focus();
 
     setTimeout(VideoGuidaPlay, 300);
 }
