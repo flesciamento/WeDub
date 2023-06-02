@@ -67,11 +67,12 @@ function GestisciImmissioneTesto(e) {
                             DatiPersonaggi.push({nomedavisualizzare: Personaggi[I], altriRiferimenti: '', riferimentoPrincipale: Personaggi[I]});
                         }
                         CreaListaMenu(DatiPersonaggi, inputSceltaPersonaggio,
-                            (Personaggio) => {ScriviPersonaggio(nuovatextarea, Personaggio);},
+                            (Personaggio) => {ScriviPersonaggio(nuovatextarea, Personaggio); EventiTextarea(T, true);},
                             () => {
                                 const NuovoPersonaggio = inputSceltaPersonaggio.value.replace(/[^A-z0-9\.\(\) ]/g, '');
                                 ScriviPersonaggio(nuovatextarea, NuovoPersonaggio);
                                 AJAX("TrascrizioneVideo_SalvaNuovoPersonaggio.php", "N=" + encodeURIComponent(N) + "&NomePersonaggio=" + encodeURIComponent(NuovoPersonaggio), "", "", "", true);
+                                EventiTextarea(T, true);
                             }
                         );
                         inputSceltaPersonaggio.disabled = false;
@@ -137,7 +138,6 @@ function ScriviPersonaggio(T, Personaggio) {
 	T.selectionEnd = NuovaPosizioneCursore + strElencoPersonaggiNellaScena.length - strElencoPersonaggiPrecedente.length;
 	console.log(T.selectionEnd, "Differenza caratteri personaggi scena:", strElencoPersonaggiNellaScena.length, strElencoPersonaggiPrecedente.length, strElencoPersonaggiPrecedente);
 
-    EventiTextarea(T, true);
     AdattaAltezzaTextarea({currentTarget: T});
     T.focus();
 
