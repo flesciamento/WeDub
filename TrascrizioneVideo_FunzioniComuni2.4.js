@@ -1,6 +1,6 @@
 const DatiCopione = [];
 
-const TestoGuida = CreaElemento('div', 'TestoGuida', document.body.id); TestoGuida.iStyle({position: "fixed", top: "0", right: "5px", width: "20px", padding: "5px", backgroundColor: "rgba(255, 255, 255, 0.8)", borderRadius: "10pt", fontSize: "2vh", lineHeight: "3vh", textShadow: "1px 1px 1px aliceblue", opacity: 0, visibility: "hidden", transition: "500ms"});
+const TestoGuida = CreaElemento('div', 'TestoGuida', document.body.id); TestoGuida.iStyle({position: "fixed", top: "0", right: "5px", width: "20%", padding: "5px", backgroundColor: "rgba(255, 255, 255, 0.8)", borderRadius: "10pt", fontSize: "2vh", lineHeight: "3vh", textShadow: "1px 1px 1px aliceblue", opacity: 0, visibility: "hidden", transition: "500ms"});
 
 const PatternRegexNomePersonaggio = "A-z0-9\.\(\) ", RegexNomePersonaggio_CaratteriNonAmmessi = new RegExp('[^' + PatternRegexNomePersonaggio + ']', 'g'), RegexNomePersonaggio_CaratteriAmmessi = new RegExp('[' + PatternRegexNomePersonaggio + ']', 'g');
 
