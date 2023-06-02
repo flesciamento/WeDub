@@ -9,7 +9,7 @@ var FunzioniCopione = {
         clearTimeout(FunzioniCopione.tmr);
         const MinutiRange = 5;
         const PosizioneCopione = DatiCopione.find( el => (((MinutaggioAttuale - MinutiRange) < el.minutaggio) && (el.minutaggio < (+MinutaggioAttuale + MinutiRange))) );
-        ((PosizioneCopione) && (SezioneTesto = document.getElementById('RifCopione' + PosizioneCopione.NumID)) && (SezioneTesto.scrollIntoView({behavior: 'smooth'})));
+        ((PosizioneCopione) && (SezioneTesto = document.getElementById('RifCopione' + PosizioneCopione.NumID)) && (SezioneTesto.scrollIntoView({behavior: 'smooth', block: 'center'})));
 
         return DatiCopione.indexOf(PosizioneCopione);
     },
