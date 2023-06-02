@@ -65,9 +65,9 @@ function GestisciImmissioneTesto(e) {
                         for (let I = 0; I < totPersonaggi; I++) {
                             DatiPersonaggi.push({nomedavisualizzare: Personaggi[I], altriRiferimenti: '', riferimentoPrincipale: Personaggi[I]});
                         }
-                        inputSceltaPersonaggio.disabled = false;
                         CreaListaMenu(DatiPersonaggi, inputSceltaPersonaggio, (Personaggio) => {ScriviPersonaggio(nuovatextarea, Personaggio);}, () => {ScriviPersonaggio(nuovatextarea, '');});
-                    }, "", ""
+                        inputSceltaPersonaggio.disabled = false;
+                    }, "", "", true
                 );
             }
 
@@ -336,7 +336,7 @@ function AttivaVetro(Attiva) {
 
 function VisualizzaBoxSceltaPersonaggio(Visualizza) {
     AttivaVetro(Visualizza);
-    SP.iStyle({visibility: (Visualizza? "visible" : "hidden"), opacity: 1 * Visualizza, zIndex: 10 * (-1 * !Visualizza)});
+    SP.iStyle({visibility: (Visualizza? "visible" : "hidden"), opacity: 1 * Visualizza, zIndex: 10 * (1 + (-2 * !Visualizza))});
 }
 
 function ScorriAFinePagina() {
