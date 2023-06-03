@@ -57,19 +57,19 @@ var FunzioniCopione = {
 
 function SpostaTestoGuida_Attiva(e) {
     const X = (e.clientX || e.touches[0].clientX);
-    TestoGuida.style.cursor = "grab";
-    TestoGuida.dataset.posizionedelmouse = +X - TestoGuida.offsetLeft;
+    ContenitoreTestoGuida.style.cursor = "grab";
+    ContenitoreTestoGuida.dataset.posizionedelmouse = +X - TestoGuida.offsetLeft;
     document.body.addEventListener('mousemove', SpostaTestoGuida);
     document.body.addEventListener('mouseup', SpostaTestoGuida_Disattiva);
 }
 
 function SpostaTestoGuida(e) {
     const X = (e.clientX || e.touches[0].clientX), Y = (e.clientY || e.touches[0].clientY);
-    TestoGuida.iStyle({top: Y + "px", left: (+X - TestoGuida.dataset.posizionedelmouse) + "px"});
+    ContenitoreTestoGuida.iStyle({top: Y + "px", left: (+X - TestoGuida.dataset.posizionedelmouse) + "px"});
 }
 
 function SpostaTestoGuida_Disattiva() {
-    TestoGuida.style.cursor = "";
+    ContenitoreTestoGuida.style.cursor = "";
     document.body.removeEventListener('mousemove', SpostaTestoGuida);
     document.body.removeEventListener('mouseup', SpostaTestoGuida_Disattiva);
 }
