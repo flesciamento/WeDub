@@ -57,10 +57,8 @@ var FunzioniCopione = {
         ContenitoreTestoGuida.iStyle({opacity: 0, visibility: "hidden"});
     },
 
-    PosizionaVideo: function (e) {
-        const div = e.currentTarget, NumID = div.dataset.numid;
-        
-        FunzioniCopione.FunzionePosizionaVideo(TrovaDatiCopioneID(NumID).minutaggio);
+    PosizionaVideo: function (e) {        
+        FunzioniCopione.FunzionePosizionaVideo(TrovaDatiCopioneID(e.currentTarget.dataset.numid).minutaggio);
     },
 
     FunzionePosizionaVideo: function () {},
