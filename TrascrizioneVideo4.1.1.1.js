@@ -345,6 +345,8 @@ function MettiFocusTextareaCorrispondente() {
         const T = textarea[I], textareasuccessiva = TrovaTextareaVicina(T, 1) || ({dataset: {minutaggio: totDurataVideoGuida}});;
         if ((T.dataset.minutaggio <= MinutaggioCorrente) && (MinutaggioCorrente < textareasuccessiva.dataset.minutaggio)) {T.focus(); return;}
     }
+
+    setTimeout(() => {if (RiproduzioneInCorso) {FunzioniCopione.AttivaTestoGuida();}}, 1000);
 }
 
 function PosizionatiAlMinutaggio(Minutaggio) {
