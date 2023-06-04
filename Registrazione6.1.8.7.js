@@ -2109,7 +2109,7 @@ function DividiClip(Numero, secondiInizioTaglio, secondiFineTaglio, MessaggioAlT
      AJAX("DividiClip.php", "N=" + DatiAudioRegistrato[Numero].NumeroUnivoco + "&InizioTaglio=" + encodeURIComponent(secondiInizioTaglio) + "&FineTaglio=" + encodeURIComponent(secondiFineTaglio),
         function (Dati) {
             AggiornaClip(() => {
-                if (!Dati.SoloTaglioInizialeFinale) {
+                if (!Dati.SecondaClipNonCreata) {
                     const ClipNuova = TrovaClip(Dati.N), ClipDivisa = DatiAudioRegistrato[Numero];
                     
                     /** Assegna alla nuova clip lo stesso buffer della clip divisa, se siamo in riproduzione aggiorna la riproduzione della clip originale e riproduce la nuova **/
