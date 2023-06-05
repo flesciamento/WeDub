@@ -2541,7 +2541,7 @@ function RiposizionamentoAutomaticoELT_NumClipAudio(Numero) {
 
 function SwitchColonnaInternazionale(CI) {
     ColonnaInternazionaleAttivata = CI;
-    VideoGuidaImpostaVolume((CI ? 0 : CambiaVolumeVideoGuida.volume));
+    VideoGuidaImpostaVolume(CI ? 0 : CambiaVolumeVideoGuida.volume);
     lblVolumeVideoGuida.innerText = (CI ? strVolumeInternazionale : strVolumeFilmato);
     slideVolumeVideoGuida.value = (CI ? GuadagnoPrincipale[AudioBufferColonnaInternazionale[0].numero].gain.value : CambiaVolumeVideoGuida.volume);
     slideVolumeVideoGuida.onchange = (CI ? CambiaVolumeCI : CambiaVolumeVideoGuida);
