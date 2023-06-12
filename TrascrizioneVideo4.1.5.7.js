@@ -74,9 +74,11 @@ function GestisciImmissioneTesto(e) {
                     (Dati) => {
                         const Personaggi = Dati.ListaPersonaggi, totPersonaggi = Personaggi.length;
                         var DatiPersonaggi = [];
+                        
                         for (let I = 0; I < totPersonaggi; I++) {
                             DatiPersonaggi.push({nomedavisualizzare: Personaggi[I], altriRiferimenti: '', riferimentoPrincipale: Personaggi[I]});
                         }
+
                         CreaListaMenu(DatiPersonaggi, inputSceltaPersonaggio,
                             /* Selezione di un personaggio */
                             (Personaggio) => {ScriviPersonaggio(nuovatextarea, Personaggio);},
