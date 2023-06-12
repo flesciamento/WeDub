@@ -67,11 +67,9 @@ function GestisciImmissioneTesto(e) {
             var nuovatextarea;
 
             function AttivaSceltaPersonaggio() {
-                /* Visualizza la lista dei personaggi */
                 VisualizzaBoxSceltaPersonaggio(true);
                 inputSceltaPersonaggio.value = ""; setTimeout(() => {inputSceltaPersonaggio.focus();}, 100);
         
-                /* Visualizza la lista dei personaggi */
                 AJAX("TrascrizioneVideo_CaricaListaPersonaggi.php", "N=" + encodeURIComponent(N), 
                     (Dati) => {
                         const Personaggi = Dati.ListaPersonaggi, totPersonaggi = Personaggi.length;
