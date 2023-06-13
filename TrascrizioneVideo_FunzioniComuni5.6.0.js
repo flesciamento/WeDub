@@ -3,7 +3,7 @@ const DatiCopione = [], PosizioneDefaultCopione = {top: "0px", left: "70%", righ
 CreaElemento('style', 'styleTestoGuida', document.body.id = 'bodyPagina',
     `#ContenitoreTestoGuida {position: fixed; overflow-y: scroll; padding: 5px; background-color: rgba(255, 255, 255, 0.8); border-radius: 10pt; font-size: 1.5vh; line-height: 2vh; text-align: left; text-shadow: 1px 1px 1px aliceblue; border: 1px solid grey; opacity: 0; visibility: hidden; transition: opacity 1s; user-select: none; z-index: 10000000;}
      #ManigliaSposta_TestoGuida {position: sticky; top: 0px; width: 100%; font-size: 1.5vh; cursor: row-resize; text-align: center; background-color: rgba(255, 255, 255, 0.6); z-index: 1;}
-     #LatoSx_TestoGuida {position: sticky; top: 0px;              left: 0px; height: 100%; width: 3vh; cursor: col-resize; float: left; z-index: 1}
+     #LatoSx_TestoGuida {position: sticky; top: 0px;              left: 0px; height: 100%; width: 3vh; cursor: col-resize; float: left;  z-index: 1;}
      #LatoDx_TestoGuida {position: sticky; top: 0px; left: calc(100% - 3vh); height: 100%; width: 3vh; cursor: col-resize; float: right; z-index: 1;}
      #Base_TestoGuida   {position: sticky; top: calc(100% - 3vh); left: 0px; height: 3vh; width: 100%; cursor: row-resize; z-index: 1;}
      #ImgAttesaTestoGuida {margin: 10px; display: none;}
