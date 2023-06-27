@@ -40,7 +40,7 @@ function GestisciImmissioneTesto(e) {
     if (Object.keys(TastiIndicazioni).includes(e.key)) {
         if (e.preventDefault) {e.preventDefault();}
         const TestoIndicato = TastiIndicazioni[e.key];
-        T.value = T.value.slice(0, PosizioneCursore) + ((PosizioneCursore > 0) ? " " : "") + TestoIndicato.slice(0, TestoIndicato.indexOf('|')) + " " + T.value.slice(PosizioneCursore); T.selectionStart = PosizioneCursore + TastiIndicazioni[e.key].length + 1; T.selectionEnd = T.selectionStart;
+        T.value = T.value.slice(0, PosizioneCursore) + ((PosizioneCursore > 0) ? " " : "") + TestoIndicato.slice(0, TestoIndicato.indexOf('|')) + " " + T.value.slice(PosizioneCursore); T.selectionStart = PosizioneCursore + TestoIndicato.length + 1; T.selectionEnd = T.selectionStart;
         return;
     }
 
