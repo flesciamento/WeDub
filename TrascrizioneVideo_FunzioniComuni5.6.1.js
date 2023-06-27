@@ -175,7 +175,7 @@ var FunzioniCopione = {
     /*****************/
 
     /*** Timer ***/
-    tmr: false,
+    tmr: false
     /*************/
 };
 
