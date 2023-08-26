@@ -2352,7 +2352,7 @@ function CreazioneClipPrimoCaricamento(Dati) {
 async function TermineCaricamentoClip() {
     if (!CaricamentoInizialeTerminato) {
         CaricamentoInizialeTerminato = true;
-        Messaggio(strCaricamentoCompletato + (!ModalitaStreaming ? (SessioneOspite? "<br /><span style='font-size: 12px'; font-style: italic;'>" + (Provino || ProgettoCompletato) ? + strModalitaVisualizzazione + "</span><br />" : strNonHaiNessunRuolo + "<br />" + (!SonoCreatoreProgetto ? strPuoiSoloVisualizzare : "") + "</span><br />" : "") + (SonoCreatoreProgetto? "<div style='font-size: 13px; font-weight: bold; font-style: italic;'>" + strPoteriCreatoreProgetto + "</div>" : "") : ""), "OK");
+        Messaggio(strCaricamentoCompletato + (!ModalitaStreaming ? (SessioneOspite? "<div style='font-size: 12px'; font-style: italic;'>" + (Provino || ProgettoCompletato) ? + strModalitaVisualizzazione + "</div>" : strNonHaiNessunRuolo + (!SonoCreatoreProgetto ? "<br />" + strPuoiSoloVisualizzare : "") + "</div>" : "") + (SonoCreatoreProgetto? "<div style='font-size: 13px; font-weight: bold; font-style: italic;'>" + strPoteriCreatoreProgetto + "</div>" : "") : ""), "OK");
         await pausa(1000);
         if (ModalitaStreaming) {
             const pulPlayIniziale = CreaElemento('div', 'divPulsantonePlayIniziale', divVetro.id, "<span class='fa fa-play-circle'></span> Play"); pulPlayIniziale.className = "btn btn-success"; pulPlayIniziale.iStyle({position: "relative", top: "40%", width: "100%", margin: "0px auto", fontSize: "30px", fontWeight: "bold"});
