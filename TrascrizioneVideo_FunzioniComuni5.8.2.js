@@ -198,7 +198,7 @@ var FunzioniCopione = {
 
         const battute = document.getElementsByName('Battuta_' + PersonaggioDaEvidenziare), totbattute = battute.length;
         for (let I = 0; I < totbattute; I++) {
-            battute[I].className = 'battuta-evidenziata'
+            battute[I].className = 'battuta-evidenziata';
         }
     },
     /***************************/
