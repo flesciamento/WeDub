@@ -50,7 +50,7 @@ var FunzioniCopione = {
         for (let I = 0; I < totBT; I++) {
             Testo += "<div id='RifCopione" + DatiCopione[I].NumID + "' data-numid='" + DatiCopione[I].NumID + "' " + FunzioneOnClickBattuta + "><br>" + DatiCopione[I].testo + "</div>";
         }
-        TestoGuida.innerHTML = Testo.replace(/\n/g, '<br>').replace(new RegExp('<br>([' + PatternRegexNomePersonaggio + ']+):', 'g'), "<br style='line-height: 5px;'><b>$1</b>:") + "<br style='line-height: 4vh;' />";
+        TestoGuida.innerHTML = "<span>" + Testo.replace(/\n/g, '<br>').replace(new RegExp('<br>([' + PatternRegexNomePersonaggio + ']+):', 'g'), "</span><br style='line-height: 5px;'><span name=\"$1\"><b>$1</b>:") + "</span><br style='line-height: 4vh;' />";
         ContenitoreTestoGuida.iStyle({opacity: 1, visibility: "visible"});
         FunzioniCopione.CopioneVisualizzato = true;
         FunzioniCopione.Eventi(true);
