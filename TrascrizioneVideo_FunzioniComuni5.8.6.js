@@ -245,7 +245,6 @@ var FunzioniCopione = {
 
     /*** Timer ***/
     tmr: false,
-    tmrEvidenziaCopione: false,
     tmrDisattivaVG: false
     /*************/
 };
