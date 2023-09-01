@@ -187,9 +187,10 @@ async function ScriviPersonaggio(T, Personaggio) {
 
     SalvaCopione(T);
     
+    T.selectionStart = T.selectionEnd = NuovaPosizioneCursore;
+
     await pausa(100);
     T.focus();
-    T.selectionStart = T.selectionEnd = NuovaPosizioneCursore;
     await pausa(300);
     VideoGuidaPlay();
     await pausa(100);
