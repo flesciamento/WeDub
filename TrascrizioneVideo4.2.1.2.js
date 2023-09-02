@@ -287,7 +287,7 @@ function CreaNuovaTextarea(NumID, Minutaggio) {
     DatiCopione.push({NumID: NumID, minutaggio: Minutaggio, testo: ''});
     const NumRigo = (++CreaNuovaTextarea.num), MinutaggioMassimo = new MinutiESecondi(totDurataVideoGuida), MinutaggioAttuale = new MinutiESecondi(Minutaggio);
     const tr = CreaElemento('tr', 'RigoBloccoTesto' + NumRigo, "ContenitoreTesto");
-            td = CreaElemento('td', 'tdInfoMinutaggio' + NumRigo, tr.id); td.iStyle({width: "60px", backgroundColor: "white", textAlign: "center", verticalAlign: "top", fontSize: "80%"});
+            td = CreaElemento('td', 'tdInfoMinutaggio' + NumRigo, tr.id); td.iStyle({width: "60px", backgroundColor: "white", textAlign: "center", verticalAlign: "top", fontSize: "13px"});
                     /** Minutaggio **/
                     function VisualizzaSecondi(Secondi) {return Math.round(Secondi).toString().padStart(2, "0");}
                     function AggiornaMinutaggioTextarea(T, Minutaggio) {T.dataset.minutaggio = Minutaggio; TrovaDatiCopioneID(T.dataset.numid).minutaggio = Minutaggio;}
