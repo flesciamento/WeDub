@@ -413,7 +413,7 @@ function blurTextarea(e) {
 }
 
 function MettiFocusTextareaCorrispondente() {
-   /*  setTimeout(() => {
+    setTimeout(() => {
         if (GestioneBufferingVideo.BufferingInCorso) {return;}
 
         const MinutaggioCorrente = Math.round(VideoGuidaMinutaggioCorrente()), textarea = document.querySelectorAll("textarea[data-eliminata='0']"), totTextarea = textarea.length;
@@ -422,9 +422,8 @@ function MettiFocusTextareaCorrispondente() {
             if ((T.dataset.minutaggio <= MinutaggioCorrente) && (MinutaggioCorrente < textareasuccessiva.dataset.minutaggio) && (UltimaTextareaUtilizzata != T)) {T.focus(); break;}
         }
     
-                
-    }, 350); */
-    setTimeout(() => {if (RiproduzioneInCorso) {FunzioniCopione.AttivaTestoGuida();}}, 1000);
+        setTimeout(() => {if (RiproduzioneInCorso) {FunzioniCopione.AttivaTestoGuida();}}, 350);            
+    }, 350);
 }
 
 function PosizionatiAlMinutaggio(Minutaggio) {
@@ -503,7 +502,7 @@ var GestioneBufferingVideo = {
     BufferingInCorso: false
 };
 
-AltreFunzioniPlayVideoGuida = () => {MettiFocusTextareaCorrispondente(); if (InizioVideo || FineVideo) {VerificaRiproduzioneSegmento(InizioVideo, FineVideo);}};
+AltreFunzioniPlayVideoGuida = () => {AggiornaTestoGuida_slow(); if (InizioVideo || FineVideo) {VerificaRiproduzioneSegmento(InizioVideo, FineVideo);}};
 AltreFunzioniStopVideoGuida = FunzioniCopione.DisattivaTestoGuida;
 
 FunzioneRaggiuntaFineVideo = () => {};
