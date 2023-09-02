@@ -324,8 +324,8 @@ function CreaNuovaTextarea(NumID, Minutaggio) {
 
                     S = CreaElemento('span', 'MinutaggioSecondi' + NumRigo, td.id, VisualizzaSecondi(MinutaggioAttuale.Secondi)); S.style.width = "fit-content";
                     
-                    fs = CreaElemento('span', 'freccias' + NumRigo, td.id); fs.className = "btn btn-default btn-xs fa fa-arrow-up";   fs.iStyle({fontSize: "50%", float: "right"}); fs.dataset.differenza = 1;  fs.dataset.numid = NumID; fs.onclick = AggiornaMinutaggio;
-                    fg = CreaElemento('span', 'frecciag' + NumRigo, td.id); fg.className = "btn btn-default btn-xs fa fa-arrow-down"; fg.iStyle({fontSize: "50%", float: "right"}); fg.dataset.differenza = -1; fg.dataset.numid = NumID; fg.onclick = AggiornaMinutaggio;
+                    fs = CreaElemento('span', 'freccias' + NumRigo, td.id); fs.className = "btn btn-default btn-xs fa fa-arrow-up";   fs.iStyle({fontSize: "50%", float: "right"}); fs.dataset.rifRigo = NumRigo; fs.dataset.differenza = 1;  fs.dataset.numid = NumID; fs.onclick = AggiornaMinutaggio;
+                    fg = CreaElemento('span', 'frecciag' + NumRigo, td.id); fg.className = "btn btn-default btn-xs fa fa-arrow-down"; fg.iStyle({fontSize: "50%", float: "right"}); fg.dataset.rifRigo = NumRigo; fg.dataset.differenza = -1; fg.dataset.numid = NumID; fg.onclick = AggiornaMinutaggio;
 
             td = CreaElemento('td', 'tdTesto' + NumRigo, tr.id);
                 /** Textarea **/
