@@ -528,11 +528,6 @@ async function AdattaAltezzeTextarea() {
     }
 }
 
-function TextareaVisibileASchermo(T) {
-    const PosizioneY = T.getBoundingClientRect().y - divContenitoreTesto.offsetTop;
-    return (PosizioneY > 0) && (divContenitoreTesto.offsetHeight > PosizioneY);
-}
-
 window.onresize = () => {
     if (RidimensionaVideo) {setTimeout(() => {RidimensionaVideo();}, 500);}
     AdattaAltezzeTextarea();
