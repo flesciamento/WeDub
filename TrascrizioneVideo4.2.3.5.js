@@ -529,7 +529,7 @@ async function AdattaAltezzeTextarea() {
 }
 
 window.onresize = () => {
-    if (RidimensionaVideo) {setTimeout(() => {RidimensionaVideo();}, 500);}
+    if (RidimensionaVideo) {setTimeout(RidimensionaVideo, 500);}
     AdattaAltezzeTextarea();
 };
 
