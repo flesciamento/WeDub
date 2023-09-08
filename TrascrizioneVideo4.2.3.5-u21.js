@@ -189,7 +189,7 @@ function VisualizzaMinutaggioAttuale() {
 
 function SalvaCopione(Textarea) {
     var Testo = "";
-    Array.from(Textarea.getElementsByTagName('div')).forEach((n) => {Testo += n.textContent + "<br>";});
+    Textarea.childNodes.forEach((n) => {Testo += n.textContent.replace(/<br>/g, '') + "<br>";});
     Testo = Testo.slice(0, -4);
     TrovaDatiCopioneID(Textarea.dataset.numid).testo = Testo;
     Textarea.innerHTML = Testo;
