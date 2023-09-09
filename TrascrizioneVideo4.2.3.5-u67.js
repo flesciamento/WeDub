@@ -331,7 +331,7 @@ function CreaNuovaTextarea(NumID, Minutaggio) {
                     fs = CreaElemento('span', 'freccias' + NumRigo, im.id); fs.className = "btn btn-default btn-xs fa fa-arrow-up";   fs.iStyle({fontSize: "6px", float: "right"}); fs.dataset.rifRigo = NumRigo; fs.dataset.differenza = 1;  fs.dataset.numid = NumID; fs.onclick = AggiornaMinutaggio;
                     fg = CreaElemento('span', 'frecciag' + NumRigo, im.id); fg.className = "btn btn-default btn-xs fa fa-arrow-down"; fg.iStyle({fontSize: "6px", float: "right"}); fg.dataset.rifRigo = NumRigo; fg.dataset.differenza = -1; fg.dataset.numid = NumID; fg.onclick = AggiornaMinutaggio;
 
-            /** Textarea **/
+            /** Textarea 
             const NuovaTextarea = CreaElemento('div', 't' + NumRigo, Rigo.id);
             NuovaTextarea.className = 'testo';
             NuovaTextarea.contentEditable = true;
@@ -339,7 +339,7 @@ function CreaNuovaTextarea(NumID, Minutaggio) {
             NuovaTextarea.dataset.eliminata = "0";
             NuovaTextarea.dataset.minutaggio = Minutaggio;
             NuovaTextarea.dataset.rifRigo = NumRigo;
-           /*  EventiTextarea(NuovaTextarea, true); */
+            EventiTextarea(NuovaTextarea, true);**/
             
             CreaElemento('div', 'chiusurariga' + NumRigo, Rigo.id).style.clear = "both";
 
