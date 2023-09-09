@@ -207,7 +207,7 @@ function ModificaPersonaggio(T, Personaggio) {
         if (confirm(strVuoiEliminarePersonaggio)) {EliminaElemento(T);} else {return;}
     }
 
-    SalvaCopione(T.parentElement);
+    SalvaCopione(T.parentElement.parentElement);
 }
 
 function VisualizzaMinutaggioAttuale() {
@@ -219,14 +219,14 @@ function SalvaCopione(Textarea) {
     /* var Testo = "";
     Textarea.childNodes.forEach((n) => {if (n.tagName != "BR") {Testo += n.textContent + "<br>";}});
     Testo = Testo.slice(0, -4); */
-    const Testo = Textarea.innerHTML, NumID = Textarea.parentElement.dataset.numid;
+    const Testo = Textarea.innerHTML, NumID = Textarea.dataset.numid;
     TrovaDatiCopioneID(NumID).testo = Testo;
 /*     const c = PosizioneDelCursore(), NumNodo = NumeroNodoCursore(c.T, c.nodo);
     Textarea.innerHTML = Testo;
     if (c.T == Textarea) {PosizionaCursore(c.T.childNodes[NumNodo], c.p);} // Rimette il cursore dov'era. Ritrova il nodo attraverso il numero.
  */    
     /* Textarea.textContent = Textarea.textContent.replace(/<+/g, '«').replace(/>+/g, '»').replace(/\\/g, '/');   AdattaAltezzaTextarea_MemorizzaTesto({currentTarget: Textarea});*/  AggiornaTestoGuida_slow();
-	AJAX("TrascrizioneVideo_SalvaCopione-unstable.php", "NumID=" + encodeURIComponent(NumID) + "&N=" + encodeURIComponent(N) + "&Testo=" + encodeURIComponent(Testo) + "&Minutaggio=" + encodeURIComponent(TrovaDatiCopioneID(NumID).minutaggio), "", "", strModificheSalvate, true);
+	AJAX("TrascrizioneVideo_SalvaCopione-unstable.php", "NumID=" + encodeURIComponent(NumID) + "&N=" + encodeURIComponent(N) + "&Testo=" + encodeURIComponent(Testo) + "&Minutaggio=" + encodeURIComponent(Textarea.dataset.minutaggio), "", "", strModificheSalvate, true);
 }
 
 function CaricaCopione(FunzioneAlTermine = () => {}) {
