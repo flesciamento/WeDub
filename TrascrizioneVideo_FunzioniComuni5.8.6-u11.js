@@ -47,7 +47,7 @@ var FunzioniCopione = {
 
     Visualizza: function () {
         const totBT = DatiCopione.length, FunzioneOnClickBattuta = (FunzioniCopione.CopioneCliccabile? "onclick='FunzioniCopione.PosizionaVideo(event);'" : '');
-        const FunzioniNomePersonaggio = ((FunzioniCopione.CopioneEditabile == 2) ? " style='cursor: pointer;' onclick='FunzioniCopione.ModificaPersonaggio(event)'" : ""), TestoEditabile = ((FunzioniCopione.CopioneEditabile > 0) ? " contenteditable='true'" : "");
+        const FunzioniNomePersonaggio = ((FunzioniCopione.CopioneEditabile == 2) ? " style='cursor: pointer;' onclick='FunzioniCopione.FunzioneModificaPersonaggio(event)'" : ""), TestoEditabile = ((FunzioniCopione.CopioneEditabile > 0) ? " contenteditable='true'" : "");
 
         /* Scrive e formatta il testo */
         var Testo = "";
@@ -95,7 +95,7 @@ var FunzioniCopione = {
 
     /* Funzioni da personalizzare */
     FunzionePosizionaVideo: function () {},
-    ModificaPersonaggio: function () {},
+    FunzioneModificaPersonaggio: function () {},
     /************************/
 
     /*** Salva la posizione e la dimensione del copione ***/
