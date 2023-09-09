@@ -200,6 +200,14 @@ async function ScriviPersonaggio(T, Personaggio) {
 function ModificaPersonaggio(T, Personaggio) {
     VisualizzaBoxSceltaPersonaggio(false);
 
+    if (!Personaggio) {
+        if (confirm(strVuoiEliminarePersonaggio)) {
+            EliminaElemento(T);
+        } else {
+            return;
+        }
+    }
+
     T.textContent = Personaggio + ":";
 
     SalvaCopione(T.parentElement);
@@ -540,6 +548,7 @@ AltreFunzioniRiabilitaSchermata  = () => {AbilitaTextarea(true);}
 /** Parametri copione **/
 FunzioniCopione.CopioneEditabile = 2;
 FunzioniCopione.FunzioneModificaPersonaggio = (e) => {AttivaSceltaPersonaggio(e.currentTarget, ModificaPersonaggio)};
+FunzioniCopione.FunzioneModificaBattuta = GestisciImmissioneTesto;
 
 FunzioniCopione.ClasseEvidenziaBattuta = "TestoGuida-evidenziato";
 FunzioniCopione.FunzionePosizionaVideo = PosizionatiAlMinutaggio;
