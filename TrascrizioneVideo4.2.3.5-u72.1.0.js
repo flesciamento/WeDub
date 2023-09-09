@@ -200,15 +200,12 @@ async function ScriviPersonaggio(T, Personaggio) {
 function ModificaPersonaggio(T, Personaggio) {
     VisualizzaBoxSceltaPersonaggio(false);
 
-    if (!Personaggio) {
-        if (confirm(strVuoiEliminarePersonaggio)) {
-            EliminaElemento(T);
-        } else {
-            return;
-        }
+    if (Personaggio) {
+        T.textContent = Personaggio + ":";
+        
+    } else {
+        if (confirm(strVuoiEliminarePersonaggio)) {EliminaElemento(T);} else {return;}
     }
-
-    T.textContent = Personaggio + ":";
 
     SalvaCopione(T.parentElement);
 }
