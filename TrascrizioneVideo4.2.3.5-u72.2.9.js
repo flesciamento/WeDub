@@ -204,7 +204,7 @@ function ModificaPersonaggio(T, Personaggio) {
         T.textContent = Personaggio;
 
     } else {
-        if (confirm(strVuoiEliminarePersonaggio)) {T.textContent = ''; T.nextElementSibling} else {return;}
+        if (confirm(strVuoiEliminarePersonaggio)) {T.textContent = ''; T.nextElementSibling.textContent = '';} else {return;}
     }
 
     SalvaCopione(T.parentElement.parentElement);
