@@ -178,7 +178,7 @@ async function ScriviPersonaggio(T, Personaggio) {
     var NuovaPosizioneCursore = UltimaPosizioneCursore.p, NodoCursore = UltimaPosizioneCursore.T.childNodes[UltimaPosizioneCursore.numeroNodo]; 
 		
     if (Personaggio) {
-        NodoCursore.textContent = Personaggio + ":&nbsp;" + NodoCursore.textContent.slice(UltimaPosizioneCursore.p);
+        NodoCursore.textContent = Personaggio + ": " + NodoCursore.textContent.slice(UltimaPosizioneCursore.p);
         NuovaPosizioneCursore += (+Personaggio.length) + 2;
     }
 
