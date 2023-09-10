@@ -451,7 +451,7 @@ function focusTextarea(e) {
      const MinutaggioCorrente = VideoGuidaMinutaggioCorrente(), MinutaggioPartenzaBloccoTesto = T.dataset.minutaggio;
     const textareasuccessiva = TrovaTextareaVicina(T, 1) || ({dataset: {minutaggio: totDurataVideoGuida}});
  */
-    UltimaTextareaUtilizzata = e.currentTarget;
+    UltimaTextareaUtilizzata = e.currentTarget.parentElement.parentElement;
 
     /* AdattaAltezzaTextarea(T);
 
@@ -500,7 +500,7 @@ function MandaAdAggiornaTestoGuida() {
 
         if ((DatiTestoAttuale.minutaggio <= MandaAdAggiornaTestoGuida.Minutaggio) && (MandaAdAggiornaTestoGuida.Minutaggio < DatiTestoSuccessivo.minutaggio)) {return;} 
     }
-    
+
     AggiornaTestoGuida_slow();
     /* if (PosizionatiAlMinutaggio.FocusTextareaCorrispondente) {MettiFocusTextareaCorrispondente();} */
 }
