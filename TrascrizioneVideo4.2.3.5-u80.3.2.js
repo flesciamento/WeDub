@@ -208,7 +208,7 @@ async function ScriviPersonaggio(T, Personaggio) {
         EliminaElemento(NodoSuccessivo);
     }
 
-    const TestoPrimaInvio = RigaCompleta.slice(0, PosizioneCursore), TestoDopoInvio = "&nbsp;" + RigaCompleta.slice(PosizioneCursore);
+    const TestoPrimaInvio = RigaCompleta.slice(0, PosizioneCursore), TestoDopoInvio = "&nbsp;" + RigaCompleta.slice(PosizioneCursore); // lo spazio iniziale serve sia per evitare che, se il testo mandato a capo contiene i due punti, potrebbe essere scambiato per il nome di un personaggio, sia perché il testo dopo l'invio potrebbe essere vuoto e quindi serve almeno un elemento per creare il nodo di testo.
     NodoCursore.textContent = TestoPrimaInvio;
 
     if (Personaggio) {    
