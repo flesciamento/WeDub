@@ -199,8 +199,9 @@ async function ScriviPersonaggio(T, Personaggio) {
 
     /* var NuovaPosizioneCursore = UltimaPosizioneCursore.p, NodoCursore = UltimaPosizioneCursore.T.childNodes[UltimaPosizioneCursore.numeroNodo];  */
 	
-    const NodoCursore = UltimaPosizioneCursore.nodo, PosizioneCursore = UltimaPosizioneCursore.p, span = NodoCursore.parentElement, NumNodo = NumeroNodo(span, NodoCursore), NumNodoSuccessivo = +NumNodo + 1, totNodi = span.childNodes.length;
+    const NodoCursore = UltimaPosizioneCursore.nodo, PosizioneCursore = UltimaPosizioneCursore.p, span = NodoCursore.parentElement, spanBattuta = span.parentElement, NumeroChildrenDivMinutaggio = Array.from(T.children).indexOf(spanBattuta), NumNodo = NumeroNodo(span, NodoCursore), NumNodoSuccessivo = +NumNodo + 1, totNodi = span.childNodes.length;
 
+    /* Memorizza il testo dall'invio in poi, eliminando i nodi successivi */
     var RigaCompleta = NodoCursore.textContent;
     for (let I = NumNodoSuccessivo; I < totNodi; I++) {
         const NodoSuccessivo = span.childNodes[NumNodoSuccessivo];
@@ -208,26 +209,17 @@ async function ScriviPersonaggio(T, Personaggio) {
         EliminaElemento(NodoSuccessivo);
     }
 
-    const TestoPrimaInvio = RigaCompleta.slice(0, PosizioneCursore), TestoDopoInvio = RigaCompleta.slice(PosizioneCursore).trim() || " ";
+    const TestoPrimaInvio = RigaCompleta.slice(0, PosizioneCursore), TestoDopoInvio = RigaCompleta.slice(PosizioneCursore).trim() || "&nbsp;";
     NodoCursore.textContent = TestoPrimaInvio;
 
-    if (Personaggio) {    
-        span.parentElement.insertAdjacentElement('afterend', br = document.createElement('br'));
-        br.insertAdjacentElement('afterend', s = document.createElement('span'));
-        s.append(s2 = document.createElement('span'));
-        s2.innerHTML = `${Personaggio}: ${TestoDopoInvio}`;
-        PosizionaCursore(s2.childNodes[0], 0);
+    if (Personaggio) {
+        spanBattuta.insertAdjacentHTML('afterend', `<br>${Personaggio}: ${TestoDopoInvio}`);
+        SalvaCopione(T, true, +NumeroChildrenDivMinutaggio + 1);
          
     } else {
-        const br = document.createElement('br');
-
-        span.append(br);
-        
-        br.insertAdjacentHTML('afterend', "&nbsp;" + TestoDopoInvio); // lo spazio iniziale serve sia per evitare che, se il testo mandato a capo contiene i due punti, potrebbe essere scambiato per il nome di un personaggio, sia perché il testo dopo l'invio potrebbe essere vuoto e quindi serve almeno un elemento per creare il nodo di testo.
-        PosizionaCursore(span.childNodes[NumNodo + 2], 1);
+        span.insertAdjacentHTML('afterend', `<br>&nbsp;${TestoDopoInvio}`);
+        SalvaCopione(T, true, NumeroChildrenDivMinutaggio, +NumNodo + 2);
     }
-
-    SalvaCopione(T, (Personaggio != ""));
 
     OperazioniAlTermineSceltaPersonaggio(Personaggio);
 }
@@ -278,25 +270,24 @@ function VisualizzaMinutaggioAttuale() {
 	return Minutaggio.Minuti + ":" + (Minutaggio.Secondi | 0).toString().padStart(2, "0");
 }
 
-function SalvaCopione(divContenitore, AggiornaTesto = false, RiposizionaCursoreDopoAggiornamento = true) {
-    /* var Testo = "";
-    divContenitore.childNodes.forEach((n) => {if (n.tagName != "BR") {Testo += n.textContent + "<br>";}});
-    Testo = Testo.slice(0, -4); */
+function SalvaCopione(divContenitore, AggiornaTesto = false, NumeroChildrenCursore = false, NumeroNodoCursore = 0) {
     const Testo = divContenitore.innerText.trim(), NumID = divContenitore.dataset.numid;
     console.log(divContenitore, Testo, NumID);
     TrovaDatiCopioneID(NumID).testo = Testo;
 
     if (AggiornaTesto) {
-        if (RiposizionaCursoreDopoAggiornamento) {
-            const ID_ElementoContenitore = divContenitore.id, InfoCursore = PosizioneDelCursore(), NumeroChildren = Array.from(divContenitore.children).indexOf(InfoCursore.nodo.parentElement.parentElement);
+        if (NumeroChildrenCursore) {
+            const ID_ElementoContenitore = divContenitore.id;
 
-            console.log(divContenitore.innerHTML, ID_ElementoContenitore, InfoCursore, NumeroChildren);
+            console.log(divContenitore.innerHTML, ID_ElementoContenitore, NumeroChildrenCursore, NumeroNodoCursore);
 
             FunzioniCopione.Visualizza();
 
-            let s = document.getElementById(ID_ElementoContenitore).children[NumeroChildren], spanContenitoreTestoAggiornato;
+            let s = document.getElementById(ID_ElementoContenitore).children[NumeroChildrenCursore], spanContenitoreTestoAggiornato;
             spanContenitoreTestoAggiornato = (s? s : document.getElementById(ID_ElementoContenitore).lastElementChild);
             spanContenitoreTestoAggiornato.querySelector("[contenteditable='true']").focus();
+            PosizionaCursore(spanContenitoreTestoAggiornato.childNodes[NumeroNodoCursore], 0);
+
         } else {
             FunzioniCopione.Visualizza();
         }
