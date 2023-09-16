@@ -275,9 +275,9 @@ function SalvaCopione(divContenitore, AggiornaTesto = false, NumeroSpanBattutaCu
 
             if (s = document.getElementById(ID_ElementoContenitore).children[NumeroSpanBattutaCursore]) {
                 if (NumeroSpanCursore) {
-                    PosizionaCursore(spanContenitoreTestoAggiornato.childNodes[NumeroSpanCursore].childNodes[0], 0);    
+                    s.childNodes[NumeroSpanCursore].focus();
                 } else {
-                    spanContenitoreTestoAggiornato.querySelector("[contenteditable='true']").focus();
+                    s.querySelector("[contenteditable='true']").focus();
                 }
             }
 
