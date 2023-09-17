@@ -106,7 +106,7 @@ async function GestisciImmissioneTesto(e) {
                     e.preventDefault();
                     const tagNomePersonaggio = ElementoAttuale.previousElementSibling.previousElementSibling, tagduepunti = ElementoAttuale.previousElementSibling, ContenutoTagNomePersonaggio = tagNomePersonaggio.textContent.trim(), EraPresentePersonaggio = (ContenutoTagNomePersonaggio != ""), NumeroSpanBattuta = NumeroChildren(T, spanBattuta);
                     tagNomePersonaggio.textContent = ""; tagduepunti.textContent = "";
-                    if (NumeroSpanBattuta == 2) {SalvaCopione(T, true); ( (div = document.getElementById('RifCopione' + (T.dataset.numid - 1))) && (div.lastElementChild.querySelector("[contenteditable='true']").focus()) ); return;}
+                    if (NumeroSpanBattuta <= 2) {SalvaCopione(T, true); ( (div = document.getElementById('RifCopione' + (T.dataset.numid - 1))) && (div.lastElementChild.querySelector("[contenteditable='true']").focus()) ); return;}
                     
                     console.log(NumeroSpanBattuta, spanBattuta, EraPresentePersonaggio, spanBattuta.previousElementSibling, tagNomePersonaggio.previousElementSibling);
                     /* Elimina il <br> */
