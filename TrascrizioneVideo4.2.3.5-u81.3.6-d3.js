@@ -282,7 +282,7 @@ function VisualizzaMinutaggioAttuale() {
 }
 
 function SalvaCopione(divContenitore, AggiornaTesto = false, NumeroSpanBattutaCursore = false, NumeroSpanCursore = 0) {
-    const Testo = divContenitore.innerText.rtrim(), NumID = divContenitore.dataset.numid;
+    const Testo = divContenitore.innerText.slice(1).rtrim(), NumID = divContenitore.dataset.numid; // slice(1) serve per eliminare il primo <br> di default
     console.log(divContenitore, Testo, NumID);
     TrovaDatiCopioneID(NumID).testo = Testo;
 
