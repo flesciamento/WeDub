@@ -91,7 +91,7 @@ async function GestisciImmissioneTesto(e) {
         case "Delete":
         case "Backspace":
             if (T.innerText.trim() == "") {
-                AJAX("TrascrizioneVideo_EliminaBloccoTesto.php", "NumID=" + encodeURIComponent(T.dataset.numid) + "&N=" + encodeURIComponent(N), () => {const divPrecedente_id = T.previousElementSibling?.id; CaricaCopione(() => {FunzioniCopione.AggiornaTestoGuida(); ((div = document.getElementById(divPrecedente_id)) && (div.lastElementChild.querySelector("[contenteditable='true']").focus()) );});}, "", "", true);
+                AJAX("TrascrizioneVideo_EliminaBloccoTesto.php", "NumID=" + encodeURIComponent(T.dataset.numid) + "&N=" + encodeURIComponent(N), () => {const divPrecedente_id = T.previousElementSibling?.id; CaricaCopione(() => {FunzioniCopione.AggiornaTestoGuida(); ( (div = document.getElementById(divPrecedente_id)) && (div.lastElementChild.querySelector("[contenteditable='true']").focus()) );});}, "", "", true);
                 return;
             } else {
                 if ((e.key == "Delete") && (PosizioneCursore >= NodoAttuale.textContent.rtrim().length)) {
