@@ -50,7 +50,7 @@ var FunzioniCopione = {
 
     Visualizza: function () {
         const totBT = DatiCopione.length, FunzioneOnClickBattuta = (FunzioniCopione.CopioneCliccabile? "onclick='FunzioniCopione.PosizionaVideo(event);'" : '');
-        const FunzioniNomePersonaggio = ((FunzioniCopione.CopioneEditabile == 2) ? " class='PersonaggioCliccabile' onclick='FunzioniCopione.FunzioneModificaPersonaggio(event)'" : ""), TestoEditabile = ((FunzioniCopione.CopioneEditabile > 0) ? " contenteditable='true' onkeydown='FunzioniCopione.FunzioneModificaBattuta(event);' onclick='FunzioniCopione.FunzioneOnClickBattuta(event);'" : "");
+        const FunzioniNomePersonaggio = ((FunzioniCopione.CopioneEditabile == 2) ? " class='PersonaggioCliccabile' onclick='FunzioniCopione.FunzioneModificaPersonaggio(event)'" : ""), TestoEditabile = ((FunzioniCopione.CopioneEditabile > 0) ? " contenteditable='true' onkeydown='FunzioniCopione.FunzioneModificaBattuta(event);' onfocus='FunzioniCopione.FunzioneOnFocusBattuta(event);'" : "");
 
         /* Scrive e formatta il testo */
         var Testo = "";
@@ -267,7 +267,7 @@ var FunzioniCopione = {
     FunzionePosizionaVideo: function () {},
     FunzioneModificaPersonaggio: function () {},
     FunzioneModificaBattuta: function () {},
-    FunzioneOnClickBattuta: function () {},
+    FunzioneOnFocusBattuta: function () {},
     /********************************/
 
     /*** Dati ***/
