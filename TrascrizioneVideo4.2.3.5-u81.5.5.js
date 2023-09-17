@@ -92,6 +92,7 @@ async function GestisciImmissioneTesto(e) {
         case "Backspace":
             if (T.innerText.trim() == "") {
                 AJAX("TrascrizioneVideo_EliminaBloccoTesto.php", "NumID=" + encodeURIComponent(T.dataset.numid) + "&N=" + encodeURIComponent(N), () => {CaricaCopione(FunzioniCopione.AggiornaTestoGuida);}, "", "", true);
+                return;
             } else {
                 if ((e.key == "Delete") && (PosizioneCursore >= NodoAttuale.textContent.rtrim().length)) {
                     e.preventDefault();
