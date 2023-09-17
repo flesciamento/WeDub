@@ -51,7 +51,7 @@ function SospendiRipresaVideo(T, Salva = true) {
 }
 
 async function GestisciImmissioneTesto(e) {
-	const ElementoAttuale = e.currentTarget, T = ElementoAttuale.parentElement.parentElement, InfoCursore = PosizioneDelCursore(), NodoAttuale = InfoCursore.nodo;
+	const ElementoAttuale = e.currentTarget, spanBattuta = ElementoAttuale.parentElement, T = spanBattuta.parentElement, InfoCursore = PosizioneDelCursore(), NodoAttuale = InfoCursore.nodo;
     var nuovatextarea, PosizioneCursore = InfoCursore.p;
 
     clearTimeout(AggiornaTestoGuida_slow.tmr);
@@ -95,12 +95,17 @@ async function GestisciImmissioneTesto(e) {
             } else {
                 if (NodoAttuale.textContent == "") {
                     if (e.key == "Delete") {
+                        const brSuccessivo = ElementoAttuale.nextElementSibling;
+                        if ((brSuccessivo) && (brSuccessivo.tagName == "BR")) {
+                            EliminaElemento(brSuccessivo);
+                            SalvaCopione(T, true, NumeroChildren(T, spanBattuta), NumeroChildren(spanBattuta, ElementoAttuale));
+                        }
 
                     } else {
                         ElementoAttuale.previousElementSibling.textContent = "";
                         ElementoAttuale.previousElementSibling.previousElementSibling.textContent = "";
                         EliminaElemento(ElementoAttuale.previousElementSibling.previousElementSibling.previousElementSibling);
-                        SalvaCopione(T, true, )
+                        SalvaCopione(T, true, NumeroChildren(T, spanBattuta), NumeroChildren(spanBattuta, ElementoAttuale) - 1);
                         return;
                     }
                 }
