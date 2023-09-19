@@ -392,6 +392,7 @@ function CaricaCopione(FunzioneAlTermine = () => {}) {
                     ContenitoreTestoGuida.iStyle({top: "60%", left: "0%", right: "0%", bottom: "0%"});
                     await pausa(100);
                     FunzioniCopione.Visualizza();
+                    ManigliaSposta_TestoGuida.append(divInfoTasti);
                 }
 
 				//document.getElementById('divContenitoreVideoGuida').dataset.PosizioneInizialeVideo = Dati.PosizioneVideo;
@@ -546,11 +547,7 @@ function focusTextarea(e) {
     document.getElementById('SecondiMinutaggioRifCopione').textContent = VisualizzaSecondi(MinutaggioAttuale.Secondi);
     freccias.dataset.numid = frecciag.dataset.numid = divContenitore.dataset.numid;
 
-    /* Posiziona correttamente i tool */
-    PosizionaInfoTasti.Elemento = divContenitore;
-    PosizionaInfoTasti();
     divInfoTasti.style.display = "inline";
-    ContenitoreTestoGuida.onscroll = PosizionaInfoTasti;
     /* divInfoTasti.style.top = ((+divContenitoreTesto.offsetTop) + (+UltimaTextareaUtilizzata.offsetTop) - (+UltimaTextareaUtilizzata.offsetHeight) - (+ContenitoreTestoGuida.scrollTop)) + "px"; */
     /* ElementoAttuale.style.marginTop = "-" + (parseInt(ContenitoreTestoGuida.style.fontSize) * 2) + "px"; */
 
@@ -561,11 +558,6 @@ function focusTextarea(e) {
 
     PosizionatiAlMinutaggio(MinutaggioPartenzaBloccoTesto, false); */
 }
-
-function PosizionaInfoTasti() {
-    divInfoTasti.iStyle({top: (PosizionaInfoTasti.Elemento.getBoundingClientRect().y - 40) + "px", right: "0", width: "fit-content"});
-}
-PosizionaInfoTasti.Elemento = false;
 
 function GestisciBlur(e) {
     UltimaTextareaUtilizzata = e.currentTarget;
