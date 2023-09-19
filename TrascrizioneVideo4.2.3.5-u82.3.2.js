@@ -241,8 +241,6 @@ async function AttivaSceltaPersonaggio(T, FunzioneAllaSceltaPersonaggio, Persona
 
 async function ScriviPersonaggio(T, Personaggio) {
     await pausa(100);
-
-    /* var NuovaPosizioneCursore = UltimaPosizioneCursore.p, NodoCursore = UltimaPosizioneCursore.T.childNodes[UltimaPosizioneCursore.numeroNodo];  */
 	
     const NodoCursore = UltimaPosizioneCursore.nodo, PosizioneCursore = UltimaPosizioneCursore.p, span = NodoCursore.parentElement, spanBattuta = span.parentElement, NumeroSpan = NumeroChildren(spanBattuta, span), NumeroSpanBattuta = NumeroChildren(T, spanBattuta), NumeroChildrenBattutaSuccessivo = +NumeroSpan + 1, totChildrenBattuta = spanBattuta.childNodes.length;
 
