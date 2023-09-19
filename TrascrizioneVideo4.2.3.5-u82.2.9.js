@@ -176,16 +176,12 @@ async function AttivaSceltaPersonaggio(T, FunzioneAllaSceltaPersonaggio, Persona
     await pausa(100);
     clearTimeout(AggiornaTestoGuida_slow.tmr);
 
-    if (!opzACapoPersonaggio.checked) {FunzioneAllaSceltaPersonaggio(T, ''); return;}
+    if (!opzACapoPersonaggio.checked && !PersonaggioDaModificare) {FunzioneAllaSceltaPersonaggio(T, ''); return;}
 
     VisualizzaBoxSceltaPersonaggio(true);
     inputSceltaPersonaggio.value = ""; setTimeout(() => {inputSceltaPersonaggio.focus();}, 100);
 
     
-    function CancellaPersonaggio() {
-        console.log('Cancella personaggio', T, T.innerText);
-        FunzioneAllaSceltaPersonaggio(T, '');
-    }
     const pulEliminaPersonaggio = document.getElementById('pulEliminaPersonaggioDaRiga');
     pulEliminaPersonaggio.style.display = "none";
 
@@ -222,10 +218,10 @@ async function AttivaSceltaPersonaggio(T, FunzioneAllaSceltaPersonaggio, Persona
 
             /* Visualizza il pulsante per eliminare il personaggio da modificare */
             pulEliminaPersonaggio.style.display = (PersonaggioDaModificare? "inline" : "none");
-            pulEliminaPersonaggio.onclick = (PersonaggioDaModificare? CancellaPersonaggio : "");
+            pulEliminaPersonaggio.onclick = (PersonaggioDaModificare? () => {FunzioneAllaSceltaPersonaggio(T, '');} : "");
 
             /* Sovrascrive la funzione body_click */
-            document.body.onclick = (e) => {if (e.target == divVetro) {CreaListaMenu.EsciSenzaSelezionare();}} // si potrebbe fare solo Scompari
+            document.body.onclick = (e) => {if (e.target == divVetro) {CreaListaMenu.EsciSenzaSelezionare();}} // si potrebbe fare solo Scompari oppure si azzera prima la casella di testo.
         
         }, "", "", true
     );
