@@ -564,7 +564,7 @@ function focusTextarea(e) {
 }
 
 function PosizionaInfoTasti() {
-    divInfoTasti.iStyle({top: (PosizionaInfoTasti.Elemento.getBoundingClientRect().y - 40) + "px"});
+    divInfoTasti.iStyle({top: (PosizionaInfoTasti.Elemento.getBoundingClientRect().y) + "px"});
 }
 PosizionaInfoTasti.Elemento = false;
 
