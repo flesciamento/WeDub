@@ -263,7 +263,7 @@ async function ScriviPersonaggio(T, Personaggio) {
          
     } else {
         span.insertAdjacentHTML('afterend', `<br>&nbsp;${TestoDopoInvio}`);
-        SalvaCopione(T, true, NumeroSpanBattuta, +NumeroSpan + 4); // +4 perché salta il br, lo span contenente lo spazio, lo span vuoto e arriva allo span del testo.
+        SalvaCopione(T, true, NumeroSpanBattuta, +NumeroSpan + 4); // +4 perché salta il br, il tag contenente lo spazio, lo span vuoto e arriva allo span del testo.
         if (TestoDopoInvio == ".") {PosizionaCursore(PosizioneDelCursore().nodo, 0, 1);}
     }
 
@@ -299,7 +299,6 @@ async function OperazioniAlTermineSceltaPersonaggio(Personaggio, AvviaVideoSePre
 
 function ModificaPersonaggio(b, Personaggio) {
     const spanBattuta = b.parentElement, divContenitore = spanBattuta.parentElement, NumeroSpanBattuta = NumeroChildren(divContenitore, spanBattuta);
-    OperazioniAlTermineSceltaPersonaggio(Personaggio, false);
 
     if (Personaggio) {
         const NonEraPresentePersonaggio = (b.textContent.trim() == "");
@@ -308,8 +307,10 @@ function ModificaPersonaggio(b, Personaggio) {
         SalvaCopione(divContenitore, true, +NumeroSpanBattuta + (2 * NonEraPresentePersonaggio));
 
     } else {
-        if (confirm(strVuoiEliminarePersonaggio)) {b.nextElementSibling.textContent = ""; b.innerHTML = "&nbsp;"; SalvaCopione(divContenitore, true, +NumeroSpanBattuta - 2, +spanBattuta.previousElementSibling.previousElementSibling.children.length + 3);} else {return;}
+        if (confirm(strVuoiEliminarePersonaggio)) {b.nextElementSibling.textContent = ""; b.innerHTML = "&nbsp;"; SalvaCopione(divContenitore, true, +NumeroSpanBattuta - 2, +spanBattuta.previousElementSibling.previousElementSibling.children.length + 3);}
     }
+
+    OperazioniAlTermineSceltaPersonaggio(Personaggio, false);
 }
 
 function VisualizzaMinutaggioAttuale() {
