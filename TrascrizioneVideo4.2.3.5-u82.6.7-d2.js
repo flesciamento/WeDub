@@ -299,7 +299,6 @@ function ModificaPersonaggio(b, Personaggio) {
         b.textContent = Personaggio;
         b.nextElementSibling.textContent = ": ";
         SalvaCopione(divContenitore, true, +NumeroSpanBattuta + (2 * NonEraPresentePersonaggio));
-
     }
 
     OperazioniAlTermineSceltaPersonaggio(Personaggio, false);
