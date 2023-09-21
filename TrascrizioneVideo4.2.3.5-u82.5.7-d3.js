@@ -85,7 +85,8 @@ async function GestisciImmissioneTesto(e) {
 		case "[": T.innerHTML = T.innerHTML.slice(0, PosizioneCursore) + VisualizzaMinutaggioAttuale() + "] " + T.innerHTML.slice(PosizioneCursore); T.selectionEnd = PosizioneCursore; setTimeout(() => {T.selectionStart = T.selectionEnd = T.innerHTML.length;}, 100); return 2;
  		case "Control": if (e.location == 2) {RiprendiDaPocoPrima(6);}
 		case "AltGraph": clearTimeout(tmrSospendi); break; */
-        case "V": if (e.ctrlKey) {await pausa(100); ElementoAttuale.innerHTML = ElementoAttuale.innerText; PosizionaCursore(NodoAttuale, NodoAttuale.textContent.length - 1); return;}
+        case "V":
+        case "v": if (e.ctrlKey) {await pausa(100); console.log("incolla", ElementoAttuale); ElementoAttuale.innerHTML = ElementoAttuale.innerText; PosizionaCursore(NodoAttuale, NodoAttuale.textContent.length - 1); return;}
         case "ArrowUp":   if ((PosizioneCursore < 200) && (campoprecedente = TrovaCampoTestoVicino(ElementoAttuale, -1))) {await pausa(100); campoprecedente.focus();} return;
         case "ArrowDown": if ((PosizioneCursore > NodoAttuale.textContent.length - 200) && (camposuccessivo = TrovaCampoTestoVicino(ElementoAttuale, 1))) {await pausa(100); camposuccessivo.focus();} console.log("giu", ElementoAttuale, camposuccessivo); return;
 
