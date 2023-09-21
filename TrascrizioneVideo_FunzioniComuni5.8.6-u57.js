@@ -237,7 +237,7 @@ var FunzioniCopione = {
     GestisciIncolla: async function (e) {
         const spanEditabile = e.currentTarget;
         await pausa(100);
-        spanEditabile.innerHTML = spanEditabile.textContent;
+        spanEditabile.innerHTML = spanEditabile.innerText;
     },
     /********************************/
 
