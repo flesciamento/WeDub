@@ -111,7 +111,7 @@ async function GestisciImmissioneTesto(e) {
                     }
 
                 }
-                
+
                 if ((e.key == "Backspace") && (PosizioneCursore <= /\S/.exec(NodoAttuale.textContent + ".").index)) {
                     e.preventDefault();
                     const tagNomePersonaggio = ElementoAttuale.previousElementSibling.previousElementSibling, tagduepunti = ElementoAttuale.previousElementSibling, ContenutoTagNomePersonaggio = tagNomePersonaggio.textContent.trim(), PresentePersonaggio = (ContenutoTagNomePersonaggio != ""), NumeroSpanBattuta = NumeroChildren(T, spanBattuta), NumeroSpan = NumeroChildren(spanBattuta, ElementoAttuale), brPrecedente = tagNomePersonaggio.previousElementSibling;
@@ -142,7 +142,6 @@ async function GestisciImmissioneTesto(e) {
             break;
 
 		case "Enter":
-            /** Nuova sezione di testo **/
             SospendiRipresaVideo(T);
 
             e.preventDefault();
