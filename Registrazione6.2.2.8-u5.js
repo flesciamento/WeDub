@@ -2931,7 +2931,7 @@ function GestioneEventoELTCliccato(e) {
                     ELTDaModificare.push(ELTCliccato);
                 } else {
                     if (!ELTDaModificare.includes(ELTCliccato)) {
-                        document.getElementById(ID_Opzioni + 'tdOpzionePosizioneMinutiSecondi').style.display = document.getElementById(ID_Opzioni + 'TabellaOpzioniRiga' + TaglioIniziale).style.display = document.getElementById(ID_Opzioni + 'TabellaOpzioniRiga' + TaglioFinale).style.display = document.getElementById(ID_Opzioni + 'TabellaOpzioniRigaVarie').style.display = document.getElementById(ID_Opzioni + 'textareaCommenti').style.display = "none";
+                        document.getElementById(ID_Opzioni + 'tdOpzionePosizioneMinutiSecondi').style.display = document.getElementById(ID_Opzioni + 'TabellaOpzioniRigaTaglioIniziale').style.display = document.getElementById(ID_Opzioni + 'TabellaOpzioniRigaTaglioFinale').style.display = document.getElementById(ID_Opzioni + 'TabellaOpzioniRigaVarie').style.display = document.getElementById(ID_Opzioni + 'textareaCommenti').style.display = "none";
                         ELTDaModificare.push(ELTCliccato);
                     }
                     return;
