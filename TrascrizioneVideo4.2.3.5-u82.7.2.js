@@ -98,7 +98,7 @@ async function GestisciImmissioneTesto(e) {
                 clearTimeout(tmrSospendi[T.dataset.numid]);
                 DatiCopione.splice(DatiCopione.indexOf(TrovaDatiCopioneID(T.dataset.numid)), 1); EliminaElemento(T);
                 console.log(divPrecedente_id, document.getElementById(divPrecedente_id));
-                ( (div = document.getElementById(divPrecedente_id)) && (div.lastElementChild.querySelector("[contenteditable='true']").focus()) );
+                ( (div = document.getElementById(divPrecedente_id)) && (ce = div.querySelectorAll("[contenteditable='true']")) && (ce[ce.length - 1].focus()) );
                 return;
 
             } else {
