@@ -2978,6 +2978,7 @@ function GestioneEventoELTCliccato(e) {
                     document.getElementById(ELTDaSpostare.id + 'StratoColore').ontouchstart = GestioneEventoELTCliccato;
                     
                 } else {
+                    StoppaAutomaticamenteAscoltoInSolo(DatiAudioRegistrato[ELTDaSpostare.dataset.RiferimentoRegistrazione]);
                     document.getElementById(ELTDaSpostare.id + 'StratoColore').ontouchstart = "";
                 }
             break;
@@ -3428,7 +3429,7 @@ function OpzioniClip(Numero, Apri, SalvaAllaChiusura) {
         window.removeEventListener('keydown', ScorciatoieTastieraFinestraOpzioni);
         document.getElementById(ELTDaSpostare.id + 'StratoColore').ontouchstart = "";
         ELTDaSpostare = false;
-        StoppaAscoltoInSolo(datiAudio); // L'eliminazione della funzione "onended" serve per evitare che si intercetti l'evento allo stop della registrazione
+        StoppaAutomaticamenteAscoltoInSolo(datiAudio);
 
         ELTDaModificare.forEach((clipELT) => {
             EvidenziaELTSelezionato(clipELT, false);
@@ -3536,16 +3537,16 @@ function AscoltaInSolo(Inizio, Fine) {
     datiAudio.audio.onended = StoppaAscoltoInSolo;
 }
 
-function StoppaAscoltoInSolo(datiAudio) {
-    if (document.getElementById(ID_Opzioni + 'PulAscolta').className.indexOf('warning') > -1) {datiAudio.audio.onended = ""; StoppaClipAudio(datiAudio);}
-}
-
 function EliminaClipDaRiprodurre(Numero) {
     ClipDaRiprodurre.forEach(function (I, N) {if (I == Numero) {delete ClipDaRiprodurre[N];}}); // Evita di incorrere in errore se durante la riproduzione la clip viene nuovamente avviata da RiproduciClipInSync()
 }
 
 function StoppaAscoltoInSolo() {
     ResettaPulAscolta(document.getElementById('OpzioniClipPulAscolta'));
+}
+
+function StoppaAutomaticamenteAscoltoInSolo(datiAudio) {
+    if (document.getElementById(ID_Opzioni + 'PulAscolta').className.indexOf('warning') > -1) {datiAudio.audio.onended = ""; StoppaClipAudio(datiAudio);} // L'eliminazione della funzione "onended" serve per evitare che si intercetti l'evento allo stop della registrazione
 }
 /********************************/
 
