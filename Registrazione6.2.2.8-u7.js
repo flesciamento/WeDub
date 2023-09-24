@@ -2942,7 +2942,7 @@ function GestioneEventoELTCliccato(e) {
                     if (!ELTSelezionatoInPrecedenza) {
                         ELTDaModificare.push(ELTCliccato);
                     } else {
-                        ELTDaModificare.splice(ELTDaModificare.indexOf(ELTCliccato), 1);
+                        if (ELTDaModificare.length > 1) {ELTDaModificare.splice(ELTDaModificare.indexOf(ELTCliccato), 1);}
                     }
                 }
                 
@@ -2953,6 +2953,7 @@ function GestioneEventoELTCliccato(e) {
                 EvidenziaELTSelezionato(ELTCliccato, !ELTSelezionatoInPrecedenza);
 
                 if (SingoloELTDaModificare) {
+                    ELTDaSpostare = ELTCliccato; // Ribadisce l'ELT da spostare in caso, selezionando e deselezionando le varie clip, questo venga modificato.
                     ELTDaSpostare.dataset.posizionedelmouse = (+X + window.scrollX) - ContenitoreRighello.offsetLeft - ELTDaSpostare.offsetLeft;
                     tmrELTCliccato = setTimeout(() => {
                         ELTDaSpostare.className = "ELT transizione-morbida-no"; VisualizzazioneGraficaTaglioClip(NumeroAudio, false);
