@@ -2966,7 +2966,7 @@ function GestioneEventoELTCliccato(e) {
                         ELTDaSpostare.className = "ELT transizione-morbida-no"; VisualizzazioneGraficaTaglioClip(NumeroAudio, false);
                         Righello.addEventListener('mousemove', SpostaELT); Righello.addEventListener('touchmove', SpostaELT);
                     }, 200);
-                    document.getElementById(ELTDaSpostare.id + 'StratoColore').ontouchstart = GestioneEventoELTCliccato;
+                    document.getElementById(ELTDaSpostare.id + 'StratoColore').ontouchstart = GestioneEventoELTCliccato;/*  */
                 }
             break;
 
