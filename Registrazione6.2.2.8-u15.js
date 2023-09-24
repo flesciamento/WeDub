@@ -2063,7 +2063,7 @@ VisualizzazioneGraficaTaglioClip.OndaSonoraCompleta = false;
 /*********************************************************/
 
 function AttivaDisattivaEffetto(e) {
-    const pulEffetto = e.currentTarget, Effetto = pulEffetto.dataset.effetto, Numero = pulEffetto.dataset.RiferimentoRegistrazione, datiAudio = DatiAudioRegistrato[Numero];
+    const pulEffetto = e.currentTarget, Effetto = pulEffetto.dataset.effetto, Numero = ELTDaModificare[0].dataset.RiferimentoRegistrazione, datiAudio = DatiAudioRegistrato[Numero];
     const pulsantiEffetti = document.getElementsByName('pulEffetto'), totPulsantiEffetti = pulsantiEffetti.length, classe_default = "btn btn-default";
 
     for (var I = 0; (I < totPulsantiEffetti) && (pulsantiEffetti[I].className = classe_default); I++);
@@ -2932,7 +2932,7 @@ function GestioneEventoELTCliccato(e) {
 
     e.stopPropagation(); // Impedisce di attivare l'evento mousedown del righello.
     
-    if ((Righello.dataset.DisattivaClick == "no") || (StrumentoMouse == toolStandard)) { // Attiva il trascinamento col mouse se il righello è attivo oppure in ogni caso col tool di selezione.
+    if ((!StoRegistrando) && ((Righello.dataset.DisattivaClick == "no") || (StrumentoMouse == toolStandard))) { // Attiva il trascinamento col mouse se il righello è attivo oppure in ogni caso col tool di selezione.
         ELTCliccato = ELT;
         switch(StrumentoMouse) {
             case toolStandard:
