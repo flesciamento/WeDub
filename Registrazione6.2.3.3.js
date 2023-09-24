@@ -2952,6 +2952,7 @@ function GestioneEventoELTCliccato(e) {
                 
                 const SingoloELTDaModificare = (ELTDaModificare.length == 1);
 
+                /* Modifiche in caso di selezione multipla delle clip */
                 document.getElementById(ID_Opzioni + 'Cancella').style.display = document.getElementById(ID_Opzioni + 'Duplica').style.display = document.getElementById(ID_Opzioni + 'tdOpzionePosizioneMinutiSecondi').style.display = document.getElementById(ID_Opzioni + 'TabellaOpzioniRigaTaglioIniziale').style.display = document.getElementById(ID_Opzioni + 'TabellaOpzioniRigaTaglioFinale').style.display = document.getElementById(ID_Opzioni + 'TabellaOpzioniRigaVarie').style.display = document.getElementById(ID_Opzioni + 'textareaCommenti').style.display = (SingoloELTDaModificare? "" : "none");
                 document.getElementById(ID_Opzioni + 'tdOpzionePosizioneLabel').textContent = (SingoloELTDaModificare? strPosizione : "");
                 [document.getElementById(ID_Opzioni + 'TabellaOpzioniRigaVolume'), document.getElementById(ID_Opzioni + 'tdOpzioneEffetti')].forEach((opzionemodificamultipla) => {
