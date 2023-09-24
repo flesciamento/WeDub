@@ -3352,15 +3352,18 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                                 
                                 /** Chiude la finestra **/
                                 OpzioniClip(Numero, false, false);
+
+                                /** Ricarica le proprietà delle eventuali altre clip in modifica **/
+                                AggiornaClip();
                             }
                         );
                         
                 td = CreaElemento('td', ID_Opzioni + 'CasellaSalva', tr.id); td.className = "text-right";
                     const pulSalva = CreaElemento('a', ID_Opzioni + 'Salva', td.id, "<span class='fa fa-check'></span> " + strSalva); pulSalva.className = "btn btn-success";
                           pulSalva.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione;
-                          pulSalva.addEventListener('click', function () {
+                          pulSalva.addEventListener('click', function (e) {
                                 /* Aggiorna i commenti sulla clip */
-                                const Numero = this.dataset.RiferimentoRegistrazione, datiAudio = DatiAudioRegistrato[Numero], AutoreCommenti = (SonoCreatoreProgetto? "CreatoreProgetto" : "Doppiatore"), DestinatarioCommenti = (SonoCreatoreProgetto? "Doppiatore" : "CreatoreProgetto");
+                                const Numero = e.currentTarget.dataset.RiferimentoRegistrazione, datiAudio = DatiAudioRegistrato[Numero], AutoreCommenti = (SonoCreatoreProgetto? "CreatoreProgetto" : "Doppiatore"), DestinatarioCommenti = (SonoCreatoreProgetto? "Doppiatore" : "CreatoreProgetto");
                                 datiAudio['commenti' + AutoreCommenti] = textarea.value.trim(); datiAudio['commentiVisualizzati' + DestinatarioCommenti] *= (datiAudio['commenti' + AutoreCommenti] == datiAudio['commenti' + AutoreCommenti + "_prec"]);
                                 VisualizzaCommentiELT(Numero);
                                 
@@ -3369,6 +3372,8 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
 
                                 /* Chiude la finestra */
                                 OpzioniClip(Numero, false, true);
+                                
+                                e.currentTarget.textContent = strAttenderePrego;
                           });
     
     setTimeout(() => {
@@ -3407,32 +3412,45 @@ function OpzioniClip(Numero, Apri, SalvaAllaChiusura) {
         
     } else {
         const OpzClip = document.getElementById("OpzioniClip");
+        OpzClip.abilita(false);
         window.removeEventListener('keydown', ScorciatoieTastieraFinestraOpzioni);
         ELTDaSpostare = false;
         if (document.getElementById('OpzioniClipPulAscolta').className.indexOf('warning') > -1) {datiAudio.audio.onended = ""; StoppaClipAudio(datiAudio);} // L'eliminazione della funzione "onended" serve per evitare che si intercetti l'evento allo stop della registrazione
-
-        if (SalvaAllaChiusura) {
-            ELTDaModificare.forEach((clipELT) => {
-                const Numero = clipELT.dataset.RiferimentoRegistrazione;
-                SalvaModificheClipAudio(Numero);
-                AggiornaRiproduzioneClip(Numero);
-            });
-        }
 
         ELTDaModificare.forEach((clipELT) => {
             EvidenziaELTSelezionato(clipELT, false);
             VisualizzaELTNormale(clipELT.dataset.RiferimentoRegistrazione);
         });
 
-        ELTDaModificare = [];
-        
-        OpzClip.parentNode.removeChild(OpzClip);
-        document.getElementById('LogoWEDUB').style.display = "";
-        VisualizzazioneGraficaTaglioClip(Numero, VisualizzazioneGraficaTaglioClip.OndaSonoraCompleta = false);
-        RiabilitaSchermata();
+        if (SalvaAllaChiusura) {
+            divVetro.iStyle({display: "inline", opacity: 0});
+            ELTDaModificare.forEach((clipELT) => {
+                const Numero = clipELT.dataset.RiferimentoRegistrazione;
+                SalvaModificheClipAudio(Numero, VerificaSalvataggiCompletati);
+                AggiornaRiproduzioneClip(Numero);
+            });
+        } else {
+            ChiudiFinestraOpzioni();
+        }
 
-        /** Ricarica le proprietà delle eventuali altre clip in modifica **/
-        AggiornaClip();
+        function VerificaSalvataggiCompletati() {
+            VerificaSalvataggiCompletati.ClipSalvate++;
+            if (VerificaSalvataggiCompletati.ClipSalvate >= ELTDaModificare.length) {
+                ChiudiFinestraOpzioni();
+                AggiornaClip(); // Rimette le proprietà di eventuali altre clip modificate e poi deselezionate
+            }
+        }
+        VerificaSalvataggiCompletati.ClipSalvate = 0;
+
+        function ChiudiFinestraOpzioni() {
+            ELTDaModificare = [];
+        
+            OpzClip.parentNode.removeChild(OpzClip);
+            document.getElementById('LogoWEDUB').style.display = "";
+            VisualizzazioneGraficaTaglioClip(Numero, VisualizzazioneGraficaTaglioClip.OndaSonoraCompleta = false);
+            divVetro.style.display = "none";
+            RiabilitaSchermata();
+        }
     }
     
     Righello.dataset.DisattivaClick = (Apri ? "si" : "no");
