@@ -393,7 +393,7 @@ function CaricaCopione(FunzioneAlTermine = () => {}) {
                     FunzioniCopione.Visualizza();
                 }
 
-				//document.getElementById('divContenitoreVideoGuida').dataset.PosizioneInizialeVideo = Dati.PosizioneVideo; riposiziona dove ci si era fermati?
+				//document.getElementById('divContenitoreVideoGuida').dataset.PosizioneInizialeVideo = Dati.PosizioneVideo;
                 
                 await pausa(500);
 
