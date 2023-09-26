@@ -3325,7 +3325,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                         const btnGroup = CreaElemento('div', ID_Opzioni + 'grpPulAscolta', td.id); btnGroup.className = "btn-group";
                             const pulAscolta = CreaElemento('a', ID_Opzioni + 'PulAscolta', btnGroup.id); pulAscolta.dataset.toggle = "dropdown"; pulAscolta.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione;
                                 PulAscoltaPosizioneDefault(pulAscolta);
-                                if (RiproduzioneInCorso) {
+                                if (FunzioneAlTerminePrecaricamento) {
                                     pulAscolta.style.display = "none";
                                 } else {
                                     if (!datiAudio.buffer) {pulAscolta.abilita(false); pulAscolta.innerHTML = " <span class='fa fa-spin fa-spinner'></span> " + strCaricamento; CaricaBufferAudio(RiferimentoRegistrazione, () => {if (pulAscolta) {PulAscoltaPosizioneDefault(pulAscolta); pulAscolta.abilita(true);}});}
