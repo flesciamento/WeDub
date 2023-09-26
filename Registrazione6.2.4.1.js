@@ -2940,7 +2940,7 @@ function GestioneEventoELTCliccato(e) {
 
     e.stopPropagation(); // Impedisce di attivare l'evento mousedown del righello.
     
-    if ((!StoRegistrando) && ( (Righello.dataset.DisattivaClick == "no") || ((StrumentoMouse == toolStandard) && (ELTDaSpostare))) ) { // Attiva il trascinamento col mouse se il righello è attivo oppure se era stato selezionata una clip
+    if ((!StoRegistrando) && ( (Righello.dataset.DisattivaClick == "no") || ((StrumentoMouse == toolStandard) && ELTDaSpostare)) ) { // Attiva il trascinamento col mouse se il righello è attivo oppure se era stato selezionata una clip
         ELTCliccato = ELT;
         switch(StrumentoMouse) {
             case toolStandard:
