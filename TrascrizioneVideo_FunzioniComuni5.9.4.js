@@ -79,15 +79,18 @@ var FunzioniCopione = {
         }
         /***************************************************/
 
-        /* Visualizza copione ed attiva gli eventi */
-        ContenitoreTestoGuida.iStyle({opacity: 1, visibility: "visible"});
-        FunzioniCopione.CopioneVisualizzato = true;
-        FunzioniCopione.Eventi(true);
+        FunzioniCopione.Appari();
     },
 
     FormattaTesto: function (Testo) {
         const FunzioniNomePersonaggio = ((FunzioniCopione.CopioneEditabile == 2) ? " class='PersonaggioCliccabile' onclick='FunzioniCopione.FunzioneModificaPersonaggio(event)'" : ""), TestoEditabile = " onpaste='FunzioniCopione.GestisciIncolla(event);'" + ((FunzioniCopione.CopioneEditabile > 0) ? " contenteditable='true' onkeydown='FunzioniCopione.FunzioneModificaBattuta(event);' onfocus='FunzioniCopione.FunzioneOnFocusBattuta(event);'" : "");
         return Testo.replace(/\n/g, '<br>').replace(new RegExp('<br>\\s+|<br>(?![' + PatternRegexNomePersonaggio + ']+:)', 'g'), `</span><br><b ${FunzioniNomePersonaggio}>&nbsp;</b><span></span><span ${TestoEditabile}>`).replace(new RegExp('<br>([' + PatternRegexNomePersonaggio + ']+):', 'g'), `</span></span><br style='line-height: 5px;'><span data-battuta='1' name=\"Battuta_$1\"><b ${FunzioniNomePersonaggio}>$1</b><span>: </span><span ${TestoEditabile}>`);
+    },
+
+    Appari: function () {
+        ContenitoreTestoGuida.iStyle({opacity: 1, visibility: "visible"});
+        FunzioniCopione.CopioneVisualizzato = true;
+        FunzioniCopione.Eventi(true);
     },
 
     Scompari: function (EliminaContenuto = true) {
