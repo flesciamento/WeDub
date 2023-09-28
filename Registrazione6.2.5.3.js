@@ -1070,8 +1070,9 @@ function PrecaricaClip(DalMinutaggio, FinoAlMinutaggio, FunzioneAlTermine = fals
             FunzioneAlTerminePrecaricamento();
 
         } else {
-            PrecaricaClip.tmr = setTimeout(() => {MinutaggioPrecaricamentoClip = FinoAlMinutaggio; PrecaricaClipSuccessiva(); console.log("Timeout avviato.", MinutaggioPrecaricamentoClip);}, (+FinoAlMinutaggio - VideoGuidaMinutaggioCorrente() - (SecondiPrecaricamentoMax / 2)) * 1000);
-            console.log("Settato Timeout fra", +FinoAlMinutaggio - VideoGuidaMinutaggioCorrente() - (SecondiPrecaricamentoMax / 2), "sec. Precaricamento clip dal secondo", FinoAlMinutaggio);
+            const SecondiTimeout = +FinoAlMinutaggio - VideoGuidaMinutaggioCorrente() - (SecondiPrecaricamentoMax / 2);
+            PrecaricaClip.tmr = setTimeout(() => {MinutaggioPrecaricamentoClip = FinoAlMinutaggio; PrecaricaClipSuccessiva(); console.log("Timeout avviato.", MinutaggioPrecaricamentoClip);}, SecondiTimeout * 1000);
+            console.log("Settato Timeout fra", SecondiTimeout, "sec. Precaricamento clip dal secondo", FinoAlMinutaggio);
         }
     }
 }
