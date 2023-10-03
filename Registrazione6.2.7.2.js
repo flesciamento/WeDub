@@ -3759,4 +3759,4 @@ function VideoGuidaPronto() {
     setTimeout(() => {VideoGuidaCaricaEAvvia(PercorsoVideoGuida); ImpostaVolumeVideoGuida(0); VideoGuidaImpostaEventoPrimoCaricamento(AttivaProgramma);}, 500);
 }
 
-window.setTimeout(CaricamentoVideo, 2000); tmrCaricamento = window.setInterval(CaricamentoVideo, 10000); window.setTimeout(() => {const imgLogoWEDUB = document.getElementById('imgLogoWEDUB'); imgLogoWEDUB.src = "assets/img/" + LogoPrincipale; imgLogoWEDUB.parentNode.iStyle({right: "calc(50% - " + (larghezzaLogo / 2) + "px)", transition: "All 2s"}); imgLogoWEDUB.setAttribute('width', larghezzaLogo)}, secondiCambioLogo);
+window.setTimeout(CaricamentoVideo, 2000); tmrCaricamento = window.setInterval(CaricamentoVideo, 10000); window.setTimeout(() => {const imgLogoWEDUB = document.getElementById('imgLogoWEDUB'); imgLogoWEDUB.src = "assets/img/" + LogoPrincipale; imgLogoWEDUB.parentNode.style.marginRight = ((larghezzaLogo / 2) - 150) + "px"; imgLogoWEDUB.setAttribute('width', larghezzaLogo)}, secondiCambioLogo);
