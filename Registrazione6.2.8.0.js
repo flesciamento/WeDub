@@ -1157,7 +1157,7 @@ function VerificaFunzioneAlTerminePrecaricamento() {
 
 function OperazioniAlBufferCaricato(Numero, FunzioneAlTermine = () => {}) {
     /** Attiva la clip se si sta riproducendo **/
-    if (RiproduzioneInCorso) {console.log("OperazioniAlBufferCaricato - VerificaClipDaRiprodurre", Numero); VerificaClipDaRiprodurre(Numero, VideoGuidaMinutaggioCorrente());}
+    if (RiproduzioneInCorso) {VerificaClipDaRiprodurre(Numero, VideoGuidaMinutaggioCorrente());}
 
     /** Visualizza graficamente il caricamento della clip **/
     VisualizzaELTBufferCaricato(Numero);
