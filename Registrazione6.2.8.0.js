@@ -3580,7 +3580,7 @@ function StoppaAutomaticamenteAscoltoInSolo(datiAudio) {
 
 function AggiornaRiproduzioneClip(Numero) {
     if (RiproduzioneInCorso) {
-        StoppaClipAudio(DatiAudioRegistrato[Numero]); console.log("AggiornaRiproduzioneClip - VerificaClipDaRiprodurre", Numero); VerificaClipDaRiprodurre(Numero, VideoGuidaMinutaggioCorrente()); FunzioneRiproduzioneClip = RiproduciClipInSync;
+        StoppaClipAudio(DatiAudioRegistrato[Numero]); VerificaClipDaRiprodurre(Numero, VideoGuidaMinutaggioCorrente()); FunzioneRiproduzioneClip = RiproduciClipInSync;
     }
 }
 
