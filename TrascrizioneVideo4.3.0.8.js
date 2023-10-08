@@ -471,7 +471,7 @@ function focusTextarea(e) {
 
     /* Tasto personaggio */
     document.getElementById('divF1').childNodes[1].textContent = " " + ((ElementoAttuale.previousElementSibling.previousElementSibling.textContent.trim() != "") ? str_tastopersonaggio_ModificaPersonaggio : str_tastopersonaggio_AggiungiPersonaggio);
-    /**********************/
+    /*********************/
 
     /* Posiziona correttamente i tool */
     if (PosizionaInfoTasti.Elemento) {PosizionaInfoTasti.Elemento.iStyle({paddingTop: '', border: ''});}
