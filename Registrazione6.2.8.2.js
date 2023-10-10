@@ -1292,7 +1292,7 @@ function ImmagineAttesaVideoGuida(Attiva) {
     if (Attiva) {
        imgAttesaVideoGuida || CreaElemento('div', 'imgAttesaVideoGuida', 'ContenitoreVideoGuida', '<div class="sk-circle-fade"><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div></div>').iStyle({position: "absolute", top: "60%", left: "50%"});
     } else {
-        EliminaElemento(imgAttesaVideoGuida);
+       EliminaElemento(imgAttesaVideoGuida);
     }
 }
 
