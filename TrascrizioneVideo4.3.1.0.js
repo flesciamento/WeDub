@@ -198,7 +198,6 @@ async function AttivaSceltaPersonaggio(T, FunzioneAllaSceltaPersonaggio, Persona
     
     const pulEliminaPersonaggio = document.getElementById('pulEliminaPersonaggioDaRiga');
     pulEliminaPersonaggio.style.display = "none";
-
    
     CreaListaMenu(DatiPersonaggi, inputSceltaPersonaggio,
         /* Selezione di un personaggio */
