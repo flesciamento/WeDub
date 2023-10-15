@@ -229,7 +229,6 @@ async function AttivaSceltaPersonaggio(T, FunzioneAllaSceltaPersonaggio, Persona
 
     /* Sovrascrive la funzione body_click */
     document.body.onclick = (e) => {if (e.target == divVetro) {inputSceltaPersonaggio.value = ""; CreaListaMenu.EsciSenzaSelezionare();}};
-      
 }
 
 async function ScriviPersonaggio(T, Personaggio) {
