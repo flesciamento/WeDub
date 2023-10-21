@@ -251,7 +251,7 @@ var FunzioniCopione = {
     /**************************************/
 
     /** Visualizza copione su altra finestra **/
-    VisualizzaSuAltraFinestra: async function (e) {
+    VisualizzaSuAltraFinestra: function (e) {
         e.preventDefault(); e.stopPropagation();
         finestra = ApriFinestra({currentTarget: {dataset: {altezza: 800, larghezza: 600, nomefinestra: 'CopioneTestoGuida', link: 'TestoGuidaStampabile.php?N=' + encodeURIComponent((typeof N === 'undefined') ? '' : N)}}});
         function CaricaCopione(e) {
