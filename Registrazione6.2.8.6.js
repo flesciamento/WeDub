@@ -3775,4 +3775,3 @@ function VideoGuidaPronto() {
 }
 
 window.setTimeout(CaricamentoVideo, 2000); tmrCaricamento = window.setInterval(CaricamentoVideo, 10000); window.setTimeout(() => {document.getElementById('imgLogoWEDUB').src = "assets/img/" + LogoPrincipale;}, secondiCambioLogo);
-
