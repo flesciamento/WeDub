@@ -226,6 +226,8 @@ async function AttivaSceltaPersonaggio(T, FunzioneAllaSceltaPersonaggio, Persona
     pulEliminaPersonaggio.style.display = (PersonaggioDaModificare? "inline" : "none");
     pulEliminaPersonaggio.onclick = (PersonaggioDaModificare? () => {EliminaPersonaggioDallaRiga(T);} : "");
 
+    window.addEventListener('keydown', (e) => {document.getElementById('pulInvioNomePersonaggio').textContent = e.key;});
+
     /* Sovrascrive la funzione body_click */
     document.body.onclick = (e) => {if (e.target == divVetro) {inputSceltaPersonaggio.value = ""; CreaListaMenu.EsciSenzaSelezionare();}};
 }
