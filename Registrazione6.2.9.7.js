@@ -3125,7 +3125,7 @@ function RiposizionamentoAutomaticoClipSovrapposte(ELTConsiderato) {
         ELTLungo = document.getElementById(ID_ELT_trovati[0]);
         if (ELTLungo != ELTConsiderato) {TrovaELTDaRiordinare(ELTLungo);}
 
-        /* Rifa l'elaborazione per tutti gli ELT trovati */
+        /* Rifà l'elaborazione per tutti gli ELT trovati */
         for(idELT in ID_NuoviELTDaRiordinare) {
             TrovaELTDaRiordinare(document.getElementById(idELT));
         }
