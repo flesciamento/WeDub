@@ -3138,7 +3138,7 @@ function RiposizionamentoAutomaticoClipSovrapposte(ELTConsiderato) {
 
         
         /* Effettua il riposizionamento */
-        if (ELTConsiderato.style.visibility == "hidden") {ID_ELT_trovati.splice(ID_ELT_trovati.indexOf(ELTConsiderato.id), 1);} // Non considera l'elemento considerato se questo è stato cestinato.
+        if (ELTConsiderato.style.visibility == "hidden") {ID_ELT_trovati.splice(ID_ELT_trovati.indexOf(ELTConsiderato.id), 1);} // Non tiene conto dell'elemento considerato se questo è stato cestinato.
         ID_ELT_trovati.sort(); // Serve ad effettuare la sovrapposizione delle clip sempre nello stesso ordine
         const totELTDaRiordinare = ID_ELT_trovati.length;
         if (totELTDaRiordinare > 0) {
