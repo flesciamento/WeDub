@@ -654,7 +654,6 @@ function handleSuccess(stream) {
     registrazione = new window.AudioWorkletNode(ac, 'recorder-worklet');
     sorgenteAudioSelezionata.connect(registrazione).connect(ac.destination);
     AggiornaParametriRegistrazione();
-    console.log("Dopo AggiornaParametriRegistrazione");
     setTimeout(() => {if (registrazione) {registrazione.port.onmessage = ProcessaAudio_Monitora;}}, 500);
 
     pulRegistra.disabled = SolaVisione || (Righello.dataset.DisattivaClick == "si");
