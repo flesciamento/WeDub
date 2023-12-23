@@ -1052,7 +1052,7 @@ function AttivaScorrimentoCopione() {
 /*** Precarica clip ***
  * Richiama la funzione CaricaBufferAudio per le clip ancora non caricate, secondo i parametri indicati *
  * @param {Number} DalMinutaggio                        il minutaggio a partire dal quale le clip devono essere precaricate
- * @param {Number} FinoAlMinutaggio                     (facoltativo) il minutaggio entro il quale le clip devono essere precaricate, se non indicato precarica fino alla fine del video
+ * @param {Number} FinoAlMinutaggio                     (facoltativo) il minutaggio entro il quale le clip devono essere precaricate, se non indicato precarica fino ai SecondiPrecaricamentoMax
  * @param {FunctionStringCallback} FunzioneAlTermine    (facoltativo) la funzione da lanciare al termine del caricamento di tutte le clip considerate nell'intervallo di tempo scelto.
  *                                                                    Se inserita, lancia il precaricamento di tutte le clip considerate contemporaneamente, altrimenti le clip vengono precaricate una alla volta per non affaticare l'elaborazione.
  * @param {Object} AltreOpzioni                         (facoltativo) opzioni relative al precaricamento, possono essere:
