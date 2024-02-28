@@ -3612,7 +3612,7 @@ function AscoltaInSolo(Inizio, Fine) {
 }
 
 function EliminaClipDaRiprodurre(Numero) {
-    ClipDaRiprodurre.forEach(function (I, N) {if (I == Numero) {delete ClipDaRiprodurre[N];}}); // Evita di incorrere in errore se durante la riproduzione la clip viene nuovamente avviata da RiproduciClipInSync()
+    ClipDaRiprodurre.forEach(function (I, N) {if (I == Numero) {delete ClipDaRiprodurre[N];}}); // Evita di incorrere in errore se durante la riproduzione la clip viene avviata da RiproduciClipInSync()
 }
 
 function StoppaAscoltoInSolo() {
