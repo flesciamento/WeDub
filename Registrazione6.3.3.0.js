@@ -259,7 +259,7 @@ function VariaAltezzaTracce() {
 function RideterminaLimitiAltezzaTracce() {
     AltezzaTracceMinima = (+window.innerHeight * 0.4) + (+ComandiPlayer.offsetHeight); AltezzaTracceMassima = window.innerHeight - SuddivisioneTracce - AltezzaTracceMinima - 25;
 }
-/****************************************************/
+/********************************************************/
 
 function CaricamentoVideo() {
 	const Colore = new Array("blue", "brown", "green", "blue", "red");
