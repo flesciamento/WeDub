@@ -200,7 +200,7 @@ function AutoAdattaElementiInterfaccia() {
     const differenzaAltezzaContenitore = ContenitoreVideoGuida.offsetHeight - Monitors.offsetHeight;
     if ((differenzaAltezzaContenitore > 0) && (pulSchermoIntero.dataset.schermointero == "no")) {AltezzaTracce += differenzaAltezzaContenitore; VariaAltezzaTracce();} else {PosizionaElementiScroll(); AdattaDimensionePulsanti();}
 }
-/***********************************************************************************************************************************************************************/
+/***************************************************************************************************************************************************************************/
 
 /*** Operazioni al ridimensionamento della finestra ***/
 function Ridisegna() {
