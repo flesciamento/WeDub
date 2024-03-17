@@ -195,7 +195,7 @@ function AdattaDimensionePulsanti() {
 }
 /***************************************************************************************/
 
-/*** Adatta i vari elementi in base alla grandezza della finestra, eventualmente adatta anche l'altezza delle tracce per evitare che il video copra i comandi player ***/
+/*** Adatta i vari elementi in base alla grandezza della finestra, eventualmente adatta anche l'altezza delle tracce per evitare che il video copra i comandi del player ***/
 function AutoAdattaElementiInterfaccia() {
     const differenzaAltezzaContenitore = ContenitoreVideoGuida.offsetHeight - Monitors.offsetHeight;
     if ((differenzaAltezzaContenitore > 0) && (pulSchermoIntero.dataset.schermointero == "no")) {AltezzaTracce += differenzaAltezzaContenitore; VariaAltezzaTracce();} else {PosizionaElementiScroll(); AdattaDimensionePulsanti();}
