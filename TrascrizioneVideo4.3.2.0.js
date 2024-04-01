@@ -56,6 +56,10 @@ async function GestisciImmissioneTesto(e) {
 
     clearTimeout(AggiornaTestoGuida_slow.tmr);
 
+    function TestoDaComparare(Testo) {
+        return Testo.replace(/[^A-z0-9]/g, '');
+    }
+
     function MandaA_AttivaSceltaPersonaggio() {
         UltimaPosizioneCursore = PosizioneDelCursore();
         AttivaSceltaPersonaggio(nuovatextarea, ScriviPersonaggio);
