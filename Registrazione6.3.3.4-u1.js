@@ -1195,9 +1195,12 @@ function GeneraBufferCI(datiAudio, buffer, FunzioneAlTermine = () => {}) {
     datiAudio.buffer = buffer;
     datiAudio.Durata = datiAudio.taglioFinale = datiAudio.buffer.duration;
 
+    console.log("Spezzone CI", datiAudio.numspezzoneCI, datiAudio.Durata);
+
     if (SpezzoneSuccessivo = SpezzoniAudioCI[+datiAudio.numspezzoneCI + 1]) {
         const datiAudioSucc = DatiAudioRegistrato_Registrazione[SpezzoneSuccessivo];
         datiAudioSucc.MinutaggioRegistrazione = (+datiAudio.MinutaggioRegistrazione) + (+datiAudio.Durata);
+        console.log("Spezzone CI succ.", datiAudioSucc.numspezzoneCI, datiAudioSucc.Durata);
     }
     
     EseguiFunzioniAlTermineCaricamentoBufferCI();
