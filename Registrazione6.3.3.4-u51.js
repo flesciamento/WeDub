@@ -1206,6 +1206,7 @@ function GeneraBufferCI(datiAudio, buffer, FunzioneAlTermine = () => {}) {
         /* Aggiunge l'ultimo secondo del buffer precedente */
         datiAudio.buffer = appendBuffer([datiAudio_SpezzonePrecedente.buffer, b], duratabufferspezzoneprec - tempomixBufferPrec);
 
+        /* Annullamento fade-out creato in precedenza */
         for(c = 0; c < numCanali; c++) {
             bufferCanale = datiAudio.buffer.getChannelData(c);
             for(s = lunghezzabytetempomix; s > 0; s--) {
