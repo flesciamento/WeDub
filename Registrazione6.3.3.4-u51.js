@@ -1224,6 +1224,7 @@ function GeneraBufferCI(datiAudio, buffer, FunzioneAlTermine = () => {}) {
 
         datiAudio.MinutaggioRegistrazione = (+datiAudio_SpezzonePrecedente.MinutaggioRegistrazione) + (+datiAudio_SpezzonePrecedente.Durata) - tempomixBufferPrec;
     } else {
+        // rimettere minutaggio normale
         datiAudio.buffer = b;
     }
     
