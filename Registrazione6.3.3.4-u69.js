@@ -1200,7 +1200,7 @@ function GeneraBufferCI(datiAudio, buffer, FunzioneAlTermine = () => {}) {
 
     if ((datiAudio_SpezzonePrecedente = TrovaSpezzoneVicino(datiAudio, -1)) && (VideoGuidaMinutaggioCorrente() < datiAudio.minutaggiodefault)) {
         async function AggiungiPezzoMix() {
-            if (!datiAudio_SpezzonePrecedente.buffer) {if (!FunzioneAlTerminePrecaricamento) {return;} console.log("AggiungiPezzoMix()", "minutaggio corrente:", new MinutiESecondi(VideoGuidaMinutaggioCorrente()), "spezzoneCI:", datiAudio.numspezzoneCI, "minutaggio spezzoneCI:", new MinutiESecondi(datiAudio.minutaggiodefault), "Attesa buffer spezzone", datiAudio_SpezzonePrecedente.numspezzoneCI); await pausa(500); datiAudio_SpezzonePrecedente = TrovaSpezzoneVicino(datiAudio, -1); AggiungiPezzoMix(); return;} // Attende che abbia caricato il buffer dello spezzone precedente prima di continuare.
+            if (!datiAudio_SpezzonePrecedente.buffer) {if (!RiproduzioneInCorso && !FunzioneAlTerminePrecaricamento) {return;} console.log("AggiungiPezzoMix()", "minutaggio corrente:", new MinutiESecondi(VideoGuidaMinutaggioCorrente()), "spezzoneCI:", datiAudio.numspezzoneCI, "minutaggio spezzoneCI:", new MinutiESecondi(datiAudio.minutaggiodefault), "Attesa buffer spezzone", datiAudio_SpezzonePrecedente.numspezzoneCI); await pausa(500); datiAudio_SpezzonePrecedente = TrovaSpezzoneVicino(datiAudio, -1); AggiungiPezzoMix(); return;} // Attende che abbia caricato il buffer dello spezzone precedente prima di continuare.
 
             /* Aggiunge l'ultimo pezzo del buffer precedente */
             datiAudio.buffer = appendBuffer([datiAudio_SpezzonePrecedente.buffer, b], datiAudio_SpezzonePrecedente.buffer.duration - tempomixBufferPrec);
