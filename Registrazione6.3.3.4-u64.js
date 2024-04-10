@@ -1207,7 +1207,7 @@ function GeneraBufferCI(datiAudio, buffer, FunzioneAlTermine = () => {}) {
 
             for(c = 0; c < numCanali; c++) {
                 bufferCanale = datiAudio.buffer.getChannelData(c);
-                for(s = lunghezzabytetempomix; s >= 0; s--) {
+                for(s = lunghezzabytetempomix; s > 0; s--) {
                     const posizione = lunghezzabytetempomix - s;
                     bufferCanale[posizione] /= s / lunghezzabytetempomix;             // Annullamento fade-out creato in precedenza
                     bufferCanale[posizione] *= posizione / lunghezzabytetempomix;     // fade-in
