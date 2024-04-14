@@ -1246,7 +1246,7 @@ function ScaricaMemoria(AncheSuccessivi = false) {
     const MinutaggioVideo = VideoGuidaMinutaggioCorrente() - 2, totAudio = DatiAudioRegistrato.length;
     for (let I = 0; I < totAudio; I++) {
         const datiAudio = DatiAudioRegistrato[I];
-        if (datiAudio.buffer && (((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.Durata) < MinutaggioVideo) || (AncheSuccessivi && ((+datiAudio.MinutaggioRegistrazione) > MinutaggioVideo)))) {
+        if (datiAudio.buffer && (((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioFinale) < MinutaggioVideo) || (AncheSuccessivi && ((+datiAudio.MinutaggioRegistrazione) > MinutaggioVideo)))) {
             datiAudio.audio = null; datiAudio.buffer = null; datiAudio.RichiestoCaricamentoBuffer = false;
             VisualizzaELTBufferScaricato(datiAudio.numero);
         }
