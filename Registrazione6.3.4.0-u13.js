@@ -1798,8 +1798,6 @@ function CreaRegistrazione_wav() {
         }
     }
 
-    console.log(canaleAudio, LunghezzaNuovaRegistrazione);
-
     var leftBuffer = flattenArray(canaleAudio, LunghezzaNuovaRegistrazione);
     leftBuffer = EffettuaAutoTaglioIniziale(leftBuffer, sampleRate);
     var buffer = new ArrayBuffer(44 + leftBuffer.length * 2);
