@@ -764,7 +764,7 @@ function AnteprimaOndaSonora_Analizzatore() {
 
 function AnteprimaOndaSonora(v) {
     const c = CanvasOnda, PartenzaCanvas = c.offsetLeft, HEIGHT = c.height, metaAltezza = HEIGHT / 2;
-    const x = Cursore.offsetLeft - PartenzaCanvas, valore = v * HEIGHT, partenzaDisegno = (metaAltezza + valore), colorevalore = valore / HEIGHT * 255;
+    const x = Cursore.offsetLeft - PartenzaCanvas, valore = v * HEIGHT, partenzaDisegno = (metaAltezza + valore), colorevalore = valore / metaAltezza * 255;
     canvasCtx.lineWidth = 1;
     canvasCtx.strokeStyle = 'rgb(' + colorevalore + ', ' + (colorevalore / 2) + ', ' + (255 - colorevalore) + ')';
     canvasCtx.beginPath();
@@ -1237,6 +1237,9 @@ function GeneraBufferCI(datiAudio, buffer, FunzioneAlTermine = () => {}) {
                     bufferCanale[LunghezzaBuffer - s] *= 0.5;
                 }
             }
+        } else {
+            /* Attiva l'audio originale se la colonna internazionale è terminata prima della fine del video */
+            datiAudio.onended = () => {if (ColonnaInternazionaleAttivata && RiproduzioneInCorso && (VideoGuidaMinutaggioCorrente() < (totDurataVideoGuida - 1))) {SwitchColonnaInternazionale(false);}};
         }
     
         datiAudio.Durata = datiAudio.taglioFinale = datiAudio.buffer.duration;
@@ -1901,6 +1904,12 @@ function PlayVideoGuida() {
             if (VerificaClipPrecaricate(SecondiPrecaricamentoAlPlay) == false) {return;}
             ElaboraClipDaRiprodurre();
             if (ModalitaStreaming) {
+                const UltimoAudioBufferCI = AudioBufferColonnaInternazionale[AudioBufferColonnaInternazionale.length - 1];
+                if (VideoGuidaMinutaggioCorrente() < ((+UltimoAudioBufferCI.MinutaggioRegistrazione) + (+UltimoAudioBufferCI.Durata))) {
+                    if (!ColonnaInternazionaleAttivata) {SwitchColonnaInternazionale(true);}
+                } else {
+                    if (ColonnaInternazionaleAttivata) {SwitchColonnaInternazionale(false);}
+                }
                 tmrComandiPlayerModalitaStreaming = setTimeout(() => {ComandiPlayer.style.opacity = 0;}, 2000);
                 FunzioneVisualizzazioneTitoli = VisualizzaTitoliInSync;
             }
