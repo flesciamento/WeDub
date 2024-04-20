@@ -2659,10 +2659,11 @@ function SwitchColonnaInternazionale(CI) {
     slideVolumeVideoGuida.value = (CI ? GuadagnoPrincipale[AudioBufferColonnaInternazionale[0].numero].gain.value : CambiaVolumeVideoGuida.volume);
     slideVolumeVideoGuida.onchange = (CI ? CambiaVolumeCI : CambiaVolumeVideoGuida);
 
-    pulSwitchColonnaInternazionale.onclick = (CI ? PassaAllaColonnaVideoGuida : PassaAllaColonnaInternazionale);
-
-    pulSwitchColonnaInternazionale.className = "btn btn-" + (CI ? "primary" : "default");
-    document.getElementById('pulSwitchCI_Interruttore').className = "slider round" + (CI ? " slider-attivo" : "");
+    if (pulSwitchColonnaInternazionale) {
+        pulSwitchColonnaInternazionale.onclick = (CI ? PassaAllaColonnaVideoGuida : PassaAllaColonnaInternazionale);
+        pulSwitchColonnaInternazionale.className = "btn btn-" + (CI ? "primary" : "default");
+        document.getElementById('pulSwitchCI_Interruttore').className = "slider round" + (CI ? " slider-attivo" : "");
+    }
     
     EscludiRipristinaTraccia("CI");
 }
