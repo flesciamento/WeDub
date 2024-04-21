@@ -1254,8 +1254,8 @@ function GeneraBufferCI(datiAudio, buffer, FunzioneAlTermine = () => {}) {
 async function PassaGradualmenteAllOriginale() {
     if (ColonnaInternazionaleAttivata && RiproduzioneInCorso && (VideoGuidaMinutaggioCorrente() < (totDurataVideoGuida - 1))) {
         VideoGuidaImpostaVolume(CambiaVolumeVideoGuida.volume / 2);
-        /* await pausa((tempomixCIeOriginale * 2) * 1000);
-        SwitchColonnaInternazionale(false); */
+        await pausa((tempomixCIeOriginale) * 1000);
+        /* SwitchColonnaInternazionale(false); */
         VideoGuidaImpostaVolume(CambiaVolumeVideoGuida.volume);
     }
 }
