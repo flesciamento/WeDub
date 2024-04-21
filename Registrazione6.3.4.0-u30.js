@@ -1256,6 +1256,7 @@ async function PassaGradualmenteAllOriginale() {
         VideoGuidaImpostaVolume(CambiaVolumeVideoGuida.volume / 2);
         /* await pausa((tempomixCIeOriginale * 2) * 1000);
         SwitchColonnaInternazionale(false); */
+        VideoGuidaImpostaVolume(CambiaVolumeVideoGuida.volume);
     }
 }
 
