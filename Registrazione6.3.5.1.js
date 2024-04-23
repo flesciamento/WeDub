@@ -1249,7 +1249,7 @@ function GeneraBufferCI(datiAudio, buffer, FunzioneAlTermine = () => {}) {
                 for(c = 0; c < numCanali; c++) {
                     bufferCanale = datiAudio.buffer.getChannelData(c);
                     for(s = lunghezzabytemixCIeOriginale; s >= 0; s--) {
-                        bufferCanale[LunghezzaBuffer - s] *= s / lunghezzabytemixCIeOriginale;
+                        bufferCanale[LunghezzaBuffer - s - 1] *= s / lunghezzabytemixCIeOriginale;
                     }
                 }
 
