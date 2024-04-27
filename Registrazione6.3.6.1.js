@@ -3437,7 +3437,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                                                 /* Tagli iniziali e finali */
                var FunzioneOnFocusPerTagliInizialiEFinali = (e) => {VisualizzazioneGraficaTaglioClip(+e.currentTarget.dataset.RiferimentoRegistrazione, true);};                                                
                CreaSlide('TaglioIniziale',  strTaglioIniziale,                    0, LunghezzaRegistrazione, 0.01,                  0, LunghezzaRegistrazione, 0.01, strSecondi, ev_CambiaTaglioInizialeClip,  ev_CambiaTaglioInizialeClip, datiAudio.taglioIniziale, FunzioneOnFocusPerTagliInizialiEFinali);
-               CreaSlide('TaglioFinale',      strTaglioFinale,   taglioclip_diffmin, LunghezzaRegistrazione, 0.01, taglioclip_diffmin, LunghezzaRegistrazione, 0.01, strSecondi, ev_CambiaTaglioFinaleClip,    ev_CambiaTaglioFinaleClip,   datiAudio.taglioFinale, FunzioneOnFocusPerTagliInizialiEFinali);
+               CreaSlide('TaglioFinale',      strTaglioFinale,   taglioclip_diffmin, LunghezzaRegistrazione, 0.01, taglioclip_diffmin, LunghezzaRegistrazione, 0.01, strSecondi, ev_CambiaTaglioFinaleClip,    ev_CambiaTaglioFinaleClip,   datiAudio.taglioFinale,   FunzioneOnFocusPerTagliInizialiEFinali);
 
                                                     /* Varie */
                 tr = CreaElemento('tr', ID_Opzioni + 'TabellaOpzioniRigaVarie', Tabella.id);
