@@ -2214,7 +2214,7 @@ function DividiClip_puntatorerilasciato(e) {
                     const pulCreaNuovaClip = CreaElemento('span', 'DividiClip_CreaNuovaClip', divContenitore.id, "<img style='" + styleImmagini + "' src='images/Esempio_taglio_nuova_clip.png' />&nbsp;" + strTagliaECreaNuovaClip); pulCreaNuovaClip.className = classePulsanti; pulCreaNuovaClip.iStyle({width: "100%", fontSize: "14pt", lineHeight: 1.8});
                           pulCreaNuovaClip.onclick = (e) => {
                                 VisualizzaAttenderePrego(e.currentTarget);
-                                DividiClip(ELT.dataset.RiferimentoRegistrazione, secondiInizioTaglio, secondiInizioTaglio, "", (ClipNuova) => {if (ClipNuova) {DividiClip(ClipNuova.numero, secondiFineTaglio, secondiFineTaglio);}});
+                                DividiClip(ELT.dataset.RiferimentoRegistrazione, secondiInizioTaglio, secondiInizioTaglio, "", (ClipNuova) => {if (ClipNuova) {DividiClip(ClipNuova.numero, secondiFineTaglio, secondiFineTaglio);} else {TerminaDividiClip();}});
                           };
             }
 
