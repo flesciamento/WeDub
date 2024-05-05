@@ -2211,7 +2211,7 @@ function DividiClip_puntatorerilasciato(e) {
                 const pulTagliaViaSelezionato = CreaElemento('span', 'DividiClip_pulTagliaViaSelezionato', divContenitore.id, "<img style='" + styleImmagini + "' src='images/Esempio_taglio_segmento.png' />&nbsp;" + strTagliaViaSelezionato); pulTagliaViaSelezionato.className = classePulsanti; pulTagliaViaSelezionato.iStyle({width: "100%", fontSize: "14pt", margin: "20px 0", lineHeight: 1.8});
                       pulTagliaViaSelezionato.onclick = (e) => {VisualizzaAttenderePrego(e.currentTarget); DividiClip(ELT.dataset.RiferimentoRegistrazione, secondiInizioTaglio, secondiFineTaglio, strSegmentoTagliato);};
 
-            var divContenitore = CreaElemento('div', 'DividiClip_ContenitoreTagliaViaIlResto', divContenuto.id);
+                divContenitore = CreaElemento('div', 'DividiClip_ContenitoreTagliaViaIlResto', divContenuto.id);
                 const pulTagliaViaIlResto = CreaElemento('span', 'DividiClip_pulTagliaViaIlResto', divContenitore.id, "<img style='" + styleImmagini + "' src='images/Esempio_mantenimento_segmento.png' />&nbsp;" + strTagliaViaIlResto); pulTagliaViaIlResto.className = classePulsanti; pulTagliaViaIlResto.iStyle({width: "100%", fontSize: "14pt", marginBottom: "20px", lineHeight: 1.8});
                       pulTagliaViaIlResto.onclick = (e) => {
                             const datiAudio = DatiAudioRegistrato[ELT.dataset.RiferimentoRegistrazione];
@@ -2221,7 +2221,7 @@ function DividiClip_puntatorerilasciato(e) {
                       };
 
             if ((secondiInizioTaglio > taglioclip_diffmin) && (secondiFineTaglio < (DatiAudioRegistrato[ELT.dataset.RiferimentoRegistrazione].Durata - taglioclip_diffmin))) {
-                var divContenitore = CreaElemento('div', 'DividiClip_ContenitoreCreaNuovaClip', divContenuto.id);
+                    divContenitore = CreaElemento('div', 'DividiClip_ContenitoreCreaNuovaClip', divContenuto.id);
                     const pulCreaNuovaClip = CreaElemento('span', 'DividiClip_CreaNuovaClip', divContenitore.id, "<img style='" + styleImmagini + "' src='images/Esempio_taglio_nuova_clip.png' />&nbsp;" + strTagliaECreaNuovaClip); pulCreaNuovaClip.className = classePulsanti; pulCreaNuovaClip.iStyle({width: "100%", fontSize: "14pt", lineHeight: 1.8});
                           pulCreaNuovaClip.onclick = (e) => {
                                 VisualizzaAttenderePrego(e.currentTarget);
