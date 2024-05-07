@@ -3509,6 +3509,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                             }
                             mediaprofilorumore /= lunghezzaprofilorumore;
                             console.log("mediaprofilorumore", mediaprofilorumore);
+                            
                             await pausa(100);
 
                             var contSogliaNonRaggiunta = 0;
