@@ -3553,11 +3553,11 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                                                     pulsante.innerHTML = "<span class='fa fa-check' style='color: green;'></span> " + strCreazioneCompletata;
                                                     const lblAudioOriginale = CreaElemento('label', td.id + 'labelOriginale', td.id); lblAudioOriginale.className = "btn btn-default";
                                                         const inputAudioOriginale = CreaElemento('input', ID_Opzioni + 'inputAudioOriginale', lblAudioOriginale.id); inputAudioOriginale.setAttribute('type', 'radio'); inputAudioOriginale.setAttribute('name', 'opzAudioOriginaleTrattato'); inputAudioOriginale.value = 0; inputAudioOriginale.onclick = () => {StoppaAutomaticamenteAscoltoInSolo(da); da.buffer = bufferoriginale; CreaClipAudio(da.numero); liAscoltaSoloTaglio.click();};
-                                                        CreaElemento('span', ID_Opzioni + 'spanAudioOriginale', lblAudioOriginale.id, "Ascolta originale");
+                                                        CreaElemento('span', ID_Opzioni + 'spanAudioOriginale', lblAudioOriginale.id, " Ascolta originale");
                                                         
                                                     const lblAudioTrattato = CreaElemento('label', td.id + 'labelTrattato', td.id); lblAudioTrattato.className = "btn btn-default";
                                                         const inputAudioTrattato = CreaElemento('input', ID_Opzioni + 'inputAudioTrattato', lblAudioTrattato.id); inputAudioTrattato.setAttribute('type', 'radio'); inputAudioTrattato.setAttribute('name', 'opzAudioOriginaleTrattato'); inputAudioTrattato.value = 1; inputAudioTrattato.onclick = () => {StoppaAutomaticamenteAscoltoInSolo(da); da.buffer = buffertrattato; CreaClipAudio(da.numero); liAscoltaSoloTaglio.click();};
-                                                        CreaElemento('span', ID_Opzioni + 'spanAudioTrattato', lblAudioTrattato.id, "Ascolta attuale");
+                                                        CreaElemento('span', ID_Opzioni + 'spanAudioTrattato', lblAudioTrattato.id, " Ascolta attuale");
 
                                                     inputAudioTrattato.click();
 
