@@ -3551,7 +3551,6 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                             function VerificaTermineProcesso() {
                                 AJAX("TrattamentoAudio_VerificaFile.php", "NomeFile=" + encodeURIComponent(nomefile), (Dati) => {
                                     if (Dati.Esiste) {
-                                        URL.revokeObjectURL(bloburl);
                                         CaricaAudio(0, {Registrazione: Dati.PercorsoCompleto}, 'arraybuffer', 
                                             (Contenuto) => {
                                                 NuovoAudioTrattato = Contenuto;
@@ -3577,6 +3576,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                                                 }).catch((err) => {console.log("Errore nuovo audio", err);});
                                                 
                                                 AJAX("TrattamentoAudio_EliminaFile.php", "NomeFile=" + encodeURIComponent(nomefile), "", "", "", true);
+                                                URL.revokeObjectURL(bloburl);
                                             }
                                         );
                                     } else {
