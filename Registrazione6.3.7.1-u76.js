@@ -3644,7 +3644,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                                     const da = DatiAudioRegistrato[RiferimentoRegistrazione];
                                     da.Rimosso = true;
 
-                                    console.log(NuovoAudioTrattato);
+                                    console.log("NuovoAudioTrattato", NuovoAudioTrattato);
                                     AJAX("TrattamentoAudio_ClonaClip.php", CreaParametri({N: da.NumeroUnivoco, Registrazione: new File([NuovoAudioTrattato], "NuovaRegistrazione." + formatoQualitaAlta)}), () => {OpzioniClip(RiferimentoRegistrazione, false, true);}, strSalvataggioInCorso, "", true, true);
 
                                     /* MinutaggioUltimaRegistrazione = da.MinutaggioRegistrazione;
