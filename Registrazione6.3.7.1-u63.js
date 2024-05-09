@@ -3556,11 +3556,11 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
 
                                                     pulsante.innerHTML = "<span class='fa fa-check' style='color: green;'></span> " + strCreazioneCompletata;
                                                     const lblAudioOriginale = CreaElemento('label', tdTrattamentoAudio.id + 'labelOriginale', tdTrattamentoAudio.id); lblAudioOriginale.className = "btn btn-default";
-                                                        const inputAudioOriginale = CreaElemento('input', ID_Opzioni + 'inputAudioOriginale', lblAudioOriginale.id); inputAudioOriginale.setAttribute('type', 'radio'); inputAudioOriginale.setAttribute('name', 'opzAudioOriginaleTrattato'); inputAudioOriginale.value = 0; inputAudioOriginale.onclick = () => {StoppaAutomaticamenteAscoltoInSolo(da); da.buffer = bufferoriginale; CreaClipAudio(da.numero);};
+                                                        const inputAudioOriginale = CreaElemento('input', ID_Opzioni + 'inputAudioOriginale', lblAudioOriginale.id); inputAudioOriginale.setAttribute('type', 'radio'); inputAudioOriginale.setAttribute('name', 'opzAudioOriginaleTrattato'); inputAudioOriginale.value = 0; inputAudioOriginale.onclick = () => {StoppaAutomaticamenteAscoltoInSolo(da); ResettaPulAscolta(); da.buffer = bufferoriginale; CreaClipAudio(da.numero);};
                                                         CreaElemento('span', ID_Opzioni + 'spanAudioOriginale', lblAudioOriginale.id, " Seleziona audio originale");
                                                         
                                                     const lblAudioTrattato = CreaElemento('label', tdTrattamentoAudio.id + 'labelTrattato', tdTrattamentoAudio.id); lblAudioTrattato.className = "btn btn-default";
-                                                        const inputAudioTrattato = CreaElemento('input', ID_Opzioni + 'inputAudioTrattato', lblAudioTrattato.id); inputAudioTrattato.setAttribute('type', 'radio'); inputAudioTrattato.setAttribute('name', 'opzAudioOriginaleTrattato'); inputAudioTrattato.value = 1; inputAudioTrattato.onclick = () => {StoppaAutomaticamenteAscoltoInSolo(da); da.buffer = buffertrattato; CreaClipAudio(da.numero);};
+                                                        const inputAudioTrattato = CreaElemento('input', ID_Opzioni + 'inputAudioTrattato', lblAudioTrattato.id); inputAudioTrattato.setAttribute('type', 'radio'); inputAudioTrattato.setAttribute('name', 'opzAudioOriginaleTrattato'); inputAudioTrattato.value = 1; inputAudioTrattato.onclick = () => {StoppaAutomaticamenteAscoltoInSolo(da); ResettaPulAscolta(); da.buffer = buffertrattato; CreaClipAudio(da.numero);};
                                                         CreaElemento('span', ID_Opzioni + 'spanAudioTrattato', lblAudioTrattato.id, " Seleziona audio trattato");
 
                                                     inputAudioTrattato.click();
@@ -3754,8 +3754,8 @@ function PulAscoltaPosizioneDefault(p) {
     p.onclick = ApriMenuOpzioniAscolto;
 }
 
-function ResettaPulAscolta(p) {
-    if (p) {
+function ResettaPulAscolta() {
+    if (document.getElementById('OpzioniClipPulAscolta')) {
         PulAscoltaPosizioneDefault(p);
         StoppaClipAudio(DatiAudioRegistrato[p.dataset.RiferimentoRegistrazione]);
     }
@@ -3789,16 +3789,12 @@ function AscoltaInSolo(Inizio, Fine) {
     datiAudio.audio.start(0, Inizio, Fine - Inizio);
     datiAudio.avviato = true;
     p.className = "btn btn-warning btn-sm fa fa-stop"; p.innerText = " " + strInterrompiAscolto;
-    p.onclick = StoppaAscoltoInSolo;
-    datiAudio.audio.onended = StoppaAscoltoInSolo;
+    p.onclick = ResettaPulAscolta;
+    datiAudio.audio.onended = ResettaPulAscolta;
 }
 
 function EliminaClipDaRiprodurre(Numero) {
     ClipDaRiprodurre.forEach(function (I, N) {if (I == Numero) {delete ClipDaRiprodurre[N];}}); // Evita di incorrere in errore se durante la riproduzione la clip viene avviata da RiproduciClipInSync()
-}
-
-function StoppaAscoltoInSolo() {
-    ResettaPulAscolta(document.getElementById('OpzioniClipPulAscolta'));
 }
 
 function StoppaAutomaticamenteAscoltoInSolo(datiAudio) {
