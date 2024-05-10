@@ -3503,6 +3503,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                                         datibufferprofilorumore.set(profilorumore, I);
                                     } */
                                     pulsante.abilita(false);
+                                    pulsante.iStyle({border: "none", color: "black"});
                                     pulsante.innerHTML = "<span class='fa fa-spin fa-spinner'></span> " + strInElaborazione;
                                     /* const bufferprofilorumoregenerico = audioContext.createBuffer(1, lunghezzaBuffer, da.buffer.sampleRate), profilorumoregenerico = bufferprofilorumoregenerico.getChannelData(0);
                                     for(let I = 0; I < lunghezzaBuffer; I++) {
@@ -3565,7 +3566,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                                                                 liAscoltaSoloTaglio.click();
                                                             }
 
-                                                            pulsante.innerHTML = "<span class='fa fa-check' style='color: green;'></span> " + strCreazioneCompletata; pulsante.iStyle({border: "none", color: "black"});
+                                                            pulsante.innerHTML = "<span class='fa fa-check' style='color: green;'></span> " + strCreazioneCompletata;
                                                             const lblAudioOriginale = CreaElemento('label', tdTrattamentoAudio.id + 'labelOriginale', tdTrattamentoAudio.id); lblAudioOriginale.className = "btn btn-default";
                                                                 const inputAudioOriginale = CreaElemento('input', ID_Opzioni + 'inputAudioOriginale', lblAudioOriginale.id); inputAudioOriginale.setAttribute('type', 'radio'); inputAudioOriginale.setAttribute('name', 'opzAudioOriginaleTrattato'); inputAudioOriginale.value = 0; inputAudioOriginale.onclick = SelezionaAudio;
                                                                 CreaElemento('span', ID_Opzioni + 'spanAudioOriginale', lblAudioOriginale.id, " " + strSelezionaAudioOriginale);
@@ -3577,7 +3578,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                                                             inputAudioTrattato.click();
 
                                                             divVetro.style.display = "none";
-                                                        }).catch((err) => {console.log("Errore nuovo audio", err);});
+                                                        }).catch((err) => {console.log("Errore nuovo audio", err); pulsante.innerHTML = strRiduzioneRumore_errore; divVetro.style.display = "none";});
                                                         
                                                         AJAX("TrattamentoAudio_EliminaFile.php", "NomeFile=" + encodeURIComponent(nomefile), "", "", "", true);
                                                         URL.revokeObjectURL(bloburl);
