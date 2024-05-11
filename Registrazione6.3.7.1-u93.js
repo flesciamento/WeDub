@@ -3657,7 +3657,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                                 RiassegnaBufferOriginale();
 
                                 /* Chiude la finestra */
-                                OpzioniClip(RiferimentoRegistrazione, false, true, (AudioTrattatoSelezionato? () => {AJAX("TrattamentoAudio_ClonaClip.php", CreaParametri({N: da.NumeroUnivoco, Registrazione: new File([NuovoAudioTrattato], "NuovaRegistrazione." + formatoQualitaAlta)}), () => {setTimeout(AggiornaClip, 100);}, strSalvataggioInCorso, "", true, true);} : () => {}));
+                                OpzioniClip(RiferimentoRegistrazione, false, true, (AudioTrattatoSelezionato? () => {AJAX("TrattamentoAudio_ClonaClip.php", CreaParametri({N: da.NumeroUnivoco, Registrazione: new File([NuovoAudioTrattato], "NuovaRegistrazione." + formatoQualitaAlta)}), () => {setTimeout(AggiornaClip, 100);}, strSalvataggioInCorsoClipTrattata, strClipTrattataSalvata, true, true);} : () => {}));
                           });
 
     function AggiornaModificheClip() {
