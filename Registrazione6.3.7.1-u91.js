@@ -3595,11 +3595,10 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
 
                             } else {
                                 pulRiduciRumore.innerHTML = strRiduzioneRumore_effettuato;
-                                pulRiduciRumore.iStyle({border: "none", pointerEvents: "none", color: "black"});
                                 pulRiduciRumore.dataset.nonabilitare = 1;
                             }
 
-        if (!datiAudio.buffer) {pulAscolta.abilita(false); pulRiduciRumore.abilita(false); pulAscolta.innerHTML = " <span class='fa fa-spin fa-spinner'></span> " + strCaricamento; CaricaBufferAudio(RiferimentoRegistrazione, () => {if (pulAscolta) {PulAscoltaPosizioneDefault(pulAscolta); pulAscolta.abilita(true); pulRiduciRumore.abilita(!pulRiduciRumore.dataset.nonabilitare);}});}
+        if (!datiAudio.buffer) {pulAscolta.abilita(false); pulRiduciRumore.abilita(false); pulAscolta.innerHTML = " <span class='fa fa-spin fa-spinner'></span> " + strCaricamento; CaricaBufferAudio(RiferimentoRegistrazione, () => {if (pulAscolta) {PulAscoltaPosizioneDefault(pulAscolta); pulAscolta.abilita(true); ((!pulRiduciRumore.dataset.nonabilitare) && (pulRiduciRumore.abilita(true)));}});}
         
                         
                 /* Commenti */
