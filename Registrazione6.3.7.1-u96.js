@@ -1412,8 +1412,8 @@ function RegistraMessaggioVocale_slow() {
 RegistraMessaggioVocale_slow.tmr = false;
 
 function RegistraMessaggioVocale() {
-    if (MessaggioIstantaneoInRiproduzione) {return;}
     if (ErroreMicrofono) {Messaggio(strErroreMic + ErroreMicrofono, "A"); return;}
+    if (MessaggioIstantaneoInRiproduzione) {return;}
 
     DisabilitaSchermata(); instantMeter.style.display = "none"; pulMessaggioVocale.abilita(true); 
     if (QualitaAltaRegistrazione) {
