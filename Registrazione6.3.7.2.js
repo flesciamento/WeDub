@@ -1866,7 +1866,7 @@ function CreaRegistrazione_wav() {
 }
 
 function SalvaNuovaRegistrazione(Contenuto, OndaSonora) {
-    const ContenutoRegistrazione = Contenuto.slice(), OndaSonoraRegistrazione = OndaSonora.slice(), MinutaggioAttualeRegistrazione = MinutaggioUltimaRegistrazione, FormatoFile = (QualitaAltaRegistrazione? formatoQualitaAlta : formatoQualitaMedia), InfoAggiuntiveRegistrazione = `${SistemaOperativoAttuale} ${NomeBrowserAttuale} ${VersioneBrowserAttuale} - ${audioContext.sampleRate} Hz - qualità ${(QualitaAltaRegistrazione? "alta" : "media")}, modalità ${(ModalitaLightAttiva? (ModalitaUltraLightAttiva? "ultra light" : "light") : "normale")} - ${(EffettuatoAutoTaglioIniziale? "effettuato auto taglio iniziale per " + Math.floor(SecondiAutoTaglioIniziale) + "sec. circa" : "nessun auto taglio iniziale.")} ${VersioneJS}`;
+    const ContenutoRegistrazione = Contenuto.slice(), OndaSonoraRegistrazione = OndaSonora.slice(), MinutaggioAttualeRegistrazione = MinutaggioUltimaRegistrazione, FormatoFile = (QualitaAltaRegistrazione? formatoQualitaAlta : formatoQualitaMedia), InfoAggiuntiveRegistrazione = `${SistemaOperativoAttuale} ${NomeBrowserAttuale} ${VersioneBrowserAttuale} - ${audioContext.sampleRate} Hz - qualità ${(QualitaAltaRegistrazione? "alta" : "media")}, modalità ${(ModalitaLightAttiva? (ModalitaUltraLightAttiva? "ultra light" : "light") : "normale")} - ${(EffettuatoAutoTaglioIniziale? "effettuato auto taglio iniziale per " + parseInt(SecondiAutoTaglioIniziale) + "sec. circa" : "nessun auto taglio iniziale.")} ${VersioneJS}`;
     RiattivaInterfacciaDopoRegistrazione();
     clearInterval(tmrAggiornaClip); EliminaAnteprimaOndaSonora();
     
@@ -3495,22 +3495,17 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                             if (DatiAudioRegistrato[RiferimentoRegistrazione].Registrazione.indexOf('-trattato') == -1) {
                                 pulRiduciRumore.onclick = async (e) => {
                                     divVetro.iStyle({display: "inline", opacity: 0});
-                                    const pulsante = e.currentTarget, Numero = pulsante.dataset.RiferimentoRegistrazione, da = DatiAudioRegistrato[Numero], b = da.buffer.getChannelData(0), lunghezzaBuffer = b.length, SampleRate = da.buffer.sampleRate, LimiteSecondiSogliaRumoreAttacco = SampleRate / RiduzioneRumore.FrazioneSecondoSogliaRumoreAttacco, LimiteSecondiSogliaRumoreTermine = SampleRate / RiduzioneRumore.FrazioneSecondoSogliaRumoreTermine;
+                                    const pulsante = e.currentTarget, Numero = pulsante.dataset.RiferimentoRegistrazione, da = DatiAudioRegistrato[Numero], b = da.buffer.getChannelData(0), lunghezzaBuffer = b.length, SampleRate = da.buffer.sampleRate, LimiteSecondiSogliaRumoreAttacco = RiduzioneRumore.SecondiSogliaRumoreAttacco * SampleRate, LimiteSecondiSogliaRumoreTermine = RiduzioneRumore.SecondiSogliaRumoreTermine * SampleRate;
+
+                                    /* Inizializzazione interfaccia */
                                     StoppaAutomaticamenteAscoltoInSolo();
-                                    bufferoriginale = audioContext.createBuffer(1, lunghezzaBuffer, SampleRate);
-                                    bufferoriginale.copyToChannel(b, 0);
-                                    /* const bufferprofilorumore = audioContext.createBuffer(1, lunghezzaprofilorumore * ((lunghezzaBuffer / lunghezzaprofilorumore) + 1), da.buffer.sampleRate);
-                                    const datibufferprofilorumore = bufferprofilorumore.getChannelData(0), lunghezzadatibufferprofilorumore = datibufferprofilorumore.length;
-                                    for (let I = 0; I < lunghezzadatibufferprofilorumore; I = I + lunghezzaprofilorumore) {
-                                        datibufferprofilorumore.set(profilorumore, I);
-                                    } */
                                     pulsante.abilita(false);
                                     pulsante.iStyle({border: "none", color: "black"});
                                     pulsante.innerHTML = "<span class='fa fa-spin fa-spinner'></span> " + strInElaborazione;
-                                    /* const bufferprofilorumoregenerico = audioContext.createBuffer(1, lunghezzaBuffer, da.buffer.sampleRate), profilorumoregenerico = bufferprofilorumoregenerico.getChannelData(0);
-                                    for(let I = 0; I < lunghezzaBuffer; I++) {
-                                        profilorumoregenerico[I] = ;
-                                    } */
+
+                                    /* Copia del buffer originale nell'apposita variabile */
+                                    bufferoriginale = audioContext.createBuffer(1, lunghezzaBuffer, SampleRate);
+                                    bufferoriginale.copyToChannel(b, 0);
 
                                     /** Centra l'onda sonora a 0 db **/
                                     var somma = 0;
@@ -3524,30 +3519,23 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
 
                                     await pausa(100);
 
+                                    /* Elimina il rumore nella prima parte dell'audio */
                                     const profilorumore = b.slice(0, b.indexOf(b.find((a) => {return a > TrattamentoClip.AutoTaglioIniziale.SogliaDB}))), lunghezzaprofilorumore = profilorumore.length - LimiteSecondiSogliaRumoreAttacco;
                                     for (let I = 0; I < lunghezzaprofilorumore; I++) {
                                         b[I] -= profilorumore[I];
                                     }
 
-                                    if (RiduzioneRumore.ApplicareSogliaRumore) {   
-                                        /* var mediaprofilorumore = 0;
-                                        for (let I = 0; I < lunghezzaprofilorumore; I++) {
-                                            mediaprofilorumore += Math.abs(profilorumore[I]);
-                                        }
-                                        mediaprofilorumore /= lunghezzaprofilorumore;
-                                        console.log("mediaprofilorumore", mediaprofilorumore); */
-                                        
-                                        await pausa(100);
-
+                                    if (RiduzioneRumore.ApplicareSogliaRumore) {
+                                        /* Riduce o annulla il rumore nei punti in cui non c'è il parlato */
                                         var contSogliaNonRaggiunta = 0;
                                         const sogliarumore = TrattamentoClip.AutoTaglioIniziale.SogliaDB;
-                                        /* const mediaprofilorumoreamplificata = mediaprofilorumore * 10; */
                                         for (let I = 0; I < lunghezzaBuffer; I++) {
                                             const sogliasuperata = ((Math.abs(b[I]) > sogliarumore) || (Math.abs(b[(+I) + (+LimiteSecondiSogliaRumoreAttacco)]) > sogliarumore));
                                             contSogliaNonRaggiunta = ++contSogliaNonRaggiunta * !sogliasuperata;
                                             const condizioneraggiunta = ((sogliasuperata) || (contSogliaNonRaggiunta < LimiteSecondiSogliaRumoreTermine));
                                             b[I] *= (condizioneraggiunta + (RiduzioneRumore.GainRumore * !condizioneraggiunta));
                                         }
+                                        await pausa(100);
                                     }
 
                                     const bloburl = URL.createObjectURL(new Blob([audiobufferToWav(b, SampleRate, {float32: true, notrattamento: true})]));
@@ -3609,6 +3597,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
             textarea.iStyle({margin: "20px", width: "90%", fontSize: (100 + (50 * SistemaAttualeAndroid)) + "%"});
             textarea.setAttribute('placeholder', (SonoCreatoreProgetto? strLasciaCommentoAlDoppiatore : strLasciaCommentoAlCreatoreProgetto));
 
+            
     /** Pulsanti salva e annulla **/
     div = CreaElemento('div', ID_Opzioni + 'PulsantiFinali', ID_Opzioni); div.className = "panel-footer";
         Tabella = CreaElemento('table', ID_Opzioni + 'TabellaPulsantiFinali', div.id); Tabella.className = "TabellaOpzioni"; Tabella.style.width = "100%";
