@@ -1247,11 +1247,12 @@ function GeneraBufferCI(datiAudio, buffer, FunzioneAlTermine = () => {}) {
     }
     
     function TerminaBufferCI() {
+        datiAudio.Durata = datiAudio.taglioFinale = datiAudio.buffer.duration;
+
         /** Attiva l'audio originale se la colonna internazionale termina prima della fine del video **/
         if (!TrovaSpezzoneVicino(datiAudio, 1) && (Math.floor((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.Durata)) < Math.floor(totDurataVideoGuida - 1))) {
             /* Fade-out ultimo pezzo */
             const LunghezzaBuffer = datiAudio.buffer.length;
-            datiAudio.Durata = datiAudio.taglioFinale = datiAudio.buffer.duration;
             const lunghezzabytemixCIeOriginale = tempomixCIeOriginale * SampleRate;
             for(c = 0; c < numCanali; c++) {
                 bufferCanale = datiAudio.buffer.getChannelData(c);
