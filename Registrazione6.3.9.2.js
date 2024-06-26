@@ -1216,7 +1216,6 @@ function GeneraBufferCI(datiAudio, buffer, FunzioneAlTermine = () => {}) {
 
             /* Aggiunge l'ultimo pezzo del buffer precedente */
             datiAudio.buffer = appendBuffer([datiAudio_SpezzonePrecedente.bufferdalegare, b]);
-            /* datiAudio.buffer = b; */
             
             datiAudio.MinutaggioRegistrazione = (+datiAudio_SpezzonePrecedente.MinutaggioRegistrazione) + (+datiAudio_SpezzonePrecedente.Durata) - datiAudio_SpezzonePrecedente.bufferdalegare.duration;
 
