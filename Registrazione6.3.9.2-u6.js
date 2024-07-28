@@ -3477,7 +3477,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
             const slideEffetto = CreaElemento('input', id_slideEffetto, pulEffetto.id); slideEffetto.setAttribute("type", "range"); slideEffetto.setAttribute("min", 0.1); slideEffetto.setAttribute("max", 2); slideEffetto.setAttribute("step", 0.1);
                   slideEffetto.value = 0.5; slideEffetto.dataset.effetto = Effetto;
                   slideEffetto.oninput = (e) => {ELTDaModificare.forEach((clipELT) => {const Numero = clipELT.dataset.RiferimentoRegistrazione; DatiAudioRegistrato[Numero].intensitaeffetti = e.currentTarget.value; GestisciIntensitaEffetto(Numero, e.currentTarget.dataset.effetto);})};
-                  //slideEffetto.dispatchEvent(new Event('input'));
+                  slideEffetto.dispatchEvent(new Event('input'));
         }
         /***********************************************************************/
 
