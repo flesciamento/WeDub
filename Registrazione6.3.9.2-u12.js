@@ -3460,7 +3460,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
             var EffettoDaInserire = "";
             if (datiAudio.effetti != Effetto) {
                 EffettoDaInserire = Effetto;
-                PulsanteEffettoAttivo(pulEffetto);
+                PulsanteEffettoAttivo(pulEffetto, true);
             }
         
             ELTDaModificare.forEach((clipELT) => {
@@ -3470,8 +3470,8 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
             });
         }
 
-        function PulsanteEffettoAttivo(pulEffetto) {
-            const Effetto = pulEffetto.dataset.effetto, IntensitaEffettoIniziale = DatiAudioRegistrato[ELTDaModificare[0].dataset.RiferimentoRegistrazione].intensitaeffetti;
+        function PulsanteEffettoAttivo(pulEffetto, NuovoEffetto = false) {
+            const IntensitaEffettoIniziale = (NuovoEffetto? 0.5 : DatiAudioRegistrato[ELTDaModificare[0].dataset.RiferimentoRegistrazione].intensitaeffetti);
             pulEffetto.className = "btn btn-warning";
             const slideEffetto = CreaElemento('input', id_slideEffetto, pulEffetto.id); slideEffetto.setAttribute("type", "range"); slideEffetto.setAttribute("min", 0.1); slideEffetto.setAttribute("max", 2); slideEffetto.setAttribute("step", 0.1);
                   slideEffetto.value = IntensitaEffettoIniziale;
