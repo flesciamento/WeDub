@@ -2986,13 +2986,13 @@ function CreaEffettoRiverbero(Numero) {
     GestisciIntensitaEffetto(Numero, "riverbero");
 }
 
-function GestisciIntensitaEffetto(Numero, Effetto) {
+function GestisciIntensitaEffetto(Numero) {
     const datiAudio = DatiAudioRegistrato[Numero];
     if (!datiAudio.audio) {return;}
     
     const Intensita = datiAudio.intensitaeffetti;
 
-    switch (Effetto) {
+    switch (datiAudio.effetti) {
         case "radio": FiltroBandaAR[Numero].frequency.value = 1500 / 0.5 * Intensita; break;
         case "ovattato": FiltroBandaAR[Numero].frequency.value = 800 / 1.5 * (2 - Intensita); break;
         case "echo": EffettoDelay2[Numero].delayTime.value = 0.2 / 0.5 * Intensita; break;
@@ -3474,8 +3474,8 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
             const Effetto = pulEffetto.dataset.effetto, IntensitaEffettoIniziale = DatiAudioRegistrato[ELTDaModificare[0].dataset.RiferimentoRegistrazione].intensitaeffetti;
             pulEffetto.className = "btn btn-warning";
             const slideEffetto = CreaElemento('input', id_slideEffetto, pulEffetto.id); slideEffetto.setAttribute("type", "range"); slideEffetto.setAttribute("min", 0.1); slideEffetto.setAttribute("max", 2); slideEffetto.setAttribute("step", 0.1);
-                  slideEffetto.value = IntensitaEffettoIniziale; slideEffetto.dataset.effetto = Effetto;
-                  slideEffetto.oninput = (e) => {ELTDaModificare.forEach((clipELT) => {const Numero = clipELT.dataset.RiferimentoRegistrazione; DatiAudioRegistrato[Numero].intensitaeffetti = e.currentTarget.value; GestisciIntensitaEffetto(Numero, e.currentTarget.dataset.effetto);})};
+                  slideEffetto.value = IntensitaEffettoIniziale;
+                  slideEffetto.oninput = (e) => {ELTDaModificare.forEach((clipELT) => {const Numero = clipELT.dataset.RiferimentoRegistrazione; DatiAudioRegistrato[Numero].intensitaeffetti = e.currentTarget.value; GestisciIntensitaEffetto(Numero);})};
                   ELTDaModificare.forEach((clipELT) => {DatiAudioRegistrato[clipELT.dataset.RiferimentoRegistrazione].intensitaeffetti = IntensitaEffettoIniziale;});
         }
         /***********************************************************************/
