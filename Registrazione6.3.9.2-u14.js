@@ -288,6 +288,7 @@ function AttivaProgramma() {
         MinutaggiRighello.Disegna();
         setTimeout(() => {
             /* Adatta la dimensione degli elementi in base al contenuto e allo spazio a disposizione */
+            if (!SonoCreatoreProgetto) {AltezzaTracce = window.innerHeight - (window.innerHeight * 0.3); VariaAltezzaTracce();}
             if (RuoliDaAssegnare_NumeroTraccia !== false) {VariaAltezzaTraccia(RuoliDaAssegnare_NumeroTraccia, (+document.getElementById('divContenutoNomeTraccia' + RuoliDaAssegnare_NumeroTraccia).offsetHeight) + 70); SpostaInBassoTracceSuccessive();}
             AdattaAltezzaContenitoreTracce();
             AutoAdattaElementiInterfaccia();
