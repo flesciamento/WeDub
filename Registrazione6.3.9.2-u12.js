@@ -3443,7 +3443,6 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                   pulEffetto.setAttribute('name', 'pulEffetto');
                   pulEffetto.dataset.effetto = Effetto;
                   if (datiAudio.effetti == Effetto) {PulsanteEffettoAttivo(pulEffetto);}
-                  pulEffetto.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione;
                   pulEffetto.addEventListener('click', AttivaDisattivaEffetto);
         }
 
@@ -3475,9 +3474,9 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
             const Effetto = pulEffetto.dataset.effetto;
             pulEffetto.className = "btn btn-warning";
             const slideEffetto = CreaElemento('input', id_slideEffetto, pulEffetto.id); slideEffetto.setAttribute("type", "range"); slideEffetto.setAttribute("min", 0.1); slideEffetto.setAttribute("max", 2); slideEffetto.setAttribute("step", 0.1);
-                  slideEffetto.value = 0.5; slideEffetto.dataset.effetto = Effetto;
+                  slideEffetto.value = DatiAudioRegistrato[ELTDaModificare[0].dataset.RiferimentoRegistrazione].intensitaeffetti; slideEffetto.dataset.effetto = Effetto;
                   slideEffetto.oninput = (e) => {ELTDaModificare.forEach((clipELT) => {const Numero = clipELT.dataset.RiferimentoRegistrazione; DatiAudioRegistrato[Numero].intensitaeffetti = e.currentTarget.value; GestisciIntensitaEffetto(Numero, e.currentTarget.dataset.effetto);})};
-                  ELTDaModificare.forEach((clipELT) => {DatiAudioRegistrato[clipELT.dataset.RiferimentoRegistrazione].intensitaeffetti = 0.5;});
+                  ELTDaModificare.forEach((clipELT) => {DatiAudioRegistrato[clipELT.dataset.RiferimentoRegistrazione].intensitaeffetti = slideEffetto.value;});
         }
         /***********************************************************************/
 
