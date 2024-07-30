@@ -2948,7 +2948,7 @@ function CreaEffettoRadio(Numero) {
     FiltroBandaAR[Numero].type = "highpass"; FiltroBandaAR[Numero].frequency.value = 1500;
     CreaGuadagnoPrincipale(Numero);
     DatiAudioRegistrato[Numero].audio.connect(FiltroBandaAR[Numero]).connect(GuadagnoPrincipale[Numero]).connect(ac.destination);
-    GestisciIntensitaEffetto(Numero, "radio");
+    GestisciIntensitaEffetto(Numero);
 }
 
 function CreaEffettoOvattato(Numero) {
@@ -2957,7 +2957,7 @@ function CreaEffettoOvattato(Numero) {
     FiltroBandaAR[Numero].type = "lowpass"; FiltroBandaAR[Numero].frequency.value = 800;
     CreaGuadagnoPrincipale(Numero);
     DatiAudioRegistrato[Numero].audio.connect(FiltroBandaAR[Numero]).connect(GuadagnoPrincipale[Numero]).connect(ac.destination);
-    GestisciIntensitaEffetto(Numero, "ovattato");
+    GestisciIntensitaEffetto(Numero);
 }
 
 function CreaEffettoEcho(Numero) {
@@ -2969,7 +2969,7 @@ function CreaEffettoEcho(Numero) {
     CreaGuadagnoPrincipale(Numero);
     DatiAudioRegistrato[Numero].audio.connect(GuadagnoDelay1[Numero]).connect(EffettoDelay1[Numero]).connect(GuadagnoDelay2[Numero]).connect(EffettoDelay2[Numero]).connect(GuadagnoPrincipale[Numero]).connect(ac.destination);
     DatiAudioRegistrato[Numero].audio.connect(GuadagnoPrincipale[Numero]).connect(ac.destination);
-    GestisciIntensitaEffetto(Numero, "echo");
+    GestisciIntensitaEffetto(Numero);
 }
 
 function CreaEffettoRiverbero(Numero) {
@@ -2983,7 +2983,7 @@ function CreaEffettoRiverbero(Numero) {
     CreaGuadagnoPrincipale(Numero);
     DatiAudioRegistrato[Numero].audio.connect(GuadagnoDelay1[Numero]).connect(EffettoDelay1[Numero]).connect(GuadagnoDelay2[Numero]).connect(EffettoDelay2[Numero]).connect(GuadagnoDelay3[Numero]).connect(EffettoDelay3[Numero]).connect(GuadagnoPrincipale[Numero]).connect(ac.destination);
     DatiAudioRegistrato[Numero].audio.connect(GuadagnoPrincipale[Numero]).connect(ac.destination);
-    GestisciIntensitaEffetto(Numero, "riverbero");
+    GestisciIntensitaEffetto(Numero);
 }
 
 function GestisciIntensitaEffetto(Numero) {
