@@ -249,8 +249,8 @@ function VariaAltezzaTracce() {
 
     EliminaElemento(document.getElementById('indicatoreVariazioneAltezzaTracce')); divVetro.style.display = "none";
 
-    document.getElementById('Contenitore').style.top = "calc(" + NuovaPosizioneContenitore;
-    if (UnitaDiMisura == "%") {document.getElementById('Contenitore').style.height = "calc(100% - " + NuovaPosizioneContenitore;}
+    ContenitoreLineaTemporale.style.top = "calc(" + NuovaPosizioneContenitore;
+    if (UnitaDiMisura == "%") {ContenitoreLineaTemporale.style.height = "calc(100% - " + NuovaPosizioneContenitore;}
     ComandiPlayer.style.top = NuovaPosizione;
     Monitors.style.height = NuovaPosizione;
     
@@ -284,7 +284,7 @@ function AttivaProgramma() {
     /*** Visualizzazione ***/
     if (!ModalitaStreaming) {
         DisattivaMessaggiAttesa();
-        document.getElementById('Contenitore').style.display = "block";
+        ContenitoreLineaTemporale.style.display = "block";
         DisabilitaSchermata();
         MinutaggiRighello.Disegna();
         setTimeout(() => {
