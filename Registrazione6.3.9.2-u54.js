@@ -211,7 +211,7 @@ function Ridisegna() {
     tmrRidimensionamentoElementi = setTimeout(() => {
         MinutaggiRighello.Ridisegna();
         if (RidimensionaVideo) {RidimensionaVideo();}
-        VariaAltezzaTracce();
+        AdattaNuovaAltezzaTraccePerc();
         AutoAdattaElementiInterfaccia();
         SeguiCursore();
         CompattaMarcatori();
