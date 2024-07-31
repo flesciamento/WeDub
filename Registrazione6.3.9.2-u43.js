@@ -230,7 +230,7 @@ function CliccatoVariazioneAltezzaTracce() {
     RideterminaLimitiAltezzaTracce();
     
     divVetro.iStyle({display: "inline", opacity: 1});
-    CreaElemento('div', 'indicatoreVariazioneAltezzaTracce', divVetro.id).iStyle({position: "absolute", width: "100%", top: AltezzaTracce + "px", borderTop: "5px dashed blue"});
+    CreaElemento('div', 'indicatoreVariazioneAltezzaTracce', divVetro.id).iStyle({position: "absolute", width: "100%", top: ((+AltezzaTracce) + (+ComandiPlayer.offsetHeight)) + "px", borderTop: "5px dashed blue"});
 }
 
 function SegnaVariazioneAltezzaTracce(e) {
@@ -238,7 +238,7 @@ function SegnaVariazioneAltezzaTracce(e) {
 
     AltezzaTracce = (+AltezzaIndicata * CondizioneSogliaMinima * CondizioneSogliaMassima) + (+AltezzaTracceMinima * !CondizioneSogliaMinima) + (+AltezzaTracceMassima * !CondizioneSogliaMassima);
 
-    document.getElementById('indicatoreVariazioneAltezzaTracce').style.top = AltezzaTracce + "px";
+    document.getElementById('indicatoreVariazioneAltezzaTracce').style.top = ((+AltezzaTracce) + (+ComandiPlayer.offsetHeight)) + "px";
 }
 
 function VariaAltezzaTracce() {
