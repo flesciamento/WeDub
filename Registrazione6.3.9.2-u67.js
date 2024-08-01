@@ -647,8 +647,11 @@ function ProcessaAudio_Monitora(e) {
     }
 
    instant = Math.sqrt(sum / totInput);
-   livelloMic.style.width = (((0.5 * instantMeter.value) + instant) * 100) + "px";
+   const valore = (0.5 * ProcessaAudio_Monitora.valoreprec) + instant;
+   ProcessaAudio_Monitora.valoreprec = valore;
+   livelloMic.style.width = (valore * 100) + "px";
 }
+ProcessaAudio_Monitora.valoreprec = 0;
 
 function ProcessaAudio_AcquisisciRegistrazione(e) {
     canaleAudio = e.data.audioRegistrato;
@@ -670,7 +673,7 @@ function handleSuccess(stream) {
     setTimeout(() => {if (registrazione) {registrazione.port.onmessage = ProcessaAudio_Monitora;}}, 500);
 
     pulRegistra.disabled = SolaVisione || (Righello.dataset.DisattivaClick == "si");
-    instantMeter.setAttribute('title', Didascalia);
+    livelloMic.setAttribute('title', Didascalia);
 
     if (selectQualitaRegistrazione.value == 0) {
         regMediaRecorder = new MediaRecorder(stream, {mimeType: 'audio/webm'});
@@ -1438,7 +1441,7 @@ function RegistraMessaggioVocale() {
     if (ErroreMicrofono) {Messaggio(strErroreMic + ErroreMicrofono, "A"); return;}
     if (MessaggioIstantaneoInRiproduzione) {return;}
 
-    DisabilitaSchermata(); instantMeter.style.display = "none"; pulMessaggioVocale.abilita(true);
+    DisabilitaSchermata(); livelloMic.style.display = "none"; pulMessaggioVocale.abilita(true);
     AttivaDisattivaMonitorMic(false);
     if (QualitaAltaRegistrazione) {
         registrazione.port.onmessage = "";
@@ -1464,7 +1467,7 @@ function MandaMessaggioVocale() {
     if (RegistraMessaggioVocale.RegistrazionePartita) {
         RegistraMessaggioVocale.RegistrazionePartita = false;
         GeneraOndaSonoraMessaggioVocale.termina();
-        setTimeout(() => {instantMeter.style.display = "inline";}, 100);
+        setTimeout(() => {livelloMic.style.display = "inline";}, 100);
         pulMessaggioVocale.abilita(false);
         ffmpeg_TotaleProcessi = 0; ffmpeg_FunzioneAlTermineProcessi = SalvaMessaggioVocale;
         TrattamentoClip.TaglioFinale.applica = false;
@@ -1562,7 +1565,7 @@ function startRecording() {
     MinutaggioPartenzaRegistrazione = VideoGuidaMinutaggioCorrente();
 
     /* Disabilita monitoraggio microfono */
-    instantMeter.value = 0; instantMeter.style.display = "none";
+    livelloMic.style.width = 0; livelloMic.style.display = "none";
 
     /* Impedisce all'utente di intervenire */
     window.removeEventListener('keydown', ScorciatoieTastiera);
@@ -1669,7 +1672,7 @@ function FermaRegistrazione() {
     clearTimeout(tmrPulsanteStopRegistrazione);
     pulPlay.style.opacity = ""; pulStopRegistrazione.disabled = true; pulAnnullaRegistrazione.disabled = true;
     pulRegistra.style.animation = "";
-    instantMeter.style.display = "inline";
+    livelloMic.style.display = "inline";
     FunzioniCopione.OpacitaCopioneDisattivato = 0.6;
 
     /* Ferma il video, ripristina le eventuali clip disattivate e rimette la funzione al time update di default */
