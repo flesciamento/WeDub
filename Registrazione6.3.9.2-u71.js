@@ -1565,7 +1565,7 @@ function startRecording() {
     MinutaggioPartenzaRegistrazione = VideoGuidaMinutaggioCorrente();
 
     /* Disabilita monitoraggio microfono */
-    livelloMic.style.width = 0; livelloMic.style.display = "none";
+    livelloMic.iStyle({width: 0, display: "none"});
 
     /* Impedisce all'utente di intervenire */
     window.removeEventListener('keydown', ScorciatoieTastiera);
