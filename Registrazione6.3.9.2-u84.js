@@ -176,7 +176,7 @@ slideZoom.addEventListener('change', CambiaZoom);
 window.addEventListener('scroll', PosizionaElementiScroll);
 
 function PosizionaElementiScroll() {
-    divMinutaggiRighello.style.top = (15 + window.scrollY) + "px"; divMinutaggiRighello.style.zIndex = 10000 * (window.scrollY > 0)
+    divMinutaggiRighello.style.top = (15 + window.scrollY) + "px"; divMinutaggiRighello.style.zIndex = 10000 * (window.scrollY > 100);
     Cursore.style.top = window.scrollY + "px"; CursoreAnteprima.style.top = Cursore.style.top;
     document.getElementById('NomiTracce').style.top = ((+ContenitoreLineaTemporale.offsetTop) + 30 - window.scrollY) + "px";
     WindowScrollY = window.scrollY.arrotonda(2);
