@@ -778,6 +778,7 @@ function AggiornaCursoreConAnteprimaOndaSonoraEAscoltoClip_Analizzatore() {
 function AnteprimaOndaSonora_Analizzatore() {
     analizzatoreAudio.getFloatTimeDomainData(audioAnalizzato);
     AnteprimaOndaSonora(audioAnalizzato[0]);
+    livelloMic.width = (audioAnalizzato[0] * lunghezzaLivelloMic) + "px";
 }
 
 function AnteprimaOndaSonora(v) {
@@ -1675,7 +1676,7 @@ function FermaRegistrazione() {
     clearTimeout(tmrPulsanteStopRegistrazione);
     pulPlay.style.opacity = ""; pulStopRegistrazione.disabled = true; pulAnnullaRegistrazione.disabled = true;
     pulRegistra.style.animation = "";
-    livelloMic.style.display = "block";
+    livelloMic.style.display = "";
     FunzioniCopione.OpacitaCopioneDisattivato = 0.6;
 
     /* Ferma il video, ripristina le eventuali clip disattivate e rimette la funzione al time update di default */
