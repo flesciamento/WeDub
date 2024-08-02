@@ -676,7 +676,7 @@ function handleSuccess(stream) {
     registrazione = new window.AudioWorkletNode(ac, 'recorder-worklet');
     sorgenteAudioSelezionata.connect(registrazione).connect(ac.destination);
     AggiornaParametriRegistrazione();
-    setTimeout(() => {if (registrazione) {registrazione.port.onmessage = ProcessaAudio_Monitora;}}, 500);
+    setTimeout(() => {if (registrazione) {registrazione.port.onmessage = ProcessaAudio_Monitora; lunghezzaLivelloMic = divSelettoreMicrofono.offsetWidth;}}, 500);
 
     pulRegistra.disabled = SolaVisione || (Righello.dataset.DisattivaClick == "si");
     livelloMic.setAttribute('title', Didascalia);
