@@ -300,7 +300,7 @@ function AttivaProgramma() {
         MinutaggiRighello.Disegna();
         setTimeout(() => {
             /* Adatta la dimensione degli elementi in base al contenuto e allo spazio a disposizione */
-            AdattaAltezzaTraccia(0);
+            if (NumeroTotaleTracce > 1) {AdattaAltezzaTraccia(0);}
             if (RuoliDaAssegnare_NumeroTraccia !== false) {
                 AdattaAltezzaTracciaRuoliDaAssegnare();
             } else {
