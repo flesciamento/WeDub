@@ -687,7 +687,7 @@ function handleSuccess(stream) {
     pulRegistra.disabled = SolaVisione || (Righello.dataset.DisattivaClick == "si");
     livelloMic.setAttribute('title', Didascalia);
 
-    if (QualitaRegistrazione.dataset.valore == 0) {
+    if (document.getElementById('QualitaRegistrazione').dataset.valore == 0) {
         regMediaRecorder = new MediaRecorder(stream, {mimeType: 'audio/webm'});
         regMediaRecorder.ondataavailable = handleDataAvailable;
         QualitaAltaRegistrazione = false;
