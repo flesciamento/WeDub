@@ -1461,7 +1461,7 @@ function RegistraMessaggioVocale() {
     AttivaDisattivaMonitorMic(false);
     if (QualitaAltaRegistrazione) {
         registrazione.port.onmessage = "";
-        registrazione.port.postMessage({numCanale: CanaleRegistrazione.dataset.valore, modalita: "Registrazione"});
+        registrazione.port.postMessage({numCanale: AcquisisciCanaleRegistrazione(), modalita: "Registrazione"});
     } else {
         DisconnettiWorkletRegistrazione();
         regMediaRecorder.start();
@@ -1488,7 +1488,7 @@ function MandaMessaggioVocale() {
         TrattamentoClip.TaglioFinale.applica = false;
         if (QualitaAltaRegistrazione) {
             registrazione.port.onmessage = ProcessaAudio_AcquisisciRegistrazione;
-            registrazione.port.postMessage({numCanale: CanaleRegistrazione.dataset.valore, modalita: "AcquisisciRegistrazione"});
+            registrazione.port.postMessage({numCanale: AcquisisciCanaleRegistrazione(), modalita: "AcquisisciRegistrazione"});
         } else {
             regMediaRecorder.onstop = () => {MandaACreaRegistrazione(CreaRegistrazione_mediaRecorder);};
             try {regMediaRecorder.stop();} catch (err) {RiattivaInterfacciaDopoRegistrazione();}
@@ -1660,7 +1660,7 @@ function ResettaContoAllaRovescia() {
 
 function RegistrazioneParti() {
     if (QualitaAltaRegistrazione) {
-        registrazione.port.postMessage({numCanale: CanaleRegistrazione.dataset.valore, modalita: "Registrazione"});
+        registrazione.port.postMessage({numCanale: AcquisisciCanaleRegistrazione(), modalita: "Registrazione"});
     } else {
         regMediaRecorder.start();
     }
@@ -1711,7 +1711,7 @@ function stopRecording() {
     if (QualitaAltaRegistrazione) {
         ffmpeg_Processi = ["-i clip1 output." + formatoQualitaAlta, "-i clip1 -lavfi \"showwavespic=s=3000x200:colors=blue\" onda.gif"];
         registrazione.port.onmessage = ProcessaAudio_AcquisisciRegistrazione;
-        registrazione.port.postMessage({numCanale: CanaleRegistrazione.dataset.valore, modalita: "AcquisisciRegistrazione"});
+        registrazione.port.postMessage({numCanale: AcquisisciCanaleRegistrazione(), modalita: "AcquisisciRegistrazione"});
     } else {
         ffmpeg_Processi = ["-i clip1 output." + formatoQualitaMedia, "-i clip1 -lavfi \"showwavespic=s=3000x200:colors=blue\" onda.gif"];
         regMediaRecorder.onstop = () => {MandaACreaRegistrazione(CreaRegistrazione_mediaRecorder);};
@@ -1748,7 +1748,7 @@ function CreaRegistrazione_mediaRecorder() {
         function (Contenuto) {
             /* Per una resa più fedele, l'audio viene decodificato in audiobuffer e trasformato in un arraybuffer formato audio wav prima di essere convertito nel formato desiderato */
             audioContext.decodeAudioData(Contenuto).then((buffer) => {
-                var ConversioneWav = audiobufferToWav(buffer.getChannelData(CanaleRegistrazione.dataset.valore), buffer.sampleRate);
+                var ConversioneWav = audiobufferToWav(buffer.getChannelData(AcquisisciCanaleRegistrazione()), buffer.sampleRate);
 
                 if (ffmpeg_TotaleProcessi > 0) {
                     initWorker();
