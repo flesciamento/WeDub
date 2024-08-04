@@ -3491,7 +3491,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
         }
 
         function AttivaDisattivaEffetto(e) {
-            if (e.target.tagName == "INPUT") {return;} // Non disattiva l'evento se l'utente ha cliccato sullo slide
+            if (e.target.tagName == "INPUT") {return;} // Non disattiva l'effetto se l'utente ha cliccato sullo slide
 
             const pulEffetto = e.currentTarget, Effetto = pulEffetto.dataset.effetto, Numero = ELTDaModificare[0].dataset.RiferimentoRegistrazione, datiAudio = DatiAudioRegistrato[Numero];
             const pulsantiEffetti = document.getElementsByName('pulEffetto'), totPulsantiEffetti = pulsantiEffetti.length, classe_default = "btn btn-default";
