@@ -279,7 +279,7 @@ function RideterminaLimitiAltezzaTracce() {
     AltezzaTracceMinima = (+window.innerHeight * 0.4); AltezzaTracceMassima = window.innerHeight - SuddivisioneTracce - 25;
 }
 
-function VariaAltezzaTracceSePossibile() {
+function VariaAltezzaTracceSePiuBasse() {
     if (AltezzaTracce > ContenitoreVideoGuida.offsetHeight) {VariaAltezzaTracce();}
 }
 /********************************************************/
@@ -317,7 +317,7 @@ function AttivaProgramma() {
                     if (NumeroTotaleTracce == 1) {
                         AltezzaTracce = window.innerHeight * 0.6; VariaAltezzaTracce();
                     } else {
-                        if (!SonoCreatoreProgetto && !SessioneOspite) {AltezzaTracce = window.innerHeight - NomiTracce.children[0].offsetHeight - 200; VariaAltezzaTracceSePossibile();}
+                        if (!SonoCreatoreProgetto && !SessioneOspite) {AltezzaTracce = window.innerHeight - NomiTracce.children[0].offsetHeight - 200; VariaAltezzaTracceSePiuBasse();}
                     }
                 }
             }
@@ -536,7 +536,7 @@ function SelezionaCandidatoRuoliDaAssegnare(ID) {
             if (Righello.dataset.DisattivaClick == "no") {RiabilitaSchermata();} // Abilita la possibilità eventuale di registrare solo se la schermata era già attiva.
             AttivaImmagineAttesa('TrePunti');
             AdattaAltezzaTracciaRuoliDaAssegnare();
-            if (!SonoCreatoreProgetto && OrientamentoSchermoOrizzontale()) {AltezzaTracce = window.innerHeight - document.getElementById('divContenutoNomeTraccia' + RuoliDaAssegnare_NumeroTraccia).offsetHeight - 100; VariaAltezzaTracce();} // Se l'utente è il visitatore candidato, ingrandisce il video
+            if (!SonoCreatoreProgetto && OrientamentoSchermoOrizzontale()) {AltezzaTracce = window.innerHeight - document.getElementById('divContenutoNomeTraccia' + RuoliDaAssegnare_NumeroTraccia).offsetHeight - 100; VariaAltezzaTracceSePiuBasse();} // Se l'utente è il visitatore candidato, ingrandisce il video
             setTimeout(AggiornaClip, 100, () => {
                 EliminaImgAttesa(); setTimeout(() => {document.getElementById('divContenutoNomeTraccia' + RuoliDaAssegnare_NumeroTraccia).abilita(true);}, 1000);
             });
