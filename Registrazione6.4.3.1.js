@@ -686,7 +686,7 @@ function ProcessaAudio_AcquisisciRegistrazione(e) {
 /********************************************/
 
 function handleSuccess(stream) {
-    const ac = audioContext, Didascalia = strSpiegazioneSceltaMicrofono + " - " + ac.sampleRate + " Hz - buffer-size: " + dimensioneBuffer;
+    const ac = audioContext, Didascalia = strSpiegazioneSceltaMicrofono + ac.sampleRate + " Hz - buffer-size: " + dimensioneBuffer;
 
     QualitaAltaRegistrazione = true; regMediaRecorder = false;
     
