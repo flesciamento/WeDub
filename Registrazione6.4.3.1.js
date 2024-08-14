@@ -532,7 +532,7 @@ function SelezionaCandidatoRuoliDaAssegnare(ID) {
             DatiDoppiatori[ID] = {nome: Dati.Nome, numeroTraccia: RuoliDaAssegnare_NumeroTraccia, ruolo: DatiDoppiatori['RuoliDaAssegnare'].ruolo};
             if (!TracceEscluse.includes(ID)) {TracceEscluse.push(ID);} EscludiRipristinaTraccia(ID);
             RuoliDaAssegnare_CandidatoSelezionato = ID;
-            SolaVisione = SessioneOspite; // Attiva la possibilità di registrare solo se si è il visitatore candidato (o il creatore del progetto doppiatore).
+            SolaVisione = SessioneOspite; // Attiva la possibilità di registrare solo se si è il visitatore candidato (o il creatore del progetto).
             if (Righello.dataset.DisattivaClick == "no") {RiabilitaSchermata();} // Abilita la possibilità eventuale di registrare solo se la schermata era già attiva.
             AttivaImmagineAttesa('TrePunti');
             AdattaAltezzaTracciaRuoliDaAssegnare();
