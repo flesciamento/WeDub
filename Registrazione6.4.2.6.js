@@ -1965,7 +1965,6 @@ function StoppaClipAudio(datiAudio) {
 }
 
 function PlayVideoGuida() {
-    //pulPlay.style.pointerEvents = "none"; PlayPausaCliccandoSulVideo(false) // Evita il doppio click involontario
     if (Math.round(VideoGuidaMinutaggioCorrente()) >= Math.round(totDurataVideoGuida)) {RiproduzioneInCorso = true; Posizionati(InizioVideoGuida); return;}
 
     if (RiproduzioneInCorso == false) {
@@ -2003,8 +2002,6 @@ function PlayVideoGuida() {
             VideoGuidaPlay();
         }
     }
-
-    //pulPlay.style.pointerEvents = ""; PlayPausaCliccandoSulVideo(true);
 }
 
 function StopVideoGuida() {
