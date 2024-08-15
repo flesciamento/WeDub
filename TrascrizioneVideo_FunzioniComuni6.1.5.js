@@ -270,7 +270,7 @@ const FunzioniCopione = {
     GestisciIncolla: async function (e) {
         const spanEditabile = e.currentTarget;
         await pausa(100);
-        spanEditabile.textContent = spanEditabile.innerText.replace(/\\/g, '').replace(/[^A-z0-9àéèìòù\.\?!'"’“”|£$%&\(\)=\[\]\*-–\+ ]/g, '');
+        spanEditabile.textContent = spanEditabile.innerText.replace(/\\/g, '/').replace(/[^A-z0-9àéèìòù\.\?\!'"’“”\|/£$%&\(\)=\[\]\*\-–\+ ]/g, '');
     },
     /********************************/
 
