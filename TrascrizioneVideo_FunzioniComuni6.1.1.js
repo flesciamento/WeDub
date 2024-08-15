@@ -83,7 +83,7 @@ const FunzioniCopione = {
     },
 
     FormattaTesto: function (Testo) {
-        const FunzioniNomePersonaggio = ((FunzioniCopione.CopioneEditabile == 2) ? " class='PersonaggioCliccabile' onclick='FunzioniCopione.FunzioneModificaPersonaggio(event)'" : ""), TestoEditabile = "name='ContenutoEditabile' onpaste='FunzioniCopione.GestisciIncolla(event);'" + ((FunzioniCopione.CopioneEditabile > 0) ? " contenteditable='true' style='display: inline-block; min-width: 100px;' onkeydown='FunzioniCopione.FunzioneModificaBattuta(event);' onfocus='FunzioniCopione.FunzioneOnFocusBattuta(event);'" : "");
+        const FunzioniNomePersonaggio = ((FunzioniCopione.CopioneEditabile == 2) ? " class='PersonaggioCliccabile' onclick='FunzioniCopione.FunzioneModificaPersonaggio(event)'" : ""), TestoEditabile = "name='ContenutoEditabile' onpaste='FunzioniCopione.GestisciIncolla(event);'" + ((FunzioniCopione.CopioneEditabile > 0) ? " contenteditable='true' style='display: inline-block; min-width: 200px;' onkeydown='FunzioniCopione.FunzioneModificaBattuta(event);' onfocus='FunzioniCopione.FunzioneOnFocusBattuta(event);'" : "");
         return Testo.replace(/\n/g, '<br>').replace(new RegExp('<br>\\s+|<br>(?![' + PatternRegexNomePersonaggio + ']+:)', 'g'), `</span><br><b ${FunzioniNomePersonaggio}>&nbsp;</b><span></span><span ${TestoEditabile}>`).replace(new RegExp('<br>([' + PatternRegexNomePersonaggio + ']+):', 'g'), `</span></span><br style='line-height: 5px;'><span data-battuta='1' name=\"Battuta_$1\"><b ${FunzioniNomePersonaggio}>$1</b><span>: </span><span ${TestoEditabile}>`);
     },
 
