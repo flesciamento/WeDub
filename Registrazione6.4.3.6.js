@@ -2538,7 +2538,6 @@ async function TermineCaricamentoClip() {
 
         } else {
             const totAudio = DatiAudioRegistrato.length;
-
             for (let I = 0; I < totAudio; I++) {
                 if (CestinaClipRimosse(DatiAudioRegistrato[I], true)) {await pausa(30);}
             }
