@@ -527,7 +527,6 @@ function MandaAdAggiornaTestoGuida() {
 
 function AggiornaTestoGuida_slow() {
     AggiornaTestoGuida_slow.tmr = setTimeout(() => {
-        /* if (document.activeElement.tagName != "SPAN") {FunzioniCopione.Visualizza(); divInfoTasti.style.display = "none";} */
         if (RiproduzioneInCorso) {FunzioniCopione.AttivaTestoGuida();} else {FunzioniCopione.AggiornaTestoGuida();}
     }, 100);
 }
