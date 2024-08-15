@@ -2290,12 +2290,6 @@ function DividiClip(Numero, secondiInizioTaglio, secondiFineTaglio, MessaggioAlT
                         ClipNuova.buffer = ClipDivisa.buffer;
                         OperazioniAlBufferCaricato(ClipNuova.numero);
                     }
-
-                    /** Applica lo stesso posizionamento verticale della clip divisa 
-                    const ELTClipDivisa = document.getElementById('ELTReg' + Numero), ELTClipNuova = document.getElementById('ELTReg' + ClipNuova.numero);
-                    ELTClipNuova.className = "ELT";
-                    ELTClipNuova.iStyle({top: ELTClipDivisa.style.top, height: ELTClipDivisa.style.height});
-                    setTimeout(() => {ELTClipNuova.className = "ELT transizione-morbida-si"; RiposizionamentoAutomaticoELTRiferitoAllaRegistrazione(ClipNuova);}, 100);**/
                 }
 
                 AggiornaRiproduzioneClip(Numero);
