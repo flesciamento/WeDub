@@ -1312,14 +1312,11 @@ function GeneraBufferCI(datiAudio, buffer, FunzioneAlTermine = () => {}) {
                 }
 
                 /* Attiva l'evento alPlay poco prima della fine della clip per passare all'originale */
-                datiAudio.alPlay = PassaGradualmenteAllOriginale;
+                datiAudio.alPlay = CI_PassaAllAudioOriginale;
                 datiAudio.latenzaEventoAlPlay = {secondi: datiAudio.Durata - tempomixCIeOriginale - 0.5, riduciSeClipNelMinutaggio: true};
 
                 /* In caso di altre clip audio presenti in un tempo successivo, attiva l'evento alPlay per passare dall'originale all'internazionale */
-                if (datiAudioSuccessivo = TrovaSpezzoneSuccessivo(datiAudio, 1)) {
-                    datiAudioSuccessivo.alPlay = PassaAllaColonnaInternazionale;
-                    datiAudioSuccessivo.latenzaEventoAlPlay = {secondi: 0, riduciSeClipNelMinutaggio: false};
-                }
+                if (datiAudioSuccessivo = TrovaSpezzoneSuccessivo(datiAudio, 1)) {CI_EventoAlPlayDisattivaAudioOriginale(datiAudioSuccessivo);}
             }
         }
     
@@ -1329,18 +1326,42 @@ function GeneraBufferCI(datiAudio, buffer, FunzioneAlTermine = () => {}) {
     }
 }
 
-// Esempio salvataggio: [{Partenza: 0, CI: "colonna1-1.ogg,colonna1-2.ogg"}, {Partenza: 50, VolumeVideoGuida: 1}, {Partenza: 150, CI: "colonna2-1.ogg,colonna2-2.ogg"}]
+function CI_EventoAlPlayDisattivaAudioOriginale(datiAudio) {
+    datiAudio.alPlay = CI_DisattivaAudioOriginale;
+    datiAudio.latenzaEventoAlPlay = {secondi: 0, riduciSeClipNelMinutaggio: false};
+}
 
-async function PassaGradualmenteAllOriginale() {
+// Esempio salvataggio: DatiCI = [{Partenza: 0, CI: ["colonna1-1.ogg", "colonna1-2.ogg"]}, {Partenza: 50, VolumeVideoGuida: 1}, {Partenza: 60, CI: ["ciao1.ogg", "ciao2.ogg"]}, {Partenza: 90, VolumeVideoGuida: 1}, {Partenza: 150, CI: ["colonna2-1.ogg", "colonna2-2.ogg"]}] 
+
+function PosizioneAttualeDatiCI() {
+    const MinutaggioCorrente = VideoGuidaMinutaggioCorrente();
+    return DatiCI.find((el) => {return ((el.Partenza <= MinutaggioCorrente) && (MinutaggioCorrente <= (DatiCI[+DatiCI.indexOf(el) + 1] || {Partenza: totDurataVideoGuida}).Partenza))});
+}
+
+function CI_PassaAllAudioOriginale() {
     if (ColonnaInternazionaleAttivata && RiproduzioneInCorso) {
-        VideoGuidaImpostaVolume(CambiaVolumeVideoGuida.volume);
-        await pausa((+tempomixCIeOriginale + 0.2) * 1000);
+        const Volume = PosizioneAttualeDatiCI().VolumeVideoGuida;
+        VideoGuidaImpostaVolume(Volume * GuadagnoPrincipale[AudioBufferColonnaInternazionale[0].numero].gain.value);
+        //await pausa((+tempomixCIeOriginale + 0.2) * 1000);
         //if (ColonnaInternazionaleAttivata) {EscludiRipristinaTraccia("CI", "Escludi");}
     }
 }
 
-function PassaAllaColonnaInternazionale() {
+function CI_DisattivaAudioOriginale() {
     if (ColonnaInternazionaleAttivata && RiproduzioneInCorso) {VideoGuidaImpostaVolume(0);}
+}
+
+function DeterminaVolumeVideoGuidaPerCI() {
+    if (ColonnaInternazionaleAttivata) {
+        const PosizioneAttualeCI = PosizioneAttualeDatiCI();
+        const PosizioneConAudioOriginale = (PosizioneAttualeCI.VolumeVideoGuida ? PosizioneAttualeCI : false)
+        if (PosizioneConAudioOriginale) {
+            CI_PassaAllAudioOriginale();
+            if (PosizioneSuccessiva = DatiCI[+DatiCI.indexOf(PosizioneConAudioOriginale) + 1]) {CI_EventoAlPlayDisattivaAudioOriginale(DatiAudioRegistrato_Registrazione[PosizioneSuccessiva.CI[0]]);}
+        } else {
+            CI_DisattivaAudioOriginale();
+        }
+    }
 }
 
 function ScaricaMemoria_slow() {
@@ -1995,18 +2016,19 @@ function PlayVideoGuida() {
         VideoGuidaRimuoviFunzioneAlTimeUpdate(FunzioneNormaleAlTimeUpdate);
         VideoGuidaFunzioneAlTimeUpdate(FunzioneNormaleAlTimeUpdate);
         ImpostaStatoPlay(true);
+        DeterminaVolumeVideoGuidaPerCI();
         if (FunzioniCopione.CopioneVisualizzato) {FunzioniCopione.AttivaTestoGuida();}
         if (StoRegistrando == false) {
             if (VerificaClipPrecaricate(SecondiPrecaricamentoAlPlay) == false) {return;}
             ElaboraClipDaRiprodurre();
             if (ModalitaStreaming) {
-                if (UltimoAudioBufferCI = AudioBufferColonnaInternazionale[AudioBufferColonnaInternazionale.length - 1]) {
+               /*  if (UltimoAudioBufferCI = AudioBufferColonnaInternazionale[AudioBufferColonnaInternazionale.length - 1]) {
                     if (VideoGuidaMinutaggioCorrente() < ((+UltimoAudioBufferCI.MinutaggioRegistrazione) + (+UltimoAudioBufferCI.Durata))) {
                         if (!ColonnaInternazionaleAttivata) {SwitchColonnaInternazionale(true);}
                     } else {
                         if (ColonnaInternazionaleAttivata) {SwitchColonnaInternazionale(false);}
                     }
-                }
+                } */
                 tmrComandiPlayerModalitaStreaming = setTimeout(() => {ComandiPlayer.style.opacity = 0;}, 2000);
                 FunzioneVisualizzazioneTitoli = VisualizzaTitoliInSync;
             }
@@ -2502,20 +2524,20 @@ function CaricamentoInizialeRegistrazioniAudio() {
     AJAX("CaricaRegistrazione.php", "NumProgetto=" + encodeURIComponent(N) + "&NumProvino=" + encodeURIComponent(P) + "&Streaming=" + (ModalitaStreaming? "1" : "0") + "&SoloMieRegistrazioni=" + (ModalitaUltraLightAttiva? "1" : "0"), CreazioneClipPrimoCaricamento, "", "", true);
 }
 
-function CreazioneClipPrimoCaricamento(Dati) {
-    const totClipAudio = Dati.length, PresenteColonnaInternazionale = (LinkColonnaInternazionale != "");
+function CreazioneClipPrimoCaricamento(DatiClipAudio) {
+    const totClipAudio = DatiClipAudio.length, PresenteColonnaInternazionale = (DatiCI != "");
     var I;
 
-    NumeroTotaleAudioCaricamentoIniziale = totClipAudio + (+ModalitaStreaming) + ((+LinkColonnaInternazionale.split(',').length) * PresenteColonnaInternazionale);
+    NumeroTotaleAudioCaricamentoIniziale = totClipAudio + (+ModalitaStreaming) + (PresenteColonnaInternazionale? +DatiCI.length : 0);
 
     if (PresenteColonnaInternazionale) {
-        CaricaColonnaInternazionale({Spezzoni: LinkColonnaInternazionale, volume: 1});
+        CaricaColonnaInternazionale({volume: 1});
         ColonnaInternazionaleAttivata = true;
         if (pulSwitchColonnaInternazionale) {pulSwitchColonnaInternazionale.abilita(false); SwitchColonnaInternazionale(false); setTimeout(() => {pulSwitchColonnaInternazionale.abilita(true);}, 500);}
     }
 
     for (I = 0; I < totClipAudio; I++) {
-        CreaNuovaClipAudio(Dati[I]);
+        CreaNuovaClipAudio(DatiClipAudio[I]);
     }
 
     if (ModalitaStreaming) {
@@ -2739,7 +2761,7 @@ function RiposizionamentoAutomaticoELT_NumClipAudio(Numero) {
 
 function SwitchColonnaInternazionale(CI) {
     ColonnaInternazionaleAttivata = CI;
-    VideoGuidaImpostaVolume(CI ? 0 : CambiaVolumeVideoGuida.volume);
+    if (CI) {DeterminaVolumeVideoGuidaPerCI()} else {VideoGuidaImpostaVolume(CambiaVolumeVideoGuida.volume);}
     lblVolumeVideoGuida.innerText = (CI ? strVolumeInternazionale : strVolumeFilmato);
     slideVolumeVideoGuida.value = (CI ? GuadagnoPrincipale[AudioBufferColonnaInternazionale[0].numero].gain.value : CambiaVolumeVideoGuida.volume);
     slideVolumeVideoGuida.onchange = (CI ? CambiaVolumeCI : CambiaVolumeVideoGuida);
@@ -2809,12 +2831,16 @@ function CreaNuovaClipAudio(Dati, FunzioneAlTermine, Visualizzazione = true) {
 }
 CreaNuovaClipAudio.N = -1;
 
-function CaricaColonnaInternazionale(Dati) {
-    SpezzoniAudioCI = Dati.Spezzoni.split(',');
-
-    SpezzoniAudioCI.forEach((SpezzoneAudio, NumSpezzone) => {
-        CreaNuovaClipAudio({Registrazione: SpezzoneAudio, N: "CI" + NumSpezzone, ID_Utente: 'CI', MinutaggioRegistrazione: +InizioVideoGuida + (75 * NumSpezzone), TaglioIniziale: 0, TaglioFinale: 75, DurataRegistrazione: 75, Guadagno: Dati.volume}, (datiAudio) => {datiAudio.numspezzoneCI = NumSpezzone; datiAudio.minutaggiodefault = datiAudio.MinutaggioRegistrazione; AudioBufferColonnaInternazionale.push(datiAudio);}, false);
-    });
+function CaricaColonnaInternazionale(Opzioni) {
+    const totDatiCI = DatiCI.length;
+    for(I = 0; I < totDatiCI; I++) {
+        if (!DatiCI[I].VolumeVideoGuida) {
+            const SpezzoniAudioCI = DatiCI[I].CI, PartenzaPrimoSpezzone = DatiCI[I].Partenza;
+            SpezzoniAudioCI.forEach((SpezzoneAudio, NumSpezzone) => {
+                CreaNuovaClipAudio({Registrazione: SpezzoneAudio, N: "CI" + I.toString() + "-" + NumSpezzone.toString(), ID_Utente: 'CI', MinutaggioRegistrazione: +PartenzaPrimoSpezzone + (75 * NumSpezzone), TaglioIniziale: 0, TaglioFinale: 75, DurataRegistrazione: 75, Guadagno: Opzioni.volume}, (datiAudio) => {datiAudio.numspezzoneCI = NumSpezzone; datiAudio.minutaggiodefault = datiAudio.MinutaggioRegistrazione; AudioBufferColonnaInternazionale.push(datiAudio);}, false);
+            });
+        }
+    }
 }
 
 function CaricaAudio(Numero, Dati, TipoDato, Funzione, FunzioneAlTermine1, FunzioneAlTermine2) {
@@ -2840,7 +2866,8 @@ function CaricaAudio(Numero, Dati, TipoDato, Funzione, FunzioneAlTermine1, Funzi
 
             AJAX("AcquisisciPercorsoCI.php", "NumProgetto=" + N,
                 (Dati) => {
-                    if (Dati.LinkCI != "") {CaricaColonnaInternazionale({Spezzoni: Dati.LinkCI, volume: GuadagnoPrincipale[AudioBufferColonnaInternazionale[0].numero].gain.value});}
+                    DatiCI = Dati.LinkCI;
+                    if (Dati.LinkCI != "") {CaricaColonnaInternazionale({volume: GuadagnoPrincipale[AudioBufferColonnaInternazionale[0].numero].gain.value});}
                     if (FunzioneAlTerminePrecaricamento) {FunzioneAlTerminePrecaricamento();} // Se è PlayVideoGuida() rifarà la verifica delle clip da precaricare.
                 }, "", "", true
             );
