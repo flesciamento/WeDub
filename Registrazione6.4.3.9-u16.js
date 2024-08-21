@@ -1321,7 +1321,7 @@ function GeneraBufferCI(datiAudio, buffer, FunzioneAlTermine = () => {}) {
                 console.log("Attivato evento alPlay per CI_AttivaAudioOriginale nella clip", datiAudio);
 
                 /* In caso di altre clip audio presenti in un tempo successivo, attiva l'evento alPlay per passare dall'originale all'internazionale */
-                console.log("Ricerca datiAudioSuccessivo", TrovaSpezzoneSuccessivo(datiAudio, 1));
+                console.log("Ricerca datiAudioSuccessivo", "dati audio attuale:", datiAudio, "Risultato:", TrovaSpezzoneSuccessivo(datiAudio, 1));
                 if (datiAudioSuccessivo = TrovaSpezzoneSuccessivo(datiAudio, 1)) {CI_DisattivaAudioOriginaleAlPlay(datiAudioSuccessivo);} else {console.log("datiAudioSuccessivo non trovato", datiAudioSuccessivo);}
             }
         }
