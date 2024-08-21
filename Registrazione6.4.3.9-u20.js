@@ -2847,7 +2847,7 @@ function CaricaColonnaInternazionale(Opzioni) {
     const totDatiCI = DatiCI.length;
     for(I = 0; I < totDatiCI; I++) {
         if (!DatiCI[I].VolumeVideoGuida) {
-            const SpezzoniAudioCI = DatiCI[I].CI, totSpezzoniAudioCI = SpezzoniAudioCI.length, PartenzaPrimoSpezzone = DatiCI[I].Partenza;
+            const SpezzoniAudioCI = DatiCI[I].CI, UltimoSpezzoneAudioCI = SpezzoniAudioCI.length - 1, PartenzaPrimoSpezzone = DatiCI[I].Partenza;
             SpezzoniAudioCI.forEach((SpezzoneAudio, NumSpezzone) => {
                 CreaNuovaClipAudio({Registrazione: SpezzoneAudio, N: "CI" + I.toString() + "-" + NumSpezzone.toString(), ID_Utente: 'CI', MinutaggioRegistrazione: +PartenzaPrimoSpezzone + (75 * NumSpezzone), TaglioIniziale: 0, TaglioFinale: 75, DurataRegistrazione: 75, Guadagno: Opzioni.volume},
                     (datiAudio) => {
@@ -2855,7 +2855,7 @@ function CaricaColonnaInternazionale(Opzioni) {
                         AudioBufferColonnaInternazionale.push(datiAudio);
                         switch(NumSpezzone) {
                             case 0: CI_DisattivaAudioOriginaleAlPlay(datiAudio); break;
-                            case totSpezzoniAudioCI: CI_AttivaAudioOriginalePocoPrimaDelTermine(datiAudio); break;
+                            case UltimoSpezzoneAudioCI: CI_AttivaAudioOriginalePocoPrimaDelTermine(datiAudio); break;
                         }
                     }, false);
                 }
