@@ -829,7 +829,7 @@ function RiproduciClipInSync(MinutaggioVideo) {
         datiAudio.alPlay.forEach((DatiEventoAlPlay, N) => {
             clearTimeout(datiAudio.tmrEventoAlPlay[N]);
             const Num = N, FunzioneAlPlay = DatiEventoAlPlay.FunzioneAlPlay, LatenzaSecondi = DatiEventoAlPlay.latenzaEventoAlPlay.secondi, RiduciSeClipNelMinutaggio = DatiEventoAlPlay.latenzaEventoAlPlay.riduciSeClipNelMinutaggio;
-            datiAudio.tmrEventoAlPlay[N] = setTimeout(() => {FunzioneAlPlay(datiAudio); console.log("AttivataFunzioneAlPlay", Num, FunzioneAlPlay); delete datiAudio.AlPlay[Num];}, ((+SecondiPartenzaAudio) + (+LatenzaSecondi) - (InizioClip * ClipNelMinutaggioAttuale * RiduciSeClipNelMinutaggio)) * 1000);
+            datiAudio.tmrEventoAlPlay[N] = setTimeout(() => {FunzioneAlPlay(datiAudio); console.log("AttivataFunzioneAlPlay", Num, FunzioneAlPlay); delete datiAudio.alPlay[Num];}, ((+SecondiPartenzaAudio) + (+LatenzaSecondi) - (InizioClip * ClipNelMinutaggioAttuale * RiduciSeClipNelMinutaggio)) * 1000);
             console.log("RiproduciClipInSync() attivato timeout per l'evento alPlay", Num, datiAudio.alPlay[Num].FunzioneAlPlay, "della clip", datiAudio);
         });
     });
