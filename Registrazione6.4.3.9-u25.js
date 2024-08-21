@@ -830,7 +830,7 @@ function RiproduciClipInSync(MinutaggioVideo) {
             clearTimeout(datiAudio.tmrEventoAlPlay[N]);
             const FunzioneAlPlay = DatiEventoAlPlay.FunzioneAlPlay, LatenzaSecondi = (DatiEventoAlPlay.latenzaEventoAlPlay.daltermine ? (+datiAudio.taglioFinale) + (+DatiEventoAlPlay.latenzaEventoAlPlay.daltermine) : DatiEventoAlPlay.latenzaEventoAlPlay.secondi), RiduciSeClipNelMinutaggio = DatiEventoAlPlay.latenzaEventoAlPlay.riduciSeClipNelMinutaggio;
             datiAudio.tmrEventoAlPlay[N] = setTimeout(() => {FunzioneAlPlay(datiAudio); console.log("AttivataFunzioneAlPlay", FunzioneAlPlay);}, ((+SecondiPartenzaAudio) + (+LatenzaSecondi) - (InizioClip * ClipNelMinutaggioAttuale * RiduciSeClipNelMinutaggio)) * 1000);
-            console.log("RiproduciClipInSync() attivato timeout per l'evento alPlay", FunzioneAlPlay, "della clip", datiAudio);
+            console.log("RiproduciClipInSync() attivato timeout per l'evento alPlay", FunzioneAlPlay, "della clip", datiAudio.numero);
         });
     });
 
@@ -1304,9 +1304,8 @@ function GeneraBufferCI(datiAudio, buffer, FunzioneAlTermine = () => {}) {
             }
 
         } else {
-            /** Attiva l'audio originale se la colonna internazionale termina prima della fine del video **/
             if (ClipAudioTerminaPrimaDellaFineDelVideo(datiAudio)) {
-                /* Fade-out ultimo pezzo */
+                /* Fade-out se la colonna internazionale termina prima della fine del video */
                 const LunghezzaBuffer = datiAudio.buffer.length;
                 const lunghezzabytemixCIeOriginale = tempomixCIeOriginale * SampleRate;
                 for(c = 0; c < numCanali; c++) {
