@@ -1347,7 +1347,8 @@ function PosizioneAttualeDatiCI() {
 function CI_AttivaAudioOriginale() {
     if (ColonnaInternazionaleAttivata && RiproduzioneInCorso) {
         console.log("CI_AttivaAudioOriginale()", PosizioneAttualeDatiCI());
-        const Volume = PosizioneAttualeDatiCI().VolumeVideoGuida;
+        const DatiCIAttuale = PosizioneAttualeDatiCI();
+        const Volume = (!DatiCIAttuale.CI ? DatiCIAttuale : DatiCI[+DatiCI.indexOf(DatiCIAttuale) + 1]).VolumeVideoGuida;
         VideoGuidaImpostaVolume(Volume * GuadagnoPrincipale[AudioBufferColonnaInternazionale[0].numero].gain.value);
         //await pausa((+tempomixCIeOriginale + 0.2) * 1000);
         //if (ColonnaInternazionaleAttivata) {EscludiRipristinaTraccia("CI", "Escludi");}
