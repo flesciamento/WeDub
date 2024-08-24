@@ -2544,8 +2544,6 @@ function CreazioneClipPrimoCaricamento(DatiClipAudio) {
 
     NumeroTotaleAudioCaricamentoIniziale = +totClipAudio + (+ModalitaStreaming) + (PresenteColonnaInternazionale? +DatiCI.filter(el => el.CI).reduce((a, b) => {return (+a) + (+b.CI.length);}, 0) : 0);
 
-    console.log("NumeroTotaleAudioCaricamentoIniziale", NumeroTotaleAudioCaricamentoIniziale, totClipAudio, (+ModalitaStreaming), (PresenteColonnaInternazionale? +DatiCI.filter(el => el.CI).reduce((a, b) => {return (+a) + (+b.CI.length);}, 0) : 0));
-
     if (PresenteColonnaInternazionale) {
         CaricaColonnaInternazionale({volume: 1});
         ColonnaInternazionaleAttivata = true;
@@ -2563,7 +2561,6 @@ function CreazioneClipPrimoCaricamento(DatiClipAudio) {
         for (let I = 0; I < totClipAudioComplessive; I++) {
             NumeroTotaleAudioCaricamentoIniziale += +ClipDaPrecaricare(I, InizioVideoGuida, FinePrecaricamento);
         }
-        console.log("Nuovo NumeroTotaleAudioCaricamentoIniziale", NumeroTotaleAudioCaricamentoIniziale);
         PrecaricaClip(InizioVideoGuida, FinePrecaricamento, () => {AggiornaCaricamentoClip(true);}, {FunzioneAlTermineSingoloPrecaricamento: () => {AggiornaCaricamentoClip(true);}, SoloBuffer: true});
 
     } else {
