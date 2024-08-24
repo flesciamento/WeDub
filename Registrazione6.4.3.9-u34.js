@@ -2556,12 +2556,12 @@ function CreazioneClipPrimoCaricamento(DatiClipAudio) {
     }
 
     if (ModalitaStreaming) {
+        Messaggio(strCaricamentoPrimeClip);
         const totClipAudioComplessive = DatiAudioRegistrato.length; // Comprende anche gli audio da colonna internazionale se presenti
         const FinePrecaricamento = (+InizioVideoGuida) + (+SecondiPrecaricamentoAlPlay);
         for (I = 0; I < totClipAudioComplessive; I++) {
             NumeroTotaleAudioCaricamentoIniziale += +ClipDaPrecaricare(I, InizioVideoGuida, FinePrecaricamento);
         }
-        Messaggio(strCaricamentoPrimeClip);
         PrecaricaClip(InizioVideoGuida, FinePrecaricamento, () => {AggiornaCaricamentoClip(true);}, {FunzioneAlTermineSingoloPrecaricamento: () => {AggiornaCaricamentoClip(true);}, SoloBuffer: true});
 
     } else {
