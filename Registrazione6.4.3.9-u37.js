@@ -2541,9 +2541,8 @@ function CaricamentoInizialeRegistrazioniAudio() {
 
 function CreazioneClipPrimoCaricamento(DatiClipAudio) {
     const totClipAudio = DatiClipAudio.length, PresenteColonnaInternazionale = (DatiCI != "");
-    var I;
 
-    NumeroTotaleAudioCaricamentoIniziale = +totClipAudio + (+ModalitaStreaming) + (PresenteColonnaInternazionale? +DatiCI.filter(el => el.CI).length : 0);
+    NumeroTotaleAudioCaricamentoIniziale = +totClipAudio + (+ModalitaStreaming) + (PresenteColonnaInternazionale? +DatiCI.filter(el => el.CI).reduce((a, b) => {return (+a) + (+b.CI.length);}, 0) : 0);
 
     console.log("NumeroTotaleAudioCaricamentoIniziale", NumeroTotaleAudioCaricamentoIniziale, totClipAudio, (+ModalitaStreaming), (PresenteColonnaInternazionale? +DatiCI.filter(el => el.CI).reduce((a, b) => {return (+a) + (+b.CI.length);}, 0) : 0));
 
@@ -2553,7 +2552,7 @@ function CreazioneClipPrimoCaricamento(DatiClipAudio) {
         if (pulSwitchColonnaInternazionale) {pulSwitchColonnaInternazionale.abilita(false); SwitchColonnaInternazionale(false); setTimeout(() => {pulSwitchColonnaInternazionale.abilita(true);}, 500);}
     }
 
-    for (I = 0; I < totClipAudio; I++) {
+    for (let I = 0; I < totClipAudio; I++) {
         CreaNuovaClipAudio(DatiClipAudio[I]);
     }
 
@@ -2561,7 +2560,7 @@ function CreazioneClipPrimoCaricamento(DatiClipAudio) {
         Messaggio(strCaricamentoPrimeClip);
         const totClipAudioComplessive = DatiAudioRegistrato.length; // Comprende anche gli audio da colonna internazionale se presenti
         const FinePrecaricamento = (+InizioVideoGuida) + (+SecondiPrecaricamentoAlPlay);
-        for (I = 0; I < totClipAudioComplessive; I++) {
+        for (let I = 0; I < totClipAudioComplessive; I++) {
             NumeroTotaleAudioCaricamentoIniziale += +ClipDaPrecaricare(I, InizioVideoGuida, FinePrecaricamento);
         }
         console.log("Nuovo NumeroTotaleAudioCaricamentoIniziale", NumeroTotaleAudioCaricamentoIniziale);
