@@ -1590,6 +1590,8 @@ function startRecording() {
 
     if (MessaggioIstantaneoInRiproduzione) {return;}
 
+    if (document.getElementById(ID_Opzioni)) {Messaggio(strNonSiPuoRegistrareSeFinestraOpzioni); return;}
+
     /* Inizializza */
     canaleAudio = []; canaleAudio.length = 0; recordedBlobs = []; LunghezzaNuovaRegistrazione = 0; StoRegistrando = true;
 
@@ -3887,6 +3889,7 @@ function OpzioniClip(Numero, Apri, SalvaAllaChiusura, FunzioneAlTermineSalvatagg
     
     //Righello.dataset.DisattivaClick = (Apri ? "si" : "no");
     ContenitoreStrumenti.abilita(!Apri);
+    OpacitaRighello(0.5 + (0.5 * !Apri));
 	
 	console.log("OpzioniClip", Numero, Apri);
 }
