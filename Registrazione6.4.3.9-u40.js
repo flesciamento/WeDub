@@ -2844,7 +2844,7 @@ function CaricaColonnaInternazionale(Opzioni) {
                         datiAudio.minutaggiodefault = datiAudio.MinutaggioRegistrazione;
                         AudioBufferColonnaInternazionale.push(datiAudio);
                         if (NumSpezzone == 0) {CI_DisattivaAudioOriginaleAlPlay(datiAudio);}
-                        if ((NumSpezzone == UltimoSpezzoneAudioCI) && (!DatiCI[+I + 1] || !DatiCI[+I + 1].CI)) {CI_AttivaAudioOriginalePocoPrimaDelTermine(datiAudio);}
+                        if ((NumSpezzone == UltimoSpezzoneAudioCI) && (!DatiCI[+NumSpezzone + 1] || !DatiCI[+NumSpezzone + 1].CI)) {CI_AttivaAudioOriginalePocoPrimaDelTermine(datiAudio);}
                     }, false);
                 }
             );
