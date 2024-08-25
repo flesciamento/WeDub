@@ -2843,7 +2843,7 @@ function CaricaColonnaInternazionale(Opzioni) {
                         AudioBufferColonnaInternazionale.push(datiAudio);
                         if (NumSpezzone == 0) {CI_DisattivaAudioOriginaleAlPlay(datiAudio);}
                         console.log("CaricaColonnaInternazionale()", I, NumSpezzone, UltimoSpezzoneAudioCI, "successivo:", DatiCI[+I + 1], (NumSpezzone == UltimoSpezzoneAudioCI) && (!DatiCI[+I + 1] || !DatiCI[+I + 1].CI));
-                        if ((NumSpezzone == UltimoSpezzoneAudioCI) && (!DatiCI[+I + 1] || !DatiCI[+I + 1].CI)) {CI_AttivaAudioOriginalePocoPrimaDelTermine(datiAudio);}
+                        if ((NumSpezzone == UltimoSpezzoneAudioCI) && DatiCI[+I + 1] && !DatiCI[+I + 1].CI) {CI_AttivaAudioOriginalePocoPrimaDelTermine(datiAudio);}
                     }, false);
                 }
             );
