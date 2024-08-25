@@ -1344,7 +1344,6 @@ function PosizioneAttualeDatiCI() {
 
 function CI_AttivaAudioOriginale() {
     if (ColonnaInternazionaleAttivata && RiproduzioneInCorso) {
-        console.log("CI_AttivaAudioOriginale()", PosizioneAttualeDatiCI());
         const DatiCIAttuale = PosizioneAttualeDatiCI();
         const Volume = (!DatiCIAttuale.CI ? DatiCIAttuale : DatiCI[+DatiCI.indexOf(DatiCIAttuale) + 1]).VolumeVideoGuida;
         ImpostaVolumeAudioOriginale(Volume);
