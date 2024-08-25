@@ -1351,16 +1351,16 @@ function CI_AttivaAudioOriginale() {
     }
 }
 
-function ImpostaVolumeAudioOriginale(Volume) {
-    VideoGuidaImpostaVolume(Volume * GuadagnoPrincipale[AudioBufferColonnaInternazionale[0].numero].gain.value);
-}
-
 function CI_DisattivaAudioOriginale() {
     if (ColonnaInternazionaleAttivata && RiproduzioneInCorso) {VideoGuidaImpostaVolume(0);}
 }
 
 function DeterminaVolumeVideoGuidaPerCI() {
     if (ColonnaInternazionaleAttivata) {if (PosizioneAttualeDatiCI().CI) {CI_DisattivaAudioOriginale();} else {CI_AttivaAudioOriginale();}}
+}
+
+function ImpostaVolumeAudioOriginale(Volume) {
+    VideoGuidaImpostaVolume(Volume * GuadagnoPrincipale[AudioBufferColonnaInternazionale[0].numero].gain.value);
 }
 
 function ScaricaMemoria_slow() {
