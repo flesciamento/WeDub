@@ -1337,8 +1337,6 @@ function CI_AttivaAudioOriginalePocoPrimaDelTermine(datiAudio) {
     }
 }
 
-// Esempio salvataggio: DatiCI = [{Partenza: 0, CI: ["colonna1-1.ogg", "colonna1-2.ogg"]}, {Partenza: 50, VolumeVideoGuida: 1}, {Partenza: 60, CI: ["ciao1.ogg", "ciao2.ogg"]}, {Partenza: 90, VolumeVideoGuida: 1}, {Partenza: 150, CI: ["colonna2-1.ogg", "colonna2-2.ogg"]}] 
-
 function PosizioneAttualeDatiCI() {
     const MinutaggioCorrente = VideoGuidaMinutaggioCorrente();
     return DatiCI.find((el) => {return ((el.Partenza <= MinutaggioCorrente) && (MinutaggioCorrente <= (DatiCI[+DatiCI.indexOf(el) + 1] || {Partenza: totDurataVideoGuida}).Partenza))});
