@@ -1307,7 +1307,7 @@ function GeneraBufferCI(datiAudio, buffer, FunzioneAlTermine = () => {}) {
             if (ClipAudioTerminaPrimaDellaFineDelVideo(datiAudio)) {
                 /* Fade-out se la colonna internazionale termina prima della fine del video */
                 const LunghezzaBuffer = datiAudio.buffer.length;
-                const lunghezzabytemixCIeOriginale = MixCIeOriginale.FadeOutCI * SampleRate;
+                const lunghezzabytemixCIeOriginale = MixCIeOriginale.tempoFadeOutCI * SampleRate;
                 for(c = 0; c < numCanali; c++) {
                     bufferCanale = datiAudio.buffer.getChannelData(c);
                     for(s = lunghezzabytemixCIeOriginale; s >= 0; s--) {
@@ -1332,7 +1332,7 @@ function CI_DisattivaAudioOriginaleAlPlay(datiAudio) {
 }
 
 function CI_AttivaAudioOriginalePocoPrimaDelTermine(datiAudio) {
-    datiAudio.alPlay.push({FunzioneAlPlay: CI_AttivaAudioOriginale, latenzaEventoAlPlay: {daltermine: -MixCIeOriginale.FadeInOriginale, riduciSeClipNelMinutaggio: true}});
+    datiAudio.alPlay.push({FunzioneAlPlay: CI_AttivaAudioOriginale, latenzaEventoAlPlay: {daltermine: -MixCIeOriginale.tempoFadeInOriginale, riduciSeClipNelMinutaggio: true}});
 }
 
 function PosizioneAttualeDatiCI() {
@@ -1361,7 +1361,7 @@ function ImpostaVolumeAudioOriginale(Volume) {
 }
 
 function FadeInVolumeAudioOriginale(Volume) {
-    const VolumeFinale = (Volume * GuadagnoPrincipale[AudioBufferColonnaInternazionale[0].numero].gain.value) * 100, Incremento = Math.round(VolumeFinale / suddivisioneVolumeFadeInOriginale);
+    const VolumeFinale = (Volume * GuadagnoPrincipale[AudioBufferColonnaInternazionale[0].numero].gain.value) * 100, Incremento = Math.round(VolumeFinale / MixCIeOriginale.suddivisioneVolumeFadeInOriginale);
     var I = 0;
     
     async function FadeIn() {
