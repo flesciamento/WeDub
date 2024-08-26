@@ -2082,7 +2082,6 @@ function ImpostaStatoPlay(StatoPlay) {
 
 function SospendiRiproduzione() {
     StoppaTutteLeRegistrazioni();
-    console.log("SospendiRiproduzione");
 }
 
 function RiprendiRiproduzione() {
