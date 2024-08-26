@@ -1360,7 +1360,7 @@ function ImpostaVolumeAudioOriginale(Volume) {
 }
 
 function FadeInVolumeAudioOriginale(Volume) {
-    const VolumeFinale = Volume * GuadagnoPrincipale[AudioBufferColonnaInternazionale[0].numero].gain.value, Incremento = VolumeFinale / MixCIeOriginale.suddivisioneVolumeFadeInOriginale;
+    const VolumeFinale = Volume * GuadagnoPrincipale[AudioBufferColonnaInternazionale[0].numero].gain.value, Incremento = (VolumeFinale / MixCIeOriginale.suddivisioneVolumeFadeInOriginale).arrotonda(2);
     var I = 0;
     
     async function FadeIn() {
