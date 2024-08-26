@@ -1366,7 +1366,7 @@ function FadeInVolumeAudioOriginale(Volume) {
     async function FadeIn() {
         I = (+I) + (+Incremento);
         const CondizioneMassima = (I < VolumeFinale), v = (I * CondizioneMassima) + (VolumeFinale * !CondizioneMassima);
-        VideoGuidaImpostaVolume(v);u
+        VideoGuidaImpostaVolume(v);
         await pausa(10);
         if (v < VolumeFinale) {FadeIn();}
     }
