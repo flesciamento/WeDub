@@ -1363,14 +1363,11 @@ function ImpostaVolumeAudioOriginale(Volume) {
 function FadeInVolumeAudioOriginale(Volume) {
     const VolumeFinale = (Volume * GuadagnoPrincipale[AudioBufferColonnaInternazionale[0].numero].gain.value) * 100;
     var I = 0, Incremento = Math.round(VolumeFinale / 20);
-
-    console.log("FadeInVolumeAudioOriginale", Volume, VolumeFinale, Incremento);
     
     async function FadeIn() {
         I = (+I) + (+Incremento);
         VideoGuidaImpostaVolume(I / 100);
         await pausa(10);
-        console.log("FadeIn", I);
         if (I < VolumeFinale) {FadeIn();}
     }
 
