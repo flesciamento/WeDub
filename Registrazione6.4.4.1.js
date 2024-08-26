@@ -2032,7 +2032,6 @@ function PlayVideoGuida() {
         if (FunzioniCopione.CopioneVisualizzato) {FunzioniCopione.AttivaTestoGuida();}
         if (StoRegistrando == false) {
             if (VerificaClipPrecaricate(SecondiPrecaricamentoAlPlay) == false) {return;}
-            console.log("Superato VerificaClipPrecaricate");
             ElaboraClipDaRiprodurre();
             if (ModalitaStreaming) {
                 tmrComandiPlayerModalitaStreaming = setTimeout(() => {ComandiPlayer.style.opacity = 0;}, 2000);
@@ -2879,7 +2878,7 @@ function CaricaAudio(Numero, Dati, TipoDato, Funzione, FunzioneAlTermine1, Funzi
         if (Dati.Registrazione.slice(0, 13) == "ColonneAudio/") {
             AudioBufferColonnaInternazionale.forEach((datiAudio) => {datiAudio.disattivato = true;});
 
-            AJAX("AcquisisciPercorsoCI-unstable.php", "NumProgetto=" + N,
+            AJAX("AcquisisciPercorsoCI.php", "NumProgetto=" + N,
                 (Dati) => {
                     DatiCI = Dati.DatiCI;
                     if (DatiCI != "") {CaricaColonnaInternazionale({volume: GuadagnoPrincipale[AudioBufferColonnaInternazionale[0].numero].gain.value});}
