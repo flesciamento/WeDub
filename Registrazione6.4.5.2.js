@@ -2539,6 +2539,8 @@ function CreazioneClipPrimoCaricamento(DatiClipAudio) {
         CaricaColonnaInternazionale({volume: 1});
         ColonnaInternazionaleAttivata = true;
         if (pulSwitchColonnaInternazionale) {pulSwitchColonnaInternazionale.abilita(false); SwitchColonnaInternazionale(false); setTimeout(() => {pulSwitchColonnaInternazionale.abilita(true);}, 500);}
+    } else {
+        if (pulSwitchColonnaInternazionale) {pulSwitchColonnaInternazionale.style.display = "none";}
     }
 
     for (let I = 0; I < totClipAudio; I++) {
