@@ -2629,6 +2629,8 @@ function AttivaPulsantiMultimediali() {
 function AggiornaClip(FunzioneAlTermine = () => {}, FunzioneNuovaClip = RiposizionamentoAutomaticoELTRiferitoAllaRegistrazione) {
 	AJAX("CaricaRegistrazione.php", "NumProgetto=" + encodeURIComponent(N) + "&NumProvino=" + encodeURIComponent(P) + "&SoloMieRegistrazioni=" + (ModalitaLightAttiva? "1" : "0") + "&IDCandidatoRuoliDaAssegnare=" + encodeURIComponent(RuoliDaAssegnare_CandidatoSelezionato),
 		function (Dati) {
+            if (document.getElementById(ID_Opzioni)) {return;}
+            
             const totDati = Dati.length, totAudio = DatiAudioRegistrato.length;
             var I, NumAudio, datiAudio, AudioRimosso, AudioDaRipristinare = [], NuoviAudio = false;
             
