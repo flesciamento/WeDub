@@ -1418,8 +1418,6 @@ function AggiornaRappresentazioneColonnaInternazionale(AggiornaSeModificato = fa
         CaricaColonnaInternazionale({volume: GuadagnoPrincipale[AudioBufferColonnaInternazionale[0].numero].gain.value});
         if (FunzioneAlTerminePrecaricamento) {FunzioneAlTerminePrecaricamento();} // Se è PlayVideoGuida() rifarà la verifica delle clip da precaricare.
     }
-
-    divCIStato.abilita(true);
 }
 AggiornaRappresentazioneColonnaInternazionale.strDatiCIPrec = "";
 
@@ -1447,6 +1445,7 @@ function AcquisisciNuovaCI() {
         (Dati) => {
             DatiCI = Dati.DatiCI;
             AggiornaRappresentazioneColonnaInternazionale(true);
+            divCIStato.abilita(true);
         }, "", "", true
     );
 }
