@@ -1416,6 +1416,8 @@ function AggiornaRappresentazioneColonnaInternazionale(AggiornaSeModificato = fa
     if (AggiornaSeModificato) {
         DisattivaVecchiaCI();
         CaricaColonnaInternazionale({volume: GuadagnoPrincipale[AudioBufferColonnaInternazionale[0].numero].gain.value});
+        if (FunzioneAlTerminePrecaricamento) {FunzioneAlTerminePrecaricamento();} // Se è PlayVideoGuida() rifarà la verifica delle clip da precaricare.
+
     }
 }
 AggiornaRappresentazioneColonnaInternazionale.strDatiCIPrec = "";
@@ -1430,12 +1432,21 @@ function SalvaEAggiornaColonnaInternazionale() {
 function ApriFinestraCI_e_monitora(e) {
     ApriFinestra(e);
     clearInterval(ApriFinestraCI_e_monitora.tmr);
-    ApriFinestraCI_e_monitora.tmr = setInterval(() => {AJAX("AggiornaCIPerGestioneProgetto.php", "N=" + N, (Dati) => {DatiCI = Dati.DatiCI; AggiornaRappresentazioneColonnaInternazionale(true);}, "", "", true);}, 4000);
+    ApriFinestraCI_e_monitora.tmr = setInterval(() => {AJAX("AttivitaFinestraCI.php", "", (Dati) => {if (Dati.DataUltimoRilevamentoFinestraCI < 6000) {AcquisisciNuovaCI();}}, "", "", true);}, 4000);
 }
 ApriFinestraCI_e_monitora.tmr = false;
 
 function DisattivaVecchiaCI() {
     AudioBufferColonnaInternazionale.forEach((datiAudio) => {datiAudio.disattivato = true;});
+}
+
+function AcquisisciNuovaCI() {
+    AJAX("AcquisisciPercorsoCI.php", "NumProgetto=" + N,
+        (Dati) => {
+            DatiCI = Dati.DatiCI;
+            AggiornaRappresentazioneColonnaInternazionale(true);
+        }, "", "", true
+    );
 }
 /***************************************************/
 
@@ -2949,16 +2960,7 @@ function CaricaAudio(Numero, Dati, TipoDato, Funzione, FunzioneAlTermine1, Funzi
         /** Verifica se si tratta di Colonna Internazionale **
         * in questo caso disattiva le vecchie clip e ricarica la CI aggiornata */
         if (Dati.Registrazione.slice(0, 13) == "ColonneAudio/") {
-            DisattivaVecchiaCI();
-
-            AJAX("AcquisisciPercorsoCI.php", "NumProgetto=" + N,
-                (Dati) => {
-                    DatiCI = Dati.DatiCI; AggiornaRappresentazioneColonnaInternazionale();
-                    if (DatiCI != "") {CaricaColonnaInternazionale({volume: GuadagnoPrincipale[AudioBufferColonnaInternazionale[0].numero].gain.value});}
-                    if (FunzioneAlTerminePrecaricamento) {FunzioneAlTerminePrecaricamento();} // Se è PlayVideoGuida() rifarà la verifica delle clip da precaricare.
-                }, "", "", true
-            );
-
+            AcquisisciNuovaCI();
         } else {
             window.setTimeout(() => {CaricaAudio(Numero, Dati, TipoDato, Funzione, FunzioneAlTermine1, FunzioneAlTermine2);}, 1000);
         }
