@@ -1407,7 +1407,7 @@ function AggiornaRappresentazioneColonnaInternazionale(AggiornaSeModificato = fa
     }
 
     const colorePorzioneTagliata = "rgb(200, 200, 200)";
-    divCIStato.iStyle({backgroundImage: `linear-gradient(90deg, ${colorePorzioneTagliata} 0%, ${colorePorzioneTagliata} ${PercentualeMinutaggio(InizioVideoGuida)} ${strSfondo} ${colorePorzioneTagliata} ${PercentualeMinutaggio(totDurataVideoGuida)} ${colorePorzioneTagliata} 100%)`, backgroundSize: "100% 100%"/* , position: "relative", height: "100px", width: "100%", margin: "0 auto" */});
+    divCIStato.iStyle({backgroundImage: `linear-gradient(90deg, ${colorePorzioneTagliata} 0%, ${colorePorzioneTagliata} ${PercentualeMinutaggio(InizioVideoGuida)} ${strSfondo} ${colorePorzioneTagliata} ${PercentualeMinutaggio(totDurataVideoGuida)} ${colorePorzioneTagliata} 100%)`, backgroundSize: "100% 100%"});
     CreaMenuADiscesa(MenuADiscesa);
 
     AggiornaRappresentazioneColonnaInternazionale.strDatiCIPrec = strDatiCI;
@@ -1417,7 +1417,7 @@ function AggiornaRappresentazioneColonnaInternazionale(AggiornaSeModificato = fa
         DisattivaVecchiaCI();
         CaricaColonnaInternazionale({volume: GuadagnoPrincipale[AudioBufferColonnaInternazionale[0].numero].gain.value});
         if (FunzioneAlTerminePrecaricamento) {FunzioneAlTerminePrecaricamento();} // Se è PlayVideoGuida() rifarà la verifica delle clip da precaricare.
-
+        divCIStato.abilita(true);
     }
 }
 AggiornaRappresentazioneColonnaInternazionale.strDatiCIPrec = "";
@@ -1432,7 +1432,8 @@ function SalvaEAggiornaColonnaInternazionale() {
 function ApriFinestraCI_e_monitora(e) {
     ApriFinestra(e);
     clearInterval(ApriFinestraCI_e_monitora.tmr);
-    ApriFinestraCI_e_monitora.tmr = setInterval(() => {AJAX("AttivitaFinestraCI.php", "", (Dati) => {if (Dati.DataUltimoRilevamentoFinestraCI < 6000) {AcquisisciNuovaCI(); clearInterval(ApriFinestraCI_e_monitora,tmr);}}, "", "", true);}, 4000);
+    ocument.getElementById('Traccia' + (NumeroTotaleTracce - 1)).abilita(false);
+    ApriFinestraCI_e_monitora.tmr = setInterval(() => {AJAX("AttivitaFinestraCI.php", "", (Dati) => {if (((new Date().getTime() / 1000) - Dati.DataUltimoRilevamentoFinestraCI) < 6) {AcquisisciNuovaCI(); clearInterval(ApriFinestraCI_e_monitora,tmr);}}, "", "", true);}, 4000);
 }
 ApriFinestraCI_e_monitora.tmr = false;
 
