@@ -1432,7 +1432,7 @@ function SalvaEAggiornaColonnaInternazionale() {
 function ApriFinestraCI_e_monitora(e) {
     ApriFinestra(e);
     clearInterval(ApriFinestraCI_e_monitora.tmr);
-    ApriFinestraCI_e_monitora.tmr = setInterval(() => {AJAX("AttivitaFinestraCI.php", "", (Dati) => {if (Dati.DataUltimoRilevamentoFinestraCI < 6000) {AcquisisciNuovaCI();}}, "", "", true);}, 4000);
+    ApriFinestraCI_e_monitora.tmr = setInterval(() => {AJAX("AttivitaFinestraCI.php", "", (Dati) => {if (Dati.DataUltimoRilevamentoFinestraCI < 6000) {AcquisisciNuovaCI(); clearInterval(ApriFinestraCI_e_monitora,tmr);}}, "", "", true);}, 4000);
 }
 ApriFinestraCI_e_monitora.tmr = false;
 
