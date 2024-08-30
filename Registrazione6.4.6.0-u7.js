@@ -1395,8 +1395,8 @@ function AggiornaRappresentazioneColonnaInternazionale() {
 
         MenuADiscesa.push({DoveInserirlo: id_divCI, ID_Menu: 'pulMenuCI' + I, stiliContenitore: {position: "absolute", left: percPartenza.slice(0, -2), width: `calc(${percTermine.slice(0, -2)} - ${percPartenza.slice(0, -2)})`, margin: 0}, stiliMenu: {position: "sticky", left: ContenitoreRighello.style.left, textAlign: "center", color: ((BloccoCI.CI || BloccoCI.VolumeVideoGuida == 0) ? "white" : "black"), fontWeight: (BloccoCI.CI ? "bold" : ""), backgroundColor: colore, whiteSpace: "break-spaces", wordWrap: "anywhere"},
             Elementi: (BloccoCI.CI
-                        ? [{dato: I + "CI", stringa: "prova", predefinito: true, nascosto: true}, {dato: I + "MCI", stringa: "<span class='fa fa-edit'></span> <?=s_GP_opzCI_CIModifica?>"}]
-                        : [{dato: I + "V1", stringa: "<span class='fa fa-volume-up'></span> <?=s_GP_opzCI_VMantieni?>", predefinito: ((BloccoCI.VolumeVideoGuida || 0) > 0)}, {dato: I + "V0", stringa: "<span class='fa fa-volume-off'></span> <?=s_GP_opzCI_V0?>", predefinito: ((BloccoCI.VolumeVideoGuida || 0) == 0)}, {dato: I + "MCI", stringa: "<span class='fa fa-upload'></span> <?=s_GP_opzCI_CICarica?>"}]),
+                        ? [{dato: I + "CI", stringa: strOpzCI_CICaricata, predefinito: true, nascosto: true}, {dato: I + "MCI", stringa: "<span class='fa fa-edit'></span> " + strOpzCI_CIModifica}]
+                        : [{dato: I + "V1", stringa: "<span class='fa fa-volume-up'></span> " + strOpzCI_V1, predefinito: ((BloccoCI.VolumeVideoGuida || 0) > 0)}, {dato: I + "V0", stringa: "<span class='fa fa-volume-off'></span> " + strOpzCI_V0, predefinito: ((BloccoCI.VolumeVideoGuida || 0) == 0)}, {dato: I + "MCI", stringa: "<span class='fa fa-upload'></span> " + strOpzCI_CICarica}]),
             FunzioneAlClick: (dato) => {
                                 const NumeroSegmentoCI = parseInt(dato);
                                 if (dato.indexOf("V") > -1) {DatiCI[+NumeroSegmentoCI].VolumeVideoGuida = Number(dato.slice(-1)); SalvaEAggiornaColonnaInternazionale(); return;}
@@ -1416,7 +1416,7 @@ AggiornaRappresentazioneColonnaInternazionale.strDatiCIPrec = "";
 
 function SalvaEAggiornaColonnaInternazionale() {
     const strDatiCI = JSON.stringify(DatiCI), DatiDaSalvare = ((strDatiCI == strDatiCIDefault) ? "" : strDatiCI);
-    AJAX("SalvaCI.php", "N=<?=$N?>&ListaCI=" + encodeURIComponent(DatiDaSalvare) + "&SoloParametri=1", "", "", "", true);
+    AJAX("SalvaCI.php", "N=" + N + "&ListaCI=" + encodeURIComponent(DatiDaSalvare) + "&SoloParametri=1", "", "", "", true);
     AggiornaRappresentazioneColonnaInternazionale();
 }
 
