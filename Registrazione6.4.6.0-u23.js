@@ -72,7 +72,7 @@ var ErroreMicrofono = false;
 var lunghezzaLivelloMic = 0;
 var sampleAudioData;
 var DatiAudioRegistrato = [], DatiAudioRegistrato_Registrazione = {}, DatiAudioRegistrato_Utente = {}, ClipDaRiprodurre = [];
-var AudioBufferColonnaInternazionale = [], ColonnaInternazionaleAttivata = false, SpezzoniAudioCI = [], TracciaColonnaInternazionale;
+var AudioBufferColonnaInternazionale = [], ColonnaInternazionaleAttivata = false, SpezzoniAudioCI = [], TracciaCI;
 var MinutaggioPartenzaRegistrazione = 0, MinutaggioUltimaRegistrazione = 0, DurataUltimaRegistrazione = 0;
 var MessaggiIstantaneiAttivi = false, MessaggioIstantaneoInRiproduzione = false;
 var ELTDaSpostare = false, ELTCliccato = false, ELTDaRiordinare = [], ELTDaModificare = [];
@@ -1381,12 +1381,12 @@ function AggiornaRappresentazioneColonnaInternazionale(AggiornaSeModificato = fa
     const strDatiCI = JSON.stringify(DatiCI);
     if (strDatiCI == AggiornaRappresentazioneColonnaInternazionale.strDatiCIPrec) {return;}
 
-    const id_divCI = 'Traccia' + (NumeroTotaleTracce - 1).toString(), divCIStato = document.getElementById(id_divCI);
-    const totDatiCI = DatiCI.length;
+    const id_divCI = 'Traccia' + (NumeroTotaleTracce - 1).toString(), totDatiCI = DatiCI.length;
+    TracciaCI = document.getElementById(id_divCI);
     
     function PercentualeMinutaggio(Minutaggio) {return (Minutaggio / totDurataVideoGuida * 100).toString() + "%, ";}
 
-    divCIStato.innerHTML = "";
+    TracciaCI.innerHTML = "";
     
     var strSfondo = "", percPartenza = PercentualeMinutaggio(InizioVideoGuida), MenuADiscesa = [];
     for (let I = 0; I < totDatiCI; I++) {
@@ -1407,7 +1407,7 @@ function AggiornaRappresentazioneColonnaInternazionale(AggiornaSeModificato = fa
     }
 
     const colorePorzioneTagliata = "rgb(200, 200, 200)";
-    divCIStato.iStyle({backgroundImage: `linear-gradient(90deg, ${colorePorzioneTagliata} 0%, ${colorePorzioneTagliata} ${PercentualeMinutaggio(InizioVideoGuida)} ${strSfondo} ${colorePorzioneTagliata} ${PercentualeMinutaggio(totDurataVideoGuida)} ${colorePorzioneTagliata} 100%)`, backgroundSize: "100% 100%"});
+    TracciaCI.iStyle({backgroundImage: `linear-gradient(90deg, ${colorePorzioneTagliata} 0%, ${colorePorzioneTagliata} ${PercentualeMinutaggio(InizioVideoGuida)} ${strSfondo} ${colorePorzioneTagliata} ${PercentualeMinutaggio(totDurataVideoGuida)} ${colorePorzioneTagliata} 100%)`, backgroundSize: "100% 100%"});
     CreaMenuADiscesa(MenuADiscesa);
 
     AggiornaRappresentazioneColonnaInternazionale.strDatiCIPrec = strDatiCI;
@@ -1431,7 +1431,7 @@ function SalvaEAggiornaColonnaInternazionale() {
 function ApriFinestraCI_e_monitora(e) {
     ApriFinestra(e);
     clearInterval(ApriFinestraCI_e_monitora.tmr);
-    document.getElementById('Traccia' + (NumeroTotaleTracce - 1)).abilita(false);
+    TracciaCI.abilita(false);
     ApriFinestraCI_e_monitora.tmr = setInterval(() => {AJAX("AttivitaFinestraCI.php", "", (Dati) => {if (((new Date().getTime() / 1000) - Dati.DataUltimoRilevamentoFinestraCI) > 6) {AcquisisciNuovaCI(); clearInterval(ApriFinestraCI_e_monitora.tmr);}}, "", "", true);}, 4000);
 }
 ApriFinestraCI_e_monitora.tmr = false;
@@ -1445,7 +1445,7 @@ function AcquisisciNuovaCI() {
         (Dati) => {
             DatiCI = Dati.DatiCI;
             AggiornaRappresentazioneColonnaInternazionale(true);
-            divCIStato.abilita(true);
+            TracciaCI.abilita(true);
         }, "", "", true
     );
 }
