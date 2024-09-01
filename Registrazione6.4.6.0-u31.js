@@ -2872,7 +2872,7 @@ function SwitchColonnaInternazionale() {
 }
 
 function DeterminaVolumeCI() {
-    return 
+    return (AudioBufferColonnaInternazionale.length ? GuadagnoPrincipale[AudioBufferColonnaInternazionale[0].numero].gain.value : 1);
 }
 
 function CambiaVolumeCI() {
