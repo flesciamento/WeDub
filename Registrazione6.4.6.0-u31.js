@@ -2858,7 +2858,7 @@ function SwitchColonnaInternazionale() {
     const CI = ColonnaInternazionaleAttivata;
     if (CI) {DeterminaVolumeVideoGuidaPerCI()} else {VideoGuidaImpostaVolume(CambiaVolumeVideoGuida.volume);}
     lblVolumeVideoGuida.innerText = (CI ? strVolumeInternazionale : strVolumeFilmato);
-    slideVolumeVideoGuida.value = (CI ? GuadagnoPrincipale[AudioBufferColonnaInternazionale[0].numero].gain.value : CambiaVolumeVideoGuida.volume);
+    slideVolumeVideoGuida.value = (CI ? DeterminaVolumeCI() : CambiaVolumeVideoGuida.volume);
     slideVolumeVideoGuida.onchange = (CI ? CambiaVolumeCI : CambiaVolumeVideoGuida);
 
     if (pulSwitchColonnaInternazionale) {
