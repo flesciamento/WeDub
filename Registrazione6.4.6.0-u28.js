@@ -2621,7 +2621,7 @@ function CreazioneClipPrimoCaricamento(DatiClipAudio) {
     if (PresenteColonnaInternazionale) {
         CaricaColonnaInternazionale({volume: 1});
         ColonnaInternazionaleAttivata = true;
-        if (pulSwitchColonnaInternazionale) {pulSwitchColonnaInternazionale.abilita(false); SwitchColonnaInternazionale(false); setTimeout(() => {pulSwitchColonnaInternazionale.abilita(true);}, 500);}
+        if (pulSwitchColonnaInternazionale) {pulSwitchColonnaInternazionale.abilita(false); SwitchColonnaInternazionale(); setTimeout(() => {pulSwitchColonnaInternazionale.abilita(true);}, 500);}
     } else {
         if (ModalitaStreaming) {ColonnaInternazionaleAttivata = true;} // Attiva sempre la colonna internazionale se siamo in modalità streaming (gestisce anche il solo volume dell'audio originale)
         if (pulSwitchColonnaInternazionale) {pulSwitchColonnaInternazionale.style.display = "none";}
@@ -2854,6 +2854,7 @@ function RiposizionamentoAutomaticoELT_NumClipAudio(Numero) {
 
 function SwitchColonnaInternazionale() {
     ColonnaInternazionaleAttivata = !ColonnaInternazionaleAttivata;
+    const CI = ColonnaInternazionaleAttivata;
     if (CI) {DeterminaVolumeVideoGuidaPerCI()} else {VideoGuidaImpostaVolume(CambiaVolumeVideoGuida.volume);}
     lblVolumeVideoGuida.innerText = (CI ? strVolumeInternazionale : strVolumeFilmato);
     slideVolumeVideoGuida.value = (CI ? GuadagnoPrincipale[AudioBufferColonnaInternazionale[0].numero].gain.value : CambiaVolumeVideoGuida.volume);
