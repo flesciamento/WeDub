@@ -1250,7 +1250,7 @@ function GeneraBufferCI(datiAudio, buffer, FunzioneAlTermine = () => {}) {
     }
 
     function TrovaSpezzoneVicino(datiAudio, distanza) {
-        return DatiAudioRegistrato.find(el => ((el.numBlocco == datiAudio.numBlocco) && (el.numSpezzone == (+datiAudio.numSpezzone) + (+distanza))));
+        return DatiAudioRegistrato.find(el => ((el.numBloccoCI == datiAudio.numBloccoCI) && (el.numSpezzone == (+datiAudio.numSpezzone) + (+distanza))));
     }
 
     const b = buffer, SampleRate = b.sampleRate, numCanali = b.numberOfChannels, lunghezzabytetempomix = tempomixCIPrec * SampleRate;
