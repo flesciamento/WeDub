@@ -132,7 +132,7 @@ var MinutaggiRighello = {
         var Contatore = 0;
 		for (var I = InizioVideoGuida; I < LunghezzaRighello; I += StepRighello) {
 			const Minutaggio = new MinutiESecondi(I);
-            divMinutaggiRighello.insertAdjacentHTML('beforeend', `<span class='MinutaggioRighello' style="left: ${(I / totDurataVideoGuida) * 100}%;"><span class='fa fa-minus MinutaggiRighello-barra'></span>&nbsp;${Minutaggio.Minuti}:${("0" + Math.round(Minutaggio.Secondi)).slice(-2)}</span>`);
+            divMinutaggiRighello.insertAdjacentHTML('beforeend', `<span class='MinutaggioRighello' style="left: ${(I / totDurataVideoGuida) * 100}%;"><span class='fa fa-minus MinutaggioRighello-barra'></span>&nbsp;${Minutaggio.Minuti}:${("0" + Math.round(Minutaggio.Secondi)).slice(-2)}</span>`);
             (((++Contatore % 500) == 0) && await pausa(100));
 		}
     },
@@ -1388,8 +1388,8 @@ function AggiornaRappresentazioneColonnaInternazionale(AggiornaSeModificato = fa
 
     function GestisciSceltaOpzioneCI(dato) {
         const NumeroSegmentoCI = parseInt(dato);
-                                if (dato.indexOf("V") > -1) {DatiCI[+NumeroSegmentoCI].VolumeVideoGuida = Number(dato.slice(-1)); SalvaEAggiornaColonnaInternazionale(); return;}
-                                if (dato.indexOf("MCI") > -1) {ApriFinestraCI_e_monitora({currentTarget: {dataset: {larghezza: 950, altezza: 600, link: "UploadCI.php?N=" + N + "&SegmentoCI=" + NumeroSegmentoCI + "&DurataVideoGuida=" + Math.floor(totDurataVideoGuida), nomefinestra: "ColonnaInternazionale"}}});
+        if (dato.indexOf("V") > -1) {DatiCI[+NumeroSegmentoCI].VolumeVideoGuida = Number(dato.slice(-1)); SalvaEAggiornaColonnaInternazionale(); return;}
+        if (dato.indexOf("MCI") > -1) {ApriFinestraCI_e_monitora({currentTarget: {dataset: {larghezza: 950, altezza: 600, link: "UploadCI.php?N=" + N + "&SegmentoCI=" + NumeroSegmentoCI + "&DurataVideoGuida=" + Math.floor(totDurataVideoGuida), nomefinestra: "ColonnaInternazionale"}}});}
     }
 
     TracciaCI.innerHTML = "";
