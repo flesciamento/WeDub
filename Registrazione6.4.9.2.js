@@ -326,7 +326,7 @@ function AttivaProgramma() {
             AutoAdattaElementiInterfaccia();
             AdattaLunghezzaLivelloMic();
         }, 1000);
-        //const ContenitoreComandiPlayerAScomparsa = CreaElemento('div', 'divContenitoreSlideMinutaggio', 'VideoGuida', '', true); ContenitoreComandiPlayerAScomparsa.append(slideMinutaggioAttuale); ContenitoreComandiPlayerAScomparsa.append(ControlliInSovrimpressione);
+        const ContenitoreComandiPlayerAScomparsa = CreaElemento('div', 'divContenitoreSlideMinutaggio', 'VideoGuida', '', true); ContenitoreComandiPlayerAScomparsa.append(slideMinutaggioAttuale); ContenitoreComandiPlayerAScomparsa.append(ControlliInSovrimpressione);
         if (VisualizzaSuggerimenti) {setTimeout(VisualizzaSuggerimentiNuoviDoppiatori, 2000, SuggerimentiIniziali);}
         if (VisualizzaSuggerimentiRuoliDaAssegnare) {setTimeout(VisualizzaSuggerimentiNuoviDoppiatori, 10000, SuggerimentiRuoliDaAssegnare, 'RuoliDaAssegnare');}
         setTimeout(() => {document.getElementById('LogoWEDUB').iStyle({top: 0, right: 0, width: larghezzaLogo});}, 1000);
