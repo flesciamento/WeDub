@@ -2664,7 +2664,6 @@ async function TermineCaricamentoClip() {
             EliminaImgAttesa();
             setTimeout(CheckMessaggiVocaliIstantanei, 1000);
             if (SonoCreatoreProgetto && !Provino) {setTimeout(AggiornaRappresentazioneColonnaInternazionale, 100);}
-
             AttivaInterfaccia();
             AttivaScorciatoieDiTastiera();
             if (RuoliDaAssegnare_NumeroTraccia !== false) { // La traccia "RuoliDaAssegnare" è presente solo se si è il creatore del progetto oppure l'utente visitatore
