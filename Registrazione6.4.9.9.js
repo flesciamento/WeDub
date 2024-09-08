@@ -2156,7 +2156,7 @@ function StopVideoGuida() {
         clearInterval(PrecaricaClip.tmr);
         ScaricaMemoria(true);
         FunzioniCopione.DisattivaTestoGuida();
-        if (ModalitaStreaming) {ComandiPlayer.onmousemove = ""; clearInterval(tmrComandiPlayerModalitaStreaming); ComandiPlayer.style.opacity = 1;}
+        if (ModalitaStreaming) {ComandiPlayer.onmousemove = ""; ComandiPlayer_Visualizzato();}
 	}
 }
 
@@ -2701,9 +2701,13 @@ function AttivaScorciatoieDiTastiera_ModalitaStreaming() {
     AttivaPulsantiMultimediali();
 }
 
-function ComandiPlayer_ScomparsaAutomatica() {
+function ComandiPlayer_Visualizzato() {
     clearTimeout(tmrComandiPlayerModalitaStreaming);
     ComandiPlayer.iStyle({opacity: 1, visibility: "visible"});
+}
+
+function ComandiPlayer_ScomparsaAutomatica() {
+    ComandiPlayer_Visualizzato();
     tmrComandiPlayerModalitaStreaming = setTimeout(() => {ComandiPlayer.iStyle({opacity: 0, visibility: "hidden"});}, 1000);
 }
 
