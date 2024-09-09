@@ -410,7 +410,7 @@ function PartenzaProgramma() {
     ContenitoreTestoGuida.append(divInfoTasti);
     document.getElementById('OpzSposta_TestoGuida').addEventListener('mousedown', () => {divInfoTasti.style.display = "none";});
 
-    CreaMenuADiscesa([{DoveInserirlo: 'PannelloOpzioni', ID_Menu: 'OpzioniAvanzate', stiliContenitore: {}, stiliMenu: {}, Elementi: [{dato: "", stringa: "Opzioni avanzate", predefinito: true, nascosto: true}, {dato: "s", stringa: "<span class='fa fa-upload'></span>" + strCaricaFileSottotitoliInSostituzione}], FunzioneAlClick: (dato) => {if ((dato == "s") && !document.getElementById('ContenitoreCaricaSottotitoli')) {FormSottotitoli('PannelloOpzioni', '', false);}}}]);
+    CreaMenuADiscesa([{DoveInserirlo: 'PannelloOpzioni', ID_Menu: 'OpzioniAvanzate', Elementi: [{dato: "", stringa: "Opzioni avanzate", predefinito: true, nascosto: true}, {dato: "s", stringa: "<span class='fa fa-upload'></span>" + strCaricaFileSottotitoliInSostituzione}], FunzioneAlClick: (dato) => {if ((dato == "s") && !document.getElementById('ContenitoreCaricaSottotitoli')) {FormSottotitoli('PannelloOpzioni', '', false);}}}]);
 
 	VideoGuidaPause();
     setTimeout(() => {document.getElementById('divContenitorePrincipale').append(LogoWEDUB); LogoWEDUB.iStyle({top: '0px', right: '0px'}); AttivaVetro(false); if (ErrCaricamentoSottotitoli && Errori[ErrCaricamentoSottotitoli]) {alert(Errori[ErrCaricamentoSottotitoli].replace(/<.+?>/g, ''))}}, 500);
