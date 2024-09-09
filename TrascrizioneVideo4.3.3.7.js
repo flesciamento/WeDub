@@ -395,7 +395,7 @@ function CaricaCopione(FunzioneAlTermine = () => {}) {
 }
 
 function CreaMenuOpzioniAvanzate() {
-    CreaMenuADiscesa([{ DoveInserirlo: 'PannelloOpzioni', ID_Menu: 'OpzioniAvanzate', Elementi: [{ dato: "", stringa: "Opzioni avanzate", predefinito: true, nascosto: true }, { dato: "s", stringa: "<span class='fa fa-upload'></span> " + strCaricaFileSottotitoliInSostituzione }], FunzioneAlClick: (dato) => { if ((dato == "s") && !document.getElementById('ContenitoreCaricaSottotitoli')) { FormSottotitoli('PannelloOpzioni', '', false); } } }]);
+    CreaMenuADiscesa([{DoveInserirlo: 'PannelloOpzioni', ID_Menu: 'OpzioniAvanzate', Elementi: [{dato: "", stringa: "Opzioni avanzate", predefinito: true, nascosto: true}, {dato: "s", stringa: "<span class='fa fa-upload'></span> " + strCaricaFileSottotitoliInSostituzione}], FunzioneAlClick: (dato) => {if ((dato == "s") && !document.getElementById('ContenitoreCaricaSottotitoli')) {FormSottotitoli('PannelloOpzioni', '', false);}}}]);
 }
 
 function FormSottotitoli(DoveInserirlo, Titolo, CaricamentoAutomatico = true) {
