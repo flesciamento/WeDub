@@ -1425,13 +1425,15 @@ function AggiornaRappresentazioneColonnaInternazionale(AggiornaSeModificato = fa
     AggiornaRappresentazioneColonnaInternazionale.strDatiCIPrec = strDatiCI;
     clearInterval(ApriFinestraCI_e_monitora.tmr);
 
-    if (AggiornaSeModificato) {
-        DisattivaVecchiaCI();
-        CaricaColonnaInternazionale({volume: DeterminaVolumeCI()});
-        if (FunzioneAlTerminePrecaricamento) {FunzioneAlTerminePrecaricamento();} // Se è PlayVideoGuida() rifarà la verifica delle clip da precaricare.
-    }
+    if (AggiornaSeModificato) {AggiornaCIModificata();}
 }
 AggiornaRappresentazioneColonnaInternazionale.strDatiCIPrec = "";
+
+function AggiornaCIModificata() {
+    DisattivaVecchiaCI();
+    CaricaColonnaInternazionale({volume: DeterminaVolumeCI()});
+    if (FunzioneAlTerminePrecaricamento) {FunzioneAlTerminePrecaricamento();}  // Se è PlayVideoGuida() rifarà la verifica delle clip da precaricare.
+}
 
 function SalvaEAggiornaColonnaInternazionale() {
     const strDatiCI = JSON.stringify(DatiCI), DatiDaSalvare = ((strDatiCI == strDatiCIDefault) ? "" : strDatiCI);
@@ -1456,8 +1458,7 @@ function AcquisisciNuovaCI() {
     AJAX("AcquisisciPercorsoCI.php", "NumProgetto=" + N,
         (Dati) => {
             DatiCI = Dati.DatiCI;
-            AggiornaRappresentazioneColonnaInternazionale(true);
-            AbilitaTracciaCI(true);
+            if (TracciaCI) {AggiornaRappresentazioneColonnaInternazionale(true); AbilitaTracciaCI(true);} else {AggiornaCIModificata();}
         }, "", "", true
     );
 }
