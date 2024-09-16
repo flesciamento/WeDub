@@ -2947,7 +2947,7 @@ function CaricaColonnaInternazionale(Opzioni) {
             );
 
         } else {
-            DatiCI[I].Partenza -= (+MixCIeOriginale.anticipoFadeInOriginale + 0.1); // Anticipa la partenza per consentire il fade-in
+            DatiCI[I].Partenza -= (+MixCIeOriginale.anticipoFadeInOriginale + 0.1); // Anticipa la partenza dell'audio originale per consentire il fade-in
         }
     }
 }
