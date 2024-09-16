@@ -1343,7 +1343,9 @@ function PosizioneAttualeDatiCI() {
 
 function CI_AttivaAudioOriginale(FadeIn = true) {
     if (ColonnaInternazionaleAttivata && RiproduzioneInCorso) {
-        const Volume = PosizioneAttualeDatiCI().VolumeVideoGuida;
+        const DatiCIAttuale = PosizioneAttualeDatiCI()
+        if (DatiCIAttuale.CI) {return;}
+        const Volume = DatiCIAttuale.VolumeVideoGuida;
         if (SistemaAttualeAndroid || !FadeIn) {ImpostaVolumeAudioOriginale(Volume);} else {FadeInVolumeAudioOriginale(Volume);}
     }
 }
@@ -2943,7 +2945,7 @@ function CaricaColonnaInternazionale(Opzioni) {
                     }, false);
                 }
             );
-            
+
         } else {
             DatiCI[I].Partenza -= (+MixCIeOriginale.anticipoFadeInOriginale + 0.1); // Anticipa la partenza per consentire il fade-in
         }
