@@ -1333,7 +1333,7 @@ function CI_DisattivaAudioOriginaleAlPlay(datiAudio) {
 }
 
 function CI_AttivaAudioOriginalePocoPrimaDelTermine(datiAudio) {
-    datiAudio.alPlay.push({FunzioneAlPlay: CI_AttivaAudioOriginale, latenzaEventoAlPlay: {daltermine: -MixCIeOriginale.tempoFadeInOriginale, riduciSeClipNelMinutaggio: true}});
+    datiAudio.alPlay.push({FunzioneAlPlay: CI_AttivaAudioOriginale, latenzaEventoAlPlay: {daltermine: -MixCIeOriginale.anticipoFadeInOriginale, riduciSeClipNelMinutaggio: true}});
 }
 
 function PosizioneAttualeDatiCI() {
@@ -1343,8 +1343,7 @@ function PosizioneAttualeDatiCI() {
 
 function CI_AttivaAudioOriginale(FadeIn = true) {
     if (ColonnaInternazionaleAttivata && RiproduzioneInCorso) {
-        const DatiCIAttuale = PosizioneAttualeDatiCI();
-        const Volume = (!DatiCIAttuale.CI ? DatiCIAttuale : DatiCI[+DatiCI.indexOf(DatiCIAttuale) + 1]).VolumeVideoGuida;
+        const Volume = PosizioneAttualeDatiCI().VolumeVideoGuida;
         if (SistemaAttualeAndroid || !FadeIn) {ImpostaVolumeAudioOriginale(Volume);} else {FadeInVolumeAudioOriginale(Volume);}
     }
 }
@@ -2944,6 +2943,8 @@ function CaricaColonnaInternazionale(Opzioni) {
                     }, false);
                 }
             );
+        } else {
+            Dati[I].Partenza -= (+MixCIEOriginale.anticipoFadeInOriginale + 0.1);
         }
     }
 }
