@@ -3307,7 +3307,7 @@ function SelezionaESpostaELT(ELT, NumeroAudio, X) {
         if (!ELTSelezionatoInPrecedenza) {
             ELTDaModificare.push(ELTCliccato);
         } else {
-            if (ELTDaModificare.length > 1) { ELTDaModificare.splice(ELTDaModificare.indexOf(ELTCliccato), 1); DatiAudioRegistrato[NumeroAudio].nonscaricarebuffer = false; }
+            if (ELTDaModificare.length > 1) {ELTDaModificare.splice(ELTDaModificare.indexOf(ELTCliccato), 1); DatiAudioRegistrato[NumeroAudio].nonscaricarebuffer = false;}
         }
     }
 
@@ -3318,7 +3318,7 @@ function SelezionaESpostaELT(ELT, NumeroAudio, X) {
     document.getElementById(ID_Opzioni + 'tdOpzionePosizioneLabel').textContent = (SingoloELTDaModificare ? strPosizione : "");
     [document.getElementById(ID_Opzioni + 'TabellaOpzioniRigaVolume'), document.getElementById(ID_Opzioni + 'tdOpzioneEffetti')].forEach((opzionemodificamultipla) => {
         opzionemodificamultipla.style.opacity = 1 - (0.5 * !SingoloELTDaModificare);
-        opzionemodificamultipla.onclick = opzionemodificamultipla.ontouchstart = (e) => { e.currentTarget.style.opacity = 1; };
+        opzionemodificamultipla.onclick = opzionemodificamultipla.ontouchstart = (e) => {e.currentTarget.style.opacity = 1;};
     });
     VisualizzazioneGraficaTaglioClip.OndaSonoraCompleta = SingoloELTDaModificare;
 
@@ -3396,6 +3396,16 @@ function AnteprimaSelezioneClip(ELTConsiderato, ClientX, FunzioneTouchEnd = () =
 }
 AnteprimaSelezioneClip.Visualizza = () => {}; AnteprimaSelezioneClip.Elimina = () => {}; AnteprimaSelezioneClip.tmr = false;
 
+
+function SelezionaTutteLeClipDiUnUtente(e) {
+    const ID_Utente = e.currentTarget.dataset.idutente;
+    if (!StoRegistrando && DatiAudioRegistrato_Utente[ID_Utente]) {
+        DatiAudioRegistrato_Utente[ID_Utente].forEach((da) => {
+            const ELT = document.getElementById('ELTReg' + da.numero);
+            if (ELT && !ELT.includes(ELTDaModificare)) {SelezionaESpostaELT(ELT, da.numero, 1);}
+        });
+    }
+}
 
 function AJAXSalvaAudioAscoltato(datiAudio) {
     AJAX('SalvaRegistrazioneAscoltata.php', "N=" + datiAudio.NumeroUnivoco, "", "", "", true);
