@@ -4174,7 +4174,7 @@ function ScorciatoieTastiera(e) {
         case "ArrowRight": e.preventDefault(); Posizionati(((+MinutaggioSecondi.value) + ((+MinutaggioMinuti.value) * 60)) + (0.1 * (1 - (2 * (Tasto == "ArrowLeft"))))); return;
         
         case "KeyR": if (pulPlay.disabled || pulRegistra.disabled) {return;}
-                     startRecording(); TastoPremuto = "R"; SpiegazioneTasto = strSpiegazioneTastoRegistra; break; // [R]
+                     startRecording(); TastoPremuto = "R"; SpiegazioneTasto = strSpiegazioneTastoRegistra; break;               // [R]
         case "KeyZ": ZPremuto = true; TastoPremuto = "Z"; SpiegazioneTasto = strSpiegazioneTastoZoom; break;                    // [Z]
         case "KeyX": CambiaTool(toolDividiClip); TastoPremuto = "X"; SpiegazioneTasto = strSpiegazioneTastoDividiClip; break;   // [X]
         case "KeyM": CambiaTool(toolEscludiClip); TastoPremuto = "M"; SpiegazioneTasto = strSpiegazioneTastoEscludiClip; break; // [M]
