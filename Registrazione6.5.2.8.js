@@ -3338,9 +3338,9 @@ function SelezionaESpostaELT(ELT, NumeroAudio, X) {
         }
 
     } else {
-        StoppaAutomaticamenteAscoltoInSolo(); // Stoppa l'eventuale ascolto in solo
-        document.getElementById(ELTDaSpostare.id + 'StratoColore').ontouchstart = ""; // Impedisce di muovere la prima clip
-        VisualizzazioneGraficaTaglioClip(ELTDaModificare[0].dataset.RiferimentoRegistrazione);
+        StoppaAutomaticamenteAscoltoInSolo();                                                   // Stoppa l'eventuale ascolto in solo
+        document.getElementById(ELTDaSpostare.id + 'StratoColore').ontouchstart = "";           // Impedisce di muovere la prima clip
+        VisualizzazioneGraficaTaglioClip(ELTDaModificare[0].dataset.RiferimentoRegistrazione);  // Visualizza solo la parte arancione della clip selezionata
     }
 }
 
