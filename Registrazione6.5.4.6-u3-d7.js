@@ -2382,8 +2382,6 @@ function DuplicaClip(Numero, FunzioneAlTermine = () => {}) {
                 console.log(ClipNuova, "clip duplicata");
                 
                 FunzioneAlTermine(ClipNuova);
-
-                console.log(FunzioneAlTermine);
             });
         }, strDuplicazioneClip, strClipDuplicata, true
     );
@@ -3903,7 +3901,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                                     da.taglioFinale = attacchi[1];
                                     for(A = 2; A < NumeroAttacchi; A += 2) {
                                         const SecondiAttacco = attacchi[A], SecondiStacco = attacchi[+A + 1];
-                                        DuplicaClip(Numero, (ClipNuova) => {ClipNuova.taglioIniziale = SecondiAttacco; ClipNuova.taglioFinale = SecondiStacco; console.log(ClipNuova.taglioIniziale, ClipNuova.taglioFinale, attacchi); SelezionaESpostaELT(ClipNuova.numero); console.log("ELTDaModificare", ELTDaModificare);});
+                                        DuplicaClip(Numero, (ClipNuova) => {ClipNuova.taglioIniziale = SecondiAttacco; ClipNuova.taglioFinale = SecondiStacco; console.log(ClipNuova.taglioIniziale, ClipNuova.taglioFinale, attacchi); SelezionaESpostaELT(ClipNuova.numero);});
                                     }
                                     divVetro.style.display = "none";
                                 }
