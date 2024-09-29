@@ -3760,9 +3760,9 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                                                     /* Varie */
                 divOpzioniVarie = CreaElemento('div', ID_Opzioni + 'divOpzioniRigaVarie', ID_Opzioni + 'ContenitoreOpzioniBody');
                     const stiliMenu = {textAlign: "left", width: "100%"};
-                    const btnGroup = CreaElemento('div', ID_Opzioni + 'grpPulAscolta', divOpzioniVarie.id); btnGroup.className = "btn-group"; btnGroup.style.marginRight = "5px";
-                        const pulAscolta = CreaElemento('a', ID_Opzioni + 'PulAscolta', btnGroup.id); pulAscolta.dataset.toggle = "dropdown"; pulAscolta.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione; PulAscoltaPosizioneDefault(pulAscolta);
-                        const ulPulAscolta = CreaElemento('ul', ID_Opzioni + 'ulMenuPulAscolta', btnGroup.id); ulPulAscolta.className = "dropdown-menu";
+                    const btnMenuAscolta = CreaElemento('div', ID_Opzioni + 'grpPulAscolta', divOpzioniVarie.id); btnMenuAscolta.className = "btn-group"; btnMenuAscolta.style.marginRight = "5px";
+                        const pulAscolta = CreaElemento('a', ID_Opzioni + 'PulAscolta', btnMenuAscolta.id); pulAscolta.dataset.toggle = "dropdown"; pulAscolta.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione; PulAscoltaPosizioneDefault(pulAscolta);
+                        const ulPulAscolta = CreaElemento('ul', ID_Opzioni + 'ulMenuPulAscolta', btnMenuAscolta.id); ulPulAscolta.className = "dropdown-menu";
                             const liAscoltaSoloTaglio = CreaElemento('li', ID_Opzioni + 'liAscoltaSoloTaglio', ulPulAscolta.id, "<span class='fa fa-exchange'></span> " + strSoloTaglio); liAscoltaSoloTaglio.className = "btn btn-default"; liAscoltaSoloTaglio.iStyle(stiliMenu); liAscoltaSoloTaglio.onclick = AscoltaInSolo_ParteTagliata;
                             const liAscoltaTutto = CreaElemento('li', ID_Opzioni + 'liAscoltaTutto', ulPulAscolta.id, "<span class='fa fa-toggle-right'></span> " + strDaInizioAFine); liAscoltaTutto.className = "btn btn-default"; liAscoltaTutto.iStyle(stiliMenu); liAscoltaTutto.onclick = AscoltaInSolo_Tutto;
 
