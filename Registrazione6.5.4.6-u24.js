@@ -3901,7 +3901,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                                     VisualizzaEffettiAudio(Numero);
                                     if (NumeroAttacchi > 2) {
                                         for(A = 2; A < NumeroAttacchi; A += 2) {
-                                            const SecondiAttacco = attacchi[A], SecondiStacco = attacchi[+A + 1] || lunghezzaBufferConsiderata / SampleRate;
+                                            const SecondiAttacco = attacchi[A], SecondiStacco = attacchi[+A + 1] || (lunghezzaBufferConsiderata / SampleRate);
                                             DuplicaClip(Numero, (ClipNuova) => {
                                                 ClipNuova.taglioIniziale = SecondiAttacco; ClipNuova.taglioFinale = SecondiStacco; SelezionaESpostaELT(ClipNuova.numero); VisualizzazioneGraficaTaglioClip(ClipNuova.numero); VisualizzaEffettiAudio(ClipNuova.numero); NuoveClipCreate.push(ClipNuova);
                                                 if (NuoveClipCreate.length >= (NumeroAttacchi / 2) - 1) {Riattiva(); document.getElementById(ID_Opzioni).dataset.nonmodificareselezionemultipla = "1"; setTimeout(() => {Messaggio(strSpezzaBattute_battutesuddivise, "OK");}, 1000);}
