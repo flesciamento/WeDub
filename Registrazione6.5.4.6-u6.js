@@ -3959,7 +3959,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                                 } else {
                                     divVetro.iStyle({display: "inline", opacity: 0});
                                     var NuoveClipCestinate = 0;
-                                    NuoveClipCreate.forEach((da) => {da.Rimosso = true; CestinaClip(da.numero); SalvaModificheClipAudio(da.numero, () => {if (++NuoveClipCestinate == totNuoveClipCreate) {OpzioniClip(Numero, false, false);}});});
+                                    NuoveClipCreate.forEach((da) => {da.Rimosso = true; CestinaClip(da.numero); SalvaModificheClipAudio(da.numero, () => {if (++NuoveClipCestinate >= totNuoveClipCreate) {OpzioniClip(Numero, false, false);}});});
                                 }
                             }
                         );
