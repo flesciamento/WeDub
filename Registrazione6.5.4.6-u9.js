@@ -859,7 +859,7 @@ function slide_AnteprimaMinutaggio(e) {
     divAnteprimaMinutaggioSlide.iStyle({display: "", left: ((+slideMinutaggioAttuale.offsetLeft) + (+e.offsetX) - 25) + "px"}); divAnteprimaMinutaggioSlide.textContent = M.Minuti + ":" + M.Secondi.toFixed(0).padStart(2, "0");
 }
 
-function slide_PosizionatiAlMinutaggioIndicatoInAnteprima(e) {
+function slide_PosizionatiAlMinutaggioIndicatoInAnteprima() {
     slideMinutaggioAttuale.value = slideMinutaggioAttuale.dataset.valore;
     slide_SpostatiAlMinutaggioSelezionato();
     slide_AnteprimaMinutaggioScompare();
