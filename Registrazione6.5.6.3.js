@@ -4253,7 +4253,7 @@ function ScorciatoieTastiera(e) {
         case scorciatoieTool[toolEscludiClip]:
         case scorciatoieTool[toolMarcatore]:
         case scorciatoieTool[toolStandard]:
-            ToolScelto = scorciatoieTool.indexOf(Tasto);
+            const ToolScelto = scorciatoieTool.indexOf(Tasto);
             if (CambiaTool(ToolScelto)) {SpiegazioneTasto = strSpiegazioneTastoTool[ToolScelto];} else {return;}
             break;
 
