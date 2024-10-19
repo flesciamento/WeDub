@@ -4234,9 +4234,8 @@ function NascondiVisualizzaAltreTracce(Visualizzazione) {
 
 /*** Gestione scorciatoie di tastiera ***/
 function ScorciatoieTastiera(e) {
-    const Tasto = e.code;
+    let Tasto = e.code, TastoPremuto = "", SpiegazioneTasto = "";
     if (['TEXTAREA', 'INPUT', 'SPAN'].includes(document.activeElement.tagName) || ScorciatoieTastiera.sospendi.includes(Tasto)) {return;}
-    var TastoPremuto = "", SpiegazioneTasto = "";
 
     switch(Tasto) {
         case "Space": e.preventDefault(); PlayPausa();
@@ -4246,13 +4245,17 @@ function ScorciatoieTastiera(e) {
         case "ArrowRight": e.preventDefault(); Posizionati(((+MinutaggioSecondi.value) + ((+MinutaggioMinuti.value) * 60)) + (0.1 * (1 - (2 * (Tasto == "ArrowLeft"))))); return;
         
         case "KeyR": if (pulPlay.disabled || pulRegistra.disabled) {return;}
-                     startRecording(); TastoPremuto = "R"; SpiegazioneTasto = strSpiegazioneTastoRegistra; break;             
-        case "ControlLeft": e.preventDefault(); ControlPremuto = true; TastoPremuto = "Ctrl"; SpiegazioneTasto = strSpiegazioneTastoZoom; break;        
-        case scorciatoieTool[toolDividiClip]: CambiaTool(toolDividiClip); SpiegazioneTasto = strSpiegazioneTastoDividiClip; break;  
-        case scorciatoieTool[toolEscludiClip]: CambiaTool(toolEscludiClip); SpiegazioneTasto = strSpiegazioneTastoEscludiClip; break;
-        case scorciatoieTool[toolMarcatore]: CambiaTool(toolMarcatore); SpiegazioneTasto = strSpiegazioneTastoMarcatore; break;
-        case "KeyS":                                                                                
-        case scorciatoieTool[toolStandard]: CambiaTool(toolStandard); SpiegazioneTasto = strSpiegazioneTastoSeleziona; break;
+                     startRecording(); TastoPremuto = "R"; SpiegazioneTasto = strSpiegazioneTastoRegistra; break;
+        case "ControlLeft": e.preventDefault(); ControlPremuto = true; TastoPremuto = "Ctrl"; SpiegazioneTasto = strSpiegazioneTastoZoom; break;
+
+        case scorciatoieTool[toolDividiClip]:
+        case scorciatoieTool[toolEscludiClip]:
+        case scorciatoieTool[toolMarcatore]:
+        case "KeyS": Tasto = scorciatoieTool[toolStandard];                   
+        case scorciatoieTool[toolStandard]:
+            ToolScelto = scorciatoieTool.indexOf(Tasto);
+            if (CambiaTool(ToolScelto)) {SpiegazioneTasto = strSpiegazioneTastoTool[ToolScelto];} else {return;}
+            break;
 
         case "ShiftRight": if (pulMessaggioVocale.style.pointerEvents == "auto") {RegistraMessaggioVocale_slow(); TastoPremuto = "Shift " + strDestro; SpiegazioneTasto = strSpiegazioneTastoRegistraMessaggioIstantaneo;} else {return;} break;
     }
