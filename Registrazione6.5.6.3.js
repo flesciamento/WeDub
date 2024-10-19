@@ -4248,7 +4248,7 @@ function ScorciatoieTastiera(e) {
                      startRecording(); TastoPremuto = "R"; SpiegazioneTasto = strSpiegazioneTastoRegistra; break;
         case "ControlLeft": e.preventDefault(); ControlPremuto = true; TastoPremuto = "Ctrl"; SpiegazioneTasto = strSpiegazioneTastoZoom; break;
 
-        case "KeyS": Tasto = scorciatoieTool[toolStandard];
+        case "KeyS": Tasto = scorciatoieTool[toolStandard]; TastoPremuto = "S";
         case scorciatoieTool[toolDividiClip]:
         case scorciatoieTool[toolEscludiClip]:
         case scorciatoieTool[toolMarcatore]:
