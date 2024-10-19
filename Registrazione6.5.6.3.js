@@ -4249,10 +4249,10 @@ function ScorciatoieTastiera(e) {
         case "ControlLeft": e.preventDefault(); ControlPremuto = true; TastoPremuto = "Ctrl"; SpiegazioneTasto = strSpiegazioneTastoZoom; break;
 
         case "KeyS": Tasto = scorciatoieTool[toolStandard]; TastoPremuto = "S";
+        case scorciatoieTool[toolStandard]:
         case scorciatoieTool[toolDividiClip]:
         case scorciatoieTool[toolEscludiClip]:
         case scorciatoieTool[toolMarcatore]:
-        case scorciatoieTool[toolStandard]:
             const ToolScelto = scorciatoieTool.indexOf(Tasto);
             if (CambiaTool(ToolScelto)) {SpiegazioneTasto = strSpiegazioneTastoTool[ToolScelto];} else {return;}
             break;
