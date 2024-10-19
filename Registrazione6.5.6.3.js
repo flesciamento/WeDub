@@ -1096,7 +1096,7 @@ function ControlliInSovrimpressione_Avanza(e) {
 }
 
 function Posizionati(MinutaggioNuovo, RiabilitaTuttaLaSchermata = false) {
-    const stavoRiproducendo = RiproduzioneInCorso && (Posizionati.InAttesaRiattivazione == false); // Non riattiva in automatico la riproduzione se è stato modificato il minutaggio prima che potesse posizionarsi
+    const stavoRiproducendo = (RiproduzioneInCorso && (Posizionati.InAttesaRiattivazione == false)); // Non riattiva in automatico la riproduzione se è stato modificato il minutaggio prima che potesse posizionarsi
 
     function RiattivaVideoGuida() {
         if ((Math.round(VideoGuidaMinutaggioCorrente())) != (Math.round(MinutaggioNuovo))) {Posizionati.tmr = setTimeout(RiattivaVideoGuida, 1000); return;}
