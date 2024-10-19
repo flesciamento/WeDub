@@ -4246,6 +4246,7 @@ function ScorciatoieTastiera(e) {
         
         case "KeyR": if (pulPlay.disabled || pulRegistra.disabled) {return;}
                      startRecording(); TastoPremuto = "R"; SpiegazioneTasto = strSpiegazioneTastoRegistra; break;
+                     
         case "ControlLeft": e.preventDefault(); ControlPremuto = true; TastoPremuto = "Ctrl"; SpiegazioneTasto = strSpiegazioneTastoZoom; break;
 
         case "KeyS": Tasto = scorciatoieTool[toolStandard]; TastoPremuto = "S";
