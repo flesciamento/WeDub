@@ -62,7 +62,7 @@ const ID_Opzioni = 'OpzioniClip';
 
 const formatoQualitaAlta = "flac", formatoQualitaMedia = "ogg";
 
-const toolStandard = 0, toolDividiClip = 1, toolEscludiClip = 2, toolMarcatore = 3, puntatoreTool = ["pointer", "url(images/CursoreMouseLineaTemporale_toolDividiClip.png) 8 0, auto", "url(images/CursoreMouseLineaTemporale_toolEscludiClip.png) 8 0, auto", "url(images/CursoreMouseLineaTemporale_toolMarcatore.png) 8 0, auto"], scorciatoieTool = ["KeyG", "KeyX", "KeyM"];
+const toolStandard = 0, toolDividiClip = 1, toolEscludiClip = 2, toolMarcatore = 3, puntatoreTool = ["pointer", "url(images/CursoreMouseLineaTemporale_toolDividiClip.png) 8 0, auto", "url(images/CursoreMouseLineaTemporale_toolEscludiClip.png) 8 0, auto", "url(images/CursoreMouseLineaTemporale_toolMarcatore.png) 8 0, auto"], scorciatoieTool = ["KeyG", "KeyX", "KeyM", "KeyF"];
 
 /** @type {MediaStreamAudioSourceNode} la sorgente audio selezionata (il microfono) **/
 var sorgenteAudioSelezionata = false;
@@ -4041,6 +4041,7 @@ function OpzioniClip(Numero, Apri, SalvaAllaChiusura, FunzioneAlTermine = () => 
     if (Apri) {
         CreaFinestraOpzioniClip(Numero);
         VisualizzazioneGraficaTaglioClip.OndaSonoraCompleta = true;
+        ScorciatoieTastiera.sospendi = scorciatoieTool;
         
     } else {
         const OpzClip = document.getElementById(ID_Opzioni);
@@ -4086,6 +4087,7 @@ function OpzioniClip(Numero, Apri, SalvaAllaChiusura, FunzioneAlTermine = () => 
             document.getElementById('LogoWEDUB').style.display = "";
             VisualizzazioneGraficaTaglioClip(Numero, VisualizzazioneGraficaTaglioClip.OndaSonoraCompleta = false);
             divVetro.style.display = "none";
+            ScorciatoieTastiera.sospendi = [];
             RiabilitaSchermata();
         }
     }
@@ -4233,23 +4235,25 @@ function ScorciatoieTastiera(e) {
     var TastoPremuto = "", SpiegazioneTasto = "";
 
     switch(Tasto) {
-        case "Space": e.preventDefault(); PlayPausa(); // [SPAZIO]
+        case "Space": e.preventDefault(); PlayPausa();
         default: return;
 
         case "ArrowLeft":
         case "ArrowRight": e.preventDefault(); Posizionati(((+MinutaggioSecondi.value) + ((+MinutaggioMinuti.value) * 60)) + (0.1 * (1 - (2 * (Tasto == "ArrowLeft"))))); return;
         
         case "KeyR": if (pulPlay.disabled || pulRegistra.disabled) {return;}
-                     startRecording(); TastoPremuto = "R"; SpiegazioneTasto = strSpiegazioneTastoRegistra; break;               // [R]
-        case "ControlLeft": e.preventDefault(); ControlPremuto = true; TastoPremuto = "Ctrl"; SpiegazioneTasto = strSpiegazioneTastoZoom; break;        // [Ctrl]
-        case "KeyX": CambiaTool(toolDividiClip); TastoPremuto = "X"; SpiegazioneTasto = strSpiegazioneTastoDividiClip; break;   // [X]
-        case "KeyM": CambiaTool(toolEscludiClip); TastoPremuto = "M"; SpiegazioneTasto = strSpiegazioneTastoEscludiClip; break; // [M]
-        case "KeyS": TastoPremuto = "S";                                                                                        // [S]
-        case "KeyG": CambiaTool(toolStandard); TastoPremuto += "G"; TastoPremuto = TastoPremuto.slice(0, 1); SpiegazioneTasto = strSpiegazioneTastoSeleziona; break; // [G]
+                     startRecording(); TastoPremuto = "R"; SpiegazioneTasto = strSpiegazioneTastoRegistra; break;             
+        case "ControlLeft": e.preventDefault(); ControlPremuto = true; TastoPremuto = "Ctrl"; SpiegazioneTasto = strSpiegazioneTastoZoom; break;        
+        case scorciatoieTool[toolDividiClip]: CambiaTool(toolDividiClip); SpiegazioneTasto = strSpiegazioneTastoDividiClip; break;  
+        case scorciatoieTool[toolEscludiClip]: CambiaTool(toolEscludiClip); SpiegazioneTasto = strSpiegazioneTastoEscludiClip; break;
+        case scorciatoieTool[toolMarcatore]: CambiaTool(toolMarcatore); SpiegazioneTasto = strSpiegazioneTastoMarcatore; break;
+        case "KeyS":                                                                                
+        case scorciatoieTool[toolStandard]: CambiaTool(toolStandard); SpiegazioneTasto = strSpiegazioneTastoSeleziona; break;
 
-        case "ShiftRight": if (pulMessaggioVocale.style.pointerEvents == "auto") {RegistraMessaggioVocale_slow(); TastoPremuto = "Shift " + strDestro; SpiegazioneTasto = strSpiegazioneTastoRegistraMessaggioIstantaneo;} else {return;} break;  // [Shift destro]
+        case "ShiftRight": if (pulMessaggioVocale.style.pointerEvents == "auto") {RegistraMessaggioVocale_slow(); TastoPremuto = "Shift " + strDestro; SpiegazioneTasto = strSpiegazioneTastoRegistraMessaggioIstantaneo;} else {return;} break;
     }
     
+    TastoPremuto = TastoPremuto || Tasto.slice(-1);
     Messaggio(strHaiPremuto + " <a class='btn btn-info'>" + TastoPremuto + "</a>: " + SpiegazioneTasto, "OK");
 }
 ScorciatoieTastiera.sospendi = [];
