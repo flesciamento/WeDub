@@ -311,8 +311,7 @@ function AttivaProgramma() {
         setTimeout(() => {
             /* Adatta la dimensione degli elementi in base al contenuto e allo spazio a disposizione */
             RideterminaLimitiAltezzaTracce();
-            AltezzaTracce = AltezzaTracceMinima; 
-            VariaAltezzaTracce();
+            AltezzaTracce = (+AltezzaTracceMinima) + (+AltezzaComandiPlayer);
             
             if (UnitaDiMisura == "px") {AdattaAltezzaTraccia(0);}
             if (RuoliDaAssegnare_NumeroTraccia !== false) {
@@ -320,13 +319,14 @@ function AttivaProgramma() {
             } else {
                 if (OrientamentoSchermoOrizzontale()) {
                     if (NumeroTotaleTracce == 1) {
-                        AltezzaTracce = window.innerHeight * 0.6; VariaAltezzaTracce();
+                        AltezzaTracce = window.innerHeight * 0.6; 
                     } else {
-                        if (!SonoCreatoreProgetto && !SessioneOspite) {AltezzaTracce = window.innerHeight - NomiTracce.children[0].offsetHeight - 200; VariaAltezzaTracceSePiuBasse();}
+                        if (!SonoCreatoreProgetto && !SessioneOspite) {NuovaAltezzaTracce = window.innerHeight - NomiTracce.children[0].offsetHeight - 200; AltezzaTracce = ((NuovaAltezzaTracce > AltezzaTracce) ? NuovaAltezzaTracce : AltezzaTracce);}
                     }
                 }
             }
             AdattaAltezzaContenitoreTracce();
+            VariaAltezzaTracce();
             AdattaLunghezzaLivelloMic();
         }, 1000);
         if (VisualizzaSuggerimenti) {setTimeout(VisualizzaSuggerimentiNuoviDoppiatori, 2000, SuggerimentiIniziali);}
