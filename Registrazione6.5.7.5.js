@@ -192,7 +192,7 @@ function AdattaLunghezzaLivelloMic() {
     livelloMic.style.backgroundSize = lunghezzaLivelloMic + "px 100%";
 }
 
-/*** Per i pulsanti del pannello destro, lascia la sola icona se lo spazio non basta ***/
+/*** Per i vari pulsanti dei pannelli sinistro e destro, lascia la sola icona se lo spazio non basta ***/
 function AdattaDimensionePulsanti() {
     const CondizioneStandardCompressionePulsanti = (window.innerWidth < 1450);
     const pulsantiDx = document.querySelectorAll('#ContenitorePannelloDx > .btn'), totPulsantiDx = pulsantiDx.length;
@@ -207,7 +207,7 @@ function AdattaDimensionePulsanti() {
         PulsantiTool[I].children[1].className = ClassePulsanteTool;
     }
 }
-/***************************************************************************************/
+/*******************************************************************************************************/
 
 /*** Adatta i vari elementi in base alla grandezza della finestra, eventualmente adatta anche l'altezza delle tracce per evitare che il video copra i comandi del player ***/
 function AutoAdattaElementiInterfaccia() {
