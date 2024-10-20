@@ -265,8 +265,8 @@ function VariaAltezzaTracce() {
     ContenitoreLineaTemporale.style.top = `calc(${percAltezzaTracce} + ${AltezzaComandiPlayer}px)`;
     divContenutoTracce.style.height = `calc(100% - ${AltezzaComandiPlayer}px)`;
     if (UnitaDiMisura == "%") {const NuovaAltezzaTracciaPerc = "calc(100% - " + percAltezzaTracce + ")"; ContenitoreLineaTemporale.style.height = NuovaAltezzaTracciaPerc; document.getElementById('NomiTracce').style.height = NuovaAltezzaTracciaPerc;}
-    ComandiPlayer.style.top = percAltezzaTracce;
     Monitors.style.height = percAltezzaTracce;
+    ComandiPlayer.style.top = percAltezzaTracce;
     
     PosizionaElementiScroll();
 
