@@ -309,7 +309,7 @@ function AttivaProgramma() {
         setTimeout(() => {
             /* Adatta la dimensione degli elementi in base al contenuto e allo spazio a disposizione */
             RideterminaLimitiAltezzaTracce();
-            AltezzaTracce = (+AltezzaTracceMinima) + (+AltezzaComandiPlayer);
+            AltezzaTracce = window.innerHeight * 0.4;
             
             if (UnitaDiMisura == "px") {AdattaAltezzaTraccia(0);}
             if (RuoliDaAssegnare_NumeroTraccia !== false) {AdattaAltezzaTracciaRuoliDaAssegnare();}
