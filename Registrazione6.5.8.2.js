@@ -4232,7 +4232,7 @@ function ScorciatoieTastiera(e) {
     let Tasto = e.code, TastoPremuto = "", SpiegazioneTasto = "";
     if (['TEXTAREA', 'INPUT', 'SPAN'].includes(document.activeElement.tagName) || ScorciatoieTastiera.sospendi.includes(Tasto)) {return;}
 
-    InclusoIn = (a) => (a.includes(t) ? t : false);
+    InclusoIn = (a) => (a.includes(Tasto) ? t : false);
 
     switch(Tasto) {
         case "Space": e.preventDefault(); PlayPausa();
