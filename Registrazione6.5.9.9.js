@@ -3715,7 +3715,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
 
         function CreaSlide(IDRiferimento, Stringa, minSlide, maxSlide, stepSlide, minCasella, maxCasella, stepCasella, labelCasella, FunzioneInputSlide, FunzioneChangeCasella, valoreIniziale, FunzioneOnChange2 = () => {}) {
             tr = CreaElemento('tr', ID_Opzioni + 'TabellaOpzioniRiga' + IDRiferimento, Tabella.id);
-                td = CreaElemento('td', tr.id + 'tdOpzioneLabel', tr.id, " " + Stringa); td.iStyle({fontFamily: 'Verdana', fontSize: '12px'});
+                td = CreaElemento('td', tr.id + 'tdOpzioneLabel', tr.id, Stringa); td.iStyle({fontFamily: 'Verdana', fontSize: '12px'});
                 td = CreaElemento('td', tr.id + 'tdOpzioneSlide', tr.id);
                     var slide = CreaElemento('input', tr.id + 'Slide', td.id);
                         slide.setAttribute("type", "range"); slide.setAttribute("min", minSlide); slide.setAttribute("max", maxSlide); slide.setAttribute("step", stepSlide);
@@ -3729,7 +3729,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                         c.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione;
                         c.addEventListener('change', FunzioneChangeCasella);
                         c.addEventListener('change', FunzioneOnChange2);
-                    CreaElemento('span', tr.id + 'Casellalabel', td.id, labelCasella);
+                    CreaElemento('span', tr.id + 'Casellalabel', td.id, " " + labelCasella);
 
                     setTimeout(() => {
                         FunzioneInputSlide({currentTarget: slide}); // Simula inserimento manuale visualizzando correttamente l'interfaccia utente
