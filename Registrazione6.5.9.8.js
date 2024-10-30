@@ -3636,7 +3636,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
     /******************************************************************************************************/
 
     /*** Crea la finestrella delle opzioni ***/
-    const divContenitoreOpzioni = CreaElemento('div', ID_Opzioni, document.body.id); divContenitoreOpzioni.className = "panel panel-info"; divContenitoreOpzioni.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione;
+    const divContenitoreOpzioni = CreaElemento('div', ID_Opzioni, document.body.id); divContenitoreOpzioni.className = "panel panel-info"; divContenitoreOpzioni.style.minWidth = "650px"; divContenitoreOpzioni.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione;
     divContenitoreOpzioni.iStyle({display: 'none', position: 'fixed', top: '10%', left: '30%', zIndex: 100000000 + Number(RiferimentoRegistrazione)});
     divContenitoreOpzioni.addEventListener('mouseup', () => {OggettoDaSpostare = false; document.body.removeEventListener('mousemove', SpostaOggettoColMouse);});
     
