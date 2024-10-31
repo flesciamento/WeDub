@@ -3706,12 +3706,12 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
     /***********************************************************************/
 
     /*** Crea la finestrella delle opzioni ***/
-    const divContenitoreOpzioni = CreaElemento('div', ID_Opzioni, document.body.id); divContenitoreOpzioni.className = "panel panel-info"; divContenitoreOpzioni.style.minWidth = "560px"; divContenitoreOpzioni.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione;
-    divContenitoreOpzioni.iStyle({display: 'none', position: 'fixed', top: '10%', left: '30%', zIndex: 100000000 + Number(RiferimentoRegistrazione)});
+    const divContenitoreOpzioni = CreaElemento('div', ID_Opzioni, document.body.id); divContenitoreOpzioni.className = "panel panel-info"; divContenitoreOpzioni.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione;
+    divContenitoreOpzioni.iStyle({display: 'none', position: 'fixed', top: '10%', left: '30%', minWidth: "560px", zIndex: 100000000 + Number(RiferimentoRegistrazione)});
     divContenitoreOpzioni.addEventListener('mouseup', () => {OggettoDaSpostare = false; document.body.removeEventListener('mousemove', SpostaOggettoColMouse);});
     
     /** Barra del titolo **/
-    var div = CreaElemento('div', 'OpzioniTitolo', ID_Opzioni); div.className = "panel-heading text-center";
+    var div = CreaElemento('div', 'OpzioniTitolo', ID_Opzioni); div.className = "panel-heading text-center"; div.style.userSelect = "none";
             
         const barratitolo = CreaElemento('div', 'lblOpzioniTitolo', div.id, strOpzioniTraccia); barratitolo.iStyle({width: "70%", margin: "0px auto", cursor: "move"});
               barratitolo.addEventListener('mousedown', () => {OggettoDaSpostare = divContenitoreOpzioni; document.body.addEventListener('mousemove', SpostaOggettoColMouse);});
