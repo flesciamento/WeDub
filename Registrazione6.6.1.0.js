@@ -3962,7 +3962,6 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                                 function Riattiva() {
                                     pulsante.style.display = "none";
                                     divVetro.style.display = "none";
-                                    VisualizzazioneGraficaTaglioClip(Numero, (NuoveClipCreate.length == 0)); // Se ha creato più clip, non visualizza la parte bianca
                                 }
                             }
 
