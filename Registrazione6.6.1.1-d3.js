@@ -3370,9 +3370,9 @@ function SelezionaESpostaELT(NumeroAudio, X = 0) {
     document.getElementById(ID_Opzioni + 'Cancella').style.display = document.getElementById(ID_Opzioni + 'Duplica').style.display = document.getElementById(ID_Opzioni + 'TabellaMinutaggio').style.display = document.getElementById(ID_Opzioni + 'TabellaOpzioniRigaTaglioIniziale').style.display = document.getElementById(ID_Opzioni + 'TabellaOpzioniRigaTaglioFinale').style.display = document.getElementById(ID_Opzioni + 'divOpzioniRigaVarie').style.display = document.getElementById(ID_Opzioni + 'textareaCommenti').style.display = (SingoloELTDaModificare ? "" : "none");
     document.getElementById(ID_Opzioni + 'divOpzioneEffetti').iStyle({float: (SingoloELTDaModificare? "left" : ""), margin: (SingoloELTDaModificare? "" : "0 auto")});
     [document.getElementById(ID_Opzioni + 'labelPulDaAscoltare'), document.getElementById(ID_Opzioni + 'TabellaOpzioniRigaVolume'), document.getElementById(ID_Opzioni + 'divOpzioneEffetti')].forEach((opzionemodificamultipla) => {
-        console.log(opzionemodificamultipla, SingoloELTDaModificare, opzionemodificamultipla.dataset.semitrasparenzainiziale, 1 - (0.5 * ((!+SingoloELTDaModificare) || (+opzionemodificamultipla.dataset.semitrasparenzainiziale))));
+        console.log(opzionemodificamultipla, SingoloELTDaModificare, opzionemodificamultipla.dataset.semitrasparenzainiziale, 1 - (0.5 * (!(+SingoloELTDaModificare) || (+opzionemodificamultipla.dataset.semitrasparenzainiziale))));
         
-        opzionemodificamultipla.style.opacity = 1 - (0.5 * (!+SingoloELTDaModificare || opzionemodificamultipla.dataset.semitrasparenzainiziale));
+        opzionemodificamultipla.style.opacity = 1 - (0.5 * (!(+SingoloELTDaModificare) || opzionemodificamultipla.dataset.semitrasparenzainiziale));
         opzionemodificamultipla.onclick = opzionemodificamultipla.ontouchstart = (e) => {e.currentTarget.style.opacity = 1;};
     });
     VisualizzazioneGraficaTaglioClip.OndaSonoraCompleta = SingoloELTDaModificare;
