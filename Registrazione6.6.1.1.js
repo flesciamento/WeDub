@@ -3356,7 +3356,7 @@ function SelezionaESpostaELT(NumeroAudio, X = 0) {
             tmrELTCliccato = setTimeout(() => {
                 ELTDaSpostare.className = "ELT transizione-morbida-no"; VisualizzazioneGraficaTaglioClip(NumeroAudio, false);
                 Righello.addEventListener('mousemove', SpostaELT); Righello.addEventListener('touchmove', SpostaELT);
-            }, 200);
+            }, 300);
             document.getElementById(ELTDaSpostare.id + 'StratoColore').ontouchstart = GestioneEventoELTCliccato;
         }
 
