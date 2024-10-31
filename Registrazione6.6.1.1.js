@@ -3342,15 +3342,6 @@ function SelezionaESpostaELT(NumeroAudio, X = 0) {
 
     const SingoloELTDaModificare = (ELTDaModificare.length == 1);
 
-    /* Modifiche in caso di selezione multipla delle clip */
-    document.getElementById(ID_Opzioni + 'Cancella').style.display = document.getElementById(ID_Opzioni + 'Duplica').style.display = document.getElementById(ID_Opzioni + 'TabellaMinutaggio').style.display = document.getElementById(ID_Opzioni + 'TabellaOpzioniRigaTaglioIniziale').style.display = document.getElementById(ID_Opzioni + 'TabellaOpzioniRigaTaglioFinale').style.display = document.getElementById(ID_Opzioni + 'divOpzioniRigaVarie').style.display = document.getElementById(ID_Opzioni + 'textareaCommenti').style.display = (SingoloELTDaModificare ? "" : "none");
-    document.getElementById(ID_Opzioni + 'divOpzioneEffetti').iStyle({float: (SingoloELTDaModificare? "left" : ""), margin: (SingoloELTDaModificare? "" : "0 auto")});
-    [document.getElementById(ID_Opzioni + 'labelPulDaAscoltare'), document.getElementById(ID_Opzioni + 'TabellaOpzioniRigaVolume'), document.getElementById(ID_Opzioni + 'divOpzioneEffetti')].forEach((opzionemodificamultipla) => {
-        opzionemodificamultipla.style.opacity = 1 - (0.5 * !SingoloELTDaModificare);
-        opzionemodificamultipla.onclick = opzionemodificamultipla.ontouchstart = (e) => {e.currentTarget.style.opacity = 1;};
-    });
-    VisualizzazioneGraficaTaglioClip.OndaSonoraCompleta = SingoloELTDaModificare;
-
     if (SingoloELTDaModificare) {
         /* Se l'unica clip rimasta selezionata è diversa dalla prima, resetta la finestra delle opzioni per settarla sull'unica clip selezionata */
         const OpzClip = document.getElementById(ID_Opzioni);
@@ -3374,6 +3365,15 @@ function SelezionaESpostaELT(NumeroAudio, X = 0) {
         document.getElementById(ELTDaSpostare.id + 'StratoColore').ontouchstart = "";           // Impedisce di muovere la prima clip
         VisualizzazioneGraficaTaglioClip(ELTDaModificare[0].dataset.RiferimentoRegistrazione);  // Visualizza solo la parte arancione della clip selezionata
     }
+
+    /* Modifiche in caso di selezione multipla delle clip */
+    document.getElementById(ID_Opzioni + 'Cancella').style.display = document.getElementById(ID_Opzioni + 'Duplica').style.display = document.getElementById(ID_Opzioni + 'TabellaMinutaggio').style.display = document.getElementById(ID_Opzioni + 'TabellaOpzioniRigaTaglioIniziale').style.display = document.getElementById(ID_Opzioni + 'TabellaOpzioniRigaTaglioFinale').style.display = document.getElementById(ID_Opzioni + 'divOpzioniRigaVarie').style.display = document.getElementById(ID_Opzioni + 'textareaCommenti').style.display = (SingoloELTDaModificare ? "" : "none");
+    document.getElementById(ID_Opzioni + 'divOpzioneEffetti').iStyle({float: (SingoloELTDaModificare? "left" : ""), margin: (SingoloELTDaModificare? "" : "0 auto")});
+    [document.getElementById(ID_Opzioni + 'labelPulDaAscoltare'), document.getElementById(ID_Opzioni + 'TabellaOpzioniRigaVolume'), document.getElementById(ID_Opzioni + 'divOpzioneEffetti')].forEach((opzionemodificamultipla) => {
+        opzionemodificamultipla.style.opacity = 1 - (0.5 * (!SingoloELTDaModificare || opzionemodificamultipla.dataset.semitrasparenzainiziale));
+        opzionemodificamultipla.onclick = opzionemodificamultipla.ontouchstart = (e) => {e.currentTarget.style.opacity = 1;};
+    });
+    VisualizzazioneGraficaTaglioClip.OndaSonoraCompleta = SingoloELTDaModificare;
 }
 
 function DividiClipELT(NumeroAudio, X) {
@@ -3732,9 +3732,9 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
         
         /* Pulsante clip da ascoltare */
         if (SonoCreatoreProgetto) {
-            const labelDaAscoltare = CreaElemento('label', ID_Opzioni + 'labelPulDaAscoltare', divcontenitorebody.id); labelDaAscoltare.className = "btn btn-default btn-xs"; labelDaAscoltare.setAttribute('title', strDaAscoltare_title); setTimeout(() => {labelDaAscoltare.iStyle({position: "absolute", top: "50px", right: "2px", zIndex: 1, opacity: 0.5});}, 100);
+            const labelDaAscoltare = CreaElemento('label', ID_Opzioni + 'labelPulDaAscoltare', divcontenitorebody.id); labelDaAscoltare.className = "btn btn-default btn-xs"; labelDaAscoltare.setAttribute('title', strDaAscoltare_title); labelDaAscoltare.iStyle({position: "absolute", top: "50px", right: "2px", zIndex: 1, opacity: 0.5}); labelDaAscoltare.dataset.semitrasparenzainiziale = "si";
                   const pulDaAscoltare = CreaElemento('input', ID_Opzioni + 'checkPulDaAscoltare', labelDaAscoltare.id); pulDaAscoltare.setAttribute('type', 'checkbox'); pulDaAscoltare.checked = datiAudio.daAscoltare; pulDaAscoltare.dataset.cliccato = "no";
-                        pulDaAscoltare.onclick = () => {ELTDaModificare.forEach((ClipELT) => {const da = DatiAudioRegistrato[ClipELT.dataset.RiferimentoRegistrazione]; da.daAscoltare = pulDaAscoltare.checked; VisualizzaModificaAudioAscoltato(da);}); pulDaAscoltare.dataset.cliccato = "si"; labelDaAscoltare.style.opacity = 1;};
+                        pulDaAscoltare.onclick = () => {ELTDaModificare.forEach((ClipELT) => {const da = DatiAudioRegistrato[ClipELT.dataset.RiferimentoRegistrazione]; da.daAscoltare = pulDaAscoltare.checked; VisualizzaModificaAudioAscoltato(da);}); pulDaAscoltare.dataset.cliccato = "si";};
                   CreaElemento('span', ID_Opzioni + 'lblPulDaAscoltare', labelDaAscoltare.id, " " + strDaAscoltare);
         }
         /******************************/
