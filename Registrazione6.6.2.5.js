@@ -3791,181 +3791,180 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
             CreaSlide('TaglioFinale',      strTaglioFinale,   taglioclip_diffmin, LunghezzaRegistrazione, 0.01, taglioclip_diffmin, LunghezzaRegistrazione, 0.01, strsecondi, ev_CambiaTaglioFinaleClip,    ev_CambiaTaglioFinaleClip,   datiAudio.taglioFinale,   FunzioneOnChangePerTagliInizialiEFinali);
         /**********************/
 
-                                                    /* Varie */
-                divOpzioniVarie = CreaElemento('div', ID_Opzioni + 'divOpzioniRigaVarie', ID_Opzioni + 'ContenitoreOpzioniBody');
-                    const stiliMenu = {textAlign: "left", width: "100%"};
-                    const btnMenuAscolta = CreaElemento('div', ID_Opzioni + 'grpPulAscolta', divOpzioniVarie.id); btnMenuAscolta.className = "btn-group"; btnMenuAscolta.style.marginRight = "5px";
-                        const pulAscolta = CreaElemento('a', ID_Opzioni + 'PulAscolta', btnMenuAscolta.id); pulAscolta.dataset.toggle = "dropdown"; pulAscolta.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione; PulAscoltaPosizioneDefault(pulAscolta);
-                        const ulPulAscolta = CreaElemento('ul', ID_Opzioni + 'ulMenuPulAscolta', btnMenuAscolta.id); ulPulAscolta.className = "dropdown-menu";
-                            const liAscoltaSoloTaglio = CreaElemento('li', ID_Opzioni + 'liAscoltaSoloTaglio', ulPulAscolta.id, "<span class='fa fa-exchange'></span> " + strSoloTaglio); liAscoltaSoloTaglio.className = "btn btn-default"; liAscoltaSoloTaglio.iStyle(stiliMenu); liAscoltaSoloTaglio.onclick = AscoltaInSolo_ParteTagliata;
-                            const liAscoltaTutto = CreaElemento('li', ID_Opzioni + 'liAscoltaTutto', ulPulAscolta.id, "<span class='fa fa-toggle-right'></span> " + strDaInizioAFine); liAscoltaTutto.className = "btn btn-default"; liAscoltaTutto.iStyle(stiliMenu); liAscoltaTutto.onclick = AscoltaInSolo_Tutto;
+                                            /* Varie */
+        divOpzioniVarie = CreaElemento('div', ID_Opzioni + 'divOpzioniRigaVarie', ID_Opzioni + 'ContenitoreOpzioniBody');
+            const stiliMenu = {textAlign: "left", width: "100%"};
+            const btnMenuAscolta = CreaElemento('div', ID_Opzioni + 'grpPulAscolta', divOpzioniVarie.id); btnMenuAscolta.className = "btn-group"; btnMenuAscolta.style.marginRight = "5px";
+                const pulAscolta = CreaElemento('a', ID_Opzioni + 'PulAscolta', btnMenuAscolta.id); pulAscolta.dataset.toggle = "dropdown"; pulAscolta.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione; PulAscoltaPosizioneDefault(pulAscolta);
+                const ulPulAscolta = CreaElemento('ul', ID_Opzioni + 'ulMenuPulAscolta', btnMenuAscolta.id); ulPulAscolta.className = "dropdown-menu";
+                    const liAscoltaSoloTaglio = CreaElemento('li', ID_Opzioni + 'liAscoltaSoloTaglio', ulPulAscolta.id, "<span class='fa fa-exchange'></span> " + strSoloTaglio); liAscoltaSoloTaglio.className = "btn btn-default"; liAscoltaSoloTaglio.iStyle(stiliMenu); liAscoltaSoloTaglio.onclick = AscoltaInSolo_ParteTagliata;
+                    const liAscoltaTutto = CreaElemento('li', ID_Opzioni + 'liAscoltaTutto', ulPulAscolta.id, "<span class='fa fa-toggle-right'></span> " + strDaInizioAFine); liAscoltaTutto.className = "btn btn-default"; liAscoltaTutto.iStyle(stiliMenu); liAscoltaTutto.onclick = AscoltaInSolo_Tutto;
 
 
-                    const btnMenuScarica = CreaElemento('div', ID_Opzioni + 'grpMenuScarica', divOpzioniVarie.id); btnMenuScarica.className = "btn-group";
-                        const pulScaricaClip = CreaElemento('a', ID_Opzioni + 'pulScaricaClip', btnMenuScarica.id, strScaricaRegistrazione + " <span class='caret'></span>"); pulScaricaClip.className = "btn btn-default btn-sm fa fa-download"; pulScaricaClip.dataset.toggle = "dropdown"; pulScaricaClip.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione; pulScaricaClip.onclick = ApriMenuOpzioniScaricamento;
-                        const ulPulScarica = CreaElemento('ul', ID_Opzioni + 'ulMenuPulScarica', btnMenuScarica.id); ulPulScarica.className = "dropdown-menu";
-                            const NomeFile = `${NomeProgetto} ${NomeDoppiaggio} ${DatiDoppiatori[datiAudio.ID_Utente].nome} ${strBattuta} ${strA} ${MinutaggioAttuale.Minuti.duecifre()} min ${MinutaggioAttuale.Secondi.toFixed(3)} sec${datiAudio.Registrazione.slice(datiAudio.Registrazione.lastIndexOf("."))}`.replace(/[^a-zA-Z0-9\.]/g, "_");
-                            const liScaricaOriginale = CreaElemento('li', ID_Opzioni + 'liScaricaOriginale', ulPulScarica.id, `<span class='fa fa-file-audio-o'></span> ${strScaricaClipOriginale}<a id='${ID_Opzioni}aScaricaOriginale' href="${datiAudio.Registrazione}" download="${NomeFile}" style='display: none;'></a>`); liScaricaOriginale.className = "btn btn-info"; liScaricaOriginale.iStyle(stiliMenu); liScaricaOriginale.onclick = DownloadClipFinestraOpzioni;
-                            const liScaricaConversione = CreaElemento('li', ID_Opzioni + 'liScaricaConversione', ulPulScarica.id, "<span class='fa fa-tasks'></span> " + strScaricaClipConversione); liScaricaConversione.className = "btn btn-primary"; liScaricaConversione.iStyle(stiliMenu); liScaricaConversione.dataset.larghezza = '850px'; liScaricaConversione.dataset.altezza = '500px'; liScaricaConversione.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione; liScaricaConversione.onclick = DownloadClipConversione;
+            const btnMenuScarica = CreaElemento('div', ID_Opzioni + 'grpMenuScarica', divOpzioniVarie.id); btnMenuScarica.className = "btn-group";
+                const pulScaricaClip = CreaElemento('a', ID_Opzioni + 'pulScaricaClip', btnMenuScarica.id, strScaricaRegistrazione + " <span class='caret'></span>"); pulScaricaClip.className = "btn btn-default btn-sm fa fa-download"; pulScaricaClip.dataset.toggle = "dropdown"; pulScaricaClip.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione; pulScaricaClip.onclick = ApriMenuOpzioniScaricamento;
+                const ulPulScarica = CreaElemento('ul', ID_Opzioni + 'ulMenuPulScarica', btnMenuScarica.id); ulPulScarica.className = "dropdown-menu";
+                    const NomeFile = `${NomeProgetto} ${NomeDoppiaggio} ${DatiDoppiatori[datiAudio.ID_Utente].nome} ${strBattuta} ${strA} ${MinutaggioAttuale.Minuti.duecifre()} min ${MinutaggioAttuale.Secondi.toFixed(3)} sec${datiAudio.Registrazione.slice(datiAudio.Registrazione.lastIndexOf("."))}`.replace(/[^a-zA-Z0-9\.]/g, "_");
+                    const liScaricaOriginale = CreaElemento('li', ID_Opzioni + 'liScaricaOriginale', ulPulScarica.id, `<span class='fa fa-file-audio-o'></span> ${strScaricaClipOriginale}<a id='${ID_Opzioni}aScaricaOriginale' href="${datiAudio.Registrazione}" download="${NomeFile}" style='display: none;'></a>`); liScaricaOriginale.className = "btn btn-info"; liScaricaOriginale.iStyle(stiliMenu); liScaricaOriginale.onclick = DownloadClipFinestraOpzioni;
+                    const liScaricaConversione = CreaElemento('li', ID_Opzioni + 'liScaricaConversione', ulPulScarica.id, "<span class='fa fa-tasks'></span> " + strScaricaClipConversione); liScaricaConversione.className = "btn btn-primary"; liScaricaConversione.iStyle(stiliMenu); liScaricaConversione.dataset.larghezza = '850px'; liScaricaConversione.dataset.altezza = '500px'; liScaricaConversione.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione; liScaricaConversione.onclick = DownloadClipConversione;
 
 
-                    const divTrattamentoAudio = CreaElemento('div', ID_Opzioni + 'divTrattamentoAudio', divOpzioniVarie.id); divTrattamentoAudio.className = "btn"; divTrattamentoAudio.iStyle({cursor: "auto", width: "fit-content"});
-                        const fieldsetTrattamentoAudio = CreaElemento('fieldset', divTrattamentoAudio.id + "fieldset", divTrattamentoAudio.id);
-                            CreaElemento('legend', fieldsetTrattamentoAudio.id + "label", fieldsetTrattamentoAudio.id, strTrattamentoAudio).style.fontSize = "16px";
-                            const pulRiduciRumore = CreaElemento('div', ID_Opzioni + 'pulRiduciRumore', divTrattamentoAudio.id, strRiduzioneRumore); pulRiduciRumore.className = "btn btn-default"; pulRiduciRumore.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione;
-                            if (DatiAudioRegistrato[RiferimentoRegistrazione].Registrazione.indexOf('-trattato') == -1) {
-                                pulRiduciRumore.onclick = async (e) => {
-                                    divVetro.iStyle({display: "inline", opacity: 0});
-                                    const pulsante = e.currentTarget, Numero = pulsante.dataset.RiferimentoRegistrazione, da = DatiAudioRegistrato[Numero], b = da.buffer.getChannelData(0), lunghezzaBuffer = b.length, SampleRate = da.buffer.sampleRate, LimiteSecondiSogliaRumoreAttacco = RiduzioneRumore.SecondiSogliaRumoreAttacco * SampleRate, LimiteSecondiSogliaRumoreTermine = RiduzioneRumore.SecondiSogliaRumoreTermine * SampleRate;
+            const divTrattamentoAudio = CreaElemento('div', ID_Opzioni + 'divTrattamentoAudio', divOpzioniVarie.id); divTrattamentoAudio.className = "btn"; divTrattamentoAudio.iStyle({cursor: "auto", width: "fit-content"});
+                const fieldsetTrattamentoAudio = CreaElemento('fieldset', divTrattamentoAudio.id + "fieldset", divTrattamentoAudio.id);
+                    CreaElemento('legend', fieldsetTrattamentoAudio.id + "label", fieldsetTrattamentoAudio.id, strTrattamentoAudio).style.fontSize = "16px";
+                    const pulRiduciRumore = CreaElemento('div', ID_Opzioni + 'pulRiduciRumore', divTrattamentoAudio.id, strRiduzioneRumore); pulRiduciRumore.className = "btn btn-default"; pulRiduciRumore.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione;
+                    if (DatiAudioRegistrato[RiferimentoRegistrazione].Registrazione.indexOf('-trattato') == -1) {
+                        pulRiduciRumore.onclick = async (e) => {
+                            divVetro.iStyle({display: "inline", opacity: 0});
+                            const pulsante = e.currentTarget, Numero = pulsante.dataset.RiferimentoRegistrazione, da = DatiAudioRegistrato[Numero], b = da.buffer.getChannelData(0), lunghezzaBuffer = b.length, SampleRate = da.buffer.sampleRate, LimiteSecondiSogliaRumoreAttacco = RiduzioneRumore.SecondiSogliaRumoreAttacco * SampleRate, LimiteSecondiSogliaRumoreTermine = RiduzioneRumore.SecondiSogliaRumoreTermine * SampleRate;
 
-                                    /* Inizializzazione interfaccia */
-                                    StoppaAutomaticamenteAscoltoInSolo();
-                                    pulsante.abilita(false);
-                                    pulsante.iStyle({border: "none", color: "black"});
-                                    pulsante.innerHTML = "<span class='fa fa-spin fa-spinner'></span> " + strInElaborazione;
+                            /* Inizializzazione interfaccia */
+                            StoppaAutomaticamenteAscoltoInSolo();
+                            pulsante.abilita(false);
+                            pulsante.iStyle({border: "none", color: "black"});
+                            pulsante.innerHTML = "<span class='fa fa-spin fa-spinner'></span> " + strInElaborazione;
 
-                                    /* Copia del buffer originale nell'apposita variabile */
-                                    bufferoriginale = audioContext.createBuffer(1, lunghezzaBuffer, SampleRate);
-                                    bufferoriginale.copyToChannel(b, 0);
+                            /* Copia del buffer originale nell'apposita variabile */
+                            bufferoriginale = audioContext.createBuffer(1, lunghezzaBuffer, SampleRate);
+                            bufferoriginale.copyToChannel(b, 0);
 
-                                    CentraOndaSonora(b);
-                                    
-                                    await pausa(100);
+                            CentraOndaSonora(b);
+                            
+                            await pausa(100);
 
-                                    /* Riduce o annulla il rumore nei punti in cui non c'è il parlato (se l'opzione è attiva e se il volume della clip non è troppo alto: in quest'ultimo caso potrebbe voler dire che la clip è stata registrata ad un volume sotto soglia) */
-                                    if (RiduzioneRumore.ApplicareSogliaRumore && (GuadagnoPrincipale[Numero].gain.value < 19)) {
-                                        var contSogliaNonRaggiunta = LimiteSecondiSogliaRumoreTermine;
-                                        const sogliarumore = TrattamentoClip.AutoTaglioIniziale.SogliaDB;
-                                        for (let I = 0; I < lunghezzaBuffer; I++) {
-                                            const sogliasuperata = ((Math.abs(b[I]) > sogliarumore) || (Math.abs(b[(+I) + (+LimiteSecondiSogliaRumoreAttacco)]) > sogliarumore));
-                                            contSogliaNonRaggiunta = ++contSogliaNonRaggiunta * !sogliasuperata;
-                                            const condizioneraggiunta = ((sogliasuperata) || (contSogliaNonRaggiunta < LimiteSecondiSogliaRumoreTermine));
-                                            b[I] *= (condizioneraggiunta + (RiduzioneRumore.GainRumore * !condizioneraggiunta));
-                                        }
-                                        await pausa(100);
-                                    }
-
-                                    const bloburl = URL.createObjectURL(new Blob([audiobufferToWav(b, SampleRate, {float32: true, notrattamento: true})]));
-                                    ApriFinestra({currentTarget: {dataset: {larghezza: "300px", altezza: "300px", link: "TrattamentoAudio_RiduzioneRumore.php?N=" + encodeURIComponent(da.NumeroUnivoco) + "&Percorso=" + encodeURIComponent(bloburl)}}});
-
-                                    const nomefile = bloburl.slice(bloburl.lastIndexOf('/') + 1) + "." + formatoQualitaAlta;
-
-                                    function VerificaTermineProcesso() {
-                                        AJAX("TrattamentoAudio_VerificaFile.php", "NomeFile=" + encodeURIComponent(nomefile), (Dati) => {
-                                            if (Dati.Esiste) {
-                                                CaricaAudio(0, {Registrazione: Dati.PercorsoCompleto}, 'arraybuffer', 
-                                                    (Contenuto) => {
-                                                        NuovoAudioTrattato = Contenuto.slice();
-                                                        audioContext.decodeAudioData(Contenuto).then((buffernuovo) => {
-                                                            function SelezionaAudio(e) {
-                                                                StoppaAutomaticamenteAscoltoInSolo();
-                                                                da.buffer = ((e.currentTarget.value == 0) ? bufferoriginale : buffernuovo);
-                                                                liAscoltaSoloTaglio.click();
-                                                            }
-
-                                                            pulsante.innerHTML = "<span class='fa fa-check' style='color: green;'></span> " + strCreazioneCompletata;
-                                                            const lblAudioOriginale = CreaElemento('label', divTrattamentoAudio.id + 'labelOriginale', divTrattamentoAudio.id); lblAudioOriginale.className = "btn btn-default";
-                                                                const inputAudioOriginale = CreaElemento('input', ID_Opzioni + 'inputAudioOriginale', lblAudioOriginale.id); inputAudioOriginale.setAttribute('type', 'radio'); inputAudioOriginale.setAttribute('name', 'opzAudioOriginaleTrattato'); inputAudioOriginale.value = 0; inputAudioOriginale.onclick = SelezionaAudio;
-                                                                CreaElemento('span', ID_Opzioni + 'spanAudioOriginale', lblAudioOriginale.id, " " + strSelezionaAudioOriginale);
-                                                                
-                                                            const lblAudioTrattato = CreaElemento('label', divTrattamentoAudio.id + 'labelTrattato', divTrattamentoAudio.id); lblAudioTrattato.className = "btn btn-default";
-                                                                const inputAudioTrattato = CreaElemento('input', ID_Opzioni + 'inputAudioTrattato', lblAudioTrattato.id); inputAudioTrattato.setAttribute('type', 'radio'); inputAudioTrattato.setAttribute('name', 'opzAudioOriginaleTrattato'); inputAudioTrattato.value = 1; inputAudioTrattato.onclick = SelezionaAudio;
-                                                                CreaElemento('span', ID_Opzioni + 'spanAudioTrattato', lblAudioTrattato.id, " " + strSelezionaAudioTrattato);
-
-                                                            inputAudioTrattato.click();
-
-                                                            divVetro.style.display = "none";
-                                                        }).catch((err) => {console.log("Errore nuovo audio", err); pulsante.innerHTML = strRiduzioneRumore_errore; divVetro.style.display = "none";});
-                                                        
-                                                        AJAX("TrattamentoAudio_EliminaFile.php", "NomeFile=" + encodeURIComponent(nomefile), "", "", "", true);
-                                                        URL.revokeObjectURL(bloburl);
-                                                    }
-                                                );
-                                            } else {
-                                                setTimeout(VerificaTermineProcesso, 1000);
-                                            }
-                                        }, "", "", true);
-                                    }
-
-                                    setTimeout(VerificaTermineProcesso, 1000);
-                                };
-
-                            } else {
-                                pulRiduciRumore.innerHTML = strRiduzioneRumore_effettuato;
-                                pulRiduciRumore.iStyle({border: "none", pointerEvents: "none"});
-                                pulRiduciRumore.dataset.riduzionerumoreapplicata = 1;
-                            }
-
-                            CreaElemento('span', ID_Opzioni + 'spaziotrattamentoaudio', divTrattamentoAudio.id, ' ');
-
-                            const pulSpezzaBattute = CreaElemento('div', ID_Opzioni + 'pulSpezzaBattute', divTrattamentoAudio.id, strSpezzaBattute); pulSpezzaBattute.className = "btn btn-default"; pulSpezzaBattute.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione; pulSpezzaBattute.setAttribute('title', strSpezzaBattute_spiegazione);
-                            pulSpezzaBattute.onclick = async (e) => {
-                                divVetro.iStyle({display: "inline", opacity: 0});
-                                const pulsante = e.currentTarget, Numero = pulsante.dataset.RiferimentoRegistrazione, da = DatiAudioRegistrato[Numero], b = da.buffer.getChannelData(0), SampleRate = da.buffer.sampleRate, lunghezzaBufferConsiderata = da.taglioFinale * SampleRate, SogliaAttacco = SpezzaBattute.SogliaAttaccoDB, LimiteSecondiSogliaAttacco = SpezzaBattute.SecondiSogliaAttacco * SampleRate, LimiteSecondiSogliaTermine = SpezzaBattute.SecondiSogliaTermine * SampleRate, SogliaRiposo = SampleRate * 60;
-                                var Attacco = true, attacchi = [];
-
-                                /* Inizializzazione interfaccia */
-                                StoppaAutomaticamenteAscoltoInSolo();
-                                pulsante.abilita(false);
-                                pulsante.iStyle({border: "none", color: "black"});
-                                pulsante.innerHTML = "<span class='fa fa-spin fa-spinner'></span> " + strInElaborazione;
-
-                                /* Crea un array con alternati inizio e fine battuta. Gli elementi pari sono l'attacco e gli elementi dispari sono la fine della battuta. */
-                                var contSogliaNonRaggiunta = LimiteSecondiSogliaTermine;
-                                for (let I = da.taglioIniziale * SampleRate; I < lunghezzaBufferConsiderata; I++) {
-                                    const sogliasuperata = ((Math.abs(b[I]) > SogliaAttacco) || (Math.abs(b[(+I) + (+LimiteSecondiSogliaAttacco)]) > SogliaAttacco));
+                            /* Riduce o annulla il rumore nei punti in cui non c'è il parlato (se l'opzione è attiva e se il volume della clip non è troppo alto: in quest'ultimo caso potrebbe voler dire che la clip è stata registrata ad un volume sotto soglia) */
+                            if (RiduzioneRumore.ApplicareSogliaRumore && (GuadagnoPrincipale[Numero].gain.value < 19)) {
+                                var contSogliaNonRaggiunta = LimiteSecondiSogliaRumoreTermine;
+                                const sogliarumore = TrattamentoClip.AutoTaglioIniziale.SogliaDB;
+                                for (let I = 0; I < lunghezzaBuffer; I++) {
+                                    const sogliasuperata = ((Math.abs(b[I]) > sogliarumore) || (Math.abs(b[(+I) + (+LimiteSecondiSogliaRumoreAttacco)]) > sogliarumore));
                                     contSogliaNonRaggiunta = ++contSogliaNonRaggiunta * !sogliasuperata;
-                                    const condizioneraggiunta = ((sogliasuperata) || (contSogliaNonRaggiunta < LimiteSecondiSogliaTermine));
-                                    if (condizioneraggiunta) {if (Attacco) {Attacco = false; attacchi.push(I / SampleRate);}} else {if (!Attacco) {Attacco = true; attacchi.push(I / SampleRate);}}
-                                    (((I % SogliaRiposo) == 0) && (await pausa(10)));
+                                    const condizioneraggiunta = ((sogliasuperata) || (contSogliaNonRaggiunta < LimiteSecondiSogliaRumoreTermine));
+                                    b[I] *= (condizioneraggiunta + (RiduzioneRumore.GainRumore * !condizioneraggiunta));
                                 }
-
-                                const NumeroAttacchi = attacchi.length;
-
-                                if (NumeroAttacchi > 1) {
-                                    const casellaTaglioIniziale = document.getElementById(ID_Opzioni + 'TabellaOpzioniRigaTaglioInizialeCasella'); casellaTaglioIniziale.value = attacchi[0]; casellaTaglioIniziale.dispatchEvent(ev_cambiamento);
-                                    const casellaTaglioFinale = document.getElementById(ID_Opzioni + 'TabellaOpzioniRigaTaglioFinaleCasella'); casellaTaglioFinale.value = attacchi[1]; casellaTaglioFinale.dispatchEvent(ev_cambiamento);
-                                    VisualizzaEffettiAudio(Numero);
-                                    AggiornaRiproduzioneClip(Numero);
-                                    if (NumeroAttacchi > 2) {
-                                        let UltimaNonConsiderarla = false;
-                                        for(A = 2; A < NumeroAttacchi; A += 2) {
-                                            const SecondiAttacco = attacchi[A], SecondiStacco = attacchi[+A + 1] || (lunghezzaBufferConsiderata / SampleRate); // l'ultima battuta potrebbe non avere lo stacco, in questo caso si prende la fine del taglio originale della clip. Se però quest'ultimo segmento è troppo piccolo, non lo crea e salta al termine
-                                            if ((SecondiStacco - SecondiAttacco) > SpezzaBattute.SecondiTaglioMinimo) {
-                                                DuplicaClip(Numero, (ClipNuova) => {
-                                                    ClipNuova.taglioIniziale = SecondiAttacco; ClipNuova.taglioFinale = SecondiStacco; SelezionaESpostaELT(ClipNuova.numero); VisualizzazioneGraficaTaglioClip(ClipNuova.numero); VisualizzaEffettiAudio(ClipNuova.numero); NuoveClipCreate.push(ClipNuova);
-                                                    if (NuoveClipCreate.length >= (NumeroAttacchi / 2) - 1 - UltimaNonConsiderarla) {SuddivisioneInBattuteEffettuata();}
-                                                });
-                                            } else {
-                                                UltimaNonConsiderarla = true;
-                                                if (NumeroAttacchi == 3) {TagliataSingolaBattuta();} // Se ha trovato solo due battute e l'ultima è troppo corta, conclude il processo.
-                                            }
-                                        }
-                                    } else {
-                                        TagliataSingolaBattuta();
-                                    }
-                                } else {
-                                    Messaggio(strSpezzaBattute_battutenontrovate);
-                                    Riattiva();
-                                }
-
-                                function TagliataSingolaBattuta() {
-                                    Messaggio(strSpezzaBattute_battutatagliata, "OK");
-                                    Riattiva();
-                                }
-
-                                function SuddivisioneInBattuteEffettuata() {
-                                    Riattiva();
-                                    document.getElementById(ID_Opzioni).dataset.nonmodificareselezionemultipla = "1";
-                                    setTimeout(() => {Messaggio(strSpezzaBattute_battutesuddivise, "OK");}, 1000);
-                                }
-
-                                function Riattiva() {
-                                    pulsante.style.display = "none";
-                                    divVetro.style.display = "none";
-                                }
+                                await pausa(100);
                             }
 
+                            const bloburl = URL.createObjectURL(new Blob([audiobufferToWav(b, SampleRate, {float32: true, notrattamento: true})]));
+                            ApriFinestra({currentTarget: {dataset: {larghezza: "300px", altezza: "300px", link: "TrattamentoAudio_RiduzioneRumore.php?N=" + encodeURIComponent(da.NumeroUnivoco) + "&Percorso=" + encodeURIComponent(bloburl)}}});
+
+                            const nomefile = bloburl.slice(bloburl.lastIndexOf('/') + 1) + "." + formatoQualitaAlta;
+
+                            function VerificaTermineProcesso() {
+                                AJAX("TrattamentoAudio_VerificaFile.php", "NomeFile=" + encodeURIComponent(nomefile), (Dati) => {
+                                    if (Dati.Esiste) {
+                                        CaricaAudio(0, {Registrazione: Dati.PercorsoCompleto}, 'arraybuffer', 
+                                            (Contenuto) => {
+                                                NuovoAudioTrattato = Contenuto.slice();
+                                                audioContext.decodeAudioData(Contenuto).then((buffernuovo) => {
+                                                    function SelezionaAudio(e) {
+                                                        StoppaAutomaticamenteAscoltoInSolo();
+                                                        da.buffer = ((e.currentTarget.value == 0) ? bufferoriginale : buffernuovo);
+                                                        liAscoltaSoloTaglio.click();
+                                                    }
+
+                                                    pulsante.innerHTML = "<span class='fa fa-check' style='color: green;'></span> " + strCreazioneCompletata;
+                                                    const lblAudioOriginale = CreaElemento('label', divTrattamentoAudio.id + 'labelOriginale', divTrattamentoAudio.id); lblAudioOriginale.className = "btn btn-default";
+                                                        const inputAudioOriginale = CreaElemento('input', ID_Opzioni + 'inputAudioOriginale', lblAudioOriginale.id); inputAudioOriginale.setAttribute('type', 'radio'); inputAudioOriginale.setAttribute('name', 'opzAudioOriginaleTrattato'); inputAudioOriginale.value = 0; inputAudioOriginale.onclick = SelezionaAudio;
+                                                        CreaElemento('span', ID_Opzioni + 'spanAudioOriginale', lblAudioOriginale.id, " " + strSelezionaAudioOriginale);
+                                                        
+                                                    const lblAudioTrattato = CreaElemento('label', divTrattamentoAudio.id + 'labelTrattato', divTrattamentoAudio.id); lblAudioTrattato.className = "btn btn-default";
+                                                        const inputAudioTrattato = CreaElemento('input', ID_Opzioni + 'inputAudioTrattato', lblAudioTrattato.id); inputAudioTrattato.setAttribute('type', 'radio'); inputAudioTrattato.setAttribute('name', 'opzAudioOriginaleTrattato'); inputAudioTrattato.value = 1; inputAudioTrattato.onclick = SelezionaAudio;
+                                                        CreaElemento('span', ID_Opzioni + 'spanAudioTrattato', lblAudioTrattato.id, " " + strSelezionaAudioTrattato);
+
+                                                    inputAudioTrattato.click();
+
+                                                    divVetro.style.display = "none";
+                                                }).catch((err) => {console.log("Errore nuovo audio", err); pulsante.innerHTML = strRiduzioneRumore_errore; divVetro.style.display = "none";});
+                                                
+                                                AJAX("TrattamentoAudio_EliminaFile.php", "NomeFile=" + encodeURIComponent(nomefile), "", "", "", true);
+                                                URL.revokeObjectURL(bloburl);
+                                            }
+                                        );
+                                    } else {
+                                        setTimeout(VerificaTermineProcesso, 1000);
+                                    }
+                                }, "", "", true);
+                            }
+
+                            setTimeout(VerificaTermineProcesso, 1000);
+                        };
+
+                    } else {
+                        pulRiduciRumore.innerHTML = strRiduzioneRumore_effettuato;
+                        pulRiduciRumore.iStyle({border: "none", pointerEvents: "none"});
+                        pulRiduciRumore.dataset.riduzionerumoreapplicata = 1;
+                    }
+
+                    CreaElemento('span', ID_Opzioni + 'spaziotrattamentoaudio', divTrattamentoAudio.id, ' ');
+
+                    const pulSpezzaBattute = CreaElemento('div', ID_Opzioni + 'pulSpezzaBattute', divTrattamentoAudio.id, strSpezzaBattute); pulSpezzaBattute.className = "btn btn-default"; pulSpezzaBattute.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione; pulSpezzaBattute.setAttribute('title', strSpezzaBattute_spiegazione);
+                    pulSpezzaBattute.onclick = async (e) => {
+                        divVetro.iStyle({display: "inline", opacity: 0});
+                        const pulsante = e.currentTarget, Numero = pulsante.dataset.RiferimentoRegistrazione, da = DatiAudioRegistrato[Numero], b = da.buffer.getChannelData(0), SampleRate = da.buffer.sampleRate, lunghezzaBufferConsiderata = da.taglioFinale * SampleRate, SogliaAttacco = SpezzaBattute.SogliaAttaccoDB, LimiteSecondiSogliaAttacco = SpezzaBattute.SecondiSogliaAttacco * SampleRate, LimiteSecondiSogliaTermine = SpezzaBattute.SecondiSogliaTermine * SampleRate, SogliaRiposo = SampleRate * 60;
+                        var Attacco = true, attacchi = [];
+
+                        /* Inizializzazione interfaccia */
+                        StoppaAutomaticamenteAscoltoInSolo();
+                        pulsante.abilita(false);
+                        pulsante.iStyle({border: "none", color: "black"});
+                        pulsante.innerHTML = "<span class='fa fa-spin fa-spinner'></span> " + strInElaborazione;
+
+                        /* Crea un array con alternati inizio e fine battuta. Gli elementi pari sono l'attacco e gli elementi dispari sono la fine della battuta. */
+                        var contSogliaNonRaggiunta = LimiteSecondiSogliaTermine;
+                        for (let I = da.taglioIniziale * SampleRate; I < lunghezzaBufferConsiderata; I++) {
+                            const sogliasuperata = ((Math.abs(b[I]) > SogliaAttacco) || (Math.abs(b[(+I) + (+LimiteSecondiSogliaAttacco)]) > SogliaAttacco));
+                            contSogliaNonRaggiunta = ++contSogliaNonRaggiunta * !sogliasuperata;
+                            const condizioneraggiunta = ((sogliasuperata) || (contSogliaNonRaggiunta < LimiteSecondiSogliaTermine));
+                            if (condizioneraggiunta) {if (Attacco) {Attacco = false; attacchi.push(I / SampleRate);}} else {if (!Attacco) {Attacco = true; attacchi.push(I / SampleRate);}}
+                            (((I % SogliaRiposo) == 0) && (await pausa(10)));
+                        }
+
+                        const NumeroAttacchi = attacchi.length;
+
+                        if (NumeroAttacchi > 1) {
+                            const casellaTaglioIniziale = document.getElementById(ID_Opzioni + 'TabellaOpzioniRigaTaglioInizialeCasella'); casellaTaglioIniziale.value = attacchi[0]; casellaTaglioIniziale.dispatchEvent(ev_cambiamento);
+                            const casellaTaglioFinale = document.getElementById(ID_Opzioni + 'TabellaOpzioniRigaTaglioFinaleCasella'); casellaTaglioFinale.value = attacchi[1]; casellaTaglioFinale.dispatchEvent(ev_cambiamento);
+                            VisualizzaEffettiAudio(Numero);
+                            AggiornaRiproduzioneClip(Numero);
+                            if (NumeroAttacchi > 2) {
+                                let UltimaNonConsiderarla = false;
+                                for(A = 2; A < NumeroAttacchi; A += 2) {
+                                    const SecondiAttacco = attacchi[A], SecondiStacco = attacchi[+A + 1] || (lunghezzaBufferConsiderata / SampleRate); // l'ultima battuta potrebbe non avere lo stacco, in questo caso si prende la fine del taglio originale della clip. Se però quest'ultimo segmento è troppo piccolo, non lo crea e salta al termine
+                                    if ((SecondiStacco - SecondiAttacco) > SpezzaBattute.SecondiTaglioMinimo) {
+                                        DuplicaClip(Numero, (ClipNuova) => {
+                                            ClipNuova.taglioIniziale = SecondiAttacco; ClipNuova.taglioFinale = SecondiStacco; SelezionaESpostaELT(ClipNuova.numero); VisualizzazioneGraficaTaglioClip(ClipNuova.numero); VisualizzaEffettiAudio(ClipNuova.numero); NuoveClipCreate.push(ClipNuova);
+                                            if (NuoveClipCreate.length >= (NumeroAttacchi / 2) - 1 - UltimaNonConsiderarla) {SuddivisioneInBattuteEffettuata();}
+                                        });
+                                    } else {
+                                        UltimaNonConsiderarla = true;
+                                        if (NumeroAttacchi == 3) {TagliataSingolaBattuta();} // Se ha trovato solo due battute e l'ultima è troppo corta, conclude il processo.
+                                    }
+                                }
+                            } else {
+                                TagliataSingolaBattuta();
+                            }
+                        } else {
+                            Messaggio(strSpezzaBattute_battutenontrovate);
+                            Riattiva();
+                        }
+
+                        function TagliataSingolaBattuta() {
+                            Messaggio(strSpezzaBattute_battutatagliata, "OK");
+                            Riattiva();
+                        }
+
+                        function SuddivisioneInBattuteEffettuata() {
+                            Riattiva();
+                            document.getElementById(ID_Opzioni).dataset.nonmodificareselezionemultipla = "1";
+                            setTimeout(() => {Messaggio(strSpezzaBattute_battutesuddivise, "OK");}, 1000);
+                        }
+
+                        function Riattiva() {
+                            pulsante.style.display = "none";
+                            divVetro.style.display = "none";
+                        }
+                    }
 
         if (!datiAudio.buffer) {pulAscolta.abilita(false); (!pulRiduciRumore.dataset.riduzionerumoreapplicata && pulRiduciRumore.abilita(false)); pulSpezzaBattute.abilita(false); pulAscolta.innerHTML = " <span class='fa fa-spin fa-spinner'></span> " + strCaricamento; CaricaBufferAudio(RiferimentoRegistrazione, () => {if (pulAscolta) {PulAscoltaPosizioneDefault(pulAscolta); pulAscolta.abilita(true); (!pulRiduciRumore.dataset.riduzionerumoreapplicata && pulRiduciRumore.abilita(true)); pulSpezzaBattute.abilita(true);}});}
         datiAudio.nonscaricarebuffer = true;
