@@ -3769,7 +3769,6 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                                     S.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione;
                                     S.addEventListener("change", function () {SpostaMinutaggioRegistrazione(this.dataset.RiferimentoRegistrazione);});
                                     
-
                                             /* Effetti */
             div = CreaElemento('div', ID_Opzioni + 'divOpzioneEffetti', divContenitoreMinEff.id);
                     CreaElemento('div', ID_Opzioni + 'labelOpzioneEffetti', div.id, strApplicaUnEffetto);
