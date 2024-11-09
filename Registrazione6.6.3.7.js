@@ -1247,6 +1247,7 @@ function VerificaFunzioneAlTerminePrecaricamento() {
 
 function OperazioniAlBufferCaricato(Numero, FunzioneAlTermine = () => {}) {
     const datiAudio = DatiAudioRegistrato[Numero];
+    
     /** Attiva la clip se si sta riproducendo **/
     if (RiproduzioneInCorso) {VerificaClipDaRiprodurre(Numero, VideoGuidaMinutaggioCorrente());}
 
