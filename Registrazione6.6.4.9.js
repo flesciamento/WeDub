@@ -488,7 +488,7 @@ async function CliccatoCandidatoRuoliDaAssegnare(e) {
     const pulCandidato = e.currentTarget, pulsantiCandidati = document.getElementsByName('pulCandidatoRuoliDaAssegnare'), totPulsantiCandidati = pulsantiCandidati.length;
     for (var I = 0; (I < totPulsantiCandidati) && !(pulsantiCandidati[I].abilita(false)) && !(pulsantiCandidati[I].style.opacity = 0); I++);
     pulCandidato.iStyle({opacity: 1, left: "-50%", top: "-" + pulCandidato.offsetTop + "px"});
-    pulCandidato.className = "btn alert-info";
+    pulCandidato.className = "btn alert-info fa-bounce";
     setTimeout(ElencoCandidatiRuoliDaAssegnareScompare, 1000);
     document.getElementById('divTitoloRuoliDaAssegnare').className = "btn btn-success btn-xs";
     SelezionaCandidatoRuoliDaAssegnare(pulCandidato.dataset.idutente);
@@ -624,7 +624,7 @@ function AggiungiDoppiatoreCandidatoNelCast(e) {
                   pulSalva.abilita(false);
 
                   pulSalva.onclick = function () {
-                    pulSalva.abilita(false); pulSalva.innerText = strAttenderePrego;
+                    pulSalva.abilita(false); pulSalva.innerText = strAttenderePrego; pulSalva.className += " fa-fade";
                     AJAX("InserisciCandidatoNelCast.php", "N=" + encodeURIComponent(N) + "&IDUtenteCandidato=" + encodeURIComponent(DatiDoppiatoreCandidato.idcandidato) + "&RuoloUtenteCandidato=" + encodeURIComponent(inputRuoliCandidato.value) + "&RuoliDaAssegnare=" + encodeURIComponent(divPersonaggiLiberi? inputPersonaggiLiberi.value : ""),
                         () => {window.location.reload();}, strAggiornamento, strSalvataggioCompletato
                     );
