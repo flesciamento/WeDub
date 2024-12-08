@@ -1149,7 +1149,7 @@ function SwitchCopioneEditabile(e) {
 }
 
 function ApriCopioneInAltraFinestra() {
-    ApriCopione({currentTarget: {dataset: {link: "CopioneInFinestraSeparata.php?N=" + N}}});
+    ApriCopione({currentTarget: {dataset: {link: "CopioneInFinestraSeparata.php?N=" + N + "&I=" + OpzEvidenzia_TestoGuida.selectedIndex}}});
     ContenitoreCopione = FinestraCopione;
     FunzioniCopione.Scompari(false);
 }
@@ -4413,7 +4413,7 @@ function VideoGuidaPronto() {
         /* Aggiunta del tasto che permette di editare il copione */
         const pulSwitchCopioneEditabile = CreaElemento('span', 'pulSwitchCopioneEditabile', ManigliaSposta_TestoGuida.id); pulSwitchCopioneEditabile.className = "btn btn-default fa fa-edit"; pulSwitchCopioneEditabile.style.marginLeft = "10px"; pulSwitchCopioneEditabile.onmousedown = SwitchCopioneEditabile;
         /* Aggiunta del tasto che permette di aprire il copione in una finestra separata */
-        const pulCopioneInAltraFinestra = CreaElemento('span', 'pulCopioneInAltraFinestra', ManigliaSposta_TestoGuida.id); pulCopioneInAltraFinestra.className = "btn btn-default fa fa-link"; pulCopioneInAltraFinestra.style.marginLeft = "10px"; pulCopioneInAltraFinestra.onmousedown = ApriCopioneInAltraFinestra;
+        const pulCopioneInAltraFinestra = CreaElemento('span', 'pulCopioneInAltraFinestra', ManigliaSposta_TestoGuida.id); pulCopioneInAltraFinestra.className = "btn btn-default fa fa-external-link"; pulCopioneInAltraFinestra.style.marginLeft = "10px"; pulCopioneInAltraFinestra.onmousedown = ApriCopioneInAltraFinestra;
         /**********************************************/
     }
 
