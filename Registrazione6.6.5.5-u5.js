@@ -1126,6 +1126,7 @@ function Posizionati(MinutaggioNuovo, RiabilitaTuttaLaSchermata = false) {
 }
 Posizionati.tmr = false; Posizionati.InAttesaRiattivazione = false;
 
+/*** Funzioni gestione del copione ***/
 function AttivaScorrimentoCopione() {
     if (RiproduzioneInCorso) {ContenitoreCopione.FunzioniCopione.AttivaTestoGuida();} else {ContenitoreCopione.FunzioniCopione.AggiornaTestoGuida();}
 }
@@ -1149,11 +1150,11 @@ function SwitchCopioneEditabile(e) {
 }
 
 function ApriCopioneInAltraFinestra() {
-    ApriCopione({currentTarget: {dataset: {link: "CopioneInFinestraSeparata.php?N=" + N + "&A=" + (RiproduzioneInCorso * 1) + "&I=" + OpzEvidenzia_TestoGuida.selectedIndex}}});
+    ApriCopione({currentTarget: {dataset: {link: "CopioneInFinestraSeparata.php?N=" + N + "&I=" + OpzEvidenzia_TestoGuida.selectedIndex}}});
     ContenitoreCopione = FinestraCopione;
     FunzioniCopione.Scompari(false);
 }
-/****************************************/
+/**************************************/
 
 
 /*** Precarica clip ***
