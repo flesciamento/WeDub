@@ -251,7 +251,7 @@ const FunzioniCopione = {
     },
     /**************************************/
 
-    /** Visualizza copione su altra finestra **/
+    /** Visualizza copione su altra finestra (versione stampabile) **/
     VisualizzaSuAltraFinestra: function (e) {
         e.preventDefault(); e.stopPropagation();
         finestra = ApriFinestra({currentTarget: {dataset: {altezza: 800, larghezza: 600, nomefinestra: 'CopioneTestoGuida', link: 'TestoGuidaStampabile.php?N=' + encodeURIComponent((typeof N === 'undefined') ? '' : N)}}});
@@ -264,7 +264,7 @@ const FunzioniCopione = {
         }
         window.addEventListener('message', CaricaCopione);
     },
-    /******************************************/
+    /****************************************************************/
 
     /** Funzioni copione editabile **/
     GestisciIncolla: async function (e) {
