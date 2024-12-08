@@ -4401,9 +4401,7 @@ function VideoGuidaPronto() {
         document.getElementById('MessaggiUlteriori').innerHTML = Stringa;
 
         /*** Funzioni per gestire il copione We Dub ***/
-        FunzioneAlCaricamentoCopioneWeDub = () => {
-            if (Righello.dataset.DisattivaClick == "no") {pulCopioneWeDub.click();}
-        };
+        FunzioneAlCaricamentoCopioneWeDub = () => {if (Righello.dataset.DisattivaClick == "no") {pulCopioneWeDub.click();}};
 
         AltreFunzioniVisualizzaCopioneWeDub = () => {
             AttivaScorrimentoCopione();
