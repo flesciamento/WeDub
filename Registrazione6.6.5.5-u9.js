@@ -4411,7 +4411,7 @@ function VideoGuidaPronto() {
         };
 
         AltreFunzioniNascondiCopioneWeDub = () => {
-            if (ContenitoreCopione != window) {ContenitoreCopione.close();}
+            if (ContenitoreCopione != window) {ContenitoreCopione.close(); ContenitoreTestoGuida.style.display = "";}
             ContenitoreCopione = window;
         }
 
