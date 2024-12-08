@@ -1126,6 +1126,7 @@ function Posizionati(MinutaggioNuovo, RiabilitaTuttaLaSchermata = false) {
 }
 Posizionati.tmr = false; Posizionati.InAttesaRiattivazione = false;
 
+
 /*** Funzioni gestione del copione ***/
 function AttivaScorrimentoCopione() {
     if (RiproduzioneInCorso) {ContenitoreCopione.FunzioniCopione.AttivaTestoGuida();} else {ContenitoreCopione.FunzioniCopione.AggiornaTestoGuida();}
