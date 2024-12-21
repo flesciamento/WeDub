@@ -2567,8 +2567,6 @@ function EscludiRipristinaTraccia(IDUtente, EscludiRipristina = "") {
 
         CambiaIconaVolume(false);
     }
-
-    
 }
 
 function EscludiRipristinaClip(Numero) {
