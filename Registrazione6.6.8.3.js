@@ -2247,7 +2247,7 @@ function VerificaClipPrecaricate(SecondiMinimiClipPrecaricate, PrecaricamentoLeg
 
     for (var I = 0; I < totAudio; I++) {
         if (ClipDaPrecaricare(I, MinutaggioVideo, MinutaggioClipPrecaricate)) {
-            DisabilitaSchermata(true); StopVideoGuida(); PrecaricaClip(MinutaggioVideo, MinutaggioClipPrecaricate, PlayVideoGuida);
+            StopVideoGuida(); PrecaricaClip(MinutaggioVideo, MinutaggioClipPrecaricate, PlayVideoGuida);
             return false;
         }
     }
