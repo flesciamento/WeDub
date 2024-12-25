@@ -2202,6 +2202,7 @@ function StopVideoGuida() {
         ImpostaStatoPlay(false);
         StoppaTutteLeRegistrazioni();
         VideoGuidaPause();
+        FunzioneAlTerminePrecaricamento = false;
         AttivaAggiornamentoClip();
         VideoGuidaRimuoviEventoBuffering(SospendiRiproduzione, RiprendiRiproduzione);
         clearInterval(intervalloControllaClipPrecaricate);
