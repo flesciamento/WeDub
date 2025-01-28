@@ -3293,7 +3293,7 @@ function ContrassegnaClipDaAscoltare(datiAudio) {
             const secondifineultimabattuta = s.findLastIndex(v => v > SogliaUltimaBattuta) / SampleRate;
             datiAudio.alPlay = [{FunzioneAlPlay: AJAXSalvaAudioAscoltato, latenzaEventoAlPlay: {secondi: secondifineultimabattuta, riduciSeClipNelMinutaggio: true}}];
         }
-    };
+    }
 }
 
 function AJAXSalvaAudioAscoltato(datiAudio) {
