@@ -464,7 +464,7 @@ function AggiornaElencoCandidatiRuoliDaAssegnare() {
     for(var ID_Doppiatore in DatiDoppiatori) {
         const DoppiatoreConsiderato = DatiDoppiatori[ID_Doppiatore];
         if ((ID_Doppiatore != "RuoliDaAssegnare") && (DoppiatoreConsiderato.numeroTraccia == RuoliDaAssegnare_NumeroTraccia)) {
-            pulElenco = CreaElemento('div', 'pulCandidatoRuoliDaAssegnare' + I, divElencoCandidati.id, `<img src='${DoppiatoreConsiderato.FotoProfilo}' height=35 width=35 style='float: left;' /><span name="${ID_Doppiatore}_online"></span> <b>${DoppiatoreConsiderato.nome}</b>`);
+            pulElenco = CreaElemento('div', 'pulCandidatoRuoliDaAssegnare' + I, divElencoCandidati.id, `<img src='${DoppiatoreConsiderato.FotoProfilo}' height="35" width="35" style='float: left;' /><span name="${ID_Doppiatore}_online"></span> <b>${DoppiatoreConsiderato.nome}</b>`);
             pulElenco.setAttribute('name', 'pulCandidatoRuoliDaAssegnare'); pulElenco.className = 'btn btn-default alert'; pulElenco.setAttribute('title', "-- " + DoppiatoreConsiderato.nome + " -- "); pulElenco.iStyle({position: "relative", left: "0px", top: "0px", width: "100%", whiteSpace: "normal", opacity: 1, transition: "All 1s"});
             if (DoppiatoreConsiderato.DaVisualizzare == 1) {CreaElemento('div', 'indicatoreCandidatoRuoliDaAssegnare' + I, pulElenco.id, strNuoveClip).iStyle({position: "absolute", top: "10px", left: "15px", color: "white", backgroundColor: "red", padding: "2px", borderRadius: "20%", fontWeight: "bold", transform: "rotate(-45deg)"});}
             pulElenco.dataset.idutente = ID_Doppiatore; pulElenco.onclick = CliccatoCandidatoRuoliDaAssegnare;
