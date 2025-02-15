@@ -454,7 +454,7 @@ function AggiornaElencoCandidatiRuoliDaAssegnare() {
     if (I < totDatiAudio) {return;}
     /***************************************************************************/
     
-    let pulElenco
+    let pulElenco;
     document.getElementById('divNotificaNuoveClipRuoliDaAssegnare').style.display = "none";
 
     divElencoCandidati.innerHTML = "";
