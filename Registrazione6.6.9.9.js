@@ -72,7 +72,7 @@ var analizzatoreAudio = false, audioAnalizzato = [], CanvasOnda, canvasCtx;
 var ErroreMicrofono = false;
 var lunghezzaLivelloMic = 0;
 var sampleAudioData;
-var DatiAudioRegistrato = [], DatiAudioRegistrato_Registrazione = {}, DatiAudioRegistrato_Utente = {}, ClipDaRiprodurre = [];
+var DatiAudioRegistrato = [], DatiAudioRegistrato_Registrazione = {}, DatiAudioRegistrato_Utente = {}, ClipDaRiprodurre = [], ClipInCiclo = false;
 var AudioBufferColonnaInternazionale = [], ColonnaInternazionaleAttivata = false, SpezzoniAudioCI = [], TracciaCI;
 var MinutaggioPartenzaRegistrazione = 0, MinutaggioUltimaRegistrazione = 0, DurataUltimaRegistrazione = 0;
 var MessaggiIstantaneiAttivi = false, MessaggioIstantaneoInRiproduzione = false;
@@ -4210,6 +4210,7 @@ function ResettaPulAscolta() {
     if (p = document.getElementById('OpzioniClipPulAscolta')) {
         const datiAudio = DatiAudioRegistrato[p.dataset.RiferimentoRegistrazione];
         datiAudio.audio.onended = ""; // L'eliminazione della funzione "onended" serve per evitare che si intercetti l'evento allo stop della registrazione
+        StoppaCicloClip();
         PulAscoltaPosizioneDefault(p);
         StoppaClipAudio(datiAudio);
     }
@@ -4254,16 +4255,31 @@ function EliminaClipDaRiprodurre(Numero) {
 function StoppaAutomaticamenteAscoltoInSolo() {
     if (p = document.getElementById(ID_Opzioni + 'PulAscolta')) {
         const datiAudio = DatiAudioRegistrato[p.dataset.RiferimentoRegistrazione];
-        if ((datiAudio.audio) && (p.className.indexOf('warning') > -1)) {ResettaPulAscolta();}
+        if ((datiAudio.audio) && (p.className.indexOf('default') == -1)) {ResettaPulAscolta();}
     }
 }
 
+/*** Cicla clip ***/
 function CiclaClip() {
     const p = document.getElementById(ID_Opzioni + 'PulAscolta'), Numero = p.dataset.RiferimentoRegistrazione, datiAudio = DatiAudioRegistrato[Numero];
     p.className = "btn btn-info btn-sm fa fa-stop"; p.innerText = " " + strInterrompiAscolto;
+    RiproduzioneInCorso = true;
     Posizionati((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioIniziale) - 0.01);
-    datiAudio.audio.onended
+    ClipInCiclo = datiAudio;
+    p.onclick = ResettaPulAscolta;
+    datiAudio.audio.onended = RiprendiCicloClip;
+    ChiudiMenuOpzioniAscolto();
+}
 
+function RiprendiCicloClip() {
+    if (ClipInCiclo && RiproduzioneInCorso) {CiclaClip();}
+}
+
+function StoppaCicloClip() {
+    if (ClipInCiclo) {
+        ClipInCiclo = false;
+        StopVideoGuida();
+    }
 }
 /********************************/
 
