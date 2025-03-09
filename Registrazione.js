@@ -4283,7 +4283,6 @@ function StoppaCicloClip() {
         ClipInCiclo.alTermine = () => {};
         ClipInCiclo = false;
         StopVideoGuida();
-        console.log("StoppaCicloClip()");
     }
 }
 /********************************/
