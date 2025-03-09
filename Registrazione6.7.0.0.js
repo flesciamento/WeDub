@@ -4267,6 +4267,9 @@ function CiclaClip() {
     Posizionati((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioIniziale) - 0.01);
     ClipInCiclo = datiAudio;
     p.onclick = ResettaPulAscolta;
+    StoppaClipAudio(datiAudio);
+    CreaClipAudio(Numero);
+    EliminaClipDaRiprodurre(Numero);
     datiAudio.audio.onended = RiprendiCicloClip;
     ChiudiMenuOpzioniAscolto();
 }
