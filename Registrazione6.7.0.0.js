@@ -3843,7 +3843,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                         [ulPulAscolta_id]: [
                             ['li', {innerHTML: "<span class='fa fa-exchange'></span> " + strSoloTaglio,         className: "btn btn-default", onclick: AscoltaInSolo_ParteTagliata}, stiliMenu],
                             ['li', {innerHTML: "<span class='fa fa-toggle-right'></span> " + strDaInizioAFine,  className: "btn btn-default", onclick: AscoltaInSolo_Tutto}, stiliMenu],
-                            ['li', {innerHTML: "<span class='fa fa-refresh'></span>" + strCiclaClip,            className: "btn btn-info",    onclick: CiclaClip}, stiliMenu]
+                            ['li', {innerHTML: "<span class='fa fa-refresh'></span> " + strCiclaClip,           className: "btn btn-info",    onclick: CiclaClip}, stiliMenu]
                         ],
 
                     [btnMenuScarica_id]: [['a', {innerHTML: strScaricaRegistrazione + " <span class='caret'></span>", className: "btn btn-default btn-sm fa fa-download", onclick: ApriMenuOpzioniScaricamento}, {}, {toggle: "dropdown", RiferimentoRegistrazione: RiferimentoRegistrazione}], ['ul', {id: ulPulScarica_id, className: "dropdown-menu"}]],
@@ -4262,15 +4262,17 @@ function StoppaAutomaticamenteAscoltoInSolo() {
 /*** Cicla clip ***/
 function CiclaClip() {
     const p = document.getElementById(ID_Opzioni + 'PulAscolta'), Numero = p.dataset.RiferimentoRegistrazione, datiAudio = DatiAudioRegistrato[Numero];
-    p.className = "btn btn-info btn-sm fa fa-stop"; p.innerText = " " + strInterrompiAscolto;
-    RiproduzioneInCorso = true;
-    Posizionati((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioIniziale) - 0.01);
+    p.className = "btn btn-info btn-sm fa fa-stop"; p.innerText = " " + strInterrompiAscolto; p.onclick = ResettaPulAscolta;
+    
     ClipInCiclo = datiAudio;
-    p.onclick = ResettaPulAscolta;
     StoppaClipAudio(datiAudio);
     CreaClipAudio(Numero);
     EliminaClipDaRiprodurre(Numero);
     datiAudio.audio.onended = RiprendiCicloClip;
+
+    RiproduzioneInCorso = true;
+    Posizionati((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioIniziale) - 0.01);
+    
     ChiudiMenuOpzioniAscolto();
 }
 
