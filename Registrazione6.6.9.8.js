@@ -3855,22 +3855,6 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
         const pulAscolta = document.getElementById(pulAscolta_id);
         PulAscoltaPosizioneDefault(pulAscolta);
 
-       /*  divOpzioniVarie = CreaElemento('div', ID_Opzioni + 'divOpzioniRigaVarie', ID_Opzioni + 'ContenitoreOpzioniBody');
-            
-            const btnMenuAscolta = CreaElemento('div', ID_Opzioni + 'grpPulAscolta', divOpzioniVarie.id); btnMenuAscolta.className = "btn-group"; btnMenuAscolta.style.marginRight = "5px";
-                const pulAscolta = CreaElemento('a', ID_Opzioni + 'PulAscolta', btnMenuAscolta.id); pulAscolta.dataset.toggle = "dropdown"; pulAscolta.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione; PulAscoltaPosizioneDefault(pulAscolta);
-                const ulPulAscolta = CreaElemento('ul', ID_Opzioni + 'ulMenuPulAscolta', btnMenuAscolta.id); ulPulAscolta.className = "dropdown-menu";
-                    const liAscoltaSoloTaglio = CreaElemento('li', ID_Opzioni + 'liAscoltaSoloTaglio', ulPulAscolta.id, "<span class='fa fa-exchange'></span> " + strSoloTaglio); liAscoltaSoloTaglio.className = "btn btn-default"; liAscoltaSoloTaglio.iStyle(stiliMenu); liAscoltaSoloTaglio.onclick = AscoltaInSolo_ParteTagliata;
-                    const liAscoltaTutto = CreaElemento('li', ID_Opzioni + 'liAscoltaTutto', ulPulAscolta.id, "<span class='fa fa-toggle-right'></span> " + strDaInizioAFine); liAscoltaTutto.className = "btn btn-default"; liAscoltaTutto.iStyle(stiliMenu); liAscoltaTutto.onclick = AscoltaInSolo_Tutto;
-
-
-            const btnMenuScarica = CreaElemento('div', ID_Opzioni + 'grpMenuScarica', divOpzioniVarie.id); btnMenuScarica.className = "btn-group";
-                const pulScaricaClip = CreaElemento('a', ID_Opzioni + 'pulScaricaClip', btnMenuScarica.id, strScaricaRegistrazione + " <span class='caret'></span>"); pulScaricaClip.className = "btn btn-default btn-sm fa fa-download"; pulScaricaClip.dataset.toggle = "dropdown"; pulScaricaClip.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione; pulScaricaClip.onclick = ApriMenuOpzioniScaricamento;
-                const ulPulScarica = CreaElemento('ul', ID_Opzioni + 'ulMenuPulScarica', btnMenuScarica.id); ulPulScarica.className = "dropdown-menu";
-                    const liScaricaOriginale = CreaElemento('li', ID_Opzioni + 'liScaricaOriginale', ulPulScarica.id, `<span class='fa fa-file-audio-o'></span> ${strScaricaClipOriginale}<a id='${ID_Opzioni}aScaricaOriginale' href="${datiAudio.Registrazione}" download="${NomeFile}" style='display: none;'></a>`); liScaricaOriginale.className = "btn btn-info"; liScaricaOriginale.iStyle(stiliMenu); liScaricaOriginale.onclick = DownloadClipFinestraOpzioni;
-                    const liScaricaConversione = CreaElemento('li', ID_Opzioni + 'liScaricaConversione', ulPulScarica.id, "<span class='fa fa-tasks'></span> " + strScaricaClipConversione); liScaricaConversione.className = "btn btn-primary"; liScaricaConversione.iStyle(stiliMenu); liScaricaConversione.dataset.larghezza = '850px'; liScaricaConversione.dataset.altezza = '500px'; liScaricaConversione.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione; liScaricaConversione.onclick = DownloadClipConversione; */
-
-
             const divTrattamentoAudio = CreaElemento('div', ID_Opzioni + 'divTrattamentoAudio', divOpzioniVarie_id); divTrattamentoAudio.className = "btn"; divTrattamentoAudio.iStyle({cursor: "auto", width: "fit-content"});
                 const fieldsetTrattamentoAudio = CreaElemento('fieldset', divTrattamentoAudio.id + "fieldset", divTrattamentoAudio.id);
                     CreaElemento('legend', fieldsetTrattamentoAudio.id + "label", fieldsetTrattamentoAudio.id, strTrattamentoAudio).style.fontSize = "16px";

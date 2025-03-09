@@ -2,6 +2,8 @@ const ContenitoreVideoGuida = document.getElementById('ContenitoreVideoGuida');
 const ContenitoreLineaTemporale = document.getElementById('Contenitore');
 const ContenitoreRighello = document.getElementById('ContenitoreRighello');
 const Monitors = document.getElementById('Monitors');
+const ContenitorePannelloSx = document.getElementById('ContenitorePannelloSx');
+const ContenitorePannelloDx = document.getElementById('ContenitorePannelloDx');
 const ComandiPlayer = document.getElementById('ComandiPlayer');
 const pulRegistra = document.getElementById('Registra');
 const imgRegistra = document.getElementById('imgRegistra');
@@ -46,11 +48,6 @@ const divOpzioniRegistrazione = document.getElementById('OpzioniRegistrazione');
 const livelloMic = document.getElementById('divLivelloMic');
 const opzTagliaSilenzi = document.getElementById('opzTagliaSilenzi');
 const pulMonitorMic = document.getElementById('pulMonitorMic');
-/* var slowMeter = document.querySelector('#slow meter');
-var clipMeter = document.querySelector('#clip meter');
-var instantValueDisplay = document.querySelector('#instant .value');
-var slowValueDisplay = document.querySelector('#slow .value');
-var clipValueDisplay = document.querySelector('#clip .value'); */
 
 const simboloEffetto = {'radio': "fa-bullhorn", 'ovattato': "fa-cloud", 'echo': "fa-bullseye", 'riverbero': "fa-rss"};
 const riquadroSimboloEffettoELT = 'btn btn-info btn-sm fa ';
@@ -62,7 +59,7 @@ const ID_Opzioni = 'OpzioniClip';
 
 const formatoQualitaAlta = "flac", formatoQualitaMedia = "ogg";
 
-const toolStandard = 0, toolDividiClip = 1, toolEscludiClip = 2, toolMarcatore = 3, puntatoreTool = ["pointer", "url(images/CursoreMouseLineaTemporale_toolDividiClip.png) 8 0, auto", "url(images/CursoreMouseLineaTemporale_toolEscludiClip.png) 8 0, auto", "url(images/CursoreMouseLineaTemporale_toolMarcatore.png) 8 0, auto"];
+const toolStandard = 0, toolDividiClip = 1, toolEscludiClip = 2, toolMarcatore = 3, puntatoreTool = ["pointer", "url(images/CursoreMouseLineaTemporale_toolDividiClip.png) 8 0, auto", "url(images/CursoreMouseLineaTemporale_toolEscludiClip.png) 8 0, auto", "url(images/CursoreMouseLineaTemporale_toolMarcatore.png) 8 0, auto"], scorciatoieTool = ["KeyG", "KeyX", "KeyM", "KeyF"];
 
 /** @type {MediaStreamAudioSourceNode} la sorgente audio selezionata (il microfono) **/
 var sorgenteAudioSelezionata = false;
@@ -88,17 +85,17 @@ var EffettuatoAutoTaglioIniziale = false, SecondiAutoTaglioIniziale = 0;
 var totClipAudioCaricate = 0;
 var totDurataVideoGuida = 0;
 var DimensioneRighello = 100;
-var AltezzaTracce = 0, AltezzaTracceMinima, AltezzaTracceMassima;
+var AltezzaComandiPlayer = 0, AltezzaTracce = 0, AltezzaTracceMinima, AltezzaTracceMassima;
 var TracciaDaRidimensionare = false, AltezzaMinimaTraccia = 0, LimiteMinimoTracciaDaRidimensionare = 0;
-var WindowScrollY = 0, WindowScrollY_Iniziale = 0;
+var WindowScrollY_Iniziale = 0;
 var TracceEscluse = [];
 var RuoliDaAssegnare_CandidatoSelezionato = "RuoliDaAssegnare";
 var FunzioneNormaleAlTimeUpdate, FunzioneRiproduzioneClip;
-var NumeroTotaleAudioCaricamentoIniziale = 0, CaricamentoInizialeTerminato = false;
 var UtentiAttivi = [], UtentiAttiviOltreMe = [];
 var SolaVisione = SessioneOspite;
 var SistemaAttualeAndroid = false;
 var currentTimeIniziale = 0, orarioIniziale = 0;
+var ContenitoreCopione = window;
 
 var tmrCaricamento, tmrImmagineAttesa, tmrContoAllaRovescia, tmrAggiornaClip, tmrRidisegnaRighello, tmrPulsanteStopRegistrazione, tmrRitardoScorrimentoCursore, tmrLampeggiaCestino = [], tmrELTCliccato, tmrRiposizionamentoAutomaticoELT, tmrRitornoDisposizioneOriginaleELT, tmrVisualizzaElencoCandidati, tmrAggiornaChatCandidato = false, tmrAggiornaNotificheCandidatiRuoliDaAssegnare, tmrRidimensionamentoElementi, tmrComandiPlayerModalitaStreaming;
 
@@ -108,7 +105,7 @@ var LatenzaAudio = 0;
 
 var ev_cambiamento = new Event('change');
 
-var ZPremuto = false;
+var ControlPremuto = false;
 
 pulRegistra.addEventListener('click', toggleRecording);
 pulStopRegistrazione.addEventListener('click', stopRecording);
@@ -178,10 +175,9 @@ slideZoom.addEventListener('change', CambiaZoom);
 window.addEventListener('scroll', PosizionaElementiScroll);
 
 function PosizionaElementiScroll() {
-    divMinutaggiRighello.style.top = (15 + window.scrollY) + "px"; divMinutaggiRighello.style.zIndex = 1000 * (window.scrollY > 0);
+    divMinutaggiRighello.style.top = window.scrollY + "px"; divMinutaggiRighello.style.zIndex = 1000 * (window.scrollY > 0);
     Cursore.style.top = window.scrollY + "px"; CursoreAnteprima.style.top = Cursore.style.top;
-    document.getElementById('NomiTracce').style.top = ((+ContenitoreLineaTemporale.offsetTop) + 30 - window.scrollY) + "px";
-    WindowScrollY = window.scrollY.arrotonda(2);
+    document.getElementById('NomiTracce').style.top = ((+ContenitoreLineaTemporale.offsetTop) + 15 - window.scrollY) + "px";
 }
 /**********************************************/
 
@@ -197,28 +193,29 @@ function AdattaLunghezzaLivelloMic() {
     livelloMic.style.backgroundSize = lunghezzaLivelloMic + "px 100%";
 }
 
-/*** Per i pulsanti del pannello destro, lascia la sola icona se lo spazio non basta ***/
+/*** Per i vari pulsanti dei pannelli sinistro e destro, lascia la sola icona se lo spazio non basta ***/
 function AdattaDimensionePulsanti() {
+    const CondizioneStandardCompressionePulsanti = (window.innerWidth < 1450);
     const pulsantiDx = document.querySelectorAll('#ContenitorePannelloDx > .btn'), totPulsantiDx = pulsantiDx.length;
-    const ClassePulsanteDx = (((document.getElementById('ContenitorePannelloDx').offsetHeight < 350) || (window.innerWidth < 1200)) ? "btn-scritta-a-comparsa" : "");
+    const ClassePulsanteDx = (CondizioneStandardCompressionePulsanti ? "btn-scritta-a-comparsa" : "");
     for(I = 0; I < totPulsantiDx; I++) {
         pulsantiDx[I].children[1].className = ClassePulsanteDx;
     }
 
-    if (OrientamentoSchermoOrizzontale()) {
-        const PulsantiTool = document.getElementsByName('pul_tool'), totPulsantiTool = PulsantiTool.length;
-        const ClassePulsanteTool = ((window.innerWidth < 1100) ? "btn-scritta-a-comparsa" : "");
-        for (let I = 0; I < totPulsantiTool; I++) {
-            PulsantiTool[I].children[1].className = ClassePulsanteTool;
-        }
+    const PulsantiTool = document.getElementsByName('pul_tool'), totPulsantiTool = PulsantiTool.length;
+    const ClassePulsanteTool = (CondizioneStandardCompressionePulsanti ? "btn-scritta-a-comparsa" : "");
+    for (let I = 0; I < totPulsantiTool; I++) {
+        PulsantiTool[I].children[1].className = ClassePulsanteTool;
     }
 }
-/***************************************************************************************/
+/*******************************************************************************************************/
 
 /*** Adatta i vari elementi in base alla grandezza della finestra, eventualmente adatta anche l'altezza delle tracce per evitare che il video copra i comandi del player ***/
 function AutoAdattaElementiInterfaccia() {
-    const differenzaAltezzaContenitore = ContenitoreVideoGuida.offsetHeight - Monitors.offsetHeight;
-    if ((differenzaAltezzaContenitore > 0) && (pulSchermoIntero.dataset.schermointero == "no")) {AltezzaTracce = ContenitoreVideoGuida.offsetHeight; VariaAltezzaTracce();} else {PosizionaElementiScroll(); AdattaDimensionePulsanti();}
+    ScorrimentoCursore.distanzaMinimaDalBordo = (window.innerWidth / ScorrimentoCursore.frazioneLineaTemporale) | 0;
+    
+    const AltezzaPannelloSx = ContenitorePannelloSx.offsetHeight, AltezzaPannelloDx = (+ContenitorePannelloDx.offsetTop) + (+ContenitorePannelloDx.offsetHeight), OverflowPannelloSx = (AltezzaPannelloSx > Monitors.offsetHeight), OverflowPannelloDx = (AltezzaPannelloDx > Monitors.offsetHeight);
+    if ((OverflowPannelloSx || OverflowPannelloDx) && (pulSchermoIntero.dataset.schermointero == "no")) {AltezzaTracce = ((AltezzaPannelloSx > AltezzaPannelloDx) ? AltezzaPannelloSx : AltezzaPannelloDx); VariaAltezzaTracce();} else {PosizionaElementiScroll(); AdattaDimensionePulsanti();}
 }
 /***************************************************************************************************************************************************************************/
 
@@ -248,14 +245,14 @@ function CliccatoVariazioneAltezzaTracce() {
     RideterminaLimitiAltezzaTracce();
     
     divVetro.iStyle({display: "inline", opacity: 1});
-    CreaElemento('div', 'indicatoreVariazioneAltezzaTracce', divVetro.id).iStyle({position: "absolute", width: "100%", top: ((+AltezzaTracce) + (+ComandiPlayer.offsetHeight)) + "px", borderTop: "5px dashed blue"});
+    CreaElemento('div', 'indicatoreVariazioneAltezzaTracce', divVetro.id).iStyle({position: "absolute", width: "100%", top: ((+AltezzaTracce) + (+AltezzaComandiPlayer)) + "px", borderTop: "5px dashed blue"});
 }
 
 function SegnaVariazioneAltezzaTracce(e) {
     const Y = e.clientY, AltezzaIndicata = Y, CondizioneSogliaMinima = (AltezzaIndicata > AltezzaTracceMinima), CondizioneSogliaMassima = (AltezzaIndicata < AltezzaTracceMassima);
 
     const NuovaAltezzaTracce = (+AltezzaIndicata * CondizioneSogliaMinima * CondizioneSogliaMassima) + (+AltezzaTracceMinima * !CondizioneSogliaMinima) + (+AltezzaTracceMassima * !CondizioneSogliaMassima);
-    AltezzaTracce = NuovaAltezzaTracce - ComandiPlayer.offsetHeight;
+    AltezzaTracce = NuovaAltezzaTracce - AltezzaComandiPlayer;
 
     document.getElementById('indicatoreVariazioneAltezzaTracce').style.top = NuovaAltezzaTracce + "px";
 }
@@ -267,10 +264,11 @@ function VariaAltezzaTracce() {
 
     EliminaElemento(document.getElementById('indicatoreVariazioneAltezzaTracce')); divVetro.style.display = "none";
 
-    ContenitoreLineaTemporale.style.top = "calc(" + percAltezzaTracce + " + 52px)";
+    ContenitoreLineaTemporale.style.top = `calc(${percAltezzaTracce} + ${AltezzaComandiPlayer}px)`;
+    divContenutoTracce.style.height = `calc(100% - ${AltezzaComandiPlayer}px)`;
     if (UnitaDiMisura == "%") {const NuovaAltezzaTracciaPerc = "calc(100% - " + percAltezzaTracce + ")"; ContenitoreLineaTemporale.style.height = NuovaAltezzaTracciaPerc; document.getElementById('NomiTracce').style.height = NuovaAltezzaTracciaPerc;}
-    ComandiPlayer.style.top = percAltezzaTracce;
     Monitors.style.height = percAltezzaTracce;
+    ComandiPlayer.style.top = percAltezzaTracce;
     
     PosizionaElementiScroll();
 
@@ -280,10 +278,6 @@ function VariaAltezzaTracce() {
 
 function RideterminaLimitiAltezzaTracce() {
     AltezzaTracceMinima = (+window.innerHeight * 0.4); AltezzaTracceMassima = window.innerHeight - SuddivisioneTracce - 25;
-}
-
-function VariaAltezzaTracceSePiuBasse() {
-    if (AltezzaTracce > ContenitoreVideoGuida.offsetHeight) {VariaAltezzaTracce();}
 }
 /********************************************************/
 
@@ -314,20 +308,20 @@ function AttivaProgramma() {
         if (SessioneOspite && SonoCreatoreProgetto) {document.getElementById('OpzioniDoppiaggio_Registrazione').append(divSelettoreMicrofono, divOpzioniRegistrazione);} // Sposta le opzioni del microfono tra le opzioni del player se siamo il creatore del progetto non doppiatore
         setTimeout(() => {
             /* Adatta la dimensione degli elementi in base al contenuto e allo spazio a disposizione */
+            RideterminaLimitiAltezzaTracce();
+            AltezzaTracce = window.innerHeight * 0.4;
+            
             if (UnitaDiMisura == "px") {AdattaAltezzaTraccia(0);}
-            if (RuoliDaAssegnare_NumeroTraccia !== false) {
-                AdattaAltezzaTracciaRuoliDaAssegnare();
-            } else {
-                if (OrientamentoSchermoOrizzontale()) {
-                    if (NumeroTotaleTracce == 1) {
-                        AltezzaTracce = window.innerHeight * 0.6; VariaAltezzaTracce();
-                    } else {
-                        if (!SonoCreatoreProgetto && !SessioneOspite) {AltezzaTracce = window.innerHeight - NomiTracce.children[0].offsetHeight - 200; VariaAltezzaTracceSePiuBasse();}
-                    }
+            if (RuoliDaAssegnare_NumeroTraccia !== false) {AdattaAltezzaTracciaRuoliDaAssegnare();}
+            if (OrientamentoSchermoOrizzontale()) {
+                if (NumeroTotaleTracce == 1) {
+                    AltezzaTracce = window.innerHeight * 0.6; 
+                } else {
+                    if (!SonoCreatoreProgetto && !SessioneOspite) {NuovaAltezzaTracce = window.innerHeight - NomiTracce.children[0].offsetHeight - 200; AltezzaTracce = ((NuovaAltezzaTracce > AltezzaTracce) ? NuovaAltezzaTracce : AltezzaTracce);}
                 }
             }
             AdattaAltezzaContenitoreTracce();
-            AutoAdattaElementiInterfaccia();
+            VariaAltezzaTracce();
             AdattaLunghezzaLivelloMic();
         }, 1000);
         if (VisualizzaSuggerimenti) {setTimeout(VisualizzaSuggerimentiNuoviDoppiatori, 2000, SuggerimentiIniziali);}
@@ -343,8 +337,9 @@ function AttivaProgramma() {
     }
 
     divVetro.style.display = "inline";
-    slideMinutaggioAttuale.setAttribute('max', totDurataVideoGuida);
+    slideMinutaggioAttuale.setAttribute('max', totDurataVideoGuida); slideMinutaggioAttuale.style.display = ""
     ComandiPlayer.style.display = "block";
+    AltezzaComandiPlayer = ComandiPlayer.offsetHeight;
 	/***********************/
 
     setTimeout(() => {
@@ -406,8 +401,12 @@ function DisattivaMessaggiAttesa() {
 }
 
 function CambiaTool(Tool) {
-    const pulsanteToolAttuale = document.getElementById('pul_tool' + StrumentoMouse);
+    if (Righello.dataset.DisattivaClick == "si") {return false;}
+
     const pulsanteToolSelezionato = document.getElementById('pul_tool' + Tool);
+    if (!pulsanteToolSelezionato) {return false;}
+    
+    const pulsanteToolAttuale = document.getElementById('pul_tool' + StrumentoMouse);
     const ELT = document.getElementsByClassName('ELT'), totELT = ELT.length, puntatore = puntatoreTool[Tool];
     const M = document.getElementsByClassName('Marcatore'), totM = M.length, pointerEvents_marcatore = ((Tool == toolMarcatore) ? 'auto' : '');
     const ELTStratoColore_EventoTouchStart = ((Tool == toolDividiClip) ? GestioneEventoELTCliccato : "");
@@ -435,6 +434,8 @@ function CambiaTool(Tool) {
 
     /* Aggiorna la variabile globale */
     StrumentoMouse = Tool;
+
+    return true;
 }
 
 /*** Funzioni traccia Ruoli Da Assegnare ***/
@@ -453,30 +454,32 @@ function AggiornaElencoCandidatiRuoliDaAssegnare() {
     if (I < totDatiAudio) {return;}
     /***************************************************************************/
     
-    AJAX("ElencoCandidatiRuoliDaAssegnare.php", "N=" + encodeURIComponent(N), 
-        function (Dati) {
-            const totCandidati = Dati.length, strTitolo = ((totCandidati > 0) ? strElencoCandidatiDaAssegnare : strNessunCandidato);
-            var pulElenco;
-            document.getElementById('divNotificaNuoveClipRuoliDaAssegnare').style.display = "none";
+    let pulElenco;
+    document.getElementById('divNotificaNuoveClipRuoliDaAssegnare').style.display = "none";
 
-            divElencoCandidati.innerHTML = "<div class='text-center'><b>" + strTitolo + "</b></div>";
+    divElencoCandidati.innerHTML = "";
+    const divTitolo = CreaElemento('div', 'ElencoCandidati_Titolo', divElencoCandidati.id); divTitolo.iStyle({textAlign: "center", fontWeight: "bold"});
 
-            for (var I = 0; I < totCandidati; I++) {
-                pulElenco = CreaElemento('div', 'pulCandidatoRuoliDaAssegnare' + I, divElencoCandidati.id, `<img src='${Dati[I].FotoProfilo}' height=35 width=35 style='float: left;' /><span name="${Dati[I].ID}_online"></span> <b>${Dati[I].Nome}</b>`);
-                pulElenco.setAttribute('name', 'pulCandidatoRuoliDaAssegnare'); pulElenco.className = 'btn btn-default alert'; pulElenco.setAttribute('title', "-- " + Dati[I].Nome + " -- "); pulElenco.iStyle({position: "relative", left: "0px", top: "0px", width: "100%", whiteSpace: "normal", transition: "All 1s"});
-                if (Dati[I].DaVisualizzare == 1) {CreaElemento('div', 'indicatoreCandidatoRuoliDaAssegnare' + I, pulElenco.id, strNuoveClip).iStyle({position: "absolute", top: "10px", left: "15px", color: "white", backgroundColor: "red", padding: "2px", borderRadius: "20%", fontWeight: "bold", transform: "rotate(-45deg)"});}
-                pulElenco.dataset.idutente = Dati[I].ID; pulElenco.onclick = CliccatoCandidatoRuoliDaAssegnare;
-            }
+    I = 0;
+    for(var ID_Doppiatore in DatiDoppiatori) {
+        const DoppiatoreConsiderato = DatiDoppiatori[ID_Doppiatore];
+        if ((ID_Doppiatore != "RuoliDaAssegnare") && (DoppiatoreConsiderato.numeroTraccia == RuoliDaAssegnare_NumeroTraccia)) {
+            pulElenco = CreaElemento('div', 'pulCandidatoRuoliDaAssegnare' + I, divElencoCandidati.id, `<img src='${DoppiatoreConsiderato.FotoProfilo}' height="35" width="35" style='float: left;' /><span name="${ID_Doppiatore}_online"></span> <b>${DoppiatoreConsiderato.nome}</b>`);
+            pulElenco.setAttribute('name', 'pulCandidatoRuoliDaAssegnare'); pulElenco.className = 'btn btn-default alert'; pulElenco.setAttribute('title', "-- " + DoppiatoreConsiderato.nome + " -- "); pulElenco.iStyle({position: "relative", left: "0px", top: "0px", width: "100%", whiteSpace: "normal", opacity: 1, transition: "All 1s"});
+            if (DoppiatoreConsiderato.DaVisualizzare == 1) {CreaElemento('div', 'indicatoreCandidatoRuoliDaAssegnare' + I, pulElenco.id, strNuoveClip).iStyle({position: "absolute", top: "10px", left: "15px", color: "white", backgroundColor: "red", padding: "2px", borderRadius: "20%", fontWeight: "bold", transform: "rotate(-45deg)"});}
+            pulElenco.dataset.idutente = ID_Doppiatore; pulElenco.onclick = CliccatoCandidatoRuoliDaAssegnare;
+            I++;
+        }
+    }
 
-            divElencoCandidati.iStyle({opacity: 1, visibility: "visible"});
-            CheckUtentiAttivi();
-        }, "", "", true
-    );
+    divTitolo.textContent = ((I > 0) ? strElencoCandidatiDaAssegnare : strNessunCandidato);
+    divElencoCandidati.iStyle({opacity: 1, visibility: "visible"});
+    CheckUtentiAttivi();
 }
 
 function ElencoCandidatiRuoliDaAssegnareScompare_slow() {
     clearTimeout(tmrVisualizzaElencoCandidati);
-    tmrVisualizzaElencoCandidati = setTimeout(ElencoCandidatiRuoliDaAssegnareScompare, 400);
+    tmrVisualizzaElencoCandidati = setTimeout(ElencoCandidatiRuoliDaAssegnareScompare, 1000);
 }
 
 function ElencoCandidatiRuoliDaAssegnareScompare() {
@@ -488,13 +491,13 @@ async function CliccatoCandidatoRuoliDaAssegnare(e) {
     const pulCandidato = e.currentTarget, pulsantiCandidati = document.getElementsByName('pulCandidatoRuoliDaAssegnare'), totPulsantiCandidati = pulsantiCandidati.length;
     for (var I = 0; (I < totPulsantiCandidati) && !(pulsantiCandidati[I].abilita(false)) && !(pulsantiCandidati[I].style.opacity = 0); I++);
     pulCandidato.iStyle({opacity: 1, left: "-50%", top: "-" + pulCandidato.offsetTop + "px"});
-    pulCandidato.className = "btn alert-info";
-    setTimeout(ElencoCandidatiRuoliDaAssegnareScompare, 1000);
+    pulCandidato.className = "btn alert-info fa-bounce";
+    ElencoCandidatiRuoliDaAssegnareScompare_slow();
     document.getElementById('divTitoloRuoliDaAssegnare').className = "btn btn-success btn-xs";
     SelezionaCandidatoRuoliDaAssegnare(pulCandidato.dataset.idutente);
 }
 
-function SelezionaCandidatoRuoliDaAssegnare(ID) {
+function SelezionaCandidatoRuoliDaAssegnare(ID, FunzioneAlTermine = () => {}) {
     if (ID == RuoliDaAssegnare_CandidatoSelezionato) {return;}
 
     document.getElementById('divContenutoNomeTraccia' + RuoliDaAssegnare_NumeroTraccia).abilita(false); AttivaImmagineAttesa('Pulse');
@@ -535,16 +538,17 @@ function SelezionaCandidatoRuoliDaAssegnare(ID) {
                 if (tmrAggiornaChatCandidato === false) {tmrAggiornaChatCandidato = setInterval(NotificaMessaggiChatCandidato, 60000);} NotificaMessaggiChatCandidato();
                 divAggiungiDoppiatoreCandidato.style.display = "inline"; divAggiungiDoppiatoreCandidato.dataset.idcandidato = ID; divAggiungiDoppiatoreCandidato.dataset.nomecandidato = Dati.Nome;
             }
-            DatiDoppiatori[ID] = {nome: Dati.Nome, numeroTraccia: RuoliDaAssegnare_NumeroTraccia, ruolo: DatiDoppiatori['RuoliDaAssegnare'].ruolo};
+            if (!DatiDoppiatori[ID]) {DatiDoppiatori[ID] = {nome: Dati.Nome, numeroTraccia: RuoliDaAssegnare_NumeroTraccia, ruolo: DatiDoppiatori['RuoliDaAssegnare'].ruolo};} // Evita di sovrascrivere le info acquisite da VerificaNuoveClipAltriCandidati()
             EscludiRipristinaTraccia(ID, "Ripristina");
             RuoliDaAssegnare_CandidatoSelezionato = ID;
             SolaVisione = SessioneOspite; // Attiva la possibilità di registrare solo se si è il visitatore candidato (o il creatore del progetto).
             if (Righello.dataset.DisattivaClick == "no") {RiabilitaSchermata();} // Abilita la possibilità eventuale di registrare solo se la schermata era già attiva.
             AttivaImmagineAttesa('TrePunti');
             AdattaAltezzaTracciaRuoliDaAssegnare();
-            if (!SonoCreatoreProgetto && OrientamentoSchermoOrizzontale()) {AltezzaTracce = window.innerHeight - document.getElementById('divContenutoNomeTraccia' + RuoliDaAssegnare_NumeroTraccia).offsetHeight - 150; VariaAltezzaTracceSePiuBasse();} // Se l'utente è il visitatore candidato, ingrandisce il video
             setTimeout(AggiornaClip, 100, () => {
-                EliminaImgAttesa(); setTimeout(() => {document.getElementById('divContenutoNomeTraccia' + RuoliDaAssegnare_NumeroTraccia).abilita(true);}, 1000);
+                EliminaImgAttesa();
+                setTimeout(() => {document.getElementById('divContenutoNomeTraccia' + RuoliDaAssegnare_NumeroTraccia).abilita(true);}, 1000);
+                FunzioneAlTermine();
             });
         }, "", "", true
     );
@@ -617,25 +621,19 @@ function AggiungiDoppiatoreCandidatoNelCast(e) {
                             CreaElemento('span', 'spanMantieniRuoliDaAssegnare', lblMantieniRuoliDaAssegnare.id, strVoglioMantenereRuoliDaAssegnare);
 
         /* Salva e annulla */
-        var divPulsantiFinali = CreaElemento('div', PannelloOpzioni.id + 'PulsantiFinali', PannelloOpzioni.id); divPulsantiFinali.className = 'panel-footer';
-            var Tabella = CreaElemento('table', PannelloOpzioni.id  + 'TabellaPulsantiFinali', divPulsantiFinali.id); Tabella.className = "TabellaOpzioni"; Tabella.style.width = "100%";
-                var tr = CreaElemento('tr', PannelloOpzioni.id  + 'RigaTabellaPulsantiFinali', Tabella.id);
-                    var td = CreaElemento('td', PannelloOpzioni.id  + 'CasellaAnnulla', tr.id);
-                        const pulAnnulla = CreaElemento('a', PannelloOpzioni.id + 'Annulla', td.id, "<span class='fa fa-times'></span> " + strAnnullalemodifiche); pulAnnulla.className = "btn btn-default";
-                              pulAnnulla.onclick = AnnullaAggiungiDoppiatore;
+        var divPulsantiFinali = CreaElemento('div', PannelloOpzioni.id + 'PulsantiFinali', PannelloOpzioni.id); divPulsantiFinali.className = 'panel-footer'; divPulsantiFinali.style.height = "60px";
+            const pulAnnulla = CreaElemento('a', PannelloOpzioni.id + 'Annulla', divPulsantiFinali.id, "<span class='fa fa-times'></span> " + strAnnullalemodifiche); pulAnnulla.className = "btn btn-default"; pulAnnulla.iStyle({position: "absolute", left: "15%"});
+                  pulAnnulla.onclick = AnnullaAggiungiDoppiatore;
                             
-                        td = CreaElemento('td', PannelloOpzioni.id + 'CasellaSalva', tr.id); td.className = "text-right";
-                            const pulSalva = CreaElemento('a', PannelloOpzioni.id + 'Salva', td.id, "<span class='fa fa-arrow-right'></span> " + strProcedi); pulSalva.className = "btn btn-success";
-                                  pulSalva.abilita(false);
+            const pulSalva = CreaElemento('a', PannelloOpzioni.id + 'Salva', divPulsantiFinali.id, "<span class='fa fa-arrow-right'></span> " + strProcedi); pulSalva.className = "btn btn-success"; pulSalva.iStyle({position: "absolute", right: "15%"});
+                  pulSalva.abilita(false);
 
-                                  pulSalva.onclick = function () {
-                                    pulSalva.abilita(false); pulSalva.innerText = strAttenderePrego;
-                                    AJAX("InserisciCandidatoNelCast.php", "N=" + encodeURIComponent(N) + "&IDUtenteCandidato=" + encodeURIComponent(DatiDoppiatoreCandidato.idcandidato) + "&RuoloUtenteCandidato=" + encodeURIComponent(inputRuoliCandidato.value) + "&RuoliDaAssegnare=" + encodeURIComponent(divPersonaggiLiberi? inputPersonaggiLiberi.value : ""),
-                                        function (Dati) {
-                                            window.location.reload();
-                                        }, strAggiornamento, strSalvataggioCompletato
-                                    );
-                                  };
+                  pulSalva.onclick = function () {
+                    pulSalva.abilita(false); pulSalva.innerText = strAttenderePrego; pulSalva.className += " fa-fade";
+                    AJAX("InserisciCandidatoNelCast.php", "N=" + encodeURIComponent(N) + "&IDUtenteCandidato=" + encodeURIComponent(DatiDoppiatoreCandidato.idcandidato) + "&RuoloUtenteCandidato=" + encodeURIComponent(inputRuoliCandidato.value) + "&RuoliDaAssegnare=" + encodeURIComponent(divPersonaggiLiberi? inputPersonaggiLiberi.value : ""),
+                        () => {window.location.reload();}, strAggiornamento, strSalvataggioCompletato
+                    );
+                  };
 
         DisabilitaSchermata();
         pulAggiungiDoppiatoreCandidatoNelCast.abilita(false);
@@ -643,7 +641,7 @@ function AggiungiDoppiatoreCandidatoNelCast(e) {
         ElencoCandidatiRuoliDaAssegnareScompare();
 }
 
-function VerificaNuoveClipAltriCandidati() {
+function VerificaNuoveClipAltriCandidati(FunzioneAlTermine = () => {}) {
     AJAX("ElencoCandidatiRuoliDaAssegnare.php", "N=" + encodeURIComponent(N),
         function (Dati) {
             const totCandidati = Dati.length, divNotifica = document.getElementById('divNotificaNuoveClipRuoliDaAssegnare');
@@ -651,7 +649,7 @@ function VerificaNuoveClipAltriCandidati() {
 
             for (var I = 0; I < totCandidati; I++) {
                 contatoreCandidatiNuoveClip += (Dati[I].ID != RuoliDaAssegnare_CandidatoSelezionato) && (Dati[I].DaVisualizzare == 1);
-                DatiDoppiatori[Dati[I].ID] = {nome: Dati[I].Nome, numeroTraccia: RuoliDaAssegnare_NumeroTraccia, ruolo: DatiDoppiatori['RuoliDaAssegnare'].ruolo}; // Aggiorna l'elenco dei doppiatori per determinare se sono online e per altre funzionalità
+                DatiDoppiatori[Dati[I].ID] = {nome: Dati[I].Nome, numeroTraccia: RuoliDaAssegnare_NumeroTraccia, ruolo: DatiDoppiatori['RuoliDaAssegnare'].ruolo, FotoProfilo: Dati[I].FotoProfilo, DaVisualizzare: Dati[I].DaVisualizzare}; // Aggiorna l'elenco dei doppiatori per determinare se sono online e per altre funzionalità
             }
 
             if (contatoreCandidatiNuoveClip > 0) {
@@ -662,6 +660,8 @@ function VerificaNuoveClipAltriCandidati() {
             } else {
                 divNotifica.style.display = "none";
             }
+
+            FunzioneAlTermine();
         }, "", "", true
     );
 }
@@ -827,15 +827,15 @@ function RiproduciClipInSync(MinutaggioVideo) {
     const MinutaggioVideoAggiustato = (+MinutaggioVideo) + (+LatenzaAudio);
 
     ClipDaRiprodurre.forEach((I) => {
-        const datiAudio = DatiAudioRegistrato[I], MinutaggioAudio = datiAudio.MinutaggioRegistrazione, InizioAudio = (+MinutaggioAudio) + (+datiAudio.taglioIniziale), ClipNelMinutaggioAttuale = (InizioAudio <= MinutaggioVideoAggiustato), SecondiPartenzaAudio = ((InizioAudio - MinutaggioVideoAggiustato) * !ClipNelMinutaggioAttuale);
-        const InizioClip = (+datiAudio.taglioIniziale) + ((MinutaggioVideoAggiustato - InizioAudio) * ClipNelMinutaggioAttuale), FineClip = (+datiAudio.taglioFinale) - InizioClip;
+        const datiAudio = DatiAudioRegistrato[I], MinutaggioAudio = datiAudio.MinutaggioRegistrazione, InizioAudio = (+MinutaggioAudio) + (+datiAudio.taglioIniziale), ClipNelMinutaggioAttuale = (InizioAudio <= MinutaggioVideoAggiustato), SecondiPartenzaAudio = ((InizioAudio - MinutaggioVideoAggiustato) * !ClipNelMinutaggioAttuale), PartenzaEffettivaClip = ((MinutaggioVideoAggiustato - InizioAudio) * ClipNelMinutaggioAttuale);
+        const InizioClip = (+datiAudio.taglioIniziale) + (+PartenzaEffettivaClip), FineClip = (+datiAudio.taglioFinale) - InizioClip;
         datiAudio.audio.start(audioContext.currentTime + SecondiPartenzaAudio, InizioClip, FineClip * (FineClip > 0));
         datiAudio.avviato = true;
         datiAudio.audio.onended = ScaricaMemoria_slow;
         datiAudio.alPlay.forEach((DatiEventoAlPlay, N) => {
             clearTimeout(datiAudio.tmrEventoAlPlay[N]);
-            const FunzioneAlPlay = DatiEventoAlPlay.FunzioneAlPlay, LatenzaSecondi = (DatiEventoAlPlay.latenzaEventoAlPlay.daltermine ? (+datiAudio.taglioFinale) + (+DatiEventoAlPlay.latenzaEventoAlPlay.daltermine) : DatiEventoAlPlay.latenzaEventoAlPlay.secondi), RiduciSeClipNelMinutaggio = DatiEventoAlPlay.latenzaEventoAlPlay.riduciSeClipNelMinutaggio;
-            datiAudio.tmrEventoAlPlay[N] = setTimeout(() => {FunzioneAlPlay(datiAudio); console.log("AttivataFunzioneAlPlay", FunzioneAlPlay);}, ((+SecondiPartenzaAudio) + (+LatenzaSecondi) - (InizioClip * ClipNelMinutaggioAttuale * RiduciSeClipNelMinutaggio)) * 1000);
+            const FunzioneAlPlay = DatiEventoAlPlay.FunzioneAlPlay, LatenzaSecondi = (DatiEventoAlPlay.latenzaEventoAlPlay.daltermine ? (+datiAudio.taglioFinale) - (+datiAudio.taglioIniziale) + (+DatiEventoAlPlay.latenzaEventoAlPlay.daltermine) : DatiEventoAlPlay.latenzaEventoAlPlay.secondi), RiduciSeClipNelMinutaggio = DatiEventoAlPlay.latenzaEventoAlPlay.riduciSeClipNelMinutaggio;
+            datiAudio.tmrEventoAlPlay[N] = setTimeout(() => {FunzioneAlPlay(datiAudio);}, ((+SecondiPartenzaAudio) + (+LatenzaSecondi) - (PartenzaEffettivaClip * RiduciSeClipNelMinutaggio)) * 1000);
         });
     });
 
@@ -859,11 +859,12 @@ function slide_AnteprimaMinutaggio(e) {
     divAnteprimaMinutaggioSlide.iStyle({display: "", left: ((+slideMinutaggioAttuale.offsetLeft) + (+e.offsetX) - 25) + "px"}); divAnteprimaMinutaggioSlide.textContent = M.Minuti + ":" + M.Secondi.toFixed(0).padStart(2, "0");
 }
 
-function slide_PosizionatiAlMinutaggioIndicatoInAnteprima(e) {
-    e.preventDefault();
-    slideMinutaggioAttuale.value = slideMinutaggioAttuale.dataset.valore;
-    slide_SpostatiAlMinutaggioSelezionato();
-    slide_AnteprimaMinutaggioScompare();
+function slide_PosizionatiAlMinutaggioIndicatoInAnteprima() {
+    setTimeout(() => {
+        slideMinutaggioAttuale.value = slideMinutaggioAttuale.dataset.valore;
+        slide_SpostatiAlMinutaggioSelezionato();
+        slide_AnteprimaMinutaggioScompare();
+    }, 100);
 }
 
 function slide_AnteprimaMinutaggioScompare() {
@@ -909,8 +910,8 @@ function PosizionaCursore(Minutaggio, ritardoscorrimento = 500) {
 }
 
 function SeguiCursore() {
-    const percZoom = (DimensioneRighello / slideZoom.max), CondizioneMinima = (percZoom > percMinimaPosCursore);
-    window.scrollTo(Cursore.offsetLeft - (ScorrimentoCursore_DistanzaMinimaDalBordo / ((percZoom * CondizioneMinima) + (percMinimaPosCursore * !CondizioneMinima))), WindowScrollY);
+    const PosizioneAttualeCursore = Cursore.offsetLeft, PosizioneAttualeCursoreNellaFinestra = PosizioneAttualeCursore - window.scrollX;
+    ((PosizioneAttualeCursoreNellaFinestra < 0) || (PosizioneAttualeCursoreNellaFinestra > ScorrimentoCursore.distanzaMinimaDalBordo)) && window.scrollTo({left: PosizioneAttualeCursore - ScorrimentoCursore.distanzaMinimaDalBordo});
 }
 
 /*** Marcatori sulla timeline ***/
@@ -1089,8 +1090,12 @@ function ControlliInSovrimpressione_Avanza(e) {
     Animazione(e.currentTarget.children[0], "rotazione-" + ((Secondi > 0) ? "destra" : "sinistra") + " 100ms ease 100ms 2 alternate");
 }
 
+function DisabilitaComandiPerRiprodurre(Disabilita) {
+    pulPlay.disabled = Disabilita; PlayPausaCliccandoSulVideo(!Disabilita); DisabilitaElementiRegistrazione(Disabilita || SolaVisione); PlayInSovrimpressione.style.display = (Disabilita ? "none" : "");
+}
+
 function Posizionati(MinutaggioNuovo, RiabilitaTuttaLaSchermata = false) {
-    const stavoRiproducendo = RiproduzioneInCorso && (Posizionati.InAttesaRiattivazione == false); // Non riattiva in automatico la riproduzione se è stato modificato il minutaggio prima che potesse posizionarsi
+    const stavoRiproducendo = (RiproduzioneInCorso && (Posizionati.InAttesaRiattivazione == false)); // Non riattiva in automatico la riproduzione se è stato modificato il minutaggio prima che potesse posizionarsi
 
     function RiattivaVideoGuida() {
         if ((Math.round(VideoGuidaMinutaggioCorrente())) != (Math.round(MinutaggioNuovo))) {Posizionati.tmr = setTimeout(RiattivaVideoGuida, 1000); return;}
@@ -1100,7 +1105,7 @@ function Posizionati(MinutaggioNuovo, RiabilitaTuttaLaSchermata = false) {
             PlayVideoGuida();
         } else {
             RiabilitaLaSchermataSeRichiesto();
-            if (FunzioniCopione.CopioneVisualizzato) {FunzioniCopione.RiattivaCopione(); AttivaScorrimentoCopione();}
+            if (ContenitoreCopione.FunzioniCopione.CopioneVisualizzato) {ContenitoreCopione.FunzioniCopione.RiattivaCopione(); AttivaScorrimentoCopione();}
         }
     }
 
@@ -1112,16 +1117,14 @@ function Posizionati(MinutaggioNuovo, RiabilitaTuttaLaSchermata = false) {
         }
     }
 
-    function DisabilitaComandiPerRiprodurre(Disabilita) {
-        pulPlay.disabled = Disabilita; PlayPausaCliccandoSulVideo(!Disabilita); DisabilitaElementiRegistrazione(Disabilita || SolaVisione);
-    }
-
     if ((MinutaggioNuovo < 0) || (VideoGuidaMinutaggioCorrente() == MinutaggioNuovo) || (MinutaggioNuovo > totDurataVideoGuida)) {RiabilitaLaSchermataSeRichiesto(); return;}
     
     DisabilitaComandiPerRiprodurre(true);
 
     clearInterval(tmrRitardoScorrimentoCursore);
     setTimeout(() => {PosizionaCursore(MinutaggioNuovo); AggiornaMinutaggioVideo(MinutaggioNuovo);}, 100);
+    FunzioneAlTerminePrecaricamento = false;
+    EliminaImgAttesa();
     StopVideoGuida();
     ImmagineAttesaVideoGuida(true);
     VideoGuidaPosizionati(MinutaggioNuovo);
@@ -1131,9 +1134,37 @@ function Posizionati(MinutaggioNuovo, RiabilitaTuttaLaSchermata = false) {
 }
 Posizionati.tmr = false; Posizionati.InAttesaRiattivazione = false;
 
+
+/*** Funzioni gestione del copione ***/
 function AttivaScorrimentoCopione() {
-    if (RiproduzioneInCorso) {FunzioniCopione.AttivaTestoGuida();} else {FunzioniCopione.AggiornaTestoGuida();}
+    if (RiproduzioneInCorso) {ContenitoreCopione.FunzioniCopione.AttivaTestoGuida();} else {ContenitoreCopione.FunzioniCopione.AggiornaTestoGuida();}
 }
+
+function SwitchCopioneEditabile(e) {
+    e.stopPropagation();
+    const pulSwitchCopioneEditabile = ContenitoreCopione.document.getElementById('pulSwitchCopioneEditabile'), classe_pulsante = ["default", "warning"];
+    ContenitoreCopione.FunzioniCopione.CopioneEditabile = 1 * (ContenitoreCopione.FunzioniCopione.CopioneEditabile == 0);
+    pulSwitchCopioneEditabile.className = pulSwitchCopioneEditabile.className.replace(classe_pulsante[1 - ContenitoreCopione.FunzioniCopione.CopioneEditabile], classe_pulsante[ContenitoreCopione.FunzioniCopione.CopioneEditabile]);
+    const s = ContenitoreCopione.TestoGuida.querySelectorAll("[name='ContenutoEditabile']"), tots = s.length;
+    if (ContenitoreCopione.FunzioniCopione.CopioneEditabile) {
+        Messaggio(str_copione_ModalitaEditAttivata_spiegazione + str_copione_ModalitaEditAttivata_modifiche[1 * SonoCreatoreProgetto]);
+        for (let I = 0; I < tots; I++) {
+            s[I].setAttribute('contenteditable', true);
+        }
+    } else {
+        for (let I = 0; I < tots; I++) {
+            s[I].removeAttribute('contenteditable');
+        }
+    }
+}
+
+function ApriCopioneInAltraFinestra(e) {
+    e.stopPropagation();
+    ApriCopione({currentTarget: {dataset: {link: "CopioneInFinestraSeparata.php?N=" + N + "&I=" + OpzEvidenzia_TestoGuida.selectedIndex}}});
+    ContenitoreCopione = FinestraCopione;
+    ContenitoreTestoGuida.style.display = "none";
+}
+/**************************************/
 
 
 /*** Precarica clip ***
@@ -1225,8 +1256,8 @@ function CaricaBufferAudio(Numero, FunzioneAlTermine = () => {}, SoloBuffer = fa
             
             /* Flagga l'audio come danneggiato */
             AJAX("AggiornaAudioDanneggiato.php", "N=" + datiAudio.NumeroUnivoco + "&Info=" + encodeURIComponent(err + " - " + datiAudio.infoAggiuntive),
-                () => {/* Passa avanti col caricamento */
-                    if (!CaricamentoInizialeTerminato) {AggiornaCaricamentoClip();}
+                () => {/* Passa avanti col caricamento 
+                    if (!CaricamentoInizialeTerminato) {AggiornaCaricamentoClip();}*/
                     /* Lo manda nel cestino, così non interferisce con i caricamenti (tanto non verrà più aggiornato) */
                     datiAudio.Rimosso = true; datiAudio.danneggiato = true;
                 }, "", "", true);
@@ -1245,11 +1276,16 @@ function VerificaFunzioneAlTerminePrecaricamento() {
 }
 
 function OperazioniAlBufferCaricato(Numero, FunzioneAlTermine = () => {}) {
+    const datiAudio = DatiAudioRegistrato[Numero];
+    
     /** Attiva la clip se si sta riproducendo **/
     if (RiproduzioneInCorso) {VerificaClipDaRiprodurre(Numero, VideoGuidaMinutaggioCorrente());}
 
     /** Visualizza graficamente il caricamento della clip **/
     VisualizzaELTBufferCaricato(Numero);
+
+    /** Aggiorna i secondi del parlato per la clip da ascoltare **/
+    AggiornaAudioDaAscoltare(datiAudio);
 
     /** Manda l'eventuale funzione passata **/
     FunzioneAlTermine();
@@ -1512,7 +1548,7 @@ function DisabilitaSchermata(ImmagineAttesa) {
 	DisabilitaElementiGenerali(true);
     PlayPausaCliccandoSulVideo(false);
 	DisabilitaElementiRegistrazione(true);
-    FunzioniCopione.DisattivaCopione();
+    ContenitoreCopione.FunzioniCopione.DisattivaCopione();
 	if (ImmagineAttesa) {AttivaImmagineAttesa();} else {EliminaImgAttesa();}
 }
 
@@ -1523,8 +1559,7 @@ function RiabilitaSchermata(Aggiorna) {
     PlayPausaCliccandoSulVideo(true);
 	DisabilitaElementiRegistrazione(SolaVisione);
 	EliminaImgAttesa();
-    FunzioniCopione.RiattivaCopione();
-    if (!CaricamentoInizialeTerminato && !ModalitaStreaming) {AttivaImmagineAttesa('TrePunti');}
+    ContenitoreCopione.FunzioniCopione.RiattivaCopione();
 	if (Aggiorna && !ModalitaStreaming) {AggiornaClip();}
 }
 
@@ -1754,7 +1789,7 @@ function startRecording() {
     /* Stoppa il filmato e predispone l'interfaccia */
     VideoGuidaRimuoviFunzioneAlTimeUpdate(AggiornaTimeline);
 	StopVideoGuida();
-    FunzioniCopione.OpacitaCopioneDisattivato = 1; DisabilitaSchermata(true); pulPlay.style.opacity = 0;
+    ContenitoreCopione.FunzioniCopione.OpacitaCopioneDisattivato = 1; DisabilitaSchermata(true); pulPlay.style.opacity = 0;
 
     /* Memorizza il minutaggio di partenza della registrazione (utilizzato solo in caso di annullamento per riposizionarsi) */
     MinutaggioPartenzaRegistrazione = VideoGuidaMinutaggioCorrente();
@@ -1868,7 +1903,7 @@ function FermaRegistrazione() {
     pulPlay.style.opacity = ""; pulStopRegistrazione.disabled = true; pulAnnullaRegistrazione.disabled = true;
     pulRegistra.style.animation = "";
     livelloMic.style.display = "";
-    FunzioniCopione.OpacitaCopioneDisattivato = 0.6;
+    ContenitoreCopione.FunzioniCopione.OpacitaCopioneDisattivato = 0.6;
 
     /* Ferma il video, ripristina le eventuali clip disattivate e rimette la funzione al time update di default */
 	StopVideoGuida(); DisattivaClipNonCI(false);
@@ -1918,13 +1953,13 @@ function MandaACreaRegistrazione(Funzione) {
 }
 
 function CreaRegistrazione_mediaRecorder() {
-    var fileAudio = new Blob(recordedBlobs, {'type': regMediaRecorder.mimeType});
+    const fileAudio = new Blob(recordedBlobs, {'type': regMediaRecorder.mimeType});
 
-    var URLBuffer = URL.createObjectURL(fileAudio);
+    const URLBuffer = URL.createObjectURL(fileAudio);
     
     console.log("MediaRecorder", URLBuffer, regMediaRecorder.mimeType);
 
-    CaricaAudio(0, {Registrazione: URLBuffer}, 'arraybuffer', 
+    CaricaAudio(0, {Registrazione: URLBuffer}, 'arraybuffer',
         function (Contenuto) {
             /* Per una resa più fedele, l'audio viene decodificato in audiobuffer e trasformato in un arraybuffer formato audio wav prima di essere convertito nel formato desiderato */
             audioContext.decodeAudioData(Contenuto).then((buffer) => {
@@ -1942,6 +1977,7 @@ function CreaRegistrazione_mediaRecorder() {
                     ffmpeg_FunzioneAlTermineProcessi(ConversioneWav);
                 }
             });
+            URL.revokeObjectURL(URLBuffer);
         }
     );
 
@@ -2084,9 +2120,7 @@ function CreaRegistrazione_wav() {
     /****************************/
 
     if (ffmpeg_TotaleProcessi > 0) {
-        var fileAudio = new Blob([ConversioneWav], { type: 'audio/wav' });
-        var URLBuffer = URL.createObjectURL(fileAudio);
-        console.log(URLBuffer);
+        // var fileAudio = new Blob([ConversioneWav], { type: 'audio/wav' }); var URLBuffer = URL.createObjectURL(fileAudio); console.log(URLBuffer);
         initWorker();
         sampleAudioData = new Uint8Array(ConversioneWav);
         runCommand(ffmpeg_Processi[0]);
@@ -2100,12 +2134,12 @@ function CreaRegistrazione_wav() {
 }
 
 function SalvaNuovaRegistrazione(Contenuto, OndaSonora) {
-    const ContenutoRegistrazione = Contenuto.slice(), OndaSonoraRegistrazione = OndaSonora.slice(), MinutaggioAttualeRegistrazione = MinutaggioUltimaRegistrazione, FormatoFile = (QualitaAltaRegistrazione? formatoQualitaAlta : formatoQualitaMedia), InfoAggiuntiveRegistrazione = `${SistemaOperativoAttuale} ${NomeBrowserAttuale} ${VersioneBrowserAttuale} - ${audioContext.sampleRate} Hz - qualità ${(QualitaAltaRegistrazione? "alta" : "media")}, modalità ${(ModalitaLightAttiva? (ModalitaUltraLightAttiva? "ultra light" : "light") : "normale")} - ${(EffettuatoAutoTaglioIniziale? "effettuato auto taglio iniziale per circa " + parseInt(SecondiAutoTaglioIniziale) + "sec." : "nessun auto taglio iniziale.")} ${VersioneJS}`;
+    const ContenutoRegistrazione = Contenuto.slice(), OndaSonoraRegistrazione = OndaSonora.slice(), MinutaggioAttualeRegistrazione = MinutaggioUltimaRegistrazione, FormatoFile = (QualitaAltaRegistrazione? formatoQualitaAlta : formatoQualitaMedia), InfoAggiuntiveRegistrazione = `${SistemaOperativoAttuale} ${NomeBrowserAttuale} ${VersioneBrowserAttuale} - ${audioContext.sampleRate} Hz - qualità ${(QualitaAltaRegistrazione? "alta" : "media")}, modalità ${(ModalitaLightAttiva? (ModalitaUltraLightAttiva? "ultra light" : "light") : "normale")} - ${(EffettuatoAutoTaglioIniziale? "effettuato auto taglio iniziale per circa " + (SecondiAutoTaglioIniziale).arrotonda(1) + "sec." : "nessun auto taglio iniziale.")} ${VersioneJS}`;
     RiattivaInterfacciaDopoRegistrazione();
     clearInterval(tmrAggiornaClip); EliminaAnteprimaOndaSonora();
     
 	AJAX("SalvaNuovaRegistrazione.php", CreaParametri({ "NumProgetto": N, "NumProvino": P, "Utente": ID_Utente, "Registrazione": ContenutoRegistrazione, "MinutaggioRegistrazione": MinutaggioAttualeRegistrazione, "OndaSonora": OndaSonoraRegistrazione, "Formato": FormatoFile, "InfoAggiuntive": InfoAggiuntiveRegistrazione }),
-        function (Dati) {
+        function () {
             EliminaElemento(document.getElementById('ELTprovvisorio')); setTimeout(AggiornaClip, 100); AttivaAggiornamentoClip();
         }, strSalvataggioInCorso, strSalvataggioCompletato, true, true
     );
@@ -2147,7 +2181,7 @@ function PlayVideoGuida() {
         VideoGuidaFunzioneAlTimeUpdate(FunzioneNormaleAlTimeUpdate);
         ImpostaStatoPlay(true);
         DeterminaVolumeVideoGuidaPerCI();
-        if (FunzioniCopione.CopioneVisualizzato) {FunzioniCopione.AttivaTestoGuida();}
+        if (ContenitoreCopione.FunzioniCopione.CopioneVisualizzato) {ContenitoreCopione.FunzioniCopione.AttivaTestoGuida();}
         if (StoRegistrando == false) {
             if (VerificaClipPrecaricate(SecondiPrecaricamentoAlPlay) == false) {return;}
             ElaboraClipDaRiprodurre();
@@ -2176,12 +2210,13 @@ function StopVideoGuida() {
         ImpostaStatoPlay(false);
         StoppaTutteLeRegistrazioni();
         VideoGuidaPause();
+        FunzioneAlTerminePrecaricamento = false;
         AttivaAggiornamentoClip();
         VideoGuidaRimuoviEventoBuffering(SospendiRiproduzione, RiprendiRiproduzione);
         clearInterval(intervalloControllaClipPrecaricate);
         clearInterval(PrecaricaClip.tmr);
         ScaricaMemoria(true);
-        FunzioniCopione.DisattivaTestoGuida();
+        ContenitoreCopione.FunzioniCopione.DisattivaTestoGuida();
         if (ModalitaStreaming) {ComandiPlayer.onmousemove = ""; ComandiPlayer_Visualizzato();}
 	}
 }
@@ -2221,7 +2256,7 @@ function VerificaClipPrecaricate(SecondiMinimiClipPrecaricate, PrecaricamentoLeg
 
     for (var I = 0; I < totAudio; I++) {
         if (ClipDaPrecaricare(I, MinutaggioVideo, MinutaggioClipPrecaricate)) {
-            DisabilitaSchermata(true); StopVideoGuida(); PrecaricaClip(MinutaggioVideo, MinutaggioClipPrecaricate, PlayVideoGuida);
+            AttivaImmagineAttesa(); DisabilitaComandiPerRiprodurre(true); StopVideoGuida(); PrecaricaClip(MinutaggioVideo, MinutaggioClipPrecaricate, PlayVideoGuida);
             return false;
         }
     }
@@ -2308,7 +2343,7 @@ function CambiaVolumeClip(Numero, Volume) {
 
 function VisualizzaAmpiezzaOndaSonora(Numero) {
     const OndaSonoraVisualizzata = document.getElementById("ELTReg" + Numero + "OndaSonora");
-    if (OndaSonoraVisualizzata) {const percVolume = (GuadagnoPrincipale[Numero].gain.value * 100) | 0; OndaSonoraVisualizzata.iStyle({height: percVolume + "%", top: parseInt((100 - percVolume) / 2) + "%"});}
+    if (OndaSonoraVisualizzata) {const percVolume = (GuadagnoPrincipale[Numero].gain.value * 100) | 0; OndaSonoraVisualizzata.iStyle({height: percVolume + "%", top: ((100 - percVolume) / 2) + "%"});}
 }
 /***************************************/
 
@@ -2368,7 +2403,7 @@ function VisualizzazioneGraficaTaglioClip(Numero, OndaCompleta = Visualizzazione
 VisualizzazioneGraficaTaglioClip.OndaSonoraCompleta = false;
 /*********************************************************/
 
-function DuplicaClip(Numero) {
+function DuplicaClip(Numero, FunzioneAlTermine = () => {}) {
     AJAX("DuplicaClip.php", "N=" + DatiAudioRegistrato[Numero].NumeroUnivoco,
         function (Dati) {
             AggiornaClip(() => {
@@ -2379,6 +2414,8 @@ function DuplicaClip(Numero) {
                     OperazioniAlBufferCaricato(ClipNuova.numero);
                     if (RiproduzioneInCorso) {FunzioneRiproduzioneClip = RiproduciClipInSync;}
                 }
+                
+                FunzioneAlTermine(ClipNuova);
             });
         }, strDuplicazioneClip, strClipDuplicata, true
     );
@@ -2395,7 +2432,6 @@ function DividiClip_puntatorerilasciato(e) {
     const secondiInizioTaglio = (TrascinatoVersoDestra? MinutaggioPrimoClick : MinutaggioRilascio), secondiFineTaglio = (TrascinatoVersoDestra? MinutaggioRilascio : MinutaggioPrimoClick);
     EliminaEventiPuntatoreDividiClip();
     VisualizzazioneGraficaTaglioClip.OndaSonoraCompleta = false;
-    CambiaTool(toolStandard); // Onde evitare tagli involontari, torna sempre al tool standard.
     DisabilitaSchermata();
 
     /*** Se taglio senza trascinamento, si limita a dividere la clip in due senza chiedere niente ***/
@@ -2429,16 +2465,17 @@ function DividiClip_puntatorerilasciato(e) {
                             const datiAudio = DatiAudioRegistrato[ELT.dataset.RiferimentoRegistrazione];
                             datiAudio.taglioIniziale = secondiInizioTaglio; datiAudio.taglioFinale = secondiFineTaglio;
                             SalvaModificheClipAudio(datiAudio.numero, () => {AggiornaClip(TerminaDividiClip);});
+                            AggiornaAudioDaAscoltare(datiAudio);
                             VisualizzaAttenderePrego(e.currentTarget);
                       };
 
             if ((secondiInizioTaglio > taglioclip_diffmin) && (secondiFineTaglio < (DatiAudioRegistrato[ELT.dataset.RiferimentoRegistrazione].Durata - taglioclip_diffmin))) {
-                    divContenitore = CreaElemento('div', 'DividiClip_ContenitoreCreaNuovaClip', divContenuto.id);
-                    const pulCreaNuovaClip = CreaElemento('span', 'DividiClip_CreaNuovaClip', divContenitore.id, "<img style='" + styleImmagini + "' src='images/Esempio_taglio_nuova_clip.png' />&nbsp;" + strTagliaECreaNuovaClip); pulCreaNuovaClip.className = classePulsanti; pulCreaNuovaClip.iStyle({width: "100%", fontSize: "14pt", lineHeight: 1.8});
-                          pulCreaNuovaClip.onclick = (e) => {
-                                VisualizzaAttenderePrego(e.currentTarget);
-                                DividiClip(ELT.dataset.RiferimentoRegistrazione, secondiInizioTaglio, secondiInizioTaglio, "", (ClipNuova) => {if (ClipNuova) {DividiClip(ClipNuova.numero, secondiFineTaglio, secondiFineTaglio, strClipSeparata);} else {TerminaDividiClip();}});
-                          };
+                divContenitore = CreaElemento('div', 'DividiClip_ContenitoreCreaNuovaClip', divContenuto.id);
+                const pulCreaNuovaClip = CreaElemento('span', 'DividiClip_CreaNuovaClip', divContenitore.id, "<img style='" + styleImmagini + "' src='images/Esempio_taglio_nuova_clip.png' />&nbsp;" + strTagliaECreaNuovaClip); pulCreaNuovaClip.className = classePulsanti; pulCreaNuovaClip.iStyle({width: "100%", fontSize: "14pt", lineHeight: 1.8});
+                      pulCreaNuovaClip.onclick = (e) => {
+                          VisualizzaAttenderePrego(e.currentTarget);
+                          DividiClip(ELT.dataset.RiferimentoRegistrazione, secondiInizioTaglio, secondiInizioTaglio, "", (ClipNuova) => {if (ClipNuova) {DividiClip(ClipNuova.numero, secondiFineTaglio, secondiFineTaglio, strClipSeparata);} else {TerminaDividiClip();}});
+                      };
             }
 
         /* Annulla */
@@ -2450,10 +2487,10 @@ function DividiClip(Numero, secondiInizioTaglio, secondiFineTaglio, MessaggioAlT
      AJAX("DividiClip.php", "N=" + DatiAudioRegistrato[Numero].NumeroUnivoco + "&InizioTaglio=" + encodeURIComponent(secondiInizioTaglio) + "&FineTaglio=" + encodeURIComponent(secondiFineTaglio),
         function (Dati) {
             AggiornaClip(() => {
+                const ClipDivisa = DatiAudioRegistrato[Numero];
                 var ClipNuova = false;
                 if (!Dati.SecondaClipNonCreata) {
                     ClipNuova = TrovaClip(Dati.N);
-                    const ClipDivisa = DatiAudioRegistrato[Numero];
                     
                     /** Assegna alla nuova clip lo stesso buffer della clip divisa, se siamo in riproduzione aggiorna la riproduzione della clip originale e riproduce la nuova **/
                     if (ClipDivisa.buffer) {
@@ -2463,6 +2500,7 @@ function DividiClip(Numero, secondiInizioTaglio, secondiFineTaglio, MessaggioAlT
                 }
 
                 AggiornaRiproduzioneClip(Numero);
+                AggiornaAudioDaAscoltare(ClipDivisa);
 
                 FunzioneAlTermine(ClipNuova);
             });
@@ -2479,6 +2517,7 @@ function TerminaDividiClip() {
     AnteprimaSelezioneClip.Elimina();
     EliminaElemento(document.getElementById('OpzioniDividiClip'));
     RiabilitaSchermata();
+    CambiaTool(toolStandard); // Onde evitare tagli involontari, torna sempre al tool standard.
 }
 
 function TrovaClip(NumeroUnivoco) {
@@ -2538,8 +2577,6 @@ function EscludiRipristinaTraccia(IDUtente, EscludiRipristina = "") {
 
         CambiaIconaVolume(false);
     }
-
-    
 }
 
 function EscludiRipristinaClip(Numero) {
@@ -2650,9 +2687,10 @@ function VisualizzaClipRimosse(datiAudio) {
 
 
 function SalvaModificheClipAudio(Numero, FunzioneAlTermine = () => {}) {
-    const datiAudio = DatiAudioRegistrato[Numero], AutoreCommentoClip = (SonoCreatoreProgetto? "CreatoreProgetto" : "Doppiatore");
+    const datiAudio = DatiAudioRegistrato[Numero], AutoreCommentoClip = (SonoCreatoreProgetto? "CreatoreProgetto" : "Doppiatore"), ModificatoDaAscoltare = (document.getElementById(ID_Opzioni + 'labelPulDaAscoltare')?.dataset?.cliccato == "si");
 	var Parametri = "N=" + encodeURIComponent(datiAudio.NumeroUnivoco) + "&MinutaggioRegistrazione=" + encodeURIComponent(datiAudio.MinutaggioRegistrazione) + "&Guadagno=" + encodeURIComponent(GuadagnoPrincipale[Numero].gain.value) + "&TaglioIniziale=" + encodeURIComponent(datiAudio.taglioIniziale) + "&TaglioFinale=" + encodeURIComponent(datiAudio.taglioFinale) + "&Effetti=" + encodeURIComponent(datiAudio.effetti) + "&IntensitaEffetti=" + encodeURIComponent(datiAudio.intensitaeffetti) + "&Rimosso=" + encodeURIComponent((datiAudio.Rimosso ? "si" : "no"));
     if (datiAudio['commenti' + AutoreCommentoClip + '_prec'] != datiAudio['commenti' + AutoreCommentoClip]) {Parametri += "&Commenti" + AutoreCommentoClip + "=" + encodeURIComponent(datiAudio['commenti' + AutoreCommentoClip]); datiAudio['commenti' + AutoreCommentoClip + '_prec'] = datiAudio['commenti' + AutoreCommentoClip];}
+    if (ModificatoDaAscoltare) {Parametri += "&Visualizzato=" + (datiAudio.daAscoltare ? "0" : "1");}
     
 	AJAX("AggiornaRegistrazione.php", Parametri, FunzioneAlTermine, strAggiornamento, strSalvataggioCompletato, true);
 }
@@ -2665,59 +2703,78 @@ function CaricamentoInizialeRegistrazioniAudio() {
 function CreazioneClipPrimoCaricamento(DatiClipAudio) {
     const totClipAudio = DatiClipAudio.length, PresenteColonnaInternazionale = DatiCI.find(el => el.CI), CondizionePulsanteSwitchColonnaInternazionale = (!Provino && !ModalitaStreaming && (PresenteColonnaInternazionale || SonoCreatoreProgetto));
 
-    NumeroTotaleAudioCaricamentoIniziale = +totClipAudio + (PresenteColonnaInternazionale? +DatiCI.filter(el => el.CI).reduce((a, b) => {return (+a) + (+b.CI.length);}, 0) : 0);
-
     CaricaColonnaInternazionale({volume: 1});
     ColonnaInternazionaleAttivata = (ModalitaStreaming || CondizionePulsanteSwitchColonnaInternazionale);
 
-    if (CondizionePulsanteSwitchColonnaInternazionale) {SwitchColonnaInternazionale(); setTimeout(() => {pulSwitchColonnaInternazionale.style.display = "";}, 500); if (pulEscludiTracciaCI = document.getElementById('EscludiRipristinaTraccia' + (NumeroTotaleTracce - 1).toString())) {pulEscludiTracciaCI.onclick = pulSwitchColonnaInternazionale.onclick;}}
+    if (CondizionePulsanteSwitchColonnaInternazionale) {SwitchColonnaInternazionale(); setTimeout(() => {pulSwitchColonnaInternazionale.style.display = "";}, 500); if (SonoCreatoreProgetto && (pulEscludiTracciaCI = document.getElementById('EscludiRipristinaTraccia' + (NumeroTotaleTracce - 1).toString()))) {pulEscludiTracciaCI.onclick = pulSwitchColonnaInternazionale.onclick;}}
 
     for (let I = 0; I < totClipAudio; I++) {
         CreaNuovaClipAudio(DatiClipAudio[I]);
     }
 
-    if (NumeroTotaleAudioCaricamentoIniziale == 0) {TermineCaricamentoClip();}
+    TermineCaricamentoClip();
 }
 
 async function TermineCaricamentoClip() {
-    if (!CaricamentoInizialeTerminato) {
-        CaricamentoInizialeTerminato = true;
-        Messaggio(strCaricamentoCompletato + (!ModalitaStreaming ? "<div style='font-size: 12px'; font-style: italic;'>" + (SessioneOspite? (Provino || ProgettoCompletato) ? strModalitaVisualizzazione + "</div>" : strNonHaiNessunRuolo + (!SonoCreatoreProgetto ? "<br />" + strPuoiSoloVisualizzare : "") : "") + "</div>" + (SonoCreatoreProgetto? "<div style='font-size: 13px; font-weight: bold; font-style: italic;'>" + strPoteriCreatoreProgetto + "</div>" : "") : ""), "OK");
-        if (ModalitaStreaming) {
-            const pulPlayIniziale = CreaElemento('div', 'divPulsantonePlayIniziale', divVetro.id, "<span class='fa fa-play-circle'></span> Play"); pulPlayIniziale.className = "btn btn-success"; pulPlayIniziale.iStyle({position: "relative", top: "40%", width: "100%", margin: "0px auto", fontSize: "30px", fontWeight: "bold"});
-            pulPlayIniziale.onclick = () => {if (pulPlay.disabled == false) {CancMex(); AttivaScorciatoieDiTastiera_ModalitaStreaming(); pulPlayIniziale.onclick = ""; divVetro.style.display = "none"; setTimeout(PlayVideoGuida, 100);}};
-            DisattivaMessaggiAttesa();
-            AttivaInterfaccia();
-            document.getElementById('LogoWEDUB').iStyle({top: 0, right: 0, opacity: 0.5, width: larghezzaLogo});
+    Messaggio(strCaricamentoCompletato + (!ModalitaStreaming ? "<div style='font-size: 12px'; font-style: italic;'>" + (SessioneOspite? (Provino || ProgettoCompletato) ? strModalitaVisualizzazione + "</div>" : strNonHaiNessunRuolo + (!SonoCreatoreProgetto ? "<br />" + strPuoiSoloVisualizzare : "") : "") + "</div>" + (SonoCreatoreProgetto? "<div style='font-size: 13px; font-weight: bold; font-style: italic;'>" + strPoteriCreatoreProgetto + "</div>" : "") : ""), "OK");
+    if (ModalitaStreaming) {
+        const pulPlayIniziale = CreaElemento('div', 'divPulsantonePlayIniziale', divVetro.id, "<span class='fa fa-play-circle'></span> Play"); pulPlayIniziale.className = "btn btn-success"; pulPlayIniziale.iStyle({position: "relative", top: "40%", width: "100%", margin: "0px auto", fontSize: "30px", fontWeight: "bold"});
+        pulPlayIniziale.onclick = () => {if (pulPlay.disabled == false) {CancMex(); AttivaScorciatoieDiTastiera_ModalitaStreaming(); pulPlayIniziale.onclick = ""; divVetro.style.display = "none"; setTimeout(PlayVideoGuida, 100);}};
+        DisattivaMessaggiAttesa();
+        AttivaInterfaccia();
+        document.getElementById('LogoWEDUB').iStyle({top: 0, right: 0, opacity: 0.5, width: larghezzaLogo});
 
+    } else {
+        let PosizioneInizialeCursore = InizioVideoGuida;
+
+        function PosizionatiEAttivaInterfaccia() {AttivaInterfaccia(PosizioneInizialeCursore);}
+
+        /*** Posizionati su prima clip da ascoltare ***
+         *   Se presente DoppiatoreConsiderato        */
+        function PosizionatiSuPrimaClipDaAscoltare() {
+            if (DoppiatoreConsiderato) {
+                function TrovaClipEPosizionati() {
+                    if (DatiAudioUtente = DatiAudioRegistrato_Utente[DoppiatoreConsiderato]) {
+                        const PrimaClipDaAscoltare = DatiAudioUtente.find((el) => el.daAscoltare && !el.Rimosso);
+                        if (PrimaClipDaAscoltare) {PosizioneInizialeCursore = PrimaClipDaAscoltare.MinutaggioRegistrazione - 2; slideZoom.value = 1000; CambiaZoom(); window.scroll({top: document.getElementById('Traccia' + DatiDoppiatori[DoppiatoreConsiderato].numeroTraccia).offsetTop - 90});}
+                    }
+                    PosizionatiEAttivaInterfaccia();
+                }
+                
+                if (DatiDoppiatori[DoppiatoreConsiderato].numeroTraccia == RuoliDaAssegnare_NumeroTraccia) {SelezionaCandidatoRuoliDaAssegnare(DoppiatoreConsiderato, TrovaClipEPosizionati);} else {TrovaClipEPosizionati();}
+
+            } else {
+                PosizionatiEAttivaInterfaccia();
+            }
+        }
+        /**********************************************/
+
+        AttivaAggiornamentoClip();
+        EliminaImgAttesa();
+        AttivaScorciatoieDiTastiera();
+        if (RuoliDaAssegnare_NumeroTraccia !== false) { // La traccia "RuoliDaAssegnare" è presente solo se si è il creatore del progetto oppure l'utente visitatore
+            if (SonoCreatoreProgetto) {tmrAggiornaNotificheCandidatiRuoliDaAssegnare = setInterval(VerificaNuoveClipAltriCandidati, 180000); VerificaNuoveClipAltriCandidati(PosizionatiSuPrimaClipDaAscoltare);} else {SolaVisione = true; pulRegistra.disabled = true; SelezionaCandidatoRuoliDaAssegnare(ID_Utente); PosizionatiEAttivaInterfaccia();}
         } else {
-            AttivaInterfaccia();
-            AttivaAggiornamentoClip();
-            EliminaImgAttesa();
-            AttivaScorciatoieDiTastiera();
-            if (RuoliDaAssegnare_NumeroTraccia !== false) { // La traccia "RuoliDaAssegnare" è presente solo se si è il creatore del progetto oppure l'utente visitatore
-                if (SonoCreatoreProgetto) {tmrAggiornaNotificheCandidatiRuoliDaAssegnare = setInterval(VerificaNuoveClipAltriCandidati, 180000); VerificaNuoveClipAltriCandidati();} else {SolaVisione = true; pulRegistra.disabled = true; SelezionaCandidatoRuoliDaAssegnare(ID_Utente);}
-            }
-            divVetro.style.display = "none";
-            setTimeout(VideoGuidaPause, 100);
-            setTimeout(CaricaMarcatori, 1500);
-            setTimeout(CheckUtentiAttivi, 1000);
-            setTimeout(CheckMessaggiVocaliIstantanei, 1000);
-            if (SonoCreatoreProgetto && !Provino) {setTimeout(AggiornaRappresentazioneColonnaInternazionale, 100);}
+            PosizionatiSuPrimaClipDaAscoltare();
+        }
+        divVetro.style.display = "none";
+        setTimeout(CaricaMarcatori, 1500);
+        setTimeout(CheckUtentiAttivi, 1000);
+        setTimeout(CheckMessaggiVocaliIstantanei, 1000);
+        if (SonoCreatoreProgetto && !Provino) {setTimeout(AggiornaRappresentazioneColonnaInternazionale, 100);}
 
-            const totAudio = DatiAudioRegistrato.length;
-            for (let I = 0; I < totAudio; I++) {
-                if (CestinaClipRimosse(DatiAudioRegistrato[I], true)) {await pausa(30);}
-            }
+        const totAudio = DatiAudioRegistrato.length;
+        for (let I = 0; I < totAudio; I++) {
+            if (CestinaClipRimosse(DatiAudioRegistrato[I], true)) {await pausa(30);}
         }
     }
     AzzeraBarraCaricamento(BC, ContornoBC, {loaded: 1, total: 1});
 }
 
-function AttivaInterfaccia() {
+function AttivaInterfaccia(Posizionamento = InizioVideoGuida) {
     FunzioneNormaleAlTimeUpdate = (ModalitaStreaming? AggiornaTimeline_Streaming : AggiornaTimeline);
     StartAudioContext(audioContext);
-    Posizionati(InizioVideoGuida, true); // Riabilita la schermata non appena si posiziona.
+    Posizionati(Posizionamento, true); // Riabilita la schermata non appena si posiziona.
 }
 
 function AttivaScorciatoieDiTastiera() {
@@ -2756,48 +2813,48 @@ function AttivaPulsantiMultimediali() {
 function AggiornaClip(FunzioneAlTermine = () => {}, FunzioneNuovaClip = RiposizionamentoAutomaticoELTRiferitoAllaRegistrazione) {
 	AJAX("CaricaRegistrazione.php", "NumProgetto=" + encodeURIComponent(N) + "&NumProvino=" + encodeURIComponent(P) + "&SoloMieRegistrazioni=" + (ModalitaLightAttiva? "1" : "0") + "&IDCandidatoRuoliDaAssegnare=" + encodeURIComponent(RuoliDaAssegnare_CandidatoSelezionato),
 		function (Dati) {
-            if (document.getElementById(ID_Opzioni)) {return;}
-            
             const totDati = Dati.length, totAudio = DatiAudioRegistrato.length;
-            var I, NumAudio, datiAudio, AudioRimosso, AudioDaRipristinare = [], NuoviAudio = false;
+            var I, NumAudio, AudioDaRipristinare = [], NuoviAudio = false;
             
 			for (I = 0; I < totDati; I++) {
+                const DatiAggiornati = Dati[I];
                 /* Trova il numero identificativo della clip, se non la trova si tratta di una nuova clip */
-				for (NumAudio = 0; (NumAudio < totAudio) && (DatiAudioRegistrato[NumAudio].NumeroUnivoco != Dati[I].N); NumAudio++);
+				for (NumAudio = 0; (NumAudio < totAudio) && (DatiAudioRegistrato[NumAudio].NumeroUnivoco != DatiAggiornati.N); NumAudio++);
 
 				if (NumAudio >= totAudio) {
                     /** Nuova clip audio **/
-                    CreaNuovaClipAudio(Dati[I], FunzioneNuovaClip);
+                    CreaNuovaClipAudio(DatiAggiornati, FunzioneNuovaClip);
                     NuoviAudio = true;
                     
 				} else {
                     /** Aggiorna i valori della clip già presente **/
-                    datiAudio = DatiAudioRegistrato[NumAudio];
-                    if ((datiAudio.CreazioneInCorso) || (Dati[I].DurataRegistrazione == 0) || (ModalitaStreaming)) {continue;}
+                    if (document.getElementById(ID_Opzioni) || (DatiAggiornati.DurataRegistrazione == 0) || (ModalitaStreaming)) {continue;}
+                    const datiAudio = DatiAudioRegistrato[NumAudio];
+                    if (datiAudio.CreazioneInCorso) {continue;}
                     
                     /* Posizione nella linea temporale */
-                    if (datiAudio.MinutaggioRegistrazione != Dati[I].MinutaggioRegistrazione) { SpostaMinutaggioRegistrazione(NumAudio, Number(Dati[I].MinutaggioRegistrazione)); }
+                    if (datiAudio.MinutaggioRegistrazione != DatiAggiornati.MinutaggioRegistrazione) { SpostaMinutaggioRegistrazione(NumAudio, Number(DatiAggiornati.MinutaggioRegistrazione)); }
                     
                     /* Guadagno */
-                    CambiaVolumeClip(NumAudio, Dati[I].Guadagno);
+                    CambiaVolumeClip(NumAudio, DatiAggiornati.Guadagno);
                     
                     /* Taglio iniziale e finale */
-                    datiAudio.taglioIniziale = Dati[I].TaglioIniziale; datiAudio.taglioFinale = Dati[I].TaglioFinale; VisualizzazioneGraficaTaglioClip(NumAudio);
+                    datiAudio.taglioIniziale = DatiAggiornati.TaglioIniziale; datiAudio.taglioFinale = DatiAggiornati.TaglioFinale; VisualizzazioneGraficaTaglioClip(NumAudio);
                    
                     /* Effetti */
-                    datiAudio.effetti = Dati[I].Effetti; datiAudio.intensitaeffetti = Dati[I].IntensitaEffetti; VisualizzaEffettiAudio(NumAudio); // Gli effetti audio verranno applicati solo alla creazione del buffer (v. CreaClipAudio)
+                    datiAudio.effetti = DatiAggiornati.Effetti; datiAudio.intensitaeffetti = DatiAggiornati.IntensitaEffetti; VisualizzaEffettiAudio(NumAudio); if (datiAudio.audio) {AttivaEffettiAudio(NumAudio);}
 
                     /* Commenti */
                     if ((datiAudio.ID_Utente == ID_Utente) || (SonoCreatoreProgetto)) {
-                        datiAudio.commentiVisualizzatiDoppiatore = Dati[I].CommentiVisualizzatiDoppiatore; datiAudio.commentiVisualizzatiCreatoreProgetto = Dati[I].CommentiVisualizzatiCreatoreProgetto;
-                        datiAudio.commentiDoppiatore = Dati[I].CommentiDoppiatore; datiAudio.commentiCreatoreProgetto = Dati[I].CommentiCreatoreProgetto;
+                        datiAudio.commentiVisualizzatiDoppiatore = DatiAggiornati.CommentiVisualizzatiDoppiatore; datiAudio.commentiVisualizzatiCreatoreProgetto = DatiAggiornati.CommentiVisualizzatiCreatoreProgetto;
+                        datiAudio.commentiDoppiatore = DatiAggiornati.CommentiDoppiatore; datiAudio.commentiCreatoreProgetto = DatiAggiornati.CommentiCreatoreProgetto;
                         datiAudio.commentiDoppiatore_prec = datiAudio.commentiDoppiatore; datiAudio.commentiCreatoreProgetto_prec = datiAudio.commentiCreatoreProgetto;
                         
                         VisualizzaCommentiELT(NumAudio);
                     }
                     
                     /* Mantenuto/Rimosso */
-                    AudioRimosso = (Dati[I].Rimosso == "si");
+                    const AudioRimosso = (DatiAggiornati.Rimosso == "si");
 					if (datiAudio.Rimosso != AudioRimosso) {
                         datiAudio.Rimosso = AudioRimosso; VisualizzaELTNormale(NumAudio);
                         if (AudioRimosso) {
@@ -2806,6 +2863,9 @@ function AggiornaClip(FunzioneAlTermine = () => {}, FunzioneNuovaClip = Riposizi
                             AudioDaRipristinare.push(datiAudio);
                         }
                     }
+
+                    /* Ascoltato */
+                    if (SonoCreatoreProgetto && (datiAudio.daAscoltare != !(+DatiAggiornati.Visualizzato))) {datiAudio.daAscoltare = !(+DatiAggiornati.Visualizzato); VisualizzaModificaAudioAscoltato(datiAudio);}
 				}
             }
             
@@ -2875,6 +2935,8 @@ function CheckUtentiAttivi() {
 
                     didascaliaMessaggioVocale.innerHTML = StringaDidascaliaMessaggioVocale;
                     pulMessaggioVocale.children[1].innerHTML = StringaPulMessaggioVocale;
+
+                    AutoAdattaElementiInterfaccia(); // Il banner che avvisa dell'utente online può apparire sopra i comandi del player
                 }
 
             } else {
@@ -2920,24 +2982,6 @@ function CambiaVolumeCI() {
     });
 
     if (VolumeVideoOriginale = PosizioneAttualeDatiCI().VolumeVideoGuida) {ImpostaVolumeAudioOriginale(VolumeVideoOriginale);}
-}
-
-function SwitchCopioneEditabile(e) {
-    e.stopPropagation();
-    const pulSwitchCopioneEditabile = document.getElementById('pulSwitchCopioneEditabile'), classe_pulsante = ["default", "warning"];
-    FunzioniCopione.CopioneEditabile = 1 * (FunzioniCopione.CopioneEditabile == 0);
-    pulSwitchCopioneEditabile.className = pulSwitchCopioneEditabile.className.replace(classe_pulsante[1 - FunzioniCopione.CopioneEditabile], classe_pulsante[FunzioniCopione.CopioneEditabile]);
-    const s = TestoGuida.querySelectorAll("[name='ContenutoEditabile']"), tots = s.length;
-    if (FunzioniCopione.CopioneEditabile) {
-        Messaggio(str_copione_ModalitaEditAttivata_spiegazione + str_copione_ModalitaEditAttivata_modifiche[1 * SonoCreatoreProgetto]);
-        for (let I = 0; I < tots; I++) {
-            s[I].setAttribute('contenteditable', true);
-        }
-    } else {
-        for (let I = 0; I < tots; I++) {
-            s[I].removeAttribute('contenteditable');
-        }
-    }
 }
 
 function appendBuffer(vBuffer, partenzaprimobuffer = 0) {
@@ -3024,7 +3068,7 @@ function GeneraDatiAudio(Dati, Numero, FunzioneAlTermine1, FunzioneAlTermine2) {
         guadagnoiniziale: Dati.Guadagno,
         effetti: Dati.Effetti || "", intensitaeffetti: Dati.IntensitaEffetti || 0.5,
         alPlay: [], tmrEventoAlPlay: [],
-        daVisualizzare: ((Dati.Visualizzato == 0) && (SonoCreatoreProgetto)),
+        daAscoltare: ((Dati.Visualizzato == 0) && (SonoCreatoreProgetto)),
         infoAggiuntive: Dati.InfoAggiuntive || "",
         commentiDoppiatore: Dati.CommentiDoppiatore || "", commentiDoppiatore_prec: Dati.CommentiDoppiatore || "", commentiCreatoreProgetto: Dati.CommentiCreatoreProgetto || "", commentiCreatoreProgetto_prec: Dati.CommentiCreatoreProgetto || "", commentiVisualizzatiDoppiatore: Dati.CommentiVisualizzatiDoppiatore, commentiVisualizzatiCreatoreProgetto: Dati.CommentiVisualizzatiCreatoreProgetto
     };
@@ -3076,9 +3120,6 @@ function VisualizzaClipCaricata(Numero, Funzione, SecondaFunzione) {
     /** Lancia la seconda funzione **/
     if (SecondaFunzione) {SecondaFunzione(datiAudio);}
 
-    /** Se siamo nel caricamento iniziale, aggiorna l'andamento **/
-    if (!CaricamentoInizialeTerminato) {AggiornaCaricamentoClip();}
-
     /** Se il buffer è stato già precaricato, visualizza l'ELT di conseguenza **/
     if (datiAudio.buffer) {VisualizzaELTBufferCaricato(Numero);}
 
@@ -3093,12 +3134,6 @@ function AJAXSalvaDurataClipAudio(datiAudio) {
 
 function CreaDatiGuadagnoPrincipale(Numero, Guadagno) {
     GuadagnoPrincipale[Numero] = {gain: {value: Guadagno}, disconnect: function () {}};
-}
-
-function AggiornaCaricamentoClip(VisualizzaBarraCaricamento = false) {
-    totClipAudioCaricate++;
-    if (VisualizzaBarraCaricamento) {ComparsaBarraCaricamento(); VisualizzaProgressoBarraCaricamento(BC, totClipAudioCaricate / NumeroTotaleAudioCaricamentoIniziale);}
-    if (totClipAudioCaricate >= NumeroTotaleAudioCaricamentoIniziale) {TermineCaricamentoClip();}
 }
 
 function CreaClipAudio(Numero) {
@@ -3213,14 +3248,14 @@ function VisualizzazioneNellaLineaTemporale(datiAudio) {
     try {
         const NumeroTraccia = Number(DatiDoppiatori[datiAudio.ID_Utente].numeroTraccia), NomeDoppiatore = DatiDoppiatori[datiAudio.ID_Utente].nome;
         const Didascalia = ((ID_Utente == datiAudio.ID_Utente) ? strTuaRegistrazione + " " : strClipDi + NomeDoppiatore + " ") + datiAudio.Data;
-        CreaElementoLineaTemporale('ELTReg' + datiAudio.numero, 'Traccia' + NumeroTraccia, datiAudio.MinutaggioRegistrazione, datiAudio.Durata, Didascalia, datiAudio.numero, "0%", "100%", datiAudio.imgOndaSonora, datiAudio.daVisualizzare).style.display = "inline";
+        CreaElementoLineaTemporale('ELTReg' + datiAudio.numero, 'Traccia' + NumeroTraccia, datiAudio.MinutaggioRegistrazione, datiAudio.Durata, Didascalia, datiAudio.numero, "0%", "100%", datiAudio.imgOndaSonora).style.display = "inline";
     } catch (err) {
         CreaElementoLineaTemporale('ELTReg' + datiAudio.numero, 'ContenutoTracce', datiAudio.MinutaggioRegistrazione, datiAudio.Durata, "", datiAudio.numero, "-100px", "0px", "", false); // Se il doppiatore è stato aggiunto dopo il caricamento della pagina e quindi non trova la traccia corrispondente, crea l'ELT nascosto in maniera tale da creare comunque l'elemento (ed evitare che si generino errori di elemento non trovato)
     }
 }
 
-function CreaElementoLineaTemporale(ID, DoveInserirlo, PartenzaRegistrazione, LunghezzaRegistrazione, Stringa, RiferimentoRegistrazione, Posizione, Altezza, imgOndaSonora, DaVisualizzare) {
-	const ELT = CreaElemento('div', ID, DoveInserirlo);
+function CreaElementoLineaTemporale(ID, DoveInserirlo, PartenzaRegistrazione, LunghezzaRegistrazione, Stringa, RiferimentoRegistrazione, Posizione, Altezza, imgOndaSonora) {
+	const ELT = CreaElemento('div', ID, DoveInserirlo), datiAudio = DatiAudioRegistrato[RiferimentoRegistrazione];
     ELT.title = Stringa; ELT.className = "ELT transizione-morbida-si"; ELT.setAttribute("name", "ELT"); ELT.iStyle({display: "none", opacity: 0.8, transform: "scaleY(0.9)", position: 'absolute', top: Posizione, height: Altezza});
     ELT.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione;
     InserimentoInProporzioneNellaLineaTemporale(ELT, PartenzaRegistrazione, LunghezzaRegistrazione);
@@ -3233,7 +3268,7 @@ function CreaElementoLineaTemporale(ID, DoveInserirlo, PartenzaRegistrazione, Lu
 
             const SimboloEffettoELT = CreaElemento('div', ID + 'SimboloEffetto', ContenutoELT.id); SimboloEffettoELT.className = "SimboloEffettoELT";
 	
-	if ( ( (DatiAudioRegistrato[RiferimentoRegistrazione].ID_Utente == ID_Utente) && (SolaVisione == false) ) || (SonoCreatoreProgetto) ) {
+	if ( ( (datiAudio.ID_Utente == ID_Utente) && (SolaVisione == false) ) || (SonoCreatoreProgetto) ) {
         ELT.style.cursor = puntatoreTool[StrumentoMouse];
         ELT.dataset.modificabile = "si";
                  
@@ -3260,8 +3295,7 @@ function CreaElementoLineaTemporale(ID, DoveInserirlo, PartenzaRegistrazione, Lu
             if (!ELTDaSpostare) {e.currentTarget.style.zIndex = 0;}
         });
 
-        /*** Memorizza la clip come "Visualizzata" se riprodotta **/
-        if (DaVisualizzare) {ContenutoELT.style.border = "3px dashed darkgreen"; DatiAudioRegistrato[RiferimentoRegistrazione].alPlay = [{FunzioneAlPlay: AJAXSalvaAudioAscoltato, latenzaEventoAlPlay: {secondi: 2, riduciSeClipNelMinutaggio: false}}]};
+        if (SonoCreatoreProgetto) {ContrassegnaClipDaAscoltare(datiAudio);}
         
         /*** Visualizzazione eventuali commenti ***/
         setTimeout(() => {VisualizzaCommentiELT(RiferimentoRegistrazione);}, 1000);
@@ -3273,6 +3307,37 @@ function CreaElementoLineaTemporale(ID, DoveInserirlo, PartenzaRegistrazione, Lu
 
     return ELT;
 }
+
+/*** Gestione dell'audio da ascoltare ***/
+function ContrassegnaClipDaAscoltare(datiAudio) {
+    if (datiAudio.daAscoltare) {
+        document.getElementById('ELTReg' + datiAudio.numero + 'Contenuto').style.border = StileBordoClipDaAscoltare;
+        const Guadagno = GuadagnoPrincipale[datiAudio.numero].gain.value;
+        if (datiAudio.buffer && Guadagno) {
+            const SampleRate = audioContext.sampleRate, s = datiAudio.buffer.getChannelData(0).slice(datiAudio.taglioIniziale * SampleRate, datiAudio.taglioFinale * SampleRate), SogliaUltimaBattuta = TrattamentoClip.AutoTaglioIniziale.SogliaDB / ((Guadagno * (Guadagno > 1)) || 1); // La soglia si adatta al guadagno della clip: più è elevato più la soglia è sensibile. Se il guadagno è inferiore a 1 la soglia si mantiene standard.
+            const secondifineultimabattuta = s.findLastIndex(v => v > SogliaUltimaBattuta) / SampleRate;
+            datiAudio.alPlay = [{FunzioneAlPlay: AJAXSalvaAudioAscoltato, latenzaEventoAlPlay: {secondi: secondifineultimabattuta, riduciSeClipNelMinutaggio: true}}];
+        }
+    }
+}
+
+function AJAXSalvaAudioAscoltato(datiAudio) {
+    AJAX('SalvaRegistrazioneAscoltata.php', "N=" + datiAudio.NumeroUnivoco, "", "", "", true);
+    datiAudio.daAscoltare = false;
+    VisualizzaModificaAudioAscoltato(datiAudio);
+    document.getElementById('ELTReg' + datiAudio.numero + 'Contenuto').style.border = StileBordoClipAscoltata;
+}
+
+function VisualizzaModificaAudioAscoltato(datiAudio) {
+    document.getElementById('ELTReg' + datiAudio.numero + 'Contenuto').style.border = "";
+    datiAudio.alPlay = [];
+    ContrassegnaClipDaAscoltare(datiAudio);
+}
+
+function AggiornaAudioDaAscoltare(datiAudio) {
+    if (datiAudio.daAscoltare) {VisualizzaModificaAudioAscoltato(datiAudio);}
+}
+/***************************************/
 
 function VisualizzaELTNormale(Numero) {
     VisualizzaClipAudio(Numero, (DatiAudioRegistrato[Numero].Rimosso == false));
@@ -3295,6 +3360,8 @@ function GestioneEventoELTCliccato(e) {
 }
 
 function SelezionaESpostaELT(NumeroAudio, X = 0) {
+    if ((OpzClip = document.getElementById(ID_Opzioni)) && (OpzClip.dataset.nonmodificareselezionemultipla)) {return;}
+
     const ELT = document.getElementById('ELTReg' + NumeroAudio);
     ELTCliccato = ELT;
     const ELTSelezionatoInPrecedenza = ELTDaModificare.includes(ELTCliccato);
@@ -3313,15 +3380,6 @@ function SelezionaESpostaELT(NumeroAudio, X = 0) {
 
     const SingoloELTDaModificare = (ELTDaModificare.length == 1);
 
-    /* Modifiche in caso di selezione multipla delle clip */
-    document.getElementById(ID_Opzioni + 'Cancella').style.display = document.getElementById(ID_Opzioni + 'Duplica').style.display = document.getElementById(ID_Opzioni + 'tdOpzionePosizioneMinutiSecondi').style.display = document.getElementById(ID_Opzioni + 'TabellaOpzioniRigaTaglioIniziale').style.display = document.getElementById(ID_Opzioni + 'TabellaOpzioniRigaTaglioFinale').style.display = document.getElementById(ID_Opzioni + 'TabellaOpzioniRigaVarie').style.display = document.getElementById(ID_Opzioni + 'textareaCommenti').style.display = (SingoloELTDaModificare ? "" : "none");
-    document.getElementById(ID_Opzioni + 'tdOpzionePosizioneLabel').textContent = (SingoloELTDaModificare ? strPosizione : "");
-    [document.getElementById(ID_Opzioni + 'TabellaOpzioniRigaVolume'), document.getElementById(ID_Opzioni + 'tdOpzioneEffetti')].forEach((opzionemodificamultipla) => {
-        opzionemodificamultipla.style.opacity = 1 - (0.5 * !SingoloELTDaModificare);
-        opzionemodificamultipla.onclick = opzionemodificamultipla.ontouchstart = (e) => {e.currentTarget.style.opacity = 1;};
-    });
-    VisualizzazioneGraficaTaglioClip.OndaSonoraCompleta = SingoloELTDaModificare;
-
     if (SingoloELTDaModificare) {
         /* Se l'unica clip rimasta selezionata è diversa dalla prima, resetta la finestra delle opzioni per settarla sull'unica clip selezionata */
         const OpzClip = document.getElementById(ID_Opzioni);
@@ -3336,7 +3394,7 @@ function SelezionaESpostaELT(NumeroAudio, X = 0) {
             tmrELTCliccato = setTimeout(() => {
                 ELTDaSpostare.className = "ELT transizione-morbida-no"; VisualizzazioneGraficaTaglioClip(NumeroAudio, false);
                 Righello.addEventListener('mousemove', SpostaELT); Righello.addEventListener('touchmove', SpostaELT);
-            }, 200);
+            }, 300);
             document.getElementById(ELTDaSpostare.id + 'StratoColore').ontouchstart = GestioneEventoELTCliccato;
         }
 
@@ -3345,6 +3403,16 @@ function SelezionaESpostaELT(NumeroAudio, X = 0) {
         document.getElementById(ELTDaSpostare.id + 'StratoColore').ontouchstart = "";           // Impedisce di muovere la prima clip
         VisualizzazioneGraficaTaglioClip(ELTDaModificare[0].dataset.RiferimentoRegistrazione);  // Visualizza solo la parte arancione della clip selezionata
     }
+
+    /* Adattamento interfaccia in base al numero delle clip selezionate */
+    document.getElementById(ID_Opzioni + 'Cancella').style.display = document.getElementById(ID_Opzioni + 'Duplica').style.display = document.getElementById(ID_Opzioni + 'TabellaMinutaggio').style.display = document.getElementById(ID_Opzioni + 'TabellaOpzioniRigaTaglioIniziale').style.display = document.getElementById(ID_Opzioni + 'TabellaOpzioniRigaTaglioFinale').style.display = document.getElementById(ID_Opzioni + 'divOpzioniRigaVarie').style.display = document.getElementById(ID_Opzioni + 'textareaCommenti').style.display = (SingoloELTDaModificare ? "" : "none");
+    [document.getElementById(ID_Opzioni + 'labelPulDaAscoltare'), document.getElementById(ID_Opzioni + 'TabellaOpzioniRigaVolume'), document.getElementById(ID_Opzioni + 'divOpzioneEffetti')].forEach((opzionemodificamultipla) => {
+        if (opzionemodificamultipla) {
+            opzionemodificamultipla.style.opacity = 1 - (0.5 * (!SingoloELTDaModificare || (opzionemodificamultipla.dataset?.cliccato == "no")));
+            opzionemodificamultipla.onclick = opzionemodificamultipla.ontouchstart = (e) => {e.currentTarget.style.opacity = 1;};
+        }
+    });
+    VisualizzazioneGraficaTaglioClip.OndaSonoraCompleta = SingoloELTDaModificare;
 }
 
 function DividiClipELT(NumeroAudio, X) {
@@ -3423,14 +3491,6 @@ function SelezionaTutteLeClipDiUnUtente(e) {
         });
         CambiaTool(toolStandard);
     }
-}
-
-function AJAXSalvaAudioAscoltato(datiAudio) {
-    AJAX('SalvaRegistrazioneAscoltata.php', "N=" + datiAudio.NumeroUnivoco, "", "", "", true);
-
-    document.getElementById('ELTReg' + datiAudio.numero).children[0].style.borderColor = "dodgerblue";
-
-    datiAudio.alPlay = [];
 }
 
 function RiposizionamentoAutomaticoClipSovrapposte(ELTConsiderato) {
@@ -3584,13 +3644,11 @@ function SpostaInBassoTracceSuccessive() {
 }
 
 function AdattaAltezzaContenitoreTracce() {
-    const ContenutoTracce = document.getElementById('ContenutoTracce');
-    if (UnitaDiMisura == "%") {
-        ContenitoreRighello.style.height = "100%";
-    } else {
+    ContenitoreRighello.style.height = "100%";
+    if (UnitaDiMisura != "%") {
         const UltimaTraccia = document.getElementById('Traccia' + (NumeroTotaleTracce - 1));
-        ContenutoTracce.style.height = ((+UltimaTraccia.offsetTop) + (+UltimaTraccia.offsetHeight) + 800) + "px";
-        ContenitoreLineaTemporale.style.height = ContenutoTracce.style.height;
+        divContenutoTracce.style.height = ((+UltimaTraccia.offsetTop) + (+UltimaTraccia.offsetHeight) + 800) + "px";
+        ContenitoreLineaTemporale.style.height = divContenutoTracce.style.height;
     }
 }
 
@@ -3606,7 +3664,7 @@ function AdattaAltezzaTraccia(Numero) {
 
 function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
     const datiAudio = DatiAudioRegistrato[RiferimentoRegistrazione], PartenzaRegistrazione = datiAudio.MinutaggioRegistrazione, LunghezzaRegistrazione = datiAudio.Durata, AudioAttivo = !datiAudio.Rimosso;
-    var NuovoAudioTrattato = false;
+    var NuovoAudioTrattato = false, NuoveClipCreate = [], Tabella, tr, td;
 
     /** Memorizza il valore attuale di tutte le opzioni per poterle ripristinare in caso di annullamento **/
     const Max = Number(totDurataVideoGuida) - Number(LunghezzaRegistrazione), MinutaggioAttuale = new MinutiESecondi(PartenzaRegistrazione), MinutaggioMassimo = new MinutiESecondi(Max);
@@ -3617,13 +3675,84 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
     var bufferoriginale = false;
     /******************************************************************************************************/
 
+    /** Funzioni per la creazione degli strumenti dell'interfaccia utente **/
+    const id_slideEffetto = ID_Opzioni + "slideEffetto";
+
+    function CreaSlide(IDRiferimento, Stringa, minSlide, maxSlide, stepSlide, minCasella, maxCasella, stepCasella, labelCasella, FunzioneInputSlide, FunzioneChangeCasella, valoreIniziale, FunzioneOnChange2 = () => {}) {
+        tr = CreaElemento('tr', ID_Opzioni + 'TabellaOpzioniRiga' + IDRiferimento, Tabella.id);
+            td = CreaElemento('td', tr.id + 'tdOpzioneLabel', tr.id, Stringa); td.iStyle({fontFamily: 'Verdana', fontSize: '12px'});
+            td = CreaElemento('td', tr.id + 'tdOpzioneSlide', tr.id);
+                var slide = CreaElemento('input', tr.id + 'Slide', td.id);
+                    slide.setAttribute("type", "range"); slide.setAttribute("min", minSlide); slide.setAttribute("max", maxSlide); slide.setAttribute("step", stepSlide);
+                    slide.value = valoreIniziale;
+                    slide.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione;
+                    slide.addEventListener('input', FunzioneInputSlide);
+                    slide.addEventListener('input', FunzioneOnChange2);
+            td = CreaElemento('td', tr.id + 'tdOpzioneValore', tr.id); td.style.textAlign = "left";
+                var c = CreaElemento('input', tr.id + 'Casella', td.id); c.style.width = "80px";
+                    c.setAttribute("type", "number"); c.setAttribute("min", minCasella); c.setAttribute("max", maxCasella); c.setAttribute("step", stepCasella);
+                    c.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione;
+                    FunzioniCasellaNumerica(c);
+                    c.addEventListener('change', FunzioneChangeCasella);
+                    c.addEventListener('change', FunzioneOnChange2);
+                CreaElemento('span', tr.id + 'Casellalabel', td.id, " " + labelCasella);
+
+                setTimeout(() => {
+                    if (ELTDaModificare.length == 1) {FunzioneInputSlide({currentTarget: slide});} // Simula inserimento manuale visualizzando correttamente l'interfaccia utente (solo se singola clip)
+                }, 200);
+    }
+
+    function CreaPulsanteEffetto(Effetto, IDContenitore, labelPulsante) {
+        const pulEffetto = CreaElemento('a', ID_Opzioni + "pulEffetto" + Effetto, IDContenitore, "<span class='fa " + simboloEffetto[Effetto] + "'></span> " + labelPulsante); pulEffetto.className = "btn btn-default";
+              pulEffetto.setAttribute('name', 'pulEffetto');
+              pulEffetto.dataset.effetto = Effetto;
+              if (datiAudio.effetti == Effetto) {PulsanteEffettoAttivo(pulEffetto);}
+              pulEffetto.addEventListener('click', AttivaDisattivaEffetto);
+    }
+
+    function AttivaDisattivaEffetto(e) {
+        if (e.target.tagName == "INPUT") {return;} // Non disattiva l'effetto se l'utente ha cliccato sullo slide
+
+        const pulEffetto = e.currentTarget, Effetto = pulEffetto.dataset.effetto, Numero = ELTDaModificare[0].dataset.RiferimentoRegistrazione, datiAudio = DatiAudioRegistrato[Numero];
+        const pulsantiEffetti = document.getElementsByName('pulEffetto'), totPulsantiEffetti = pulsantiEffetti.length, classe_default = "btn btn-default";
+    
+        /* Resetta graficamente gli effetti */
+        for (var I = 0; (I < totPulsantiEffetti) && (pulsantiEffetti[I].className = classe_default); I++);
+        EliminaElemento(document.getElementById(id_slideEffetto));
+    
+        /* Attiva l'eventuale nuovo effetto, se l'effetto era già stato selezionato lo disattiva */
+        var EffettoDaInserire = "";
+        if (datiAudio.effetti != Effetto) {
+            EffettoDaInserire = Effetto;
+            PulsanteEffettoAttivo(pulEffetto, true);
+        }
+    
+        ELTDaModificare.forEach((clipELT) => {
+            const Numero = clipELT.dataset.RiferimentoRegistrazione, da = DatiAudioRegistrato[Numero];
+            da.effetti = EffettoDaInserire;
+            if (da.audio) {AttivaEffettiAudio(Numero);} else {VisualizzaEffettiAudio(Numero);}
+        });
+    }
+
+    function PulsanteEffettoAttivo(pulEffetto, NuovoEffetto = false) {
+        const Effetto = pulEffetto.dataset.effetto, IntensitaEffettoIniziale = (NuovoEffetto? 0.5 : datiAudio.intensitaeffetti);
+        pulEffetto.className = "btn btn-warning";
+        const slideEffetto = CreaElemento('input', id_slideEffetto, pulEffetto.id); slideEffetto.setAttribute("type", "range"); slideEffetto.setAttribute("min", 0.1); slideEffetto.setAttribute("max", 2); slideEffetto.setAttribute("step", 0.1);
+              slideEffetto.value = IntensitaEffettoIniziale;
+              slideEffetto.onmousedown  = (e) => {ELTDaModificare.forEach((clipELT) => {const Numero = clipELT.dataset.RiferimentoRegistrazione, da = DatiAudioRegistrato[Numero], da_effprec = da.effetti; da.effetti = Effetto; if ((da.audio) && (da_effprec != Effetto)) {AttivaEffettiAudio(Numero);} else {VisualizzaEffettiAudio(Numero);}})}; // Ribadisce l'effetto in caso di più clip selezionate
+              slideEffetto.oninput      = (e) => {ELTDaModificare.forEach((clipELT) => {const Numero = clipELT.dataset.RiferimentoRegistrazione, da = DatiAudioRegistrato[Numero]; da.intensitaeffetti = e.currentTarget.value; GestisciIntensitaEffetto(Numero);})};
+              ELTDaModificare.forEach((clipELT) => {DatiAudioRegistrato[clipELT.dataset.RiferimentoRegistrazione].intensitaeffetti = IntensitaEffettoIniziale;});
+    }
+    /***********************************************************************/
+
     /*** Crea la finestrella delle opzioni ***/
     const divContenitoreOpzioni = CreaElemento('div', ID_Opzioni, document.body.id); divContenitoreOpzioni.className = "panel panel-info"; divContenitoreOpzioni.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione;
-    divContenitoreOpzioni.iStyle({display: 'none', position: 'fixed', top: '10%', left: '30%', zIndex: 100000000 + Number(RiferimentoRegistrazione)});
+    if (window.innerWidth < ParametriOpzioniClip.larghezzaminimafinestra) {divContenitoreOpzioni.style.width = "600px";}
+    if (window.innerHeight < ParametriOpzioniClip.altezzaminimafinestra) {divContenitoreOpzioni.style.transform = "scale(" + (window.innerHeight / ParametriOpzioniClip.altezzaminimafinestra) + ")";}
     divContenitoreOpzioni.addEventListener('mouseup', () => {OggettoDaSpostare = false; document.body.removeEventListener('mousemove', SpostaOggettoColMouse);});
     
     /** Barra del titolo **/
-    var div = CreaElemento('div', 'OpzioniTitolo', ID_Opzioni); div.className = "panel-heading text-center";
+    var div = CreaElemento('div', 'OpzioniTitolo', ID_Opzioni); div.className = "panel-heading text-center"; div.style.userSelect = "none";
             
         const barratitolo = CreaElemento('div', 'lblOpzioniTitolo', div.id, strOpzioniTraccia); barratitolo.iStyle({width: "70%", margin: "0px auto", cursor: "move"});
               barratitolo.addEventListener('mousedown', () => {OggettoDaSpostare = divContenitoreOpzioni; document.body.addEventListener('mousemove', SpostaOggettoColMouse);});
@@ -3640,92 +3769,35 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
         
     
     /** Contenuto **/
-    div = CreaElemento('div', ID_Opzioni + 'ContenitoreOpzioniBody', ID_Opzioni); div.className = "panel-body";
-        var Tabella = CreaElemento('table', ID_Opzioni + 'TabellaOpzioni', div.id), tr, td; Tabella.className = "TabellaOpzioni"; Tabella.style.width = "100%";
+    const divcontenitorebody = CreaElemento('div', ID_Opzioni + 'ContenitoreOpzioniBody', ID_Opzioni); divcontenitorebody.className = "panel-body";
         
-        /** Funzioni per la creazione degli strumenti dell'interfaccia utente **/
-        const id_slideEffetto = ID_Opzioni + "slideEffetto";
-
-        function CreaSlide(IDRiferimento, Stringa, minSlide, maxSlide, stepSlide, minCasella, maxCasella, stepCasella, labelCasella, FunzioneInputSlide, FunzioneChangeCasella, valoreIniziale, FunzioneOnChange2 = () => {}) {
-            tr = CreaElemento('tr', ID_Opzioni + 'TabellaOpzioniRiga' + IDRiferimento, Tabella.id);
-                td = CreaElemento('td', tr.id + 'tdOpzioneLabel', tr.id, Stringa); td.iStyle({fontFamily: 'Verdana', fontSize: '12px'});
-                td = CreaElemento('td', tr.id + 'tdOpzioneSlide', tr.id);
-                    var slide = CreaElemento('input', tr.id + 'Slide', td.id);
-                        slide.setAttribute("type", "range"); slide.setAttribute("min", minSlide); slide.setAttribute("max", maxSlide); slide.setAttribute("step", stepSlide);
-                        slide.value = valoreIniziale;
-                        slide.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione;
-                        slide.addEventListener('input', FunzioneInputSlide);
-                        slide.addEventListener('input', FunzioneOnChange2);
-                td = CreaElemento('td', tr.id + 'tdOpzioneValore', tr.id); td.style.textAlign = "left";
-                    var c = CreaElemento('input', tr.id + 'Casella', td.id); c.style.width = "80px";
-                        c.setAttribute("type", "number"); c.setAttribute("min", minCasella); c.setAttribute("max", maxCasella); c.setAttribute("step", stepCasella);
-                        c.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione;
-                        c.addEventListener('change', FunzioneChangeCasella);
-                        c.addEventListener('change', FunzioneOnChange2);
-                    CreaElemento('span', tr.id + 'Casellalabel', td.id, labelCasella);
-
-                    setTimeout(() => {
-                        FunzioneInputSlide({currentTarget: slide}); // Simula inserimento manuale visualizzando correttamente l'interfaccia utente
-                    }, 200);
+        /* Pulsante clip da ascoltare */
+        if (SonoCreatoreProgetto) {
+            const labelDaAscoltare = CreaElemento('label', ID_Opzioni + 'labelPulDaAscoltare', divcontenitorebody.id); labelDaAscoltare.className = "btn btn-default btn-xs"; labelDaAscoltare.setAttribute('title', strDaAscoltare_title); labelDaAscoltare.iStyle({position: "absolute", top: "50px", right: "2px", zIndex: 1, opacity: 0.5}); labelDaAscoltare.dataset.cliccato = "no";
+                  const pulDaAscoltare = CreaElemento('input', ID_Opzioni + 'checkPulDaAscoltare', labelDaAscoltare.id); pulDaAscoltare.setAttribute('type', 'checkbox'); pulDaAscoltare.checked = datiAudio.daAscoltare;
+                        pulDaAscoltare.onclick = () => {ELTDaModificare.forEach((ClipELT) => {const da = DatiAudioRegistrato[ClipELT.dataset.RiferimentoRegistrazione]; da.daAscoltare = pulDaAscoltare.checked; VisualizzaModificaAudioAscoltato(da);}); labelDaAscoltare.dataset.cliccato = "si";};
+                  CreaElemento('span', ID_Opzioni + 'lblPulDaAscoltare', labelDaAscoltare.id, " " + strDaAscoltare);
         }
+        /******************************/
 
-        function CreaPulsanteEffetto(Effetto, IDContenitore, labelPulsante) {
-            const pulEffetto = CreaElemento('a', ID_Opzioni + "pulEffetto" + Effetto, IDContenitore, "<span class='fa " + simboloEffetto[Effetto] + "'></span> " + labelPulsante); pulEffetto.className = "btn btn-default";
-                  pulEffetto.setAttribute('name', 'pulEffetto');
-                  pulEffetto.dataset.effetto = Effetto;
-                  if (datiAudio.effetti == Effetto) {PulsanteEffettoAttivo(pulEffetto);}
-                  pulEffetto.addEventListener('click', AttivaDisattivaEffetto);
-        }
-
-        function AttivaDisattivaEffetto(e) {
-            if (e.target.tagName == "INPUT") {return;} // Non disattiva l'effetto se l'utente ha cliccato sullo slide
-
-            const pulEffetto = e.currentTarget, Effetto = pulEffetto.dataset.effetto, Numero = ELTDaModificare[0].dataset.RiferimentoRegistrazione, datiAudio = DatiAudioRegistrato[Numero];
-            const pulsantiEffetti = document.getElementsByName('pulEffetto'), totPulsantiEffetti = pulsantiEffetti.length, classe_default = "btn btn-default";
-        
-            /* Resetta graficamente gli effetti */
-            for (var I = 0; (I < totPulsantiEffetti) && (pulsantiEffetti[I].className = classe_default); I++);
-            EliminaElemento(document.getElementById(id_slideEffetto));
-        
-            /* Attiva l'eventuale nuovo effetto, se l'effetto era già stato selezionato lo disattiva */
-            var EffettoDaInserire = "";
-            if (datiAudio.effetti != Effetto) {
-                EffettoDaInserire = Effetto;
-                PulsanteEffettoAttivo(pulEffetto, true);
-            }
-        
-            ELTDaModificare.forEach((clipELT) => {
-                const Numero = clipELT.dataset.RiferimentoRegistrazione, da = DatiAudioRegistrato[Numero];
-                da.effetti = EffettoDaInserire;
-                if (da.audio) {AttivaEffettiAudio(Numero);} else {VisualizzaEffettiAudio(Numero);}
-            });
-        }
-
-        function PulsanteEffettoAttivo(pulEffetto, NuovoEffetto = false) {
-            const Effetto = pulEffetto.dataset.effetto, IntensitaEffettoIniziale = (NuovoEffetto? 0.5 : datiAudio.intensitaeffetti);
-            pulEffetto.className = "btn btn-warning";
-            const slideEffetto = CreaElemento('input', id_slideEffetto, pulEffetto.id); slideEffetto.setAttribute("type", "range"); slideEffetto.setAttribute("min", 0.1); slideEffetto.setAttribute("max", 2); slideEffetto.setAttribute("step", 0.1);
-                  slideEffetto.value = IntensitaEffettoIniziale;
-                  slideEffetto.onmousedown  = (e) => {ELTDaModificare.forEach((clipELT) => {const Numero = clipELT.dataset.RiferimentoRegistrazione, da = DatiAudioRegistrato[Numero], da_effprec = da.effetti; da.effetti = Effetto; if ((da.audio) && (da_effprec != Effetto)) {AttivaEffettiAudio(Numero);} else {VisualizzaEffettiAudio(Numero);}})}; // Ribadisce l'effetto in caso di più clip selezionate
-                  slideEffetto.oninput      = (e) => {ELTDaModificare.forEach((clipELT) => {const Numero = clipELT.dataset.RiferimentoRegistrazione, da = DatiAudioRegistrato[Numero]; da.intensitaeffetti = e.currentTarget.value; GestisciIntensitaEffetto(Numero);})};
-                  ELTDaModificare.forEach((clipELT) => {DatiAudioRegistrato[clipELT.dataset.RiferimentoRegistrazione].intensitaeffetti = IntensitaEffettoIniziale;});
-        }
-        /***********************************************************************/
-
-                                                    /* Minutaggio */
-            	tr = CreaElemento('tr', ID_Opzioni + 'TabellaOpzioniRiga1', Tabella.id);
-                td = CreaElemento('td', ID_Opzioni + 'tdOpzionePosizioneLabel', tr.id, strPosizione); td.style.fontFamily = "Verdana"; td.style.fontSize = "12px";
+        /*** Posizione ed effetti della clip ***/
+        const divContenitoreMinEff = CreaElemento('div', ID_Opzioni + 'divContenitoreMinEff', divcontenitorebody.id);
+                                        /* Minutaggio */
+            const tabellaminutaggio = CreaElemento('table', ID_Opzioni + 'TabellaMinutaggio', divContenitoreMinEff.id);
+                tr = CreaElemento('tr', ID_Opzioni + 'TabellaOpzioniRiga1', tabellaminutaggio.id);
+                    td = CreaElemento('td', ID_Opzioni + 'tdOpzionePosizioneLabel', tr.id, strPosizione); td.iStyle({fontFamily: "Verdana", fontSize: "12px", verticalAlign: "bottom", paddingBottom: "5px"});
                     td = CreaElemento('td', ID_Opzioni + 'tdOpzionePosizioneMinutiSecondi', tr.id);
-                        var SottoTabella = CreaElemento('table', ID_Opzioni + 'SottoTabellaMinutiSecondi', td.id);
+                        const SottoTabella = CreaElemento('table', ID_Opzioni + 'SottoTabellaMinutiSecondi', td.id), stililabel = {fontFamily: "Verdana", fontSize: "12px"};
                             tr = CreaElemento('tr', ID_Opzioni + 'SottoTabellaRiga1', SottoTabella.id);
-                                td = CreaElemento('td', ID_Opzioni + 'tdOpzionePosizioneMinutiLabel', tr.id, strMinuti); td.style.fontFamily = "Verdana"; td.style.fontSize = "12px";
+                                td = CreaElemento('td', ID_Opzioni + 'tdOpzionePosizioneMinutiLabel', tr.id, strMinuti); td.iStyle(stililabel);
                                 td = CreaElemento('td', ID_Opzioni + 'tdOpzionePosizioneVuoto', tr.id);
-                                td = CreaElemento('td', ID_Opzioni + 'tdOpzionePosizioneSecondiLabel', tr.id, strSecondi); td.style.fontFamily = "Verdana"; td.style.fontSize = "12px";
+                                td = CreaElemento('td', ID_Opzioni + 'tdOpzionePosizioneSecondiLabel', tr.id, strSecondi); td.iStyle(stililabel);
                             
                             tr = CreaElemento('tr', ID_Opzioni + 'SottoTabellaRiga2', SottoTabella.id);
                                 td = CreaElemento('td', ID_Opzioni + 'tdOpzionePosizioneMinuti', tr.id);
                                     var M = CreaElemento('input', ID_Opzioni + 'MinutaggioMinuti', td.id); M.setAttribute("type", "number"); M.className = "SelettoreMinutaggioMinuti";
                                     M.setAttribute("min", "0"); M.setAttribute("max", MinutaggioMassimo.Minuti); M.setAttribute("step", "1");
+                                    FunzioniCasellaNumerica(M);
                                     M.value = MinutaggioAttuale.Minuti;
                                     M.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione;
                                     M.addEventListener("change", function () {SpostaMinutaggioRegistrazione(this.dataset.RiferimentoRegistrazione);});
@@ -3735,142 +3807,213 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                                 td = CreaElemento('td', ID_Opzioni + 'tdOpzionePosizioneSecondi', tr.id);
                                     var S = CreaElemento('input', ID_Opzioni + 'MinutaggioSecondi', td.id); S.setAttribute("type", "number"); S.className = "SelettoreMinutaggioSecondi";
                                     S.setAttribute("min", "0"); S.setAttribute("max", "59.999"); S.setAttribute("step", "0.1");
+                                    FunzioniCasellaNumerica(S);
                                     S.value = MinutaggioAttuale.Secondi;
                                     S.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione;
                                     S.addEventListener("change", function () {SpostaMinutaggioRegistrazione(this.dataset.RiferimentoRegistrazione);});
-                    
-                                                    /* Effetti */
-                    td = CreaElemento('td', ID_Opzioni + 'tdOpzioneEffetti', ID_Opzioni + 'TabellaOpzioniRiga1');
-                         CreaElemento('div', ID_Opzioni + 'labelOpzioneEffetti', td.id, strApplicaUnEffetto);
-                         CreaPulsanteEffetto('radio', td.id, strEffettoRadio);
-                         CreaPulsanteEffetto('ovattato', td.id, strEffettoOvattato);
-                         CreaPulsanteEffetto('echo', td.id, strEffettoEco);
-                         CreaPulsanteEffetto('riverbero', td.id, strEffettoRiverbero);
-                    
-                                                    /* Guadagno */	
-               CreaSlide('Volume', strVolume, 0, 30, 0.01, 0, 3000, 10, "%", evslide_CambiaVolumeClip, evcasella_CambiaVolumeClip, GuadagnoPrincipale[RiferimentoRegistrazione].gain.value, (e) => {VisualizzazioneGraficaTaglioClip(+e.currentTarget.dataset.RiferimentoRegistrazione, false)});
-
-                                                /* Tagli iniziali e finali */
-               var FunzioneOnChangePerTagliInizialiEFinali = (e) => {VisualizzazioneGraficaTaglioClip(+e.currentTarget.dataset.RiferimentoRegistrazione, true);};                                                
-               CreaSlide('TaglioIniziale',  strTaglioIniziale,                    0, LunghezzaRegistrazione, 0.01,                  0, LunghezzaRegistrazione, 0.01, strsecondi, ev_CambiaTaglioInizialeClip,  ev_CambiaTaglioInizialeClip, datiAudio.taglioIniziale, FunzioneOnChangePerTagliInizialiEFinali);
-               CreaSlide('TaglioFinale',      strTaglioFinale,   taglioclip_diffmin, LunghezzaRegistrazione, 0.01, taglioclip_diffmin, LunghezzaRegistrazione, 0.01, strsecondi, ev_CambiaTaglioFinaleClip,    ev_CambiaTaglioFinaleClip,   datiAudio.taglioFinale,   FunzioneOnChangePerTagliInizialiEFinali);
-
-                                                    /* Varie */
-                tr = CreaElemento('tr', ID_Opzioni + 'TabellaOpzioniRigaVarie', Tabella.id);
-                    td = CreaElemento('td', ID_Opzioni + 'tdOpzioneAscoltaClip', tr.id); td.style.width = "150px";
-                        const stiliMenu = {textAlign: "left", width: "100%"};
-                        const btnGroup = CreaElemento('div', ID_Opzioni + 'grpPulAscolta', td.id); btnGroup.className = "btn-group";
-                            const pulAscolta = CreaElemento('a', ID_Opzioni + 'PulAscolta', btnGroup.id); pulAscolta.dataset.toggle = "dropdown"; pulAscolta.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione;
-                                PulAscoltaPosizioneDefault(pulAscolta);
-                                
-                            const ulPulAscolta = CreaElemento('ul', ID_Opzioni + 'ulMenuPulAscolta', btnGroup.id); ulPulAscolta.className = "dropdown-menu";
-                                const liAscoltaSoloTaglio = CreaElemento('li', ID_Opzioni + 'liAscoltaSoloTaglio', ulPulAscolta.id, "<span class='fa fa-exchange'></span> " + strSoloTaglio); liAscoltaSoloTaglio.className = "btn btn-default"; liAscoltaSoloTaglio.iStyle(stiliMenu); liAscoltaSoloTaglio.onclick = AscoltaInSolo_ParteTagliata;
-                                const liAscoltaTutto = CreaElemento('li', ID_Opzioni + 'liAscoltaTutto', ulPulAscolta.id, "<span class='fa fa-toggle-right'></span> " + strDaInizioAFine); liAscoltaTutto.className = "btn btn-default"; liAscoltaTutto.iStyle(stiliMenu); liAscoltaTutto.onclick = AscoltaInSolo_Tutto;
-
-                    
-                    td = CreaElemento('td', ID_Opzioni + 'tdOpzioneScaricaClip', tr.id);
-                        const btnMenuScarica = CreaElemento('div', ID_Opzioni + 'grpMenuScarica', td.id); btnMenuScarica.className = "btn-group";
-                            const pulScaricaClip = CreaElemento('a', ID_Opzioni + 'pulScaricaClip', btnMenuScarica.id, strScaricaRegistrazione + " <span class='caret'></span>"); pulScaricaClip.className = "btn btn-default btn-sm fa fa-download"; pulScaricaClip.dataset.toggle = "dropdown"; pulScaricaClip.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione; pulScaricaClip.onclick = ApriMenuOpzioniScaricamento;
-                            const ulPulScarica = CreaElemento('ul', ID_Opzioni + 'ulMenuPulScarica', btnMenuScarica.id); ulPulScarica.className = "dropdown-menu";
-                                const NomeFile = `${NomeProgetto} ${NomeDoppiaggio} ${DatiDoppiatori[datiAudio.ID_Utente].nome} ${strBattuta} ${strA} ${MinutaggioAttuale.Minuti.duecifre()} min ${MinutaggioAttuale.Secondi.toFixed(3)} sec${datiAudio.Registrazione.slice(datiAudio.Registrazione.lastIndexOf("."))}`.replace(/[^a-zA-Z0-9\.]/g, "_");
-                                const liScaricaOriginale = CreaElemento('li', ID_Opzioni + 'liScaricaOriginale', ulPulScarica.id, `<span class='fa fa-file-audio-o'></span> ${strScaricaClipOriginale}<a id='${ID_Opzioni}aScaricaOriginale' href="${datiAudio.Registrazione}" download="${NomeFile}" style='display: none;'></a>`); liScaricaOriginale.className = "btn btn-info"; liScaricaOriginale.iStyle(stiliMenu); liScaricaOriginale.onclick = DownloadClipFinestraOpzioni;
-                                const liScaricaConversione = CreaElemento('li', ID_Opzioni + 'liScaricaConversione', ulPulScarica.id, "<span class='fa fa-tasks'></span> " + strScaricaClipConversione); liScaricaConversione.className = "btn btn-primary"; liScaricaConversione.iStyle(stiliMenu); liScaricaConversione.dataset.larghezza = '850px'; liScaricaConversione.dataset.altezza = '500px'; liScaricaConversione.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione; liScaricaConversione.onclick = DownloadClipConversione;
-
-
-                    const tdTrattamentoAudio = CreaElemento('td', ID_Opzioni + 'tdTrattamentoAudio', tr.id);
-                        const fieldsetTrattamentoAudio = CreaElemento('fieldset', tdTrattamentoAudio.id + "fieldset", tdTrattamentoAudio.id);
-                            CreaElemento('legend', fieldsetTrattamentoAudio.id + "label", fieldsetTrattamentoAudio.id, strTrattamentoAudio).style.fontSize = "16px";
-                            const pulRiduciRumore = CreaElemento('div', ID_Opzioni + 'pulRiduciRumore', tdTrattamentoAudio.id, strRiduzioneRumore); pulRiduciRumore.className = "btn btn-default"; pulRiduciRumore.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione;
-                            if (DatiAudioRegistrato[RiferimentoRegistrazione].Registrazione.indexOf('-trattato') == -1) {
-                                pulRiduciRumore.onclick = async (e) => {
-                                    divVetro.iStyle({display: "inline", opacity: 0});
-                                    const pulsante = e.currentTarget, Numero = pulsante.dataset.RiferimentoRegistrazione, da = DatiAudioRegistrato[Numero], b = da.buffer.getChannelData(0), lunghezzaBuffer = b.length, SampleRate = da.buffer.sampleRate, LimiteSecondiSogliaRumoreAttacco = RiduzioneRumore.SecondiSogliaRumoreAttacco * SampleRate, LimiteSecondiSogliaRumoreTermine = RiduzioneRumore.SecondiSogliaRumoreTermine * SampleRate;
-
-                                    /* Inizializzazione interfaccia */
-                                    StoppaAutomaticamenteAscoltoInSolo();
-                                    pulsante.abilita(false);
-                                    pulsante.iStyle({border: "none", color: "black"});
-                                    pulsante.innerHTML = "<span class='fa fa-spin fa-spinner'></span> " + strInElaborazione;
-
-                                    /* Copia del buffer originale nell'apposita variabile */
-                                    bufferoriginale = audioContext.createBuffer(1, lunghezzaBuffer, SampleRate);
-                                    bufferoriginale.copyToChannel(b, 0);
-
-                                    CentraOndaSonora(b);
                                     
-                                    await pausa(100);
+                                            /* Effetti */
+            div = CreaElemento('div', ID_Opzioni + 'divOpzioneEffetti', divContenitoreMinEff.id);
+                    CreaElemento('div', ID_Opzioni + 'labelOpzioneEffetti', div.id, strApplicaUnEffetto);
+                    CreaPulsanteEffetto('radio', div.id, strEffettoRadio);
+                    CreaPulsanteEffetto('ovattato', div.id, strEffettoOvattato);
+                    CreaPulsanteEffetto('echo', div.id, strEffettoEco);
+                    CreaPulsanteEffetto('riverbero', div.id, strEffettoRiverbero);
+        /**************************************/
 
-                                    /* Elimina il rumore nella prima parte dell'audio */
-                                    const profilorumore = b.slice(0, b.indexOf(b.find((a) => {return a > TrattamentoClip.AutoTaglioIniziale.SogliaDB}))), lunghezzaprofilorumore = profilorumore.length - LimiteSecondiSogliaRumoreAttacco;
-                                    for (let I = 0; I < lunghezzaprofilorumore; I++) {
-                                        b[I] -= profilorumore[I];
-                                    }
+        /*** Tabella sliders ***/
+        Tabella = CreaElemento('table', ID_Opzioni + 'TabellaOpzioni', divcontenitorebody.id); Tabella.className = "TabellaOpzioni";
 
-                                    /* Riduce o annulla il rumore nei punti in cui non c'è il parlato (se l'opzione è attiva e se il volume della clip non è troppo alto: in quest'ultimo caso potrebbe voler dire che la clip è stata registrata ad un volume sotto soglia) */
-                                    if (RiduzioneRumore.ApplicareSogliaRumore && (GuadagnoPrincipale[Numero].gain.value < 19)) {
-                                        var contSogliaNonRaggiunta = 0;
-                                        const sogliarumore = TrattamentoClip.AutoTaglioIniziale.SogliaDB;
-                                        for (let I = 0; I < lunghezzaBuffer; I++) {
-                                            const sogliasuperata = ((Math.abs(b[I]) > sogliarumore) || (Math.abs(b[(+I) + (+LimiteSecondiSogliaRumoreAttacco)]) > sogliarumore));
-                                            contSogliaNonRaggiunta = ++contSogliaNonRaggiunta * !sogliasuperata;
-                                            const condizioneraggiunta = ((sogliasuperata) || (contSogliaNonRaggiunta < LimiteSecondiSogliaRumoreTermine));
-                                            b[I] *= (condizioneraggiunta + (RiduzioneRumore.GainRumore * !condizioneraggiunta));
-                                        }
-                                        await pausa(100);
-                                    }
+                                        /* Guadagno */	
+            CreaSlide('Volume', strVolume, 0, 30, 0.01, 0, 3000, 10, "%", evslide_CambiaVolumeClip, evcasella_CambiaVolumeClip, GuadagnoPrincipale[RiferimentoRegistrazione].gain.value, (e) => {VisualizzazioneGraficaTaglioClip(+e.currentTarget.dataset.RiferimentoRegistrazione, false)});
 
-                                    const bloburl = URL.createObjectURL(new Blob([audiobufferToWav(b, SampleRate, {float32: true, notrattamento: true})]));
-                                    ApriFinestra({currentTarget: {dataset: {larghezza: "300px", altezza: "300px", link: "TrattamentoAudio_RiduzioneRumore.php?N=" + encodeURIComponent(da.NumeroUnivoco) + "&Percorso=" + encodeURIComponent(bloburl)}}});
+                                    /* Tagli iniziali e finali */
+            var FunzioneOnChangePerTagliInizialiEFinali = (e) => {VisualizzazioneGraficaTaglioClip(+e.currentTarget.dataset.RiferimentoRegistrazione, true);};                                                
+            CreaSlide('TaglioIniziale',  strTaglioIniziale,                    0, LunghezzaRegistrazione, 0.01,                  0, LunghezzaRegistrazione, 0.01, strsecondi, ev_CambiaTaglioInizialeClip,  ev_CambiaTaglioInizialeClip, datiAudio.taglioIniziale, FunzioneOnChangePerTagliInizialiEFinali);
+            CreaSlide('TaglioFinale',      strTaglioFinale,   taglioclip_diffmin, LunghezzaRegistrazione, 0.01, taglioclip_diffmin, LunghezzaRegistrazione, 0.01, strsecondi, ev_CambiaTaglioFinaleClip,    ev_CambiaTaglioFinaleClip,   datiAudio.taglioFinale,   FunzioneOnChangePerTagliInizialiEFinali);
+        /**********************/
 
-                                    const nomefile = bloburl.slice(bloburl.lastIndexOf('/') + 1) + "." + formatoQualitaAlta;
+                                            /* Varie */
+        const stiliMenu = {textAlign: "left", width: "100%"}, NomeFile = `${NomeProgetto} ${NomeDoppiaggio} ${DatiDoppiatori[datiAudio.ID_Utente].nome} ${strBattuta} ${strA} ${MinutaggioAttuale.Minuti.duecifre()} min ${MinutaggioAttuale.Secondi.toFixed(3)} sec${datiAudio.Registrazione.slice(datiAudio.Registrazione.lastIndexOf("."))}`.replace(/[^a-zA-Z0-9\.]/g, "_");
+        const divOpzioniVarie_id = ID_Opzioni + 'divOpzioniRigaVarie', btnMenuAscolta_id = ID_Opzioni + 'grpPulAscolta', btnMenuScarica_id = ID_Opzioni + 'grpMenuScarica', pulAscolta_id = ID_Opzioni + 'PulAscolta', ulPulAscolta_id = ID_Opzioni + 'ulMenuPulAscolta', ulPulScarica_id = ID_Opzioni + 'ulMenuPulScarica';
+        CreaNuoviElementi({
+            [ID_Opzioni + 'ContenitoreOpzioniBody']: [['div', {id: divOpzioniVarie_id}]],
+                [divOpzioniVarie_id]: [['div', {id: btnMenuAscolta_id, className: "btn-group"}, {marginRight: "5px"}], ['div', {id: btnMenuScarica_id, className: "btn-group"}]],
+                    [btnMenuAscolta_id]: [['a', {id: pulAscolta_id}, {}, {toggle: "dropdown", RiferimentoRegistrazione: RiferimentoRegistrazione}], ['ul', {id: ulPulAscolta_id, className: "dropdown-menu"}]],
+                        [ulPulAscolta_id]: [
+                            ['li', {innerHTML: "<span class='fa fa-exchange'></span> " + strSoloTaglio,         className: "btn btn-default", onclick: AscoltaInSolo_ParteTagliata}, stiliMenu],
+                            ['li', {innerHTML: "<span class='fa fa-toggle-right'></span> " + strDaInizioAFine,  className: "btn btn-default", onclick: AscoltaInSolo_Tutto}, stiliMenu],
+                            ['li', {innerHTML: "<span class='fa fa-refresh'></span>" + strCiclaClip,            className: "btn btn-info",    onclick: CiclaClip}, stiliMenu]
+                        ],
 
-                                    function VerificaTermineProcesso() {
-                                        AJAX("TrattamentoAudio_VerificaFile.php", "NomeFile=" + encodeURIComponent(nomefile), (Dati) => {
-                                            if (Dati.Esiste) {
-                                                CaricaAudio(0, {Registrazione: Dati.PercorsoCompleto}, 'arraybuffer', 
-                                                    (Contenuto) => {
-                                                        NuovoAudioTrattato = Contenuto.slice();
-                                                        audioContext.decodeAudioData(Contenuto).then((buffernuovo) => {
-                                                            function SelezionaAudio(e) {
-                                                                StoppaAutomaticamenteAscoltoInSolo();
-                                                                da.buffer = ((e.currentTarget.value == 0) ? bufferoriginale : buffernuovo);
-                                                                liAscoltaSoloTaglio.click();
-                                                            }
+                    [btnMenuScarica_id]: [['a', {innerHTML: strScaricaRegistrazione + " <span class='caret'></span>", className: "btn btn-default btn-sm fa fa-download", onclick: ApriMenuOpzioniScaricamento}, {}, {toggle: "dropdown", RiferimentoRegistrazione: RiferimentoRegistrazione}], ['ul', {id: ulPulScarica_id, className: "dropdown-menu"}]],
+                        [ulPulScarica_id]: [
+                            ['li', {innerHTML: `<span class='fa fa-file-audio-o'></span> ${strScaricaClipOriginale}<a id='${ID_Opzioni}aScaricaOriginale' href="${datiAudio.Registrazione}" download="${NomeFile}" style='display: none;'></a>`, className: "btn btn-info", onclick: DownloadClipFinestraOpzioni}, stiliMenu],
+                            ['li', {innerHTML: "<span class='fa fa-tasks'></span> " + strScaricaClipConversione, className: "btn btn-primary", onclick: DownloadClipConversione}, stiliMenu, {larghezza: "850px", altezza: "500px", RiferimentoRegistrazione: RiferimentoRegistrazione}]
+                        ]
 
-                                                            pulsante.innerHTML = "<span class='fa fa-check' style='color: green;'></span> " + strCreazioneCompletata;
-                                                            const lblAudioOriginale = CreaElemento('label', tdTrattamentoAudio.id + 'labelOriginale', tdTrattamentoAudio.id); lblAudioOriginale.className = "btn btn-default";
-                                                                const inputAudioOriginale = CreaElemento('input', ID_Opzioni + 'inputAudioOriginale', lblAudioOriginale.id); inputAudioOriginale.setAttribute('type', 'radio'); inputAudioOriginale.setAttribute('name', 'opzAudioOriginaleTrattato'); inputAudioOriginale.value = 0; inputAudioOriginale.onclick = SelezionaAudio;
-                                                                CreaElemento('span', ID_Opzioni + 'spanAudioOriginale', lblAudioOriginale.id, " " + strSelezionaAudioOriginale);
-                                                                
-                                                            const lblAudioTrattato = CreaElemento('label', tdTrattamentoAudio.id + 'labelTrattato', tdTrattamentoAudio.id); lblAudioTrattato.className = "btn btn-default";
-                                                                const inputAudioTrattato = CreaElemento('input', ID_Opzioni + 'inputAudioTrattato', lblAudioTrattato.id); inputAudioTrattato.setAttribute('type', 'radio'); inputAudioTrattato.setAttribute('name', 'opzAudioOriginaleTrattato'); inputAudioTrattato.value = 1; inputAudioTrattato.onclick = SelezionaAudio;
-                                                                CreaElemento('span', ID_Opzioni + 'spanAudioTrattato', lblAudioTrattato.id, " " + strSelezionaAudioTrattato);
+        });
+        const pulAscolta = document.getElementById(pulAscolta_id);
+        PulAscoltaPosizioneDefault(pulAscolta);
 
-                                                            inputAudioTrattato.click();
+            const divTrattamentoAudio = CreaElemento('div', ID_Opzioni + 'divTrattamentoAudio', divOpzioniVarie_id); divTrattamentoAudio.className = "btn"; divTrattamentoAudio.iStyle({cursor: "auto", width: "fit-content"});
+                const fieldsetTrattamentoAudio = CreaElemento('fieldset', divTrattamentoAudio.id + "fieldset", divTrattamentoAudio.id);
+                    CreaElemento('legend', fieldsetTrattamentoAudio.id + "label", fieldsetTrattamentoAudio.id, strTrattamentoAudio).style.fontSize = "16px";
+                    const pulRiduciRumore = CreaElemento('div', ID_Opzioni + 'pulRiduciRumore', divTrattamentoAudio.id, strRiduzioneRumore); pulRiduciRumore.className = "btn btn-default"; pulRiduciRumore.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione;
+                    if (DatiAudioRegistrato[RiferimentoRegistrazione].Registrazione.indexOf('-trattato') == -1) {
+                        pulRiduciRumore.onclick = async (e) => {
+                            divVetro.iStyle({display: "inline", opacity: 0});
+                            const pulsante = e.currentTarget, Numero = pulsante.dataset.RiferimentoRegistrazione, da = DatiAudioRegistrato[Numero], b = da.buffer.getChannelData(0), lunghezzaBuffer = b.length, SampleRate = da.buffer.sampleRate, LimiteSecondiSogliaRumoreAttacco = RiduzioneRumore.SecondiSogliaRumoreAttacco * SampleRate, LimiteSecondiSogliaRumoreTermine = RiduzioneRumore.SecondiSogliaRumoreTermine * SampleRate;
 
-                                                            divVetro.style.display = "none";
-                                                        }).catch((err) => {console.log("Errore nuovo audio", err); pulsante.innerHTML = strRiduzioneRumore_errore; divVetro.style.display = "none";});
-                                                        
-                                                        AJAX("TrattamentoAudio_EliminaFile.php", "NomeFile=" + encodeURIComponent(nomefile), "", "", "", true);
-                                                        URL.revokeObjectURL(bloburl);
-                                                    }
-                                                );
-                                            } else {
-                                                setTimeout(VerificaTermineProcesso, 1000);
-                                            }
-                                        }, "", "", true);
-                                    }
+                            /* Inizializzazione interfaccia */
+                            StoppaAutomaticamenteAscoltoInSolo();
+                            pulsante.abilita(false);
+                            pulsante.iStyle({border: "none", color: "black"});
+                            pulsante.innerHTML = "<span class='fa fa-spin fa-spinner'></span> " + strInElaborazione;
 
-                                    setTimeout(VerificaTermineProcesso, 1000);
-                                };
+                            /* Copia del buffer originale nell'apposita variabile */
+                            bufferoriginale = audioContext.createBuffer(1, lunghezzaBuffer, SampleRate);
+                            bufferoriginale.copyToChannel(b, 0);
 
-                            } else {
-                                pulRiduciRumore.innerHTML = strRiduzioneRumore_effettuato;
-                                pulRiduciRumore.iStyle({border: "none", pointerEvents: "none"});
-                                pulRiduciRumore.dataset.riduzionerumoreapplicata = 1;
+                            CentraOndaSonora(b);
+                            
+                            await pausa(100);
+
+                            /* Riduce o annulla il rumore nei punti in cui non c'è il parlato (se l'opzione è attiva e se il volume della clip non è troppo alto: in quest'ultimo caso potrebbe voler dire che la clip è stata registrata ad un volume sotto soglia) */
+                            if (RiduzioneRumore.ApplicareSogliaRumore && (GuadagnoPrincipale[Numero].gain.value < 19)) {
+                                var contSogliaNonRaggiunta = LimiteSecondiSogliaRumoreTermine;
+                                const sogliarumore = TrattamentoClip.AutoTaglioIniziale.SogliaDB;
+                                for (let I = 0; I < lunghezzaBuffer; I++) {
+                                    const sogliasuperata = ((Math.abs(b[I]) > sogliarumore) || (Math.abs(b[(+I) + (+LimiteSecondiSogliaRumoreAttacco)]) > sogliarumore));
+                                    contSogliaNonRaggiunta = ++contSogliaNonRaggiunta * !sogliasuperata;
+                                    const condizioneraggiunta = ((sogliasuperata) || (contSogliaNonRaggiunta < LimiteSecondiSogliaRumoreTermine));
+                                    b[I] *= (condizioneraggiunta + (RiduzioneRumore.GainRumore * !condizioneraggiunta));
+                                }
+                                await pausa(100);
                             }
 
-        if (!datiAudio.buffer) {pulAscolta.abilita(false); (!pulRiduciRumore.dataset.riduzionerumoreapplicata && pulRiduciRumore.abilita(false)); pulAscolta.innerHTML = " <span class='fa fa-spin fa-spinner'></span> " + strCaricamento; CaricaBufferAudio(RiferimentoRegistrazione, () => {if (pulAscolta) {PulAscoltaPosizioneDefault(pulAscolta); pulAscolta.abilita(true); (!pulRiduciRumore.dataset.riduzionerumoreapplicata && pulRiduciRumore.abilita(true));}});}
+                            const bloburl = URL.createObjectURL(new Blob([audiobufferToWav(b, SampleRate, {float32: true, notrattamento: true})]));
+                            ApriFinestra({currentTarget: {dataset: {larghezza: "300px", altezza: "300px", link: "TrattamentoAudio_RiduzioneRumore.php?N=" + encodeURIComponent(da.NumeroUnivoco) + "&Percorso=" + encodeURIComponent(bloburl)}}});
+
+                            const nomefile = bloburl.slice(bloburl.lastIndexOf('/') + 1) + "." + formatoQualitaAlta;
+
+                            function VerificaTermineProcesso() {
+                                AJAX("TrattamentoAudio_VerificaFile.php", "NomeFile=" + encodeURIComponent(nomefile), (Dati) => {
+                                    if (Dati.Esiste) {
+                                        CaricaAudio(0, {Registrazione: Dati.PercorsoCompleto}, 'arraybuffer', 
+                                            (Contenuto) => {
+                                                NuovoAudioTrattato = Contenuto.slice();
+                                                audioContext.decodeAudioData(Contenuto).then((buffernuovo) => {
+                                                    function SelezionaAudio(e) {
+                                                        StoppaAutomaticamenteAscoltoInSolo();
+                                                        da.buffer = ((e.currentTarget.value == 0) ? bufferoriginale : buffernuovo);
+                                                        liAscoltaSoloTaglio.click();
+                                                    }
+
+                                                    pulsante.innerHTML = "<span class='fa fa-check' style='color: green;'></span> " + strCreazioneCompletata;
+                                                    const lblAudioOriginale = CreaElemento('label', divTrattamentoAudio.id + 'labelOriginale', divTrattamentoAudio.id); lblAudioOriginale.className = "btn btn-default";
+                                                        const inputAudioOriginale = CreaElemento('input', ID_Opzioni + 'inputAudioOriginale', lblAudioOriginale.id); inputAudioOriginale.setAttribute('type', 'radio'); inputAudioOriginale.setAttribute('name', 'opzAudioOriginaleTrattato'); inputAudioOriginale.value = 0; inputAudioOriginale.onclick = SelezionaAudio;
+                                                        CreaElemento('span', ID_Opzioni + 'spanAudioOriginale', lblAudioOriginale.id, " " + strSelezionaAudioOriginale);
+                                                        
+                                                    const lblAudioTrattato = CreaElemento('label', divTrattamentoAudio.id + 'labelTrattato', divTrattamentoAudio.id); lblAudioTrattato.className = "btn btn-default";
+                                                        const inputAudioTrattato = CreaElemento('input', ID_Opzioni + 'inputAudioTrattato', lblAudioTrattato.id); inputAudioTrattato.setAttribute('type', 'radio'); inputAudioTrattato.setAttribute('name', 'opzAudioOriginaleTrattato'); inputAudioTrattato.value = 1; inputAudioTrattato.onclick = SelezionaAudio;
+                                                        CreaElemento('span', ID_Opzioni + 'spanAudioTrattato', lblAudioTrattato.id, " " + strSelezionaAudioTrattato);
+
+                                                    inputAudioTrattato.click();
+
+                                                    divVetro.style.display = "none";
+                                                }).catch((err) => {console.log("Errore nuovo audio", err); pulsante.innerHTML = strRiduzioneRumore_errore; divVetro.style.display = "none";});
+                                                
+                                                AJAX("TrattamentoAudio_EliminaFile.php", "NomeFile=" + encodeURIComponent(nomefile), "", "", "", true);
+                                                URL.revokeObjectURL(bloburl);
+                                            }
+                                        );
+                                    } else {
+                                        setTimeout(VerificaTermineProcesso, 1000);
+                                    }
+                                }, "", "", true);
+                            }
+
+                            setTimeout(VerificaTermineProcesso, 1000);
+                        };
+
+                    } else {
+                        pulRiduciRumore.innerHTML = strRiduzioneRumore_effettuato;
+                        pulRiduciRumore.iStyle({border: "none", pointerEvents: "none"});
+                        pulRiduciRumore.dataset.riduzionerumoreapplicata = 1;
+                    }
+
+                    CreaElemento('span', ID_Opzioni + 'spaziotrattamentoaudio', divTrattamentoAudio.id, ' ');
+
+                    const pulSpezzaBattute = CreaElemento('div', ID_Opzioni + 'pulSpezzaBattute', divTrattamentoAudio.id, strSpezzaBattute); pulSpezzaBattute.className = "btn btn-default"; pulSpezzaBattute.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione; pulSpezzaBattute.setAttribute('title', strSpezzaBattute_spiegazione);
+                    pulSpezzaBattute.onclick = async (e) => {
+                        divVetro.iStyle({display: "inline", opacity: 0});
+                        const pulsante = e.currentTarget, Numero = pulsante.dataset.RiferimentoRegistrazione, da = DatiAudioRegistrato[Numero], b = da.buffer.getChannelData(0), SampleRate = da.buffer.sampleRate, lunghezzaBufferConsiderata = da.taglioFinale * SampleRate, SogliaAttacco = SpezzaBattute.SogliaAttaccoDB, LimiteSecondiSogliaAttacco = SpezzaBattute.SecondiSogliaAttacco * SampleRate, LimiteSecondiSogliaTermine = SpezzaBattute.SecondiSogliaTermine * SampleRate, SogliaRiposo = SampleRate * 60;
+                        var Attacco = true, attacchi = [];
+
+                        /* Inizializzazione interfaccia */
+                        StoppaAutomaticamenteAscoltoInSolo();
+                        pulsante.abilita(false);
+                        pulsante.iStyle({border: "none", color: "black"});
+                        pulsante.innerHTML = "<span class='fa fa-spin fa-spinner'></span> " + strInElaborazione;
+
+                        /* Crea un array con alternati inizio e fine battuta. Gli elementi pari sono l'attacco e gli elementi dispari sono la fine della battuta. */
+                        var contSogliaNonRaggiunta = LimiteSecondiSogliaTermine;
+                        for (let I = da.taglioIniziale * SampleRate; I < lunghezzaBufferConsiderata; I++) {
+                            const sogliasuperata = ((Math.abs(b[I]) > SogliaAttacco) || (Math.abs(b[(+I) + (+LimiteSecondiSogliaAttacco)]) > SogliaAttacco));
+                            contSogliaNonRaggiunta = ++contSogliaNonRaggiunta * !sogliasuperata;
+                            const condizioneraggiunta = ((sogliasuperata) || (contSogliaNonRaggiunta < LimiteSecondiSogliaTermine));
+                            if (condizioneraggiunta) {if (Attacco) {Attacco = false; attacchi.push(I / SampleRate);}} else {if (!Attacco) {Attacco = true; attacchi.push(I / SampleRate);}}
+                            (((I % SogliaRiposo) == 0) && (await pausa(10)));
+                        }
+
+                        const NumeroAttacchi = attacchi.length;
+
+                        if (NumeroAttacchi > 1) {
+                            const casellaTaglioIniziale = document.getElementById(ID_Opzioni + 'TabellaOpzioniRigaTaglioInizialeCasella'); casellaTaglioIniziale.value = attacchi[0]; casellaTaglioIniziale.dispatchEvent(ev_cambiamento);
+                            const casellaTaglioFinale = document.getElementById(ID_Opzioni + 'TabellaOpzioniRigaTaglioFinaleCasella'); casellaTaglioFinale.value = attacchi[1]; casellaTaglioFinale.dispatchEvent(ev_cambiamento);
+                            VisualizzaEffettiAudio(Numero);
+                            AggiornaRiproduzioneClip(Numero);
+                            if (NumeroAttacchi > 2) {
+                                let UltimaNonConsiderarla = false;
+                                for(A = 2; A < NumeroAttacchi; A += 2) {
+                                    const SecondiAttacco = attacchi[A], SecondiStacco = attacchi[+A + 1] || (lunghezzaBufferConsiderata / SampleRate); // l'ultima battuta potrebbe non avere lo stacco, in questo caso si prende la fine del taglio originale della clip. Se però quest'ultimo segmento è troppo piccolo, non lo crea e salta al termine
+                                    if ((SecondiStacco - SecondiAttacco) > SpezzaBattute.SecondiTaglioMinimo) {
+                                        DuplicaClip(Numero, (ClipNuova) => {
+                                            ClipNuova.taglioIniziale = SecondiAttacco; ClipNuova.taglioFinale = SecondiStacco; SelezionaESpostaELT(ClipNuova.numero); VisualizzazioneGraficaTaglioClip(ClipNuova.numero); VisualizzaEffettiAudio(ClipNuova.numero); VisualizzaModificaAudioAscoltato(ClipNuova); NuoveClipCreate.push(ClipNuova);
+                                            if (NuoveClipCreate.length >= (NumeroAttacchi / 2) - 1 - UltimaNonConsiderarla) {SuddivisioneInBattuteEffettuata();}
+                                        });
+                                    } else {
+                                        UltimaNonConsiderarla = true;
+                                        if (NumeroAttacchi == 3) {TagliataSingolaBattuta();} // Se ha trovato solo due battute e l'ultima è troppo corta, conclude il processo.
+                                    }
+                                }
+                            } else {
+                                TagliataSingolaBattuta();
+                            }
+                        } else {
+                            Messaggio(strSpezzaBattute_battutenontrovate);
+                            Riattiva();
+                        }
+
+                        function TagliataSingolaBattuta() {
+                            Messaggio(strSpezzaBattute_battutatagliata, "OK");
+                            Riattiva();
+                        }
+
+                        function SuddivisioneInBattuteEffettuata() {
+                            Riattiva();
+                            document.getElementById(ID_Opzioni).dataset.nonmodificareselezionemultipla = "1";
+                            setTimeout(() => {Messaggio(strSpezzaBattute_battutesuddivise, "OK");}, 1000);
+                        }
+
+                        function Riattiva() {
+                            pulsante.style.display = "none";
+                            divVetro.style.display = "none";
+                        }
+                    }
+
+        if (!datiAudio.buffer) {pulAscolta.abilita(false); (!pulRiduciRumore.dataset.riduzionerumoreapplicata && pulRiduciRumore.abilita(false)); pulSpezzaBattute.abilita(false); pulAscolta.innerHTML = " <span class='fa fa-spin fa-spinner'></span> " + strCaricamento; CaricaBufferAudio(RiferimentoRegistrazione, () => {if (pulAscolta) {PulAscoltaPosizioneDefault(pulAscolta); pulAscolta.abilita(true); (!pulRiduciRumore.dataset.riduzionerumoreapplicata && pulRiduciRumore.abilita(true)); pulSpezzaBattute.abilita(true);}});}
         datiAudio.nonscaricarebuffer = true;
                         
                 /* Commenti */
@@ -3880,66 +4023,69 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
 
             
     /** Pulsanti salva e annulla **/
-    div = CreaElemento('div', ID_Opzioni + 'PulsantiFinali', ID_Opzioni); div.className = "panel-footer";
-        Tabella = CreaElemento('table', ID_Opzioni + 'TabellaPulsantiFinali', div.id); Tabella.className = "TabellaOpzioni"; Tabella.style.width = "100%";
-            tr = CreaElemento('tr', ID_Opzioni + 'RigaTabellaPulsantiFinali', Tabella.id);
-                td = CreaElemento('td', ID_Opzioni + 'CasellaAnnulla', tr.id);
-                    const pulAnnulla = CreaElemento('a', ID_Opzioni + 'Annulla', td.id, "<span class='fa fa-times'></span> " + strAnnullalemodifiche); pulAnnulla.className = "btn btn-default";
-                          pulAnnulla.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione;
-                          pulAnnulla.addEventListener('click',
-                            function (e) {
-                                const Numero = e.currentTarget.dataset.RiferimentoRegistrazione;
-                                /** Rimette i valori iniziali **/
-                                /* Buffer */
-                                RiassegnaBufferOriginale();
+    div = CreaElemento('div', ID_Opzioni + 'PulsantiFinali', ID_Opzioni); div.className = "panel-footer"; div.style.height = "60px";
+        const pulAnnulla = CreaElemento('a', ID_Opzioni + 'Annulla', div.id, "<span class='fa fa-times'></span> " + strAnnullalemodifiche); pulAnnulla.className = "btn btn-default"; pulAnnulla.iStyle({position: "absolute", left: "15%"});
+                pulAnnulla.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione;
+                pulAnnulla.addEventListener('click',
+                function (e) {
+                    const Numero = e.currentTarget.dataset.RiferimentoRegistrazione;
+                    /** Rimette i valori iniziali **/
+                    /* Buffer */
+                    RiassegnaBufferOriginale();
 
-                                /* Minutaggio */
-                                document.getElementById(ID_Opzioni + 'MinutaggioMinuti').value = minutiprec; document.getElementById(ID_Opzioni + 'MinutaggioSecondi').value = secondiprec;
-                                SpostaMinutaggioRegistrazione(Numero);
-                                
-                                /* Guadagno */
-                                CambiaVolumeClip(Numero, Number(guadagnoprec));
-                                
-                                /* Tagli iniziali e finali */
-                                CambiaTaglioInizialeClip(Numero, taglioinizialeprec);
-                                CambiaTaglioFinaleClip  (Numero, tagliofinaleprec);
+                    /* Minutaggio */
+                    document.getElementById(ID_Opzioni + 'MinutaggioMinuti').value = minutiprec; document.getElementById(ID_Opzioni + 'MinutaggioSecondi').value = secondiprec;
+                    SpostaMinutaggioRegistrazione(Numero);
+                    
+                    /* Guadagno */
+                    CambiaVolumeClip(Numero, Number(guadagnoprec));
+                    
+                    /* Tagli iniziali e finali */
+                    CambiaTaglioInizialeClip(Numero, taglioinizialeprec);
+                    CambiaTaglioFinaleClip  (Numero, tagliofinaleprec);
 
-                                /* Effetti */
-                                datiAudio.effetti = effettiprec; datiAudio.intensitaeffetti = intensitaeffettiprec; VisualizzaEffettiAudio(Numero);
-                                if (datiAudio.audio) {AttivaEffettiAudio(Numero);}
-                                
-                                /** Chiude la finestra **/
-                                OpzioniClip(Numero, false, false);
+                    /* Effetti */
+                    datiAudio.effetti = effettiprec; datiAudio.intensitaeffetti = intensitaeffettiprec; VisualizzaEffettiAudio(Numero);
+                    if (datiAudio.audio) {AttivaEffettiAudio(Numero);}
 
-                                /** Ricarica le proprietà delle eventuali altre clip in modifica **/
-                                AggiornaClip();
-                            }
-                        );
-                        
-                td = CreaElemento('td', ID_Opzioni + 'CasellaSalva', tr.id); td.className = "text-right";
-                    const pulSalva = CreaElemento('a', ID_Opzioni + 'Salva', td.id, "<span class='fa fa-check'></span> " + strSalva); pulSalva.className = "btn btn-success";
-                          pulSalva.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione;
-                          pulSalva.addEventListener('click', function (e) {
-                                const da = DatiAudioRegistrato[RiferimentoRegistrazione], AudioTrattatoSelezionato = (ELTDaModificare.length == 1) && (AudioTrattato = document.getElementById(ID_Opzioni + "inputAudioTrattato")) && (AudioTrattato.checked) && (NuovoAudioTrattato);
-                                e.currentTarget.textContent = strAttenderePrego;
-                                AggiornaModificheClip();
-                                /* Se è stato selezionato l'audio trattato, mette la clip corrente nel cestino in quanto verrà sostituita dalla nuova */
-                                ((AudioTrattatoSelezionato) && (da.Rimosso = true));
-                                /* In ogni caso, riassegna alla clip corrente (e a tutte quelle con lo stesso nome del file) il buffer originale */
-                                RiassegnaBufferOriginale();
+                    /** Elimina eventuali nuove clip create tramite le opzioni e poi chiude la finestra **/
+                    const totNuoveClipCreate = NuoveClipCreate.length;
+                    if (totNuoveClipCreate == 0) {
+                        OpzioniClip(Numero, false, false);
+                    } else {
+                        divVetro.iStyle({display: "inline", opacity: 0});
+                        var NuoveClipCestinate = 0;
+                        NuoveClipCreate.forEach((da) => {da.Rimosso = true; CestinaClip(da.numero); SalvaModificheClipAudio(da.numero, () => {if (++NuoveClipCestinate >= totNuoveClipCreate) {OpzioniClip(Numero, false, false);}});});
+                    }
+                }
+            );
+                
+        const pulSalva = CreaElemento('a', ID_Opzioni + 'Salva', div.id, "<span class='fa fa-check'></span> " + strSalva); pulSalva.className = "btn btn-success"; pulSalva.iStyle({position: "absolute", right: "15%"});
+                pulSalva.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione;
+                pulSalva.addEventListener('click', function (e) {
+                    const da = DatiAudioRegistrato[RiferimentoRegistrazione], AudioTrattatoSelezionato = (ELTDaModificare.length == 1) && (AudioTrattato = document.getElementById(ID_Opzioni + "inputAudioTrattato")) && (AudioTrattato.checked) && (NuovoAudioTrattato);
+                    e.currentTarget.textContent = strAttenderePrego;
+                    AggiornaModificheClip();
+                    /* Se è stato selezionato l'audio trattato, mette la clip corrente nel cestino in quanto verrà sostituita dalla nuova */
+                    ((AudioTrattatoSelezionato) && (da.Rimosso = true));
+                    /* In ogni caso, riassegna alla clip corrente (e a tutte quelle con lo stesso nome del file) il buffer originale */
+                    RiassegnaBufferOriginale();
 
-                                /* Chiude la finestra */
-                                OpzioniClip(RiferimentoRegistrazione, false, true, (AudioTrattatoSelezionato? () => {AJAX("TrattamentoAudio_ClonaClip.php", CreaParametri({N: da.NumeroUnivoco, Registrazione: new File([NuovoAudioTrattato], "NuovaRegistrazione." + formatoQualitaAlta)}), () => {setTimeout(AggiornaClip, 100);}, strSalvataggioInCorsoClipTrattata, strClipTrattataSalvata, true, true); setTimeout(() => {ComparsaBarraCaricamento(); Messaggio(strSalvataggioInCorsoClipTrattata, "OK");}, 100);} : () => {}));
-                          });
+                    /* Chiude la finestra */
+                    OpzioniClip(RiferimentoRegistrazione, false, true, (AudioTrattatoSelezionato? () => {AJAX("TrattamentoAudio_ClonaClip.php", CreaParametri({N: da.NumeroUnivoco, Registrazione: new File([NuovoAudioTrattato], "NuovaRegistrazione." + formatoQualitaAlta)}), () => {setTimeout(AggiornaClip, 100);}, strSalvataggioInCorsoClipTrattata, strClipTrattataSalvata, true, true); setTimeout(() => {ComparsaBarraCaricamento(); Messaggio(strSalvataggioInCorsoClipTrattata, "OK");}, 100);} : () => {}));
+                });
 
     function AggiornaModificheClip() {
          /* Aggiorna i commenti sulla clip */
-         const Numero = RiferimentoRegistrazione, datiAudio = DatiAudioRegistrato[Numero], AutoreCommenti = (SonoCreatoreProgetto? "CreatoreProgetto" : "Doppiatore"), DestinatarioCommenti = (SonoCreatoreProgetto? "Doppiatore" : "CreatoreProgetto");
+         const Numero = datiAudio.numero, AutoreCommenti = (SonoCreatoreProgetto? "CreatoreProgetto" : "Doppiatore"), DestinatarioCommenti = (SonoCreatoreProgetto? "Doppiatore" : "CreatoreProgetto");
          datiAudio['commenti' + AutoreCommenti] = textarea.value.trim(); datiAudio['commentiVisualizzati' + DestinatarioCommenti] *= (datiAudio['commenti' + AutoreCommenti] == datiAudio['commenti' + AutoreCommenti + "_prec"]);
          VisualizzaCommentiELT(Numero);
          
          /* Aggiorna la visualizzazione degli effetti audio (si aggiornano in automatico in caso di modifica, ma se rimangono uguali aggiusta la visualizzazione sul taglio iniziale) */
          VisualizzaEffettiAudio(Numero);
+
+         /* Aggiorna la modifica della clip da ascoltare (se sono stati modificati i tagli iniziali e/o finali ricalcola i secondi totali da ascoltare) */
+         AggiornaAudioDaAscoltare(datiAudio);
     }
 
     function RiassegnaBufferOriginale() {
@@ -3972,10 +4118,11 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
     }
 }
 
-function OpzioniClip(Numero, Apri, SalvaAllaChiusura, FunzioneAlTermineSalvataggio = () => {}) {
+function OpzioniClip(Numero, Apri, SalvaAllaChiusura, FunzioneAlTermine = () => {}) {
     if (Apri) {
         CreaFinestraOpzioniClip(Numero);
         VisualizzazioneGraficaTaglioClip.OndaSonoraCompleta = true;
+        ScorciatoieTastiera.sospendi = scorciatoieTool;
         
     } else {
         const OpzClip = document.getElementById(ID_Opzioni);
@@ -4007,13 +4154,13 @@ function OpzioniClip(Numero, Apri, SalvaAllaChiusura, FunzioneAlTermineSalvatagg
             if (VerificaSalvataggiCompletati.ClipSalvate >= ELTDaModificare.length) {
                 VerificaSalvataggiCompletati.ClipSalvate = 0;
                 ChiudiFinestraOpzioni();
-                AggiornaClip(); // Rimette le proprietà di eventuali altre clip modificate e poi deselezionate
             }
         }
         VerificaSalvataggiCompletati.ClipSalvate = 0;
 
         function ChiudiFinestraOpzioni() {
-            FunzioneAlTermineSalvataggio();
+            AggiornaClip(); // Rimette le proprietà di eventuali altre clip modificate e poi deselezionate
+            FunzioneAlTermine();
 
             ELTDaModificare = [];
         
@@ -4021,6 +4168,7 @@ function OpzioniClip(Numero, Apri, SalvaAllaChiusura, FunzioneAlTermineSalvatagg
             document.getElementById('LogoWEDUB').style.display = "";
             VisualizzazioneGraficaTaglioClip(Numero, VisualizzazioneGraficaTaglioClip.OndaSonoraCompleta = false);
             divVetro.style.display = "none";
+            ScorciatoieTastiera.sospendi = [];
             RiabilitaSchermata();
         }
     }
@@ -4035,8 +4183,9 @@ function OpzioniClip(Numero, Apri, SalvaAllaChiusura, FunzioneAlTermineSalvatagg
 function ScorciatoieTastieraFinestraOpzioni(Tasto) {
     if (document.activeElement.tagName == "TEXTAREA") {return;}
 
-    switch(Tasto.key) {
+    switch(Tasto.code) {
         case "Escape": document.getElementById("OpzioniClipAnnulla").click(); break;                         // [ESC]
+        case "NumpadEnter":
         case "Enter": setTimeout(() => {document.getElementById("OpzioniClipSalva").click();}, 200); break;  // [INVIO] il timeout permette di soddisfare gli altri eventi prima di salvare
     }
 }
@@ -4050,7 +4199,7 @@ function SpostaELT(e) {
 	} catch (e) {}
 }
 
-/** Ascolto in singolo **/
+/** Ascolto in singolo o riproduzione ciclica della clip **/
 function PulAscoltaPosizioneDefault(p) {
     p.className = "btn btn-default btn-sm dropdown-toggle fa fa-play-circle";
     p.innerHTML = " " + strAscoltaClip + " <span class='caret'></span>";
@@ -4108,11 +4257,22 @@ function StoppaAutomaticamenteAscoltoInSolo() {
         if ((datiAudio.audio) && (p.className.indexOf('warning') > -1)) {ResettaPulAscolta();}
     }
 }
+
+function CiclaClip() {
+    const p = document.getElementById(ID_Opzioni + 'PulAscolta'), Numero = p.dataset.RiferimentoRegistrazione, datiAudio = DatiAudioRegistrato[Numero];
+    p.className = "btn btn-info btn-sm fa fa-stop"; p.innerText = " " + strInterrompiAscolto;
+    Posizionati((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioIniziale) - 0.01);
+    datiAudio.audio.onended
+
+}
 /********************************/
 
 function AggiornaRiproduzioneClip(Numero) {
     if (RiproduzioneInCorso) {
-        StoppaClipAudio(DatiAudioRegistrato[Numero]); VerificaClipDaRiprodurre(Numero, VideoGuidaMinutaggioCorrente()); FunzioneRiproduzioneClip = RiproduciClipInSync;
+        StoppaClipAudio(DatiAudioRegistrato[Numero]);
+        EliminaClipDaRiprodurre(Numero);
+        VerificaClipDaRiprodurre(Numero, VideoGuidaMinutaggioCorrente());
+        FunzioneRiproduzioneClip = RiproduciClipInSync;
     }
 }
 
@@ -4138,7 +4298,7 @@ function DownloadClipConversione(e) {
 }
 /***********************************************************************************/
 
-/*** Gestione Post Message dalla Chat ***/
+/*** Gestione Post Message ***/
 window.addEventListener("message", (e) => {
   if ((e.origin !== window.location.origin) || (StoRegistrando) || (Righello.dataset.DisattivaClick == "si")) {return;}
   
@@ -4149,11 +4309,16 @@ window.addEventListener("message", (e) => {
     switch(Dati.tipo) {
         case 'minutaggio': 
             MinutaggioIndicato = (Dati.minuti * 60) + Number(Dati.secondi);
-            if ((MinutaggioIndicato != parseInt(VideoGuidaMinutaggioCorrente())) && (MinutaggioIndicato < totDurataVideoGuida)) {Posizionati(MinutaggioIndicato);} break;
+            if ((MinutaggioIndicato != (VideoGuidaMinutaggioCorrente() | 0)) && (MinutaggioIndicato < totDurataVideoGuida)) {Posizionati(MinutaggioIndicato);} break;
     }
-
 }, false);
-/****************************************/
+
+function InviaPostMessage(Finestra, Messaggio) {
+    try {
+        Finestra.postMessage(Messaggio, window.location.origin);
+    } catch (err) {}
+}
+/*****************************/
 
 function NascondiVisualizzaAltreTracce(Visualizzazione) {
     for(var I = 1; I < NumeroTotaleTracce; I++) {
@@ -4163,28 +4328,32 @@ function NascondiVisualizzaAltreTracce(Visualizzazione) {
 
 /*** Gestione scorciatoie di tastiera ***/
 function ScorciatoieTastiera(e) {
-    const Tasto = e.code;
+    let Tasto = e.code, TastoPremuto = "", SpiegazioneTasto = "";
     if (['TEXTAREA', 'INPUT', 'SPAN'].includes(document.activeElement.tagName) || ScorciatoieTastiera.sospendi.includes(Tasto)) {return;}
-    var TastoPremuto = "", SpiegazioneTasto = "";
+
+    InclusoIn = (a) => (a.includes(Tasto) ? Tasto : false);
 
     switch(Tasto) {
-        case "Space": e.preventDefault(); PlayPausa(); // [SPAZIO]
+        case "Space": e.preventDefault(); PlayPausa();
         default: return;
 
         case "ArrowLeft":
         case "ArrowRight": e.preventDefault(); Posizionati(((+MinutaggioSecondi.value) + ((+MinutaggioMinuti.value) * 60)) + (0.1 * (1 - (2 * (Tasto == "ArrowLeft"))))); return;
         
         case "KeyR": if (pulPlay.disabled || pulRegistra.disabled) {return;}
-                     startRecording(); TastoPremuto = "R"; SpiegazioneTasto = strSpiegazioneTastoRegistra; break;               // [R]
-        case "KeyZ": ZPremuto = true; TastoPremuto = "Z"; SpiegazioneTasto = strSpiegazioneTastoZoom; break;                    // [Z]
-        case "KeyX": CambiaTool(toolDividiClip); TastoPremuto = "X"; SpiegazioneTasto = strSpiegazioneTastoDividiClip; break;   // [X]
-        case "KeyM": CambiaTool(toolEscludiClip); TastoPremuto = "M"; SpiegazioneTasto = strSpiegazioneTastoEscludiClip; break; // [M]
-        case "KeyS": TastoPremuto = "S";                                                                                        // [S]
-        case "KeyG": CambiaTool(toolStandard); TastoPremuto += "G"; TastoPremuto = TastoPremuto.slice(0, 1); SpiegazioneTasto = strSpiegazioneTastoSeleziona; break; // [G]
+                     startRecording(); TastoPremuto = "R"; SpiegazioneTasto = strSpiegazioneTastoRegistra; break;
 
-        case "ShiftRight": if (pulMessaggioVocale.style.pointerEvents == "auto") {RegistraMessaggioVocale_slow(); TastoPremuto = "Shift " + strDestro; SpiegazioneTasto = strSpiegazioneTastoRegistraMessaggioIstantaneo;} else {return;} break;  // [Shift destro]
+        case "ControlLeft": e.preventDefault(); ControlPremuto = true; TastoPremuto = "Ctrl"; SpiegazioneTasto = strSpiegazioneTastoZoom; break;
+
+        case "ShiftRight": if (pulMessaggioVocale.style.pointerEvents == "auto") {RegistraMessaggioVocale_slow(); TastoPremuto = "Shift " + strDestro; SpiegazioneTasto = strSpiegazioneTastoRegistraMessaggioIstantaneo;} else {return;} break;
+
+        case "KeyS": Tasto = scorciatoieTool[toolStandard]; TastoPremuto = "S";
+        case InclusoIn(scorciatoieTool):
+            const ToolScelto = scorciatoieTool.indexOf(Tasto);
+            if (!e.ctrlKey && CambiaTool(ToolScelto)) {SpiegazioneTasto = strSpiegazioneTastoTool[ToolScelto];} else {return;}
     }
     
+    TastoPremuto = TastoPremuto || Tasto.slice(-1);
     Messaggio(strHaiPremuto + " <a class='btn btn-info'>" + TastoPremuto + "</a>: " + SpiegazioneTasto, "OK");
 }
 ScorciatoieTastiera.sospendi = [];
@@ -4206,7 +4375,7 @@ function ScorciatoieTastiera_ModalitaStreaming(Tasto) {
 
 function ScorciatoieTastiera_TastiSollevati(Tasto) {
     switch(Tasto.code) {
-        case "KeyZ": ZPremuto = false; CancMex(); break;   // [Z]
+        case "ControlLeft": ControlPremuto = false; CancMex(); break;   // [Ctrl]
         case "ShiftRight": if (pulMessaggioVocale.style.pointerEvents == "auto") {MandaMessaggioVocale();} break;  // [Shift destro]
     }
 }
@@ -4226,10 +4395,10 @@ function GestisciMouseUp(e) {
 }
 
 function GestisciRotellinaMouse(Rotellina) {
-    if (ZPremuto) {
+    if (ControlPremuto) {
         Rotellina.preventDefault();
         const zoomprecedente = slideZoom.value;
-        slideZoom.value -= 20 - (40 * (Rotellina.deltaY < 0));
+        slideZoom.value -= velZoomRotellinaMouse * (1 - (2 * (Rotellina.deltaY < 0)));
         if (zoomprecedente != slideZoom.value) {CambiaZoom();}
     }
 }
@@ -4282,16 +4451,28 @@ function VideoGuidaPronto() {
         document.getElementById('MessaggiUlteriori').innerHTML = Stringa;
 
         /*** Funzioni per gestire il copione We Dub ***/
+        FunzioneAlCaricamentoCopioneWeDub = () => {pulCopioneWeDub.click(); if (Righello.dataset.DisattivaClick == "si") {FunzioniCopione.DisattivaCopione();}};
+
         AltreFunzioniVisualizzaCopioneWeDub = () => {
             AttivaScorrimentoCopione();
             if (DatiDoppiatori[ID_Utente]) {
                 const vPersonaggi = Array.from(OpzEvidenzia_TestoGuida);
-                (vPersonaggi.find(el => new RegExp(DatiDoppiatori[ID_Utente].ruolo, 'i').test(el.value)) || vPersonaggi.find(el => new RegExp(DatiDoppiatori[ID_Utente].ruolo.slice(0, (DatiDoppiatori[ID_Utente].ruolo + " ").indexOf(' ')), 'i').test(el.value)) || {selected: false}).selected = true;
+                (vPersonaggi.find(el => new RegExp(DatiDoppiatori[ID_Utente].ruolo, 'i').test(el.value)) || vPersonaggi.find(el => new RegExp(DatiDoppiatori[ID_Utente].ruolo.slice(0, (DatiDoppiatori[ID_Utente].ruolo + ",").indexOf(',')), 'i').test(el.value)) || vPersonaggi.find(el => new RegExp(DatiDoppiatori[ID_Utente].ruolo.slice(0, (DatiDoppiatori[ID_Utente].ruolo + " ").indexOf(' ')), 'i').test(el.value)) || {selected: false}).selected = true;
                 OpzEvidenzia_TestoGuida.dispatchEvent(new Event('change'));
             }
         };
+
+        AltreFunzioniNascondiCopioneWeDub = () => {
+            if (ContenitoreCopione != window) {ContenitoreCopione.close(); ContenitoreTestoGuida.style.display = "";}
+            ContenitoreCopione = window;
+        };
+
         FunzioniCopione.FunzionePosizionaVideo = Posizionati;
-        const pulSwitchCopioneEditabile = CreaElemento('span', 'pulSwitchCopioneEditabile', ManigliaSposta_TestoGuida.id); pulSwitchCopioneEditabile.className = "btn btn-default fa fa-edit"; pulSwitchCopioneEditabile.style.marginLeft = "10px"; pulSwitchCopioneEditabile.onmousedown = SwitchCopioneEditabile;
+
+        /* Aggiunta del tasto che permette di editare il copione */
+        const pulSwitchCopioneEditabile = CreaElemento('span', 'pulSwitchCopioneEditabile', ManigliaSposta_TestoGuida.id); pulSwitchCopioneEditabile.className = "btn btn-default fa fa-edit"; pulSwitchCopioneEditabile.style.marginLeft = "10px"; pulSwitchCopioneEditabile.setAttribute('title', str_copione_ModalitaEditAttivata_title); pulSwitchCopioneEditabile.onmousedown = SwitchCopioneEditabile;
+        /* Aggiunta del tasto che permette di aprire il copione in una finestra separata */
+        if (!SistemaAttualeAndroid) {const pulCopioneInAltraFinestra = CreaElemento('span', 'pulCopioneInAltraFinestra', ManigliaSposta_TestoGuida.id); pulCopioneInAltraFinestra.className = "btn btn-default fa fa-share-square-o"; pulCopioneInAltraFinestra.style.marginLeft = "10px"; pulCopioneInAltraFinestra.setAttribute('title', str_copione_ApriCopioneInAltraFinestra_title); pulCopioneInAltraFinestra.onmousedown = ApriCopioneInAltraFinestra;}
         /**********************************************/
     }
 
