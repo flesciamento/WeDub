@@ -4265,12 +4265,10 @@ function CiclaClip() {
     p.className = "btn btn-info btn-sm fa fa-stop"; p.innerText = " " + strInterrompiAscolto; p.onclick = StoppaCicloClip;
     
     ClipInCiclo = datiAudio;
-    StopVideoGuida();
+    datiAudio.alTermine = () => {};
     RiproduzioneInCorso = true;
     Posizionati((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioIniziale) - 0.1);
     setTimeout(() => {datiAudio.alTermine = RiprendiCicloClip;}, 100);
-    
-
     
     ChiudiMenuOpzioniAscolto();
 }
