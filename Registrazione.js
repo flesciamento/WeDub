@@ -4211,7 +4211,6 @@ function ResettaPulAscolta() {
     if (p = document.getElementById('OpzioniClipPulAscolta')) {
         const datiAudio = DatiAudioRegistrato[p.dataset.RiferimentoRegistrazione];
         if (datiAudio.audio) {datiAudio.audio.onended = "";} // L'eliminazione della funzione "onended" serve per evitare che si intercetti l'evento allo stop della registrazione
-        StoppaCicloClip();
         PulAscoltaPosizioneDefault(p);
         StoppaClipAudio(datiAudio);
     }
@@ -4263,12 +4262,13 @@ function StoppaAutomaticamenteAscoltoInSolo() {
 /*** Cicla clip ***/
 function CiclaClip() {
     const p = document.getElementById(ID_Opzioni + 'PulAscolta'), Numero = p.dataset.RiferimentoRegistrazione, datiAudio = DatiAudioRegistrato[Numero];
-    p.className = "btn btn-info btn-sm fa fa-stop"; p.innerText = " " + strInterrompiAscolto; p.onclick = ResettaPulAscolta;
+    p.className = "btn btn-info btn-sm fa fa-stop"; p.innerText = " " + strInterrompiAscolto; p.onclick = StoppaCicloClip;
     
     ClipInCiclo = datiAudio;
+    StopVideoGuida();
     RiproduzioneInCorso = true;
-    datiAudio.alTermine = RiprendiCicloClip;
     Posizionati((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioIniziale) - 0.1);
+    setTimeout(() => {datiAudio.alTermine = RiprendiCicloClip;}, 100);
     
     ChiudiMenuOpzioniAscolto();
 }
@@ -4282,6 +4282,7 @@ function StoppaCicloClip() {
         ClipInCiclo.alTermine = () => {};
         ClipInCiclo = false;
         StopVideoGuida();
+        if (p = document.getElementById('OpzioniClipPulAscolta')) {PulAscoltaPosizioneDefault(p);}
     }
 }
 /********************************/
