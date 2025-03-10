@@ -3752,21 +3752,14 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
     divContenitoreOpzioni.addEventListener('mouseup', () => {OggettoDaSpostare = false; document.body.removeEventListener('mousemove', SpostaOggettoColMouse);});
     
     /** Barra del titolo **/
-    var div = CreaElemento('div', 'OpzioniTitolo', ID_Opzioni); div.className = "panel-heading text-center"; div.style.userSelect = "none";
-            
-        const barratitolo = CreaElemento('div', 'lblOpzioniTitolo', div.id, strOpzioniTraccia); barratitolo.iStyle({width: "70%", margin: "0px auto", cursor: "move"});
-              barratitolo.addEventListener('mousedown', () => {OggettoDaSpostare = divContenitoreOpzioni; document.body.addEventListener('mousemove', SpostaOggettoColMouse);});
-
-        const pulCancellaRipristina = CreaElemento('a', ID_Opzioni + 'Cancella', div.id); pulCancellaRipristina.iStyle({position: "absolute", top: "5px", left: "10px"});
-              pulCancellaRipristina.className = (AudioAttivo? 'btn btn-danger fa fa-trash-o' : 'btn btn-info fa fa-undo'); pulCancellaRipristina.title = (AudioAttivo? strCancellaClip : strRipristinaClip);
-              pulCancellaRipristina.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione;
-              pulCancellaRipristina.onclick = (AudioAttivo? (e) => { CancellaRipristinaRegistrazione(e.currentTarget.dataset.RiferimentoRegistrazione, false); } : (e) => { CancellaRipristinaRegistrazione(e.currentTarget.dataset.RiferimentoRegistrazione, true); });
-
-        const pulDuplicaClip = CreaElemento('a', ID_Opzioni + 'Duplica', div.id, strDuplicaClip_lblPulsante); pulDuplicaClip.iStyle({position: "absolute", top: "5px", right: "10px"});
-              pulDuplicaClip.className = "btn btn-info fa fa-copy"; pulDuplicaClip.title = strDuplicaClip;
-              pulDuplicaClip.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione;
-              pulDuplicaClip.onclick = (e) => {OpzioniClip(e.currentTarget.dataset.RiferimentoRegistrazione, false, true); DuplicaClip(e.currentTarget.dataset.RiferimentoRegistrazione);};
-        
+    CreaNuoviElementi({
+        ID_Opzioni: [['div', {id: 'OpzioniTitolo', className: "panel-heading text-center"}, {userSelect: "none"}]],
+            OpzioniTitolo: [
+                ['div', {textContent: strOpzioniTraccia, onmousedown: () => {OggettoDaSpostare = divContenitoreOpzioni; document.body.addEventListener('mousemove', SpostaOggettoColMouse);}}, {width: "70%", margin: "0px auto", cursor: "move"}],
+                ['a', {className: (AudioAttivo? 'btn btn-danger fa fa-trash-o' : 'btn btn-info fa fa-undo'), title: (AudioAttivo? strCancellaClip : strRipristinaClip), onclick: (e) => {CancellaRipristinaRegistrazione(e.currentTarget.dataset.RiferimentoRegistrazione, AudioAttivo);}}, {position: "absolute", top: "5px", left: "10px"},   {RiferimentoRegistrazione: RiferimentoRegistrazione}],
+                ['a', {textContent: strDuplicaClip_lblPulsante, className: "btn btn-info fa fa-copy", title: strDuplicaClip, onclick: (e) => {OpzioniClip(e.currentTarget.dataset.RiferimentoRegistrazione, false, true); DuplicaClip(e.currentTarget.dataset.RiferimentoRegistrazione);}}, {position: "absolute", top: "5px", right: "10px"},  {RiferimentoRegistrazione: RiferimentoRegistrazione}]
+            ]
+    }); 
     
     /** Contenuto **/
     const divcontenitorebody = CreaElemento('div', ID_Opzioni + 'ContenitoreOpzioniBody', ID_Opzioni); divcontenitorebody.className = "panel-body";
@@ -3851,7 +3844,6 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                             ['li', {innerHTML: `<span class='fa fa-file-audio-o'></span> ${strScaricaClipOriginale}<a id='${ID_Opzioni}aScaricaOriginale' href="${datiAudio.Registrazione}" download="${NomeFile}" style='display: none;'></a>`, className: "btn btn-info", onclick: DownloadClipFinestraOpzioni}, stiliMenu],
                             ['li', {innerHTML: "<span class='fa fa-tasks'></span> " + strScaricaClipConversione, className: "btn btn-primary", onclick: DownloadClipConversione}, stiliMenu, {larghezza: "850px", altezza: "500px", RiferimentoRegistrazione: RiferimentoRegistrazione}]
                         ]
-
         });
         const pulAscolta = document.getElementById(pulAscolta_id);
         PulAscoltaPosizioneDefault(pulAscolta);
