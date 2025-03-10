@@ -4270,6 +4270,8 @@ function CiclaClip() {
     Posizionati((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioIniziale) - 0.1);
     setTimeout(() => {datiAudio.alTermine = RiprendiCicloClip;}, 100);
     
+
+    
     ChiudiMenuOpzioniAscolto();
 }
 
