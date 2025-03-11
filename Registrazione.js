@@ -3759,7 +3759,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                 ['a', {className: (AudioAttivo? 'btn btn-danger fa fa-trash-o' : 'btn btn-info fa fa-undo'), title: (AudioAttivo? strCancellaClip : strRipristinaClip), onclick: (e) => {CancellaRipristinaRegistrazione(e.currentTarget.dataset.RiferimentoRegistrazione, AudioAttivo);}}, {position: "absolute", top: "5px", left: "10px"},   {RiferimentoRegistrazione: RiferimentoRegistrazione}],
                 ['a', {textContent: strDuplicaClip_lblPulsante, className: "btn btn-info fa fa-copy", title: strDuplicaClip, onclick: (e) => {OpzioniClip(e.currentTarget.dataset.RiferimentoRegistrazione, false, true); DuplicaClip(e.currentTarget.dataset.RiferimentoRegistrazione);}}, {position: "absolute", top: "5px", right: "10px"},  {RiferimentoRegistrazione: RiferimentoRegistrazione}]
             ]
-    }); 
+    });
     
     /** Contenuto **/
     const divcontenitorebody = CreaElemento('div', ID_Opzioni + 'ContenitoreOpzioniBody', ID_Opzioni); divcontenitorebody.className = "panel-body";
