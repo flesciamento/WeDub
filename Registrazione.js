@@ -3761,6 +3761,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
             ]
     });
     
+    
     /** Contenuto **/
     const divcontenitorebody = CreaElemento('div', ID_Opzioni + 'ContenitoreOpzioniBody', ID_Opzioni); divcontenitorebody.className = "panel-body";
         
