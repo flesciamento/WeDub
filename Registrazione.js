@@ -3832,9 +3832,9 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
         const divOpzioniVarie_id = ID_Opzioni + 'divOpzioniRigaVarie', btnMenuAscolta_id = ID_Opzioni + 'grpPulAscolta', btnMenuScarica_id = ID_Opzioni + 'grpMenuScarica', pulAscolta_id = ID_Opzioni + 'PulAscolta', ulPulAscolta_id = ID_Opzioni + 'ulMenuPulAscolta', ulPulScarica_id = ID_Opzioni + 'ulMenuPulScarica', liAscoltaSoloTaglio_id = ID_Opzioni + "AscoltaSoloTaglio";
         CreaNuoviElementi({
             [ID_Opzioni + 'ContenitoreOpzioniBody']: [['div']],
-                '-1': [['div', {id: btnMenuAscolta_id, className: "btn-group"}, {marginRight: "5px"}], ['div', {id: btnMenuScarica_id, className: "btn-group"}]],
+                0: [['div', {id: btnMenuAscolta_id, className: "btn-group"}, {marginRight: "5px"}], ['div', {id: btnMenuScarica_id, className: "btn-group"}]],
                     [btnMenuAscolta_id]: [['a', {id: pulAscolta_id}, {}, {toggle: "dropdown", RiferimentoRegistrazione: RiferimentoRegistrazione}], ['ul', {className: "dropdown-menu"}]],
-                        '-1': [
+                        4: [
                             ['li', {id: liAscoltaSoloTaglio_id, innerHTML: "<span class='fa fa-exchange'></span> " + strSoloTaglio, className: "btn btn-default", onclick: AscoltaInSolo_ParteTagliata}, stiliMenu],
                             ['li', {innerHTML: "<span class='fa fa-toggle-right'></span> " + strDaInizioAFine,                      className: "btn btn-default", onclick: AscoltaInSolo_Tutto}, stiliMenu],
                             ['li', {innerHTML: "<span class='fa fa-refresh'></span> " + strCiclaClip,                               className: "btn btn-info",    onclick: CiclaClip}, stiliMenu]
