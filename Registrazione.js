@@ -3756,7 +3756,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
         ID_Opzioni, ['div', {id: 'OpzioniTitolo', className: "panel-heading text-center"}, {userSelect: "none"}],,
             ['div', {textContent: strOpzioniTraccia, onmousedown: () => {OggettoDaSpostare = divContenitoreOpzioni; document.body.addEventListener('mousemove', SpostaOggettoColMouse);}}, {width: "70%", margin: "0px auto", cursor: "move"}],
             ['a', {id: ID_Opzioni + 'Cancella', className: (AudioAttivo? 'btn btn-danger fa fa-trash-o' : 'btn btn-info fa fa-undo'), title: (AudioAttivo? strCancellaClip : strRipristinaClip), onclick: (e) => {CancellaRipristinaRegistrazione(e.currentTarget.dataset.RiferimentoRegistrazione, !AudioAttivo);}}, {position: "absolute", top: "5px", left: "10px"}, {RiferimentoRegistrazione: RiferimentoRegistrazione}],
-            ['a', {id: ID_Opzioni + 'Duplica', textContent: strDuplicaClip_lblPulsante, className: "btn btn-info fa fa-copy", title: strDuplicaClip, onclick: (e) => {OpzioniClip(e.currentTarget.dataset.RiferimentoRegistrazione, false, true); DuplicaClip(e.currentTarget.dataset.RiferimentoRegistrazione);}}, {position: "absolute", top: "5px", right: "10px"},  {RiferimentoRegistrazione: RiferimentoRegistrazione}]
+            ['a', {id: ID_Opzioni + 'Duplica', textContent: strDuplicaClip_lblPulsante, className: "btn btn-info fa fa-copy", title: strDuplicaClip, onclick: (e) => {OpzioniClip(e.currentTarget.dataset.RiferimentoRegistrazione, false, true); DuplicaClip(e.currentTarget.dataset.RiferimentoRegistrazione);}}, {position: "absolute", top: "5px", right: "10px"}, {RiferimentoRegistrazione: RiferimentoRegistrazione}]
     ]);
     
     /** Contenuto **/
