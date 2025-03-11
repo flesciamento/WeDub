@@ -3286,9 +3286,7 @@ function CreaElementoLineaTemporale(ID, DoveInserirlo, PartenzaRegistrazione, Lu
 
             if (!ELTDaSpostare) {ELTAttuale.style.zIndex = 10000000;}
 
-            console.log("ELT mouseenter", ELTAttuale);
-
-            tmrRiposizionamentoAutomaticoELT = setTimeout(() => {console.log("timeout ELT mouseenter", ELTAttuale); RiposizionamentoAutomaticoClipSovrapposte(ELTAttuale);}, 200);
+            tmrRiposizionamentoAutomaticoELT = setTimeout(() => {RiposizionamentoAutomaticoClipSovrapposte(ELTAttuale);}, 200);
         });
 
         ELT.addEventListener('mouseleave', (e) => {
@@ -3511,7 +3509,6 @@ function RiposizionamentoAutomaticoClipSovrapposte(ELTConsiderato) {
 
         function TrovaTuttiGliELTSovrapposti() {
             for (idELT in ID_NuoviELTDaRiordinare) {
-                console.log("TrovaTuttiGliELTSovrapposti() - ciclo", idELT);
                 TrovaELTDaRiordinare(document.getElementById(idELT));
             }
 
@@ -3526,7 +3523,6 @@ function RiposizionamentoAutomaticoClipSovrapposte(ELTConsiderato) {
         }
 
         /* Trova tutti gli ELT sovrapposti con l'ELTConsiderato e ripete il check per tutti gli ELT trovati */
-        console.log("Riposizionamento clip", ELTConsiderato.id);
         ID_NuoviELTDaRiordinare[ELTConsiderato.id] = true;
         TrovaTuttiGliELTSovrapposti();
 
