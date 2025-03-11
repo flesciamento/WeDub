@@ -3858,7 +3858,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                             const pulsante = e.currentTarget, Numero = pulsante.dataset.RiferimentoRegistrazione, da = DatiAudioRegistrato[Numero], b = da.buffer.getChannelData(0), lunghezzaBuffer = b.length, SampleRate = da.buffer.sampleRate, LimiteSecondiSogliaRumoreAttacco = RiduzioneRumore.SecondiSogliaRumoreAttacco * SampleRate, LimiteSecondiSogliaRumoreTermine = RiduzioneRumore.SecondiSogliaRumoreTermine * SampleRate;
 
                             /* Inizializzazione interfaccia */
-                            StoppaAutomaticamenteAscoltoInSolo();
+                            StoppaAutomaticamenteAscoltoInSolo(); StoppaCicloClip();
                             pulsante.abilita(false);
                             pulsante.iStyle({border: "none", color: "black"});
                             pulsante.innerHTML = "<span class='fa fa-spin fa-spinner'></span> " + strInElaborazione;
