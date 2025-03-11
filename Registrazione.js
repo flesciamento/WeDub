@@ -3841,7 +3841,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                         ],
 
                     [btnMenuScarica_id]: [['a', {innerHTML: strScaricaRegistrazione + " <span class='caret'></span>", className: "btn btn-default btn-sm fa fa-download", onclick: ApriMenuOpzioniScaricamento}, {}, {toggle: "dropdown", RiferimentoRegistrazione: RiferimentoRegistrazione}], ['ul', {className: "dropdown-menu"}]],
-                        '-1': [
+                        9: [
                             ['li', {innerHTML: `<span class='fa fa-file-audio-o'></span> ${strScaricaClipOriginale}<a id='${ID_Opzioni}aScaricaOriginale' href="${datiAudio.Registrazione}" download="${NomeFile}" style='display: none;'></a>`, className: "btn btn-info", onclick: DownloadClipFinestraOpzioni}, stiliMenu],
                             ['li', {innerHTML: "<span class='fa fa-tasks'></span> " + strScaricaClipConversione, className: "btn btn-primary", onclick: DownloadClipConversione}, stiliMenu, {larghezza: "850px", altezza: "500px", RiferimentoRegistrazione: RiferimentoRegistrazione}]
                         ]
