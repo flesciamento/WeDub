@@ -3848,10 +3848,12 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
         const pulAscolta = document.getElementById(pulAscolta_id), liAscoltaSoloTaglio = document.getElementById(liAscoltaSoloTaglio_id);
         PulAscoltaPosizioneDefault(pulAscolta);
 
-            const divTrattamentoAudio = CreaElemento('div', ID_Opzioni + 'divTrattamentoAudio', divOpzioniVarie_id); divTrattamentoAudio.className = "btn"; divTrattamentoAudio.iStyle({cursor: "auto", width: "fit-content"});
-                const fieldsetTrattamentoAudio = CreaElemento('fieldset', divTrattamentoAudio.id + "fieldset", divTrattamentoAudio.id);
-                    CreaElemento('legend', fieldsetTrattamentoAudio.id + "label", fieldsetTrattamentoAudio.id, strTrattamentoAudio).style.fontSize = "16px";
-                    const pulRiduciRumore = CreaElemento('div', ID_Opzioni + 'pulRiduciRumore', divTrattamentoAudio.id, strRiduzioneRumore); pulRiduciRumore.className = "btn btn-default"; pulRiduciRumore.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione;
+            const divTrattamentoAudio_id = ID_Opzioni + 'divTrattamentoAudio', fieldsetTrattamentoAudio_id = divTrattamentoAudio_id + "fieldset";
+            CreaNuoviElementi({[divOpzioniVarie_id]: [['div', {id: divTrattamentoAudio_id, className: "btn"}, {cursor: "auto", width: "fit-content", whiteSpace: "break-spaces"}]],
+                                    [divTrattamentoAudio_id]: [['fieldset', {id: fieldsetTrattamentoAudio_id}]],
+                                        [fieldsetTrattamentoAudio_id]: [['label', {textContent: strTrattamentoAudio}, {fontSize: "16px"}]]});
+                                        
+                    const pulRiduciRumore = CreaElemento('div', ID_Opzioni + 'pulRiduciRumore', divTrattamentoAudio_id, strRiduzioneRumore); pulRiduciRumore.className = "btn btn-default"; pulRiduciRumore.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione;
                     if (DatiAudioRegistrato[RiferimentoRegistrazione].Registrazione.indexOf('-trattato') == -1) {
                         pulRiduciRumore.onclick = async (e) => {
                             divVetro.iStyle({display: "inline", opacity: 0});
@@ -3903,7 +3905,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                                                     }
 
                                                     pulsante.innerHTML = "<span class='fa fa-check' style='color: green;'></span> " + strCreazioneCompletata;
-                                                    const {0: lblAudioOriginale, 1: lblAudioTrattato} = CreaNuoviElementi({[divTrattamentoAudio.id]: [['label', {id: divTrattamentoAudio.id + 'labelOriginale', className: "btn btn-default"}], ['label', {id: divTrattamentoAudio.id + 'labelTrattato', className: "btn btn-default"}]]});
+                                                    const {0: lblAudioOriginale, 1: lblAudioTrattato} = CreaNuoviElementi({[divTrattamentoAudio_id]: [['label', {id: divTrattamentoAudio_id + 'labelOriginale', className: "btn btn-default"}], ['label', {id: divTrattamentoAudio_id + 'labelTrattato', className: "btn btn-default"}]]});
                                                         const inputAudioOriginale = CreaElemento('input', ID_Opzioni + 'inputAudioOriginale', lblAudioOriginale.id); inputAudioOriginale.setAttribute('type', 'radio'); inputAudioOriginale.setAttribute('name', 'opzAudioOriginaleTrattato'); inputAudioOriginale.value = 0; inputAudioOriginale.onclick = SelezionaAudio;
                                                         CreaElemento('span', ID_Opzioni + 'spanAudioOriginale', lblAudioOriginale.id, " " + strSelezionaAudioOriginale);
                                                         
@@ -3934,9 +3936,9 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                         pulRiduciRumore.dataset.riduzionerumoreapplicata = 1;
                     }
 
-                    CreaElemento('span', ID_Opzioni + 'spaziotrattamentoaudio', divTrattamentoAudio.id, ' ');
+                    CreaElemento('span', ID_Opzioni + 'spaziotrattamentoaudio', divTrattamentoAudio_id, ' ');
 
-                    const pulSpezzaBattute = CreaElemento('div', ID_Opzioni + 'pulSpezzaBattute', divTrattamentoAudio.id, strSpezzaBattute); pulSpezzaBattute.className = "btn btn-default"; pulSpezzaBattute.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione; pulSpezzaBattute.setAttribute('title', strSpezzaBattute_spiegazione);
+                    const pulSpezzaBattute = CreaElemento('div', ID_Opzioni + 'pulSpezzaBattute', divTrattamentoAudio_id, strSpezzaBattute); pulSpezzaBattute.className = "btn btn-default"; pulSpezzaBattute.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione; pulSpezzaBattute.setAttribute('title', strSpezzaBattute_spiegazione);
                     pulSpezzaBattute.onclick = async (e) => {
                         divVetro.iStyle({display: "inline", opacity: 0});
                         const pulsante = e.currentTarget, Numero = pulsante.dataset.RiferimentoRegistrazione, da = DatiAudioRegistrato[Numero], b = da.buffer.getChannelData(0), SampleRate = da.buffer.sampleRate, lunghezzaBufferConsiderata = da.taglioFinale * SampleRate, SogliaAttacco = SpezzaBattute.SogliaAttaccoDB, LimiteSecondiSogliaAttacco = SpezzaBattute.SecondiSogliaAttacco * SampleRate, LimiteSecondiSogliaTermine = SpezzaBattute.SecondiSogliaTermine * SampleRate, SogliaRiposo = SampleRate * 60;
