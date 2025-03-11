@@ -4260,7 +4260,7 @@ function CiclaClip() {
     ClipInCiclo = datiAudio;
     datiAudio.alTermine = () => {};
     RiproduzioneInCorso = true;
-    Posizionati((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioIniziale) - 0.1);
+    Posizionati((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioIniziale) - opzCicloClip.secondiprimainizio);
     setTimeout(() => {datiAudio.alTermine = RiprendiCicloClip;}, 100);
     
     ChiudiMenuOpzioniAscolto();
