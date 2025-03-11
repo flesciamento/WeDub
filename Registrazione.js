@@ -3753,14 +3753,13 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
     
     /** Barra del titolo **/
     CreaNuoviElementi({
-        ID_Opzioni: [['div', {id: 'OpzioniTitolo', className: "panel-heading text-center"}, {userSelect: "none"}]],
+        [ID_Opzioni]: [['div', {id: 'OpzioniTitolo', className: "panel-heading text-center"}, {userSelect: "none"}]],
             OpzioniTitolo: [
                 ['div', {textContent: strOpzioniTraccia, onmousedown: () => {OggettoDaSpostare = divContenitoreOpzioni; document.body.addEventListener('mousemove', SpostaOggettoColMouse);}}, {width: "70%", margin: "0px auto", cursor: "move"}],
                 ['a', {className: (AudioAttivo? 'btn btn-danger fa fa-trash-o' : 'btn btn-info fa fa-undo'), title: (AudioAttivo? strCancellaClip : strRipristinaClip), onclick: (e) => {CancellaRipristinaRegistrazione(e.currentTarget.dataset.RiferimentoRegistrazione, AudioAttivo);}}, {position: "absolute", top: "5px", left: "10px"},   {RiferimentoRegistrazione: RiferimentoRegistrazione}],
                 ['a', {textContent: strDuplicaClip_lblPulsante, className: "btn btn-info fa fa-copy", title: strDuplicaClip, onclick: (e) => {OpzioniClip(e.currentTarget.dataset.RiferimentoRegistrazione, false, true); DuplicaClip(e.currentTarget.dataset.RiferimentoRegistrazione);}}, {position: "absolute", top: "5px", right: "10px"},  {RiferimentoRegistrazione: RiferimentoRegistrazione}]
             ]
     });
-    
     
     /** Contenuto **/
     const divcontenitorebody = CreaElemento('div', ID_Opzioni + 'ContenitoreOpzioniBody', ID_Opzioni); divcontenitorebody.className = "panel-body";
