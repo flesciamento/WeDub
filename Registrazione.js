@@ -3828,15 +3828,15 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
 
                                             /* Varie */
         const stiliMenu = {textAlign: "left", width: "100%"}, NomeFile = `${NomeProgetto} ${NomeDoppiaggio} ${DatiDoppiatori[datiAudio.ID_Utente].nome} ${strBattuta} ${strA} ${MinutaggioAttuale.Minuti.duecifre()} min ${MinutaggioAttuale.Secondi.toFixed(3)} sec${datiAudio.Registrazione.slice(datiAudio.Registrazione.lastIndexOf("."))}`.replace(/[^a-zA-Z0-9\.]/g, "_");
-        const divOpzioniVarie_id = ID_Opzioni + 'divOpzioniRigaVarie', btnMenuAscolta_id = ID_Opzioni + 'grpPulAscolta', btnMenuScarica_id = ID_Opzioni + 'grpMenuScarica', pulAscolta_id = ID_Opzioni + 'PulAscolta', ulPulAscolta_id = ID_Opzioni + 'ulMenuPulAscolta', ulPulScarica_id = ID_Opzioni + 'ulMenuPulScarica';
+        const divOpzioniVarie_id = ID_Opzioni + 'divOpzioniRigaVarie', btnMenuAscolta_id = ID_Opzioni + 'grpPulAscolta', btnMenuScarica_id = ID_Opzioni + 'grpMenuScarica', pulAscolta_id = ID_Opzioni + 'PulAscolta', ulPulAscolta_id = ID_Opzioni + 'ulMenuPulAscolta', ulPulScarica_id = ID_Opzioni + 'ulMenuPulScarica', liAscoltaSoloTaglio_id = ID_Opzioni + "AscoltaSoloTaglio";
         CreaNuoviElementi({
             [ID_Opzioni + 'ContenitoreOpzioniBody']: [['div', {id: divOpzioniVarie_id}]],
                 [divOpzioniVarie_id]: [['div', {id: btnMenuAscolta_id, className: "btn-group"}, {marginRight: "5px"}], ['div', {id: btnMenuScarica_id, className: "btn-group"}]],
                     [btnMenuAscolta_id]: [['a', {id: pulAscolta_id}, {}, {toggle: "dropdown", RiferimentoRegistrazione: RiferimentoRegistrazione}], ['ul', {id: ulPulAscolta_id, className: "dropdown-menu"}]],
                         [ulPulAscolta_id]: [
-                            ['li', {innerHTML: "<span class='fa fa-exchange'></span> " + strSoloTaglio,         className: "btn btn-default", onclick: AscoltaInSolo_ParteTagliata}, stiliMenu],
-                            ['li', {innerHTML: "<span class='fa fa-toggle-right'></span> " + strDaInizioAFine,  className: "btn btn-default", onclick: AscoltaInSolo_Tutto}, stiliMenu],
-                            ['li', {innerHTML: "<span class='fa fa-refresh'></span> " + strCiclaClip,           className: "btn btn-info",    onclick: CiclaClip}, stiliMenu]
+                            ['li', {id: liAscoltaSoloTaglio_id, innerHTML: "<span class='fa fa-exchange'></span> " + strSoloTaglio,   className: "btn btn-default", onclick: AscoltaInSolo_ParteTagliata}, stiliMenu],
+                            ['li', {innerHTML: "<span class='fa fa-toggle-right'></span> " + strDaInizioAFine,                                  className: "btn btn-default", onclick: AscoltaInSolo_Tutto}, stiliMenu],
+                            ['li', {innerHTML: "<span class='fa fa-refresh'></span> " + strCiclaClip,                                           className: "btn btn-info",    onclick: CiclaClip}, stiliMenu]
                         ],
 
                     [btnMenuScarica_id]: [['a', {innerHTML: strScaricaRegistrazione + " <span class='caret'></span>", className: "btn btn-default btn-sm fa fa-download", onclick: ApriMenuOpzioniScaricamento}, {}, {toggle: "dropdown", RiferimentoRegistrazione: RiferimentoRegistrazione}], ['ul', {id: ulPulScarica_id, className: "dropdown-menu"}]],
@@ -3845,7 +3845,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                             ['li', {innerHTML: "<span class='fa fa-tasks'></span> " + strScaricaClipConversione, className: "btn btn-primary", onclick: DownloadClipConversione}, stiliMenu, {larghezza: "850px", altezza: "500px", RiferimentoRegistrazione: RiferimentoRegistrazione}]
                         ]
         });
-        const pulAscolta = document.getElementById(pulAscolta_id);
+        const pulAscolta = document.getElementById(pulAscolta_id), liAscoltaSoloTaglio = document.getElementById(liAscoltaSoloTaglio_id);
         PulAscoltaPosizioneDefault(pulAscolta);
 
             const divTrattamentoAudio = CreaElemento('div', ID_Opzioni + 'divTrattamentoAudio', divOpzioniVarie_id); divTrattamentoAudio.className = "btn"; divTrattamentoAudio.iStyle({cursor: "auto", width: "fit-content"});
