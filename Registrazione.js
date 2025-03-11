@@ -3525,6 +3525,7 @@ function RiposizionamentoAutomaticoClipSovrapposte(ELTConsiderato) {
         }
 
         /* Trova tutti gli ELT sovrapposti con l'ELTConsiderato e ripete il check per tutti gli ELT trovati */
+        console.log("Riposizionamento clip", ELTConsiderato.id);
         ID_NuoviELTDaRiordinare[ELTConsiderato.id] = true;
         TrovaTuttiGliELTSovrapposti();
 
