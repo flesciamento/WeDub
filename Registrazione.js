@@ -3899,7 +3899,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                                                     function SelezionaAudio(e) {
                                                         StoppaAutomaticamenteAscoltoInSolo();
                                                         da.buffer = ((e.currentTarget.value == 0) ? bufferoriginale : buffernuovo);
-                                                        liAscoltaSoloTaglio.click();
+                                                        if (ClipInCiclo) {CiclaClip();} else {liAscoltaSoloTaglio.click();}
                                                     }
 
                                                     pulsante.innerHTML = "<span class='fa fa-check' style='color: green;'></span> " + strCreazioneCompletata;
