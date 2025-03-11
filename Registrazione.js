@@ -3511,6 +3511,7 @@ function RiposizionamentoAutomaticoClipSovrapposte(ELTConsiderato) {
 
         function TrovaTuttiGliELTSovrapposti() {
             for (idELT in ID_NuoviELTDaRiordinare) {
+                console.log("TrovaTuttiGliELTSovrapposti() - ciclo", idELT);
                 TrovaELTDaRiordinare(document.getElementById(idELT));
             }
 
