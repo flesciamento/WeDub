@@ -3780,7 +3780,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
             [divcontenitorebody.id, ['div']],
                 [['table'], ['div', {id: divOpzioneEffetti_id}]],
                     [1, ['tr']],
-                            [['td', {textContent: strPosizione}, {fontFamily: "Verdana", fontSize: "12px", verticalAlign: "bottom", paddingBottom: "5px"}], ['td']]
+                            [['td', {textContent: strPosizione}, {fontFamily: "Verdana", fontSize: "12px", verticalAlign: "bottom", paddingBottom: "5px"}], ['td']],
                                 [['table']],
                                     [['tr']],
                                         [['td', {textContent: strMinuti}, stililabel], ['td'], ['td', {textContent: strSecondi}, stililabel]],
