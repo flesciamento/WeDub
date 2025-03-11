@@ -3286,7 +3286,9 @@ function CreaElementoLineaTemporale(ID, DoveInserirlo, PartenzaRegistrazione, Lu
 
             if (!ELTDaSpostare) {ELTAttuale.style.zIndex = 10000000;}
 
-            tmrRiposizionamentoAutomaticoELT = setTimeout(() => {RiposizionamentoAutomaticoClipSovrapposte(ELTAttuale);}, 200);
+            console.log("ELT mouseenter", ELTAttuale);
+
+            tmrRiposizionamentoAutomaticoELT = setTimeout(() => {console.log("timeout ELT mouseenter", ELTAttuale); RiposizionamentoAutomaticoClipSovrapposte(ELTAttuale);}, 200);
         });
 
         ELT.addEventListener('mouseleave', (e) => {
@@ -3832,7 +3834,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
         const divOpzioniVarie_id = ID_Opzioni + 'divOpzioniRigaVarie', btnMenuAscolta_id = ID_Opzioni + 'grpPulAscolta', btnMenuScarica_id = ID_Opzioni + 'grpMenuScarica', pulAscolta_id = ID_Opzioni + 'PulAscolta', ulPulAscolta_id = ID_Opzioni + 'ulMenuPulAscolta', ulPulScarica_id = ID_Opzioni + 'ulMenuPulScarica', liAscoltaSoloTaglio_id = ID_Opzioni + "AscoltaSoloTaglio";
         CreaNuoviElementi([
             ID_Opzioni + 'ContenitoreOpzioniBody', [['div', {id: divOpzioniVarie_id}]],
-                0, [['div', {className: "btn-group"}, {marginRight: "5px"}], ['div', {className: "btn-group"}]],
+                0, [['div', {id: btnMenuAscolta_id, className: "btn-group"}, {marginRight: "5px"}], ['div', {id: btnMenuScarica_id, className: "btn-group"}]],
                     1, [['a', {id: pulAscolta_id}, {}, {toggle: "dropdown", RiferimentoRegistrazione: RiferimentoRegistrazione}], ['ul', {className: "dropdown-menu"}]],
                         -1, [
                             ['li', {id: liAscoltaSoloTaglio_id, innerHTML: "<span class='fa fa-exchange'></span> " + strSoloTaglio, className: "btn btn-default", onclick: AscoltaInSolo_ParteTagliata}, stiliMenu],
@@ -3905,7 +3907,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                                                     }
 
                                                     pulsante.innerHTML = "<span class='fa fa-check' style='color: green;'></span> " + strCreazioneCompletata;
-                                                    
+
                                                     const lblAudioOriginale_id = divTrattamentoAudio_id + 'labelOriginale', lblAudioTrattato_id = divTrattamentoAudio_id + 'labelTrattato';
                                                     CreaNuoviElementi([divTrattamentoAudio_id, [['label', {id: lblAudioOriginale_id, className: "btn btn-default"}], ['label', {id: lblAudioTrattato_id, className: "btn btn-default"}]]]);
                                                         const inputAudioOriginale = CreaElemento('input', ID_Opzioni + 'inputAudioOriginale', lblAudioOriginale_id); inputAudioOriginale.setAttribute('type', 'radio'); inputAudioOriginale.setAttribute('name', 'opzAudioOriginaleTrattato'); inputAudioOriginale.value = 0; inputAudioOriginale.onclick = SelezionaAudio;
