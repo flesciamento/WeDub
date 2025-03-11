@@ -3778,7 +3778,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
         const stililabel = {fontFamily: "Verdana", fontSize: "12px"};
         CreaNuoviElementi([
             [divcontenitorebody.id, ['div']],
-                [['table'], ['div', {id: divOpzioneEffetti_id}]],
+                [['table', {id: ID_Opzioni + 'TabellaMinutaggio'}], ['div', {id: divOpzioneEffetti_id}]],
                     [1, ['tr']],
                             [['td', {textContent: strPosizione}, {fontFamily: "Verdana", fontSize: "12px", verticalAlign: "bottom", paddingBottom: "5px"}], ['td']],
                                 [['table']],
