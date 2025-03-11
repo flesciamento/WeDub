@@ -3774,45 +3774,42 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
         /******************************/
 
         /*** Posizione ed effetti della clip ***/
-        const divContenitoreMinEff_id = ID_Opzioni + 'divContenitoreMinEff', tabellaminutaggio_id = ID_Opzioni + 'TabellaMinutaggio';
-        const divContenitoreMinEff = CreaElemento('div', ID_Opzioni + 'divContenitoreMinEff', divcontenitorebody.id);
-                                        /* Minutaggio */
-            const tabellaminutaggio = CreaElemento('table', ID_Opzioni + 'TabellaMinutaggio', divContenitoreMinEff.id);
-                tr = CreaElemento('tr', ID_Opzioni + 'TabellaOpzioniRiga1', tabellaminutaggio.id);
-                    td = CreaElemento('td', ID_Opzioni + 'tdOpzionePosizioneLabel', tr.id, strPosizione); td.iStyle({fontFamily: "Verdana", fontSize: "12px", verticalAlign: "bottom", paddingBottom: "5px"});
-                    td = CreaElemento('td', ID_Opzioni + 'tdOpzionePosizioneMinutiSecondi', tr.id);
-                        const SottoTabella = CreaElemento('table', ID_Opzioni + 'SottoTabellaMinutiSecondi', td.id), stililabel = {fontFamily: "Verdana", fontSize: "12px"};
-                            tr = CreaElemento('tr', ID_Opzioni + 'SottoTabellaRiga1', SottoTabella.id);
-                                td = CreaElemento('td', ID_Opzioni + 'tdOpzionePosizioneMinutiLabel', tr.id, strMinuti); td.iStyle(stililabel);
-                                td = CreaElemento('td', ID_Opzioni + 'tdOpzionePosizioneVuoto', tr.id);
-                                td = CreaElemento('td', ID_Opzioni + 'tdOpzionePosizioneSecondiLabel', tr.id, strSecondi); td.iStyle(stililabel);
-                            
-                            tr = CreaElemento('tr', ID_Opzioni + 'SottoTabellaRiga2', SottoTabella.id);
-                                td = CreaElemento('td', ID_Opzioni + 'tdOpzionePosizioneMinuti', tr.id);
-                                    var M = CreaElemento('input', ID_Opzioni + 'MinutaggioMinuti', td.id); M.setAttribute("type", "number"); M.className = "SelettoreMinutaggioMinuti";
-                                    M.setAttribute("min", "0"); M.setAttribute("max", MinutaggioMassimo.Minuti); M.setAttribute("step", "1");
-                                    FunzioniCasellaNumerica(M);
-                                    M.value = MinutaggioAttuale.Minuti;
-                                    M.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione;
-                                    M.addEventListener("change", function () {SpostaMinutaggioRegistrazione(this.dataset.RiferimentoRegistrazione);});
-                            
-                                td = CreaElemento('td', ID_Opzioni + 'tdOpzionePosizioneDivisore', tr.id, ":");
-                                    
-                                td = CreaElemento('td', ID_Opzioni + 'tdOpzionePosizioneSecondi', tr.id);
-                                    var S = CreaElemento('input', ID_Opzioni + 'MinutaggioSecondi', td.id); S.setAttribute("type", "number"); S.className = "SelettoreMinutaggioSecondi";
-                                    S.setAttribute("min", "0"); S.setAttribute("max", "59.999"); S.setAttribute("step", "0.1");
-                                    FunzioniCasellaNumerica(S);
-                                    S.value = MinutaggioAttuale.Secondi;
-                                    S.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione;
-                                    S.addEventListener("change", function () {SpostaMinutaggioRegistrazione(this.dataset.RiferimentoRegistrazione);});
-                                    
-                                            /* Effetti */
-            div = CreaElemento('div', ID_Opzioni + 'divOpzioneEffetti', divContenitoreMinEff.id);
-                    CreaElemento('div', ID_Opzioni + 'labelOpzioneEffetti', div.id, strApplicaUnEffetto);
-                    CreaPulsanteEffetto('radio', div.id, strEffettoRadio);
-                    CreaPulsanteEffetto('ovattato', div.id, strEffettoOvattato);
-                    CreaPulsanteEffetto('echo', div.id, strEffettoEco);
-                    CreaPulsanteEffetto('riverbero', div.id, strEffettoRiverbero);
+        const tdPosizioneMinuti_id = ID_Opzioni + 'tdOpzionePosizioneMinuti', tdPosizioneSecondi_id = ID_Opzioni + 'tdOpzionePosizioneSecondi', divOpzioneEffetti_id = ID_Opzioni + 'divOpzioneEffetti';
+        const stililabel = {fontFamily: "Verdana", fontSize: "12px"};
+        CreaNuoviElementi([
+            divcontenitorebody.id, [['div']],
+                -1, [['table'], ['div', {id: divOpzioneEffetti_id}]],
+                     1, [['tr']],
+                        -1, [['td', {textContent: strPosizione}, {fontFamily: "Verdana", fontSize: "12px", verticalAlign: "bottom", paddingBottom: "5px"}], ['td']]
+                            -1, [['table']],
+                                -1, [['tr']],
+                                    -1, [['td', {textContent: strMinuti}, stililabel], ['td'], ['td', {textContent: strSecondi}, stililabel]],
+                                -4, [['tr']],
+                                    -1, [['td', {id: tdPosizioneMinuti_id}], ['td', {textContent: ":"}, ['td', {id: tdPosizioneSecondi_id}]]]
+        ]);
+
+                    /* Minutaggio */
+        var M = CreaElemento('input', ID_Opzioni + 'MinutaggioMinuti', tdPosizioneMinuti_id); M.setAttribute("type", "number"); M.className = "SelettoreMinutaggioMinuti";
+        M.setAttribute("min", "0"); M.setAttribute("max", MinutaggioMassimo.Minuti); M.setAttribute("step", "1");
+        FunzioniCasellaNumerica(M);
+        M.value = MinutaggioAttuale.Minuti;
+        M.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione;
+        M.addEventListener("change", function () {SpostaMinutaggioRegistrazione(this.dataset.RiferimentoRegistrazione);});
+
+        var S = CreaElemento('input', ID_Opzioni + 'MinutaggioSecondi', tdPosizioneSecondi_id); S.setAttribute("type", "number"); S.className = "SelettoreMinutaggioSecondi";
+        S.setAttribute("min", "0"); S.setAttribute("max", "59.999"); S.setAttribute("step", "0.1");
+        FunzioniCasellaNumerica(S);
+        S.value = MinutaggioAttuale.Secondi;
+        S.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione;
+        S.addEventListener("change", function () {SpostaMinutaggioRegistrazione(this.dataset.RiferimentoRegistrazione);});
+                        
+
+                    /* Effetti */
+        CreaElemento('div', ID_Opzioni + 'labelOpzioneEffetti', divOpzioneEffetti_id, strApplicaUnEffetto);
+        CreaPulsanteEffetto('radio',     divOpzioneEffetti_id, strEffettoRadio);
+        CreaPulsanteEffetto('ovattato',  divOpzioneEffetti_id, strEffettoOvattato);
+        CreaPulsanteEffetto('echo',      divOpzioneEffetti_id, strEffettoEco);
+        CreaPulsanteEffetto('riverbero', divOpzioneEffetti_id, strEffettoRiverbero);
         /**************************************/
 
         /*** Tabella sliders ***/
