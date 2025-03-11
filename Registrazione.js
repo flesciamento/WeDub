@@ -3832,16 +3832,16 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
         const divOpzioniVarie_id = ID_Opzioni + 'divOpzioniRigaVarie', btnMenuAscolta_id = ID_Opzioni + 'grpPulAscolta', btnMenuScarica_id = ID_Opzioni + 'grpMenuScarica', pulAscolta_id = ID_Opzioni + 'PulAscolta', ulPulAscolta_id = ID_Opzioni + 'ulMenuPulAscolta', ulPulScarica_id = ID_Opzioni + 'ulMenuPulScarica', liAscoltaSoloTaglio_id = ID_Opzioni + "AscoltaSoloTaglio";
         CreaNuoviElementi({
             [ID_Opzioni + 'ContenitoreOpzioniBody']: [['div']],
-                [-1]: [['div', {id: btnMenuAscolta_id, className: "btn-group"}, {marginRight: "5px"}], ['div', {id: btnMenuScarica_id, className: "btn-group"}]],
+                '-1': [['div', {id: btnMenuAscolta_id, className: "btn-group"}, {marginRight: "5px"}], ['div', {id: btnMenuScarica_id, className: "btn-group"}]],
                     [btnMenuAscolta_id]: [['a', {id: pulAscolta_id}, {}, {toggle: "dropdown", RiferimentoRegistrazione: RiferimentoRegistrazione}], ['ul', {className: "dropdown-menu"}]],
-                        [-1]: [
+                        '-1': [
                             ['li', {id: liAscoltaSoloTaglio_id, innerHTML: "<span class='fa fa-exchange'></span> " + strSoloTaglio, className: "btn btn-default", onclick: AscoltaInSolo_ParteTagliata}, stiliMenu],
                             ['li', {innerHTML: "<span class='fa fa-toggle-right'></span> " + strDaInizioAFine,                      className: "btn btn-default", onclick: AscoltaInSolo_Tutto}, stiliMenu],
                             ['li', {innerHTML: "<span class='fa fa-refresh'></span> " + strCiclaClip,                               className: "btn btn-info",    onclick: CiclaClip}, stiliMenu]
                         ],
 
                     [btnMenuScarica_id]: [['a', {innerHTML: strScaricaRegistrazione + " <span class='caret'></span>", className: "btn btn-default btn-sm fa fa-download", onclick: ApriMenuOpzioniScaricamento}, {}, {toggle: "dropdown", RiferimentoRegistrazione: RiferimentoRegistrazione}], ['ul', {className: "dropdown-menu"}]],
-                        [-1]: [
+                        '-1': [
                             ['li', {innerHTML: `<span class='fa fa-file-audio-o'></span> ${strScaricaClipOriginale}<a id='${ID_Opzioni}aScaricaOriginale' href="${datiAudio.Registrazione}" download="${NomeFile}" style='display: none;'></a>`, className: "btn btn-info", onclick: DownloadClipFinestraOpzioni}, stiliMenu],
                             ['li', {innerHTML: "<span class='fa fa-tasks'></span> " + strScaricaClipConversione, className: "btn btn-primary", onclick: DownloadClipConversione}, stiliMenu, {larghezza: "850px", altezza: "500px", RiferimentoRegistrazione: RiferimentoRegistrazione}]
                         ]
