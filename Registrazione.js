@@ -3851,8 +3851,8 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
             const divTrattamentoAudio_id = ID_Opzioni + 'divTrattamentoAudio', fieldsetTrattamentoAudio_id = divTrattamentoAudio_id + "fieldset";
             CreaNuoviElementi({[divOpzioniVarie_id]: [['div', {id: divTrattamentoAudio_id, className: "btn"}, {cursor: "auto", width: "fit-content", whiteSpace: "break-spaces"}]],
                                     [divTrattamentoAudio_id]: [['fieldset', {id: fieldsetTrattamentoAudio_id}]],
-                                        [fieldsetTrattamentoAudio_id]: [['label', {textContent: strTrattamentoAudio}, {fontSize: "16px"}]]});
-                                        
+                                        [fieldsetTrattamentoAudio_id]: [['legend', {textContent: strTrattamentoAudio}, {fontSize: "16px"}]]});
+
                     const pulRiduciRumore = CreaElemento('div', ID_Opzioni + 'pulRiduciRumore', divTrattamentoAudio_id, strRiduzioneRumore); pulRiduciRumore.className = "btn btn-default"; pulRiduciRumore.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione;
                     if (DatiAudioRegistrato[RiferimentoRegistrazione].Registrazione.indexOf('-trattato') == -1) {
                         pulRiduciRumore.onclick = async (e) => {
