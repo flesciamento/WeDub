@@ -3896,15 +3896,13 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
 
                                                     pulsante.innerHTML = "<span class='fa fa-check' style='color: green;'></span> " + strCreazioneCompletata;
 
-                                                    const lblAudioOriginale_id = divTrattamentoAudio_id + 'labelOriginale', lblAudioTrattato_id = divTrattamentoAudio_id + 'labelTrattato';
-                                                    CreaNuoviElementi([divTrattamentoAudio_id, ['label', {id: lblAudioOriginale_id, className: "btn btn-default"}], ['label', {id: lblAudioTrattato_id, className: "btn btn-default"}]]);
-                                                        const inputAudioOriginale = CreaElemento('input', ID_Opzioni + 'inputAudioOriginale', lblAudioOriginale_id); inputAudioOriginale.setAttribute('type', 'radio'); inputAudioOriginale.setAttribute('name', 'opzAudioOriginaleTrattato'); inputAudioOriginale.value = 0; inputAudioOriginale.onclick = SelezionaAudio;
-                                                        CreaElemento('span', ID_Opzioni + 'spanAudioOriginale', lblAudioOriginale_id, " " + strSelezionaAudioOriginale);
-                                                        
-                                                        const inputAudioTrattato = CreaElemento('input', ID_Opzioni + 'inputAudioTrattato', lblAudioTrattato_id); inputAudioTrattato.setAttribute('type', 'radio'); inputAudioTrattato.setAttribute('name', 'opzAudioOriginaleTrattato'); inputAudioTrattato.value = 1; inputAudioTrattato.onclick = SelezionaAudio;
-                                                        CreaElemento('span', ID_Opzioni + 'spanAudioTrattato', lblAudioTrattato_id, " " + strSelezionaAudioTrattato);
-
-                                                    inputAudioTrattato.click();
+                                                    CreaNuoviElementi([
+                                                        divTrattamentoAudio_id,
+                                                            ['label', {className: "btn btn-default"}],,
+                                                                ['input', {value: 0, onclick: SelezionaAudio}, {}, {}, {type: "radio", name: "opzAudioOriginaleTrattato"}], ['span', {textContent: " " + strSelezionaAudioOriginale}],
+                                                         0, ['label', {className: "btn btn-default"}],,
+                                                                ['input', {value: 1, onclick: SelezionaAudio}, {}, {}, {type: "radio", name: "opzAudioOriginaleTrattato"}], ['span', {textContent: " " + strSelezionaAudioTrattato}]
+                                                    ]).al(-2).click();
 
                                                     divVetro.style.display = "none";
                                                 }).catch((err) => {console.log("Errore nuovo audio", err); pulsante.innerHTML = strRiduzioneRumore_errore; divVetro.style.display = "none";});
