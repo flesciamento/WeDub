@@ -3897,11 +3897,9 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                                                     pulsante.innerHTML = "<span class='fa fa-check' style='color: green;'></span> " + strCreazioneCompletata;
 
                                                     CreaNuoviElementi([
-                                                        divTrattamentoAudio_id,
-                                                            ['label', {className: "btn btn-default"}],,
-                                                                ['input', {value: 0, onclick: SelezionaAudio}, {}, {}, {type: "radio", name: "opzAudioOriginaleTrattato"}], ['span', {textContent: " " + strSelezionaAudioOriginale}],
-                                                         0, ['label', {className: "btn btn-default"}],,
-                                                                ['input', {value: 1, onclick: SelezionaAudio}, {}, {}, {type: "radio", name: "opzAudioOriginaleTrattato"}], ['span', {textContent: " " + strSelezionaAudioTrattato}]
+                                                        divTrattamentoAudio_id, ['label', {className: "btn btn-default"}], ['label', {className: "btn btn-default"}],
+                                                            0, ['input', {value: 0, onclick: SelezionaAudio}, {}, {}, {type: "radio", name: "opzAudioOriginaleTrattato"}], ['span', {textContent: " " + strSelezionaAudioOriginale}],
+                                                            1, ['input', {value: 1, onclick: SelezionaAudio}, {}, {}, {type: "radio", name: "opzAudioOriginaleTrattato"}], ['span', {textContent: " " + strSelezionaAudioTrattato}]
                                                     ]).al(-2).click();
 
                                                     divVetro.style.display = "none";
