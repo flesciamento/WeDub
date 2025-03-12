@@ -1094,7 +1094,7 @@ function DisabilitaComandiPerRiprodurre(Disabilita) {
     pulPlay.disabled = Disabilita; PlayPausaCliccandoSulVideo(!Disabilita); DisabilitaElementiRegistrazione(Disabilita || SolaVisione); PlayInSovrimpressione.style.display = (Disabilita ? "none" : "");
 }
 
-function Posizionati(MinutaggioNuovo, RiabilitaTuttaLaSchermata = false) {
+function Posizionati(MinutaggioNuovo, RiabilitaTuttaLaSchermata = false, FunzioneAlTermine = () => {}) {
     const stavoRiproducendo = (RiproduzioneInCorso && (Posizionati.InAttesaRiattivazione == false)); // Non riattiva in automatico la riproduzione se è stato modificato il minutaggio prima che potesse posizionarsi
 
     function RiattivaVideoGuida() {
@@ -1107,6 +1107,7 @@ function Posizionati(MinutaggioNuovo, RiabilitaTuttaLaSchermata = false) {
             RiabilitaLaSchermataSeRichiesto();
             if (ContenitoreCopione.FunzioniCopione.CopioneVisualizzato) {ContenitoreCopione.FunzioniCopione.RiattivaCopione(); AttivaScorrimentoCopione();}
         }
+        FunzioneAlTermine();
     }
 
     function RiabilitaLaSchermataSeRichiesto() {
@@ -4247,9 +4248,8 @@ function CiclaClip() {
     
     ClipInCiclo = datiAudio;
     datiAudio.alTermine = () => {};
-    RiproduzioneInCorso = true;
-    Posizionati((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioIniziale) - opzCicloClip.secondiprimainizio);
-    setTimeout(() => {datiAudio.alTermine = RiprendiCicloClip;}, opzCicloClip.secondiprimainizio * 1000);
+    StopVideoGuida();
+    Posizionati((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioIniziale) - opzCicloClip.secondiprimainizio, false, () => {PlayVideoGuida(); setTimeout(() => {datiAudio.alTermine = RiprendiCicloClip;}, opzCicloClip.secondiprimainizio * 1000);});
     
     ChiudiMenuOpzioniAscolto();
 }
