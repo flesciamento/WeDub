@@ -4249,7 +4249,7 @@ function CiclaClip() {
     datiAudio.alTermine = () => {};
     RiproduzioneInCorso = true;
     Posizionati((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioIniziale) - opzCicloClip.secondiprimainizio);
-    setTimeout(() => {datiAudio.alTermine = RiprendiCicloClip;}, 100);
+    setTimeout(() => {datiAudio.alTermine = RiprendiCicloClip;}, opzCicloClip.secondiprimainizio * 1000);
     
     ChiudiMenuOpzioniAscolto();
 }
