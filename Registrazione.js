@@ -3777,6 +3777,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
         const stililabel = {fontFamily: "Verdana", fontSize: "12px"};
         CreaNuoviElementi([
             divcontenitorebody.id, ['div', {id: ID_Opzioni + 'divContenitoreMinEff'}],,
+                /* Minutaggio */
                 ['table', {id: ID_Opzioni + 'TabellaMinutaggio'}], ['div', {id: divOpzioneEffetti_id}],
                     1, ['tr'],,
                          ['td', {textContent: strPosizione}, {fontFamily: "Verdana", fontSize: "12px", verticalAlign: "bottom", paddingBottom: "5px"}], ['td'],,
@@ -3784,24 +3785,12 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                                 ['tr'],,
                                     ['td', {textContent: strMinuti}, stililabel], ['td'], ['td', {textContent: strSecondi}, stililabel],
                             -5, ['tr'],,
-                                    ['td', {id: tdPosizioneMinuti_id}], ['td', {textContent: ":"}], ['td', {id: tdPosizioneSecondi_id}]
-        ]);
-
-                    /* Minutaggio */
-        var M = CreaElemento('input', ID_Opzioni + 'MinutaggioMinuti', tdPosizioneMinuti_id); M.setAttribute("type", "number"); M.className = "SelettoreMinutaggioMinuti";
-        M.setAttribute("min", "0"); M.setAttribute("max", MinutaggioMassimo.Minuti); M.setAttribute("step", "1");
-        FunzioniCasellaNumerica(M);
-        M.value = MinutaggioAttuale.Minuti;
-        M.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione;
-        M.addEventListener("change", function () {SpostaMinutaggioRegistrazione(this.dataset.RiferimentoRegistrazione);});
-
-        var S = CreaElemento('input', ID_Opzioni + 'MinutaggioSecondi', tdPosizioneSecondi_id); S.setAttribute("type", "number"); S.className = "SelettoreMinutaggioSecondi";
-        S.setAttribute("min", "0"); S.setAttribute("max", "59.999"); S.setAttribute("step", "0.1");
-        FunzioniCasellaNumerica(S);
-        S.value = MinutaggioAttuale.Secondi;
-        S.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione;
-        S.addEventListener("change", function () {SpostaMinutaggioRegistrazione(this.dataset.RiferimentoRegistrazione);});
-                        
+                                    ['td', {id: tdPosizioneMinuti_id}], ['td', {textContent: ":"}], ['td', {id: tdPosizioneSecondi_id}],
+                                    tdPosizioneMinuti_id,
+                                        ['input', {id: ID_Opzioni + 'MinutaggioMinuti', className: "SelettoreMinutaggioMinuti", value: MinutaggioAttuale.Minuti, onchange: () => {SpostaMinutaggioRegistrazione(e.currentTarget.dataset.RiferimentoRegistrazione);}}, {}, {RiferimentoRegistrazione: RiferimentoRegistrazione}, {type: "number", min: 0, max: MinutaggioMassimo.Minuti, step: 1}],
+                                    tdPosizioneSecondi_id,
+                                        ['input', {id: ID_Opzioni + 'MunutaggioSecondi', className: "SelettoreMinutaggioSecondi", value: MinutaggioAttuale.Secondi, onchange: () => {SpostaMinutaggioRegistrazione(e.currentTarget.dataset.RiferimentoRegistrazione);}}, {}, {RiferimentoRegistrazione: RiferimentoRegistrazione}, {type: "number", min: 0, max: 59.999, step: 0.1}]
+        ]).slice(-2).forEach(input => FunzioniCasellaNumerica(input));
 
                     /* Effetti */
         CreaElemento('div', ID_Opzioni + 'labelOpzioneEffetti', divOpzioneEffetti_id, strApplicaUnEffetto);
@@ -3897,11 +3886,12 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
 
                                                     pulsante.innerHTML = "<span class='fa fa-check' style='color: green;'></span> " + strCreazioneCompletata;
 
+                                                    const AttributiPulsanti = {type: "radio", name: "opzAudioOriginaleTrattato"};
                                                     CreaNuoviElementi([
                                                         divTrattamentoAudio_id, ['label', {className: "btn btn-default"}], ['label', {className: "btn btn-default"}],
-                                                            0, ['input', {value: 0, onclick: SelezionaAudio}, {}, {}, {type: "radio", name: "opzAudioOriginaleTrattato"}], ['span', {textContent: " " + strSelezionaAudioOriginale}],
-                                                            1, ['input', {value: 1, onclick: SelezionaAudio}, {}, {}, {type: "radio", name: "opzAudioOriginaleTrattato"}], ['span', {textContent: " " + strSelezionaAudioTrattato}]
-                                                    ]).al(-2).click();
+                                                            0, ['input', {value: 0, onclick: SelezionaAudio}, {}, {}, AttributiPulsanti], ['span', {textContent: " " + strSelezionaAudioOriginale}],
+                                                            1, ['input', {value: 1, onclick: SelezionaAudio}, {}, {}, AttributiPulsanti], ['span', {textContent: " " + strSelezionaAudioTrattato}]
+                                                    ])[1].click();
 
                                                     divVetro.style.display = "none";
                                                 }).catch((err) => {console.log("Errore nuovo audio", err); pulsante.innerHTML = strRiduzioneRumore_errore; divVetro.style.display = "none";});
