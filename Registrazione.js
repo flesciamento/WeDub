@@ -2171,7 +2171,7 @@ function StoppaClipAudio(datiAudio) {
     delete datiAudio.audio;
 }
 
-function PlayVideoGuida(FunzioneAlPlay = () => {}) {
+function PlayVideoGuida() {
     if (Math.round(VideoGuidaMinutaggioCorrente()) >= Math.round(totDurataVideoGuida)) {RiproduzioneInCorso = true; Posizionati(InizioVideoGuida); return;}
 
     if (RiproduzioneInCorso == false) {
@@ -2195,7 +2195,6 @@ function PlayVideoGuida(FunzioneAlPlay = () => {}) {
             RiabilitaSchermata();
             VideoGuidaPlay();
             VideoGuidaImpostaEventoBuffering(SospendiRiproduzione, RiprendiRiproduzione);
-            FunzioneAlPlay();
 
         } else {
             if (VerificaClipPrecaricate(SecondiPrecaricamentoAlPlayPrimaDiRegistrare) == false) {return;}
@@ -2231,10 +2230,12 @@ function ImpostaStatoPlay(StatoPlay) {
 }
 
 function SospendiRiproduzione() {
+    console.log("SospendiRiproduzione()");
     StoppaTutteLeRegistrazioni();
 }
 
 function RiprendiRiproduzione() {
+    console.log("RiprendiRiproduzione()");
     ElaboraClipDaRiprodurre();
     if (ModalitaStreaming) {FunzioneVisualizzazioneTitoli = VisualizzaTitoliInSync;}
 }
@@ -4239,9 +4240,9 @@ function CiclaClip() {
     p.className = "btn btn-info btn-sm fa fa-stop"; p.innerText = " " + strInterrompiAscolto; p.onclick = StoppaCicloClip;
     
     ClipInCiclo = datiAudio;
-    datiAudio.alTermine = () => {};
+    datiAudio.alTermine = () => {}; console.log("CiclaClip() avviato - datiAudio.alTermine = () => {}");
     StopVideoGuida();
-    Posizionati((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioIniziale) - opzCicloClip.secondiprimainizio, false, () => {PlayVideoGuida(() => {setTimeout(() => {console.log("CiclaClip - play - setTimeout", datiAudio); datiAudio.alTermine = RiprendiCicloClip; console.log(datiAudio.alTermine);}, opzCicloClip.secondiprimainizio * 1000);});});
+    Posizionati((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioIniziale) - opzCicloClip.secondiprimainizio, false, () => {PlayVideoGuida(); setTimeout(() => {console.log("CiclaClip - play - setTimeout", datiAudio); datiAudio.alTermine = RiprendiCicloClip; console.log(datiAudio.alTermine);}, opzCicloClip.secondiprimainizio * 1000);});
     
     ChiudiMenuOpzioniAscolto();
 }
@@ -4252,7 +4253,7 @@ function RiprendiCicloClip() {
 
 function StoppaCicloClip() {
     if (ClipInCiclo) {
-        ClipInCiclo.alTermine = () => {};
+        ClipInCiclo.alTermine = () => {}; console.log("CiclaClip() stoppato - datiAudio.alTermine = () => {}");
         ClipInCiclo = false;
         StopVideoGuida();
         if (p = document.getElementById('OpzioniClipPulAscolta')) {PulAscoltaPosizioneDefault(p);}
