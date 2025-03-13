@@ -3790,7 +3790,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                                     tdPosizioneMinuti_id,
                                         ['input', {id: ID_Opzioni + 'MinutaggioMinuti', className: "SelettoreMinutaggioMinuti", value: MinutaggioAttuale.Minuti, onchange: SpostaMinutaggioModificatoManualmente}, {}, {RiferimentoRegistrazione: RiferimentoRegistrazione}, {type: "number", min: 0, max: MinutaggioMassimo.Minuti, step: 1}],
                                     tdPosizioneSecondi_id,
-                                        ['input', {id: ID_Opzioni + 'MunutaggioSecondi', className: "SelettoreMinutaggioSecondi", value: MinutaggioAttuale.Secondi, onchange: SpostaMinutaggioModificatoManualmente}, {}, {RiferimentoRegistrazione: RiferimentoRegistrazione}, {type: "number", min: 0, max: 59.999, step: 0.1}]
+                                        ['input', {id: ID_Opzioni + 'MinutaggioSecondi', className: "SelettoreMinutaggioSecondi", value: MinutaggioAttuale.Secondi, onchange: SpostaMinutaggioModificatoManualmente}, {}, {RiferimentoRegistrazione: RiferimentoRegistrazione}, {type: "number", min: 0, max: 59.999, step: 0.1}]
         ]).slice(-2).forEach(input => FunzioniCasellaNumerica(input));
 
                     /* Effetti */
