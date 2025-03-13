@@ -3775,6 +3775,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
         /*** Posizione ed effetti della clip ***/
         const tdPosizioneMinuti_id = ID_Opzioni + 'tdOpzionePosizioneMinuti', tdPosizioneSecondi_id = ID_Opzioni + 'tdOpzionePosizioneSecondi', divOpzioneEffetti_id = ID_Opzioni + 'divOpzioneEffetti';
         const stililabel = {fontFamily: "Verdana", fontSize: "12px"};
+        function SpostaMinutaggioModificatoManualmente(e) {SpostaMinutaggioRegistrazione(e.currentTarget.dataset.RiferimentoRegistrazione);}
         CreaNuoviElementi([
             divcontenitorebody.id, ['div', {id: ID_Opzioni + 'divContenitoreMinEff'}],,
                 /* Minutaggio */
@@ -3787,9 +3788,9 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                             -5, ['tr'],,
                                     ['td', {id: tdPosizioneMinuti_id}], ['td', {textContent: ":"}], ['td', {id: tdPosizioneSecondi_id}],
                                     tdPosizioneMinuti_id,
-                                        ['input', {id: ID_Opzioni + 'MinutaggioMinuti', className: "SelettoreMinutaggioMinuti", value: MinutaggioAttuale.Minuti, onchange: () => {SpostaMinutaggioRegistrazione(e.currentTarget.dataset.RiferimentoRegistrazione);}}, {}, {RiferimentoRegistrazione: RiferimentoRegistrazione}, {type: "number", min: 0, max: MinutaggioMassimo.Minuti, step: 1}],
+                                        ['input', {id: ID_Opzioni + 'MinutaggioMinuti', className: "SelettoreMinutaggioMinuti", value: MinutaggioAttuale.Minuti, onchange: SpostaMinutaggioModificatoManualmente}, {}, {RiferimentoRegistrazione: RiferimentoRegistrazione}, {type: "number", min: 0, max: MinutaggioMassimo.Minuti, step: 1}],
                                     tdPosizioneSecondi_id,
-                                        ['input', {id: ID_Opzioni + 'MunutaggioSecondi', className: "SelettoreMinutaggioSecondi", value: MinutaggioAttuale.Secondi, onchange: () => {SpostaMinutaggioRegistrazione(e.currentTarget.dataset.RiferimentoRegistrazione);}}, {}, {RiferimentoRegistrazione: RiferimentoRegistrazione}, {type: "number", min: 0, max: 59.999, step: 0.1}]
+                                        ['input', {id: ID_Opzioni + 'MunutaggioSecondi', className: "SelettoreMinutaggioSecondi", value: MinutaggioAttuale.Secondi, onchange: SpostaMinutaggioModificatoManualmente}, {}, {RiferimentoRegistrazione: RiferimentoRegistrazione}, {type: "number", min: 0, max: 59.999, step: 0.1}]
         ]).slice(-2).forEach(input => FunzioniCasellaNumerica(input));
 
                     /* Effetti */
