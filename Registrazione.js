@@ -588,7 +588,7 @@ function AggiungiDoppiatoreCandidatoNelCast(e) {
                         ['div']
             ]);
             divPersonaggiLiberi = NuoviElementi[0]; inputPersonaggiLiberi = NuoviElementi[1];
-            const divAiuto = NuoviElementi.al(-1);
+            const divAiuto = NuoviElementi[2];
             
             function VerificaCampoRuoliLiberi() {
                 const Condizione = ValidaCondizioneMinimaCampoDiTesto(inputPersonaggiLiberi);
