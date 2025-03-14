@@ -2444,16 +2444,18 @@ function DividiClip_puntatorerilasciato(e) {
     /************************************************************************************************/
 
     /*** Se taglio con trascinamento, apre la finestrella per conferma operazione effettuata ***/
+    const PannelloOpzioni_id = "OpzioniDividiClip";
     function VisualizzaAttenderePrego(PulsanteSelezionato) {
+        const PannelloOpzioni = document.getElementById(PannelloOpzioni_id), pulAnnulla = document.getElementById(PannelloOpzioni_id + 'pulAnnulla');
         PannelloOpzioni.abilita(false);
         PulsanteSelezionato.className = 'btn btn-primary';
         pulAnnulla.innerHTML = strAttenderePrego; pulAnnulla.className = 'btn-lg';
     }
 
-    const styleImmagini = "float: left; height: 40px; border-radius: 20%;", classePulsanti = 'btn btn-default btn-lg';
+    const styleImmagini = "style='float: left; height: 40px; border-radius: 20%;'", classePulsanti = 'btn btn-default btn-lg';
     let Opzioni = [
         document.body.id,
-            ['div', {id: "OpzioniDividiClip", className: "panel panel-info"}, {position: "fixed", top: "100px", left: "30%", zIndex: 100000000}],,
+            ['div', {id: PannelloOpzioni_id, className: "panel panel-info"}, {position: "fixed", top: "100px", left: "30%", zIndex: 100000000}],,
 
             /* Barra del titolo */
                 ['div', {textContent: strCosaVuoiFare, className: "panel-heading text-center"}],,
@@ -2461,18 +2463,18 @@ function DividiClip_puntatorerilasciato(e) {
 
             /* Opzioni */
             0,  ['div', {className: "panel-body text-center"}],,
-                    ['div'],, ['span', {innerHTML: "<img style='" + styleImmagini + "' src='images/Esempio_taglio_segmento.png' />&nbsp;" + strTagliaViaSelezionato, className: classePulsanti, onclick: EliminaSegmentoSelezionato}, {width: "100%", fontSize: "14pt", margin: "20px 0", lineHeight: 1.8}],
-                3,  ['div'],, ['span', {innerHTML: "<img style='" + styleImmagini + "' src='images/Esempio_mantenimento_segmento.png' />&nbsp;" + strTagliaViaIlResto, className: classePulsanti, onclick: MantieniSoloSegmentoSelezionato}, {width: "100%", fontSize: "14pt", marginBottom: "20px", lineHeight: 1.8}],
+                    ['div'],, ['span', {innerHTML: "<img " + styleImmagini + " src='images/Esempio_taglio_segmento.png' />&nbsp;" + strTagliaViaSelezionato, className: classePulsanti, onclick: EliminaSegmentoSelezionato}, {width: "100%", fontSize: "14pt", margin: "20px 0", lineHeight: 1.8}],
+                3,  ['div'],, ['span', {innerHTML: "<img " + styleImmagini + " src='images/Esempio_mantenimento_segmento.png' />&nbsp;" + strTagliaViaIlResto, className: classePulsanti, onclick: MantieniSoloSegmentoSelezionato}, {width: "100%", fontSize: "14pt", marginBottom: "20px", lineHeight: 1.8}],
 
             /* Annulla */
             0,  ['div', {className: "panel-footer"}],,
-                    ['a', {innerHTML: "<span class='fa fa-times'></span> " + strAnnullalemodifiche, className: "btn btn-default", onclick: TerminaDividiClip}]
+                    ['a', {id: PannelloOpzioni_id + "pulAnnulla", innerHTML: "<span class='fa fa-times'></span> " + strAnnullalemodifiche, className: "btn btn-default", onclick: TerminaDividiClip}]
     ];
     
     /* Se la selezione è tutta all'interno della clip, prevede anche la terza opzione: "Separa la zona selezionata dal resto della clip" */
     if ((secondiInizioTaglio > taglioclip_diffmin) && (secondiFineTaglio < (DatiAudioRegistrato[ELT.dataset.RiferimentoRegistrazione].Durata - taglioclip_diffmin))) {
         Opzioni = Opzioni.concat([
-                3,  ['div'],, ['span', {innerHTML: "<img style='" + styleImmagini + "' src='images/Esempio_taglio_nuova_clip.png' />&nbsp;" + strTagliaECreaNuovaClip, className: classePulsanti, onclick: CreaNuovaClipDaSegmentoSelezionato}, {width: "100%", fontSize: "14pt", lineHeight: 1.8}]
+                3,  ['div'],, ['span', {innerHTML: "<img " + styleImmagini + " src='images/Esempio_taglio_nuova_clip.png' />&nbsp;" + strTagliaECreaNuovaClip, className: classePulsanti, onclick: CreaNuovaClipDaSegmentoSelezionato}, {width: "100%", fontSize: "14pt", lineHeight: 1.8}]
         ]);
     }
 
