@@ -2495,8 +2495,13 @@ function DividiClip_puntatorerilasciato(e) {
 
     function CreaNuovaClipDaSegmentoSelezionato(e) {
         VisualizzaAttenderePrego(e.currentTarget);
-        const PrimoTaglio = MinutaggioPrimoClick, SecondoTaglio = MinutaggioRilascio;
-        DividiClip(ELT.dataset.RiferimentoRegistrazione, PrimoTaglio, PrimoTaglio, "", (ClipNuova) => {if (ClipNuova) {DividiClip(ClipNuova.numero, SecondoTaglio, SecondoTaglio, strClipSeparata);} else {TerminaDividiClip();}});
+        const PrimoTaglio = MinutaggioPrimoClick, SecondoTaglio = MinutaggioRilascio, NumeroClipConsiderata = ELT.dataset.RiferimentoRegistrazione;
+        DividiClip(NumeroClipConsiderata, PrimoTaglio, PrimoTaglio, "",
+            (ClipNuova) => {
+                const ClipDaSuddividere = (TrascinatoVersoDestra? ClipNuova : DatiAudioRegistrato[NumeroClipConsiderata]);
+                if (ClipDaSuddividere) {DividiClip(ClipDaSuddividere.numero, SecondoTaglio, SecondoTaglio, strClipSeparata);} else {TerminaDividiClip();}
+            }
+        );
     }
 }
 
