@@ -616,7 +616,7 @@ function AggiungiDoppiatoreCandidatoNelCast(e) {
         /* Opzioni */
         PannelloOpzioni.id,
             ['div', {id: divBody_id, className: "panel-body text-center"}],,
-                ['div', {innerHTML: strDescriviPersonaggiDoppiatiDa + "<b>" + DatiDoppiatoreCandidato.nomecandidato + "</b>"}, {margin: "10px 20px 40px 20px"}],, ['input', {id: inputRuoliCandidato_id}, {}, {}, {type: "text", name: "RuoloCandidato", size: 30, value: strRuoliDaAssegnare}],
+                ['div', {innerHTML: strDescriviPersonaggiDoppiatiDa + "<b>" + DatiDoppiatoreCandidato.nomecandidato + "</b>&nbsp;"}, {margin: "10px 20px 40px 20px"}],, ['input', {id: inputRuoliCandidato_id}, {}, {}, {type: "text", name: "RuoloCandidato", size: 30, value: strRuoliDaAssegnare}],
                     
             2,  ['div', {}, {margin: "20px"}],, ['label', {id: PannelloOpzioni.id + "lblElimina",  className: "btn btn-default"}],, ['input', {value: 0, onclick: AttivaOpzioneTracciaRuoliDaAssegnare}, {}, {}, AttributiPulsantiOpzioni], ['span', {textContent: strVoglioEliminareRuoliDaAssegnare}],
             2,  ['div', {}, {margin: "20px"}],, ['label', {id: PannelloOpzioni.id + "lblMantieni", className: "btn btn-default"}],, ['input', {value: 1, onclick: AttivaOpzioneTracciaRuoliDaAssegnare}, {}, {}, AttributiPulsantiOpzioni], ['span', {textContent: strVoglioMantenereRuoliDaAssegnare}],
