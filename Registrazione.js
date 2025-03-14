@@ -565,10 +565,10 @@ function NotificaMessaggiChatCandidato() {
 function AggiungiDoppiatoreCandidatoNelCast(e) {
     const pulAggiungiDoppiatoreCandidatoNelCast = e.currentTarget, DatiDoppiatoreCandidato = pulAggiungiDoppiatoreCandidatoNelCast.dataset, strRuoliDaAssegnare = document.getElementById('spanRuoliTraccia' + RuoliDaAssegnare_NumeroTraccia).innerHTML.replace(/<b>|<\/b>/g, "**");
     /** @type {HTMLElement} **/
-    var divPersonaggiLiberi = false, inputPersonaggiLiberi, lblEliminaRuoliDaAssegnare, lblMantieniRuoliDaAssegnare, div;
+    var divPersonaggiLiberi = false, inputPersonaggiLiberi;
 
-    var PannelloOpzioni = CreaElemento('div', 'OpzioniCandidato', document.body.id);
-        PannelloOpzioni.className = "panel panel-info"; PannelloOpzioni.iStyle({position: "fixed", top: "100px", left: "10%", zIndex: 100000000});
+    const PannelloOpzioni = CreaElemento('div', 'OpzioniCandidato', document.body.id); PannelloOpzioni.className = "panel panel-info"; PannelloOpzioni.iStyle({position: "fixed", top: "100px", left: "10%", zIndex: 100000000});
+    const divBody_id = PannelloOpzioni.id + "Contenuto", inputRuoliCandidato_id = PannelloOpzioni.id + 'RuoliCandidato';
 
     function AnnullaAggiungiDoppiatore() {
         EliminaElemento(PannelloOpzioni);
@@ -581,64 +581,66 @@ function AggiungiDoppiatoreCandidatoNelCast(e) {
         const opzMantieni = (e.currentTarget.value == 1), classenormale = 'btn btn-', classe = {[true]: "primary", [false]: "default"};
 
         if (opzMantieni) {
-            divPersonaggiLiberi = CreaElemento('div', divContenuto.id + 'divPersonaggiLiberi', divContenuto.id, strIndicaRuoliDaAssegnare); divPersonaggiLiberi.style.margin = "10px";
-                inputPersonaggiLiberi = CreaElemento('input', divPersonaggiLiberi.id + 'input', divPersonaggiLiberi.id); inputPersonaggiLiberi.setAttribute('type', 'text'); inputPersonaggiLiberi.setAttribute('name', 'RuoliDaAssegnare'); inputPersonaggiLiberi.setAttribute('value', strRuoliDaAssegnare); inputPersonaggiLiberi.setAttribute('size', "30");
-                const divAiuto = CreaElemento('div', divPersonaggiLiberi.id + 'divAiutoPersonaggiLiberi', divPersonaggiLiberi.id);
-                inputPersonaggiLiberi.onchange = function (e) {
-                    const Condizione = ValidaCondizioneMinimaCampoDiTesto(inputPersonaggiLiberi);
-                    inputPersonaggiLiberi.style.border = (Condizione? "" : "2px dashed red");
-                    pulSalva.abilita(Condizione);
-                    divAiuto.innerText = (Condizione? "" : strCampoCondizioneMinima); divAiuto.className = (Condizione? "" : "alert alert-warning");
-                };
+            const NuoviElementi = CreaNuoviElementi([
+                divBody_id,
+                    ['div', {textContent: strIndicaRuoliDaAssegnare}, {margin: "10px"}],,
+                        ['input', {onchange: VerificaCampoRuoliLiberi}, {}, {}, {type: "text", name: "RuoliDaAssegnare", size: 30, value: strRuoliDaAssegnare}]
+                        ['div']
+            ]);
+            divPersonaggiLiberi = NuoviElementi[0]; inputPersonaggiLiberi = NuoviElementi[1];
+            const divAiuto = NuoviElementi.al(-1);
+            
+            function VerificaCampoRuoliLiberi() {
+                const Condizione = ValidaCondizioneMinimaCampoDiTesto(inputPersonaggiLiberi);
+                inputPersonaggiLiberi.style.border = (Condizione? "" : "2px dashed red");
+                pulSalva.abilita(Condizione);
+                divAiuto.innerText = (Condizione? "" : strCampoCondizioneMinima); divAiuto.className = (Condizione? "" : "alert alert-warning");
+            };
         } else {
             EliminaElemento(divPersonaggiLiberi);
             divPersonaggiLiberi = false;
         }
 
-        lblEliminaRuoliDaAssegnare.className = classenormale + classe[!opzMantieni]; lblMantieniRuoliDaAssegnare.className = classenormale + classe[opzMantieni];
+        document.getElementById(PannelloOpzioni.id + 'lblElimina').className = classenormale + classe[!opzMantieni]; document.getElementById(PannelloOpzioni.id + 'lblMantieni').className = classenormale + classe[opzMantieni];
 
         pulSalva.abilita(true);
     }
 
+    const AttributiPulsantiOpzioni = {type: "radio", name: "opzMantenereRuoliDaAssegnare"};
+    const NuoviElementi = CreaNuoviElementi([
         /* Barra del titolo */
-        var divTitolo = CreaElemento('div', PannelloOpzioni.id + 'Titolo', PannelloOpzioni.id, "<b>" + strStaiAggiungendoUtente + DatiDoppiatoreCandidato.nomecandidato + " " + strNelCast + "</b>"); divTitolo.className = "panel-heading text-center";
-                var a = CreaElemento('a', divTitolo.id + 'Annulla', divTitolo.id); a.className = "btn btn-danger fa fa-times"; a.iStyle({position: "absolute", top: "5px", left: "10px"}); a.onclick = AnnullaAggiungiDoppiatore;
-
+        PannelloOpzioni.id,
+            ['div', {innerHTML: "<b>" + strStaiAggiungendoUtente + DatiDoppiatoreCandidato.nomecandidato + " " + strNelCast + "</b>", className: "panel-heading text-center"}],,
+                ['a', {className: "btn btn-danger fa fa-times", onclick: AnnullaAggiungiDoppiatore}, {position: "absolute", top: "5px", left: "10px"}],
+        
         /* Opzioni */
-        var divContenuto = CreaElemento('div', PannelloOpzioni.id + 'Contenuto', PannelloOpzioni.id); divContenuto.className = "panel-body text-center";
-
-                var divRuoliCandidato = CreaElemento('div', divContenuto.id + 'divRuoli', divContenuto.id, strDescriviPersonaggiDoppiatiDa + "<b>" + DatiDoppiatoreCandidato.nomecandidato + "</b>: "); divRuoliCandidato.style.margin = "10px 20px 40px 20px";
-                        var inputRuoliCandidato = CreaElemento('input', divRuoliCandidato + 'input', divRuoliCandidato.id); inputRuoliCandidato.setAttribute('type', 'text'); inputRuoliCandidato.setAttribute('name', 'RuoloCandidato'); inputRuoliCandidato.setAttribute('value', strRuoliDaAssegnare); inputRuoliCandidato.setAttribute('size', "30");
-
-                div = CreaElemento('div', divContenuto.id + 'divEliminaRuoliDaAssegnare', divContenuto.id); div.style.margin = "20px";
-                        lblEliminaRuoliDaAssegnare = CreaElemento('label', div.id + 'label', div.id); lblEliminaRuoliDaAssegnare.className = "btn btn-default"; 
-                            var inputEliminaRuoliDaAssegnare = CreaElemento('input', 'inputEliminaRuoliDaAssegnare', lblEliminaRuoliDaAssegnare.id); inputEliminaRuoliDaAssegnare.setAttribute('type', 'radio'); inputEliminaRuoliDaAssegnare.setAttribute('name', 'opzMantenereRuoliDaAssegnare'); inputEliminaRuoliDaAssegnare.value = 0; inputEliminaRuoliDaAssegnare.onclick = AttivaOpzioneTracciaRuoliDaAssegnare;
-                            CreaElemento('span', 'spanEliminaRuoliDaAssegnare', lblEliminaRuoliDaAssegnare.id, strVoglioEliminareRuoliDaAssegnare);
-                
-                div = CreaElemento('div', divContenuto.id + 'divMantieniRuoliDaAssegnare', divContenuto.id); div.style.margin = "20px";
-                        lblMantieniRuoliDaAssegnare = CreaElemento('label', div.id + 'label', div.id); lblMantieniRuoliDaAssegnare.className = "btn btn-default";
-                            var inputMantieniRuoliDaAssegnare = CreaElemento('input', 'inputMantieniRuoliDaAssegnare', lblMantieniRuoliDaAssegnare.id); inputMantieniRuoliDaAssegnare.setAttribute('type', 'radio'); inputMantieniRuoliDaAssegnare.setAttribute('name', 'opzMantenereRuoliDaAssegnare'); inputMantieniRuoliDaAssegnare.value = 1; inputMantieniRuoliDaAssegnare.onclick = AttivaOpzioneTracciaRuoliDaAssegnare;
-                            CreaElemento('span', 'spanMantieniRuoliDaAssegnare', lblMantieniRuoliDaAssegnare.id, strVoglioMantenereRuoliDaAssegnare);
+        PannelloOpzioni.id,
+            ['div', {id: divBody_id, className: "panel-body text-center"}],,
+                ['div', {innerHTML: strDescriviPersonaggiDoppiatiDa + "<b>" + DatiDoppiatoreCandidato.nomecandidato + "</b>"}, {margin: "10px 20px 40px 20px"}],, ['input', {id: inputRuoliCandidato_id}, {}, {}, {type: "text", name: "RuoloCandidato", size: 30, value: strRuoliDaAssegnare}],
+                    
+            2,  ['div', {}, {margin: "20px"}],, ['label', {id: PannelloOpzioni.id + "lblElimina",  className: "btn btn-default"}],, ['input', {value: 0, onclick: AttivaOpzioneTracciaRuoliDaAssegnare}, {}, {}, AttributiPulsantiOpzioni], ['span', strVoglioEliminareRuoliDaAssegnare],
+            2,  ['div', {}, {margin: "20px"}],, ['label', {id: PannelloOpzioni.id + "lblMantieni", className: "btn btn-default"}],, ['input', {value: 1, onclick: AttivaOpzioneTracciaRuoliDaAssegnare}, {}, {}, AttributiPulsantiOpzioni], ['span', strVoglioMantenereRuoliDaAssegnare],
 
         /* Salva e annulla */
-        var divPulsantiFinali = CreaElemento('div', PannelloOpzioni.id + 'PulsantiFinali', PannelloOpzioni.id); divPulsantiFinali.className = 'panel-footer'; divPulsantiFinali.style.height = "60px";
-            const pulAnnulla = CreaElemento('a', PannelloOpzioni.id + 'Annulla', divPulsantiFinali.id, "<span class='fa fa-times'></span> " + strAnnullalemodifiche); pulAnnulla.className = "btn btn-default"; pulAnnulla.iStyle({position: "absolute", left: "15%"});
-                  pulAnnulla.onclick = AnnullaAggiungiDoppiatore;
-                            
-            const pulSalva = CreaElemento('a', PannelloOpzioni.id + 'Salva', divPulsantiFinali.id, "<span class='fa fa-arrow-right'></span> " + strProcedi); pulSalva.className = "btn btn-success"; pulSalva.iStyle({position: "absolute", right: "15%"});
-                  pulSalva.abilita(false);
+        PannelloOpzioni.id,
+            ['div', {className: "panel-footer"}, {height: "60px"}],,
+                ['a', {innerHTML: "<span class='fa fa-times'></span> " + strAnnullalemodifiche, className: "btn btn-default", onclick: AnnullaAggiungiDoppiatore}, {position: "absolute", left: "15%"}],
+                ['a', {innerHTML: "<span class='fa fa-arrow-right'></span> " + strProcedi, className: "btn btn-success", onclick: InserisciIlDoppiatoreNelCast}, {position: "absolute", right: "15%"}]
+    ]);
+    const pulSalva = NuoviElementi.al(-1);
+    pulSalva.abilita(false);
 
-                  pulSalva.onclick = function () {
-                    pulSalva.abilita(false); pulSalva.innerText = strAttenderePrego; pulSalva.className += " fa-fade";
-                    AJAX("InserisciCandidatoNelCast.php", "N=" + encodeURIComponent(N) + "&IDUtenteCandidato=" + encodeURIComponent(DatiDoppiatoreCandidato.idcandidato) + "&RuoloUtenteCandidato=" + encodeURIComponent(inputRuoliCandidato.value) + "&RuoliDaAssegnare=" + encodeURIComponent(divPersonaggiLiberi? inputPersonaggiLiberi.value : ""),
-                        () => {window.location.reload();}, strAggiornamento, strSalvataggioCompletato
-                    );
-                  };
+    function InserisciIlDoppiatoreNelCast() {
+        pulSalva.abilita(false); pulSalva.innerText = strAttenderePrego; pulSalva.className += " fa-fade";
+        AJAX("InserisciCandidatoNelCast.php", "N=" + encodeURIComponent(N) + "&IDUtenteCandidato=" + encodeURIComponent(DatiDoppiatoreCandidato.idcandidato) + "&RuoloUtenteCandidato=" + encodeURIComponent(document.getElementById(inputRuoliCandidato_id).value) + "&RuoliDaAssegnare=" + encodeURIComponent(divPersonaggiLiberi? inputPersonaggiLiberi.value : ""),
+            () => {window.location.reload();}, strAggiornamento, strSalvataggioCompletato
+        );
+    }
 
-        DisabilitaSchermata();
-        pulAggiungiDoppiatoreCandidatoNelCast.abilita(false);
-        window.removeEventListener('keydown', ScorciatoieTastiera);
-        ElencoCandidatiRuoliDaAssegnareScompare();
+    DisabilitaSchermata();
+    pulAggiungiDoppiatoreCandidatoNelCast.abilita(false);
+    window.removeEventListener('keydown', ScorciatoieTastiera);
+    ElencoCandidatiRuoliDaAssegnareScompare();
 }
 
 function VerificaNuoveClipAltriCandidati(FunzioneAlTermine = () => {}) {
@@ -4243,7 +4245,7 @@ function CiclaClip() {
     datiAudio.alTermine = () => {}; console.log("CiclaClip() avviato - datiAudio.alTermine = () => {}");
     StopVideoGuida();
     Posizionati((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioIniziale) - opzCicloClip.secondiprimainizio, false, () => {PlayVideoGuida(); setTimeout(() => {console.log("CiclaClip - play - setTimeout", datiAudio); datiAudio.alTermine = RiprendiCicloClip; console.log(datiAudio.alTermine);}, opzCicloClip.secondiprimainizio * 1000);});
-    
+
     ChiudiMenuOpzioniAscolto();
 }
 
