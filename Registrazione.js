@@ -4260,7 +4260,7 @@ function CiclaClip() {
     
     ClipInCiclo = datiAudio;
     datiAudio.alTermine = () => {}; console.log("CiclaClip() avviato - datiAudio.alTermine = () => {}");
-    
+    StopVideoGuida(); // Tra le altre cose imposta: RiproduzioneInCorso = false
     Posizionati((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioIniziale) - opzCicloClip.secondiprimainizio, false, () => {setTimeout(PlayVideoGuida, 100); console.log("CiclaClip - play - attribuzione funzione alTermine", datiAudio); datiAudio.alTermine = RiprendiCicloClip;});
 
     ChiudiMenuOpzioniAscolto();
