@@ -3701,27 +3701,19 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
     const id_slideEffetto = ID_Opzioni + "slideEffetto";
 
     function CreaSlide(IDRiferimento, Stringa, minSlide, maxSlide, stepSlide, minCasella, maxCasella, stepCasella, labelCasella, FunzioneInputSlide, FunzioneChangeCasella, valoreIniziale, FunzioneOnChange2 = () => {}) {
-        tr = CreaElemento('tr', ID_Opzioni + 'TabellaOpzioniRiga' + IDRiferimento, Tabella.id);
-            td = CreaElemento('td', tr.id + 'tdOpzioneLabel', tr.id, Stringa); td.iStyle({fontFamily: 'Verdana', fontSize: '12px'});
-            td = CreaElemento('td', tr.id + 'tdOpzioneSlide', tr.id);
-                var slide = CreaElemento('input', tr.id + 'Slide', td.id);
-                    slide.setAttribute("type", "range"); slide.setAttribute("min", minSlide); slide.setAttribute("max", maxSlide); slide.setAttribute("step", stepSlide);
-                    slide.value = valoreIniziale;
-                    slide.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione;
-                    slide.addEventListener('input', FunzioneInputSlide);
-                    slide.addEventListener('input', FunzioneOnChange2);
-            td = CreaElemento('td', tr.id + 'tdOpzioneValore', tr.id); td.style.textAlign = "left";
-                var c = CreaElemento('input', tr.id + 'Casella', td.id); c.style.width = "80px";
-                    c.setAttribute("type", "number"); c.setAttribute("min", minCasella); c.setAttribute("max", maxCasella); c.setAttribute("step", stepCasella);
-                    c.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione;
-                    FunzioniCasellaNumerica(c);
-                    c.addEventListener('change', FunzioneChangeCasella);
-                    c.addEventListener('change', FunzioneOnChange2);
-                CreaElemento('span', tr.id + 'Casellalabel', td.id, " " + labelCasella);
+        const PrefissoID = ID_Opzioni + 'TabellaOpzioniRiga' + IDRiferimento;
+        CreaNuoviElementi([
+            Tabella.id,
+                ['tr'],,
+                    ['td', {textContent: Stringa}, {fontFamily: 'Verdana', fontSize: '12px'}],
+                    ['td'],, ['input', {id: PrefissoID + "Slide", value: valoreIniziale, oninput: (e) => {FunzioneInputSlide(e); FunzioneOnChange2(e);}}, {}, {RiferimentoRegistrazione: RiferimentoRegistrazione}, {type: "range", min: minSlide, max: maxSlide, step: stepSlide}],
+                0,  ['td', {}, {textAlign: "left"}],, ['input', {id: PrefissoID + "Casella", onchange: (e) => {FunzioneChangeCasella(e); FunzioneOnChange2(e);}}, {width: "80px"}, {RiferimentoRegistrazione: RiferimentoRegistrazione}, {type: "number", min: minCasella, max: maxCasella, step: stepCasella}], ['span', {textContent: " " + labelCasella}]
+        ]);
+        FunzioniCasellaNumerica(document.getElementById(PrefissoID + "Casella"));
 
-                setTimeout(() => {
-                    if (ELTDaModificare.length == 1) {FunzioneInputSlide({currentTarget: slide});} // Simula inserimento manuale visualizzando correttamente l'interfaccia utente (solo se singola clip)
-                }, 200);
+        setTimeout(() => {
+            if (ELTDaModificare.length == 1) {FunzioneInputSlide({currentTarget: document.getElementById(PrefissoID + "Slide")});} // Simula inserimento manuale visualizzando correttamente l'interfaccia utente (solo se singola clip)
+        }, 200);
     }
 
     function CreaPulsanteEffetto(Effetto, IDContenitore, labelPulsante) {
