@@ -4260,7 +4260,8 @@ function CiclaClip() {
     
     ClipInCiclo = datiAudio;
     datiAudio.alTermine = () => {}; console.log("CiclaClip() avviato - datiAudio.alTermine = () => {}");
-    Posizionati((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioIniziale) - opzCicloClip.secondiprimainizio, false, () => {PlayVideoGuida(); setTimeout(() => {console.log("CiclaClip - play - setTimeout", datiAudio); datiAudio.alTermine = RiprendiCicloClip;}, opzCicloClip.secondiprimainizio * 1000);});
+    
+    Posizionati((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioIniziale) - opzCicloClip.secondiprimainizio, false, () => {setTimeout(PlayVideoGuida, 100); console.log("CiclaClip - play - attribuzione funzione alTermine", datiAudio); datiAudio.alTermine = RiprendiCicloClip;});
 
     ChiudiMenuOpzioniAscolto();
 }
