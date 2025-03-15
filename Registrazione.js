@@ -3701,18 +3701,18 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
     const id_slideEffetto = ID_Opzioni + "slideEffetto";
 
     function CreaSlide(IDRiferimento, Stringa, minSlide, maxSlide, stepSlide, minCasella, maxCasella, stepCasella, labelCasella, FunzioneInputSlide, FunzioneChangeCasella, valoreIniziale, FunzioneOnChange2 = () => {}) {
-        const PrefissoID = ID_Opzioni + 'TabellaOpzioniRiga' + IDRiferimento;
+        const tr_id = ID_Opzioni + 'TabellaOpzioniRiga' + IDRiferimento;
         CreaNuoviElementi([
             Tabella.id,
-                ['tr'],,
-                    ['td', {textContent: Stringa}, {fontFamily: 'Verdana', fontSize: '12px'}],
-                    ['td'],, ['input', {id: PrefissoID + "Slide", value: valoreIniziale, oninput: (e) => {FunzioneInputSlide(e); FunzioneOnChange2(e);}}, {}, {RiferimentoRegistrazione: RiferimentoRegistrazione}, {type: "range", min: minSlide, max: maxSlide, step: stepSlide}],
-                0,  ['td', {}, {textAlign: "left"}],, ['input', {id: PrefissoID + "Casella", onchange: (e) => {FunzioneChangeCasella(e); FunzioneOnChange2(e);}}, {width: "80px"}, {RiferimentoRegistrazione: RiferimentoRegistrazione}, {type: "number", min: minCasella, max: maxCasella, step: stepCasella}], ['span', {textContent: " " + labelCasella}]
+                ['tr', {id: tr_id}],,
+                    ['td', {innerHTML: Stringa}, {fontFamily: 'Verdana', fontSize: '12px'}],
+                    ['td'],, ['input', {id: tr_id + "Slide", value: valoreIniziale, oninput: (e) => {FunzioneInputSlide(e); FunzioneOnChange2(e);}}, {}, {RiferimentoRegistrazione: RiferimentoRegistrazione}, {type: "range", min: minSlide, max: maxSlide, step: stepSlide}],
+                0,  ['td', {}, {textAlign: "left"}],, ['input', {id: tr_id + "Casella", onchange: (e) => {FunzioneChangeCasella(e); FunzioneOnChange2(e);}}, {width: "80px"}, {RiferimentoRegistrazione: RiferimentoRegistrazione}, {type: "number", min: minCasella, max: maxCasella, step: stepCasella}], ['span', {textContent: " " + labelCasella}]
         ]);
-        FunzioniCasellaNumerica(document.getElementById(PrefissoID + "Casella"));
+        FunzioniCasellaNumerica(document.getElementById(tr_id + "Casella"));
 
         setTimeout(() => {
-            if (ELTDaModificare.length == 1) {FunzioneInputSlide({currentTarget: document.getElementById(PrefissoID + "Slide")});} // Simula inserimento manuale visualizzando correttamente l'interfaccia utente (solo se singola clip)
+            if (ELTDaModificare.length == 1) {FunzioneInputSlide({currentTarget: document.getElementById(tr_id + "Slide")});} // Simula inserimento manuale visualizzando correttamente l'interfaccia utente (solo se singola clip)
         }, 200);
     }
 
