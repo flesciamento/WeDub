@@ -3821,7 +3821,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
             CreaSlide('Volume', strVolume, 0, 30, 0.01, 0, 3000, 10, "%", evslide_CambiaVolumeClip, evcasella_CambiaVolumeClip, GuadagnoPrincipale[RiferimentoRegistrazione].gain.value, (e) => {VisualizzazioneGraficaTaglioClip(+e.currentTarget.dataset.RiferimentoRegistrazione, false)});
 
                                     /* Tagli iniziali e finali */
-            var FunzioneOnChangePerTagliInizialiEFinali = (e) => {VisualizzazioneGraficaTaglioClip(+e.currentTarget.dataset.RiferimentoRegistrazione, true);};                                                
+            const FunzioneOnChangePerTagliInizialiEFinali = (e) => {VisualizzazioneGraficaTaglioClip(+e.currentTarget.dataset.RiferimentoRegistrazione, true);};
             CreaSlide('TaglioIniziale',  strTaglioIniziale,                    0, LunghezzaRegistrazione, 0.01,                  0, LunghezzaRegistrazione, 0.01, strsecondi, ev_CambiaTaglioInizialeClip,  ev_CambiaTaglioInizialeClip, datiAudio.taglioIniziale, FunzioneOnChangePerTagliInizialiEFinali);
             CreaSlide('TaglioFinale',      strTaglioFinale,   taglioclip_diffmin, LunghezzaRegistrazione, 0.01, taglioclip_diffmin, LunghezzaRegistrazione, 0.01, strsecondi, ev_CambiaTaglioFinaleClip,    ev_CambiaTaglioFinaleClip,   datiAudio.taglioFinale,   FunzioneOnChangePerTagliInizialiEFinali);
         /**********************/
