@@ -2321,8 +2321,9 @@ function SpostaMinutaggioRegistrazione(Numero, NuovaPartenzaRegistrazione) {
 
 /*** Gestione del guadagno della clip ***/
 function evslide_CambiaVolumeClip(e) {
-    const Volume = Number(e.currentTarget.value);
-    document.getElementById('OpzioniClipTabellaOpzioniRigaVolumeCasella').value = parseInt(Volume * 100);
+    const Volume = Number(e.currentTarget.value); console.log("evslide_CambiaVolumeClip(e), Volume:", Volume);
+    document.getElementById('OpzioniClipTabellaOpzioniRigaVolumeCasella').value = (Volume * 100) | 0;
+    console.log("Casella:", (Volume * 100), (Volume * 100) | 0);
 
     ELTDaModificare.forEach((clipELT) => {
         CambiaVolumeClip(clipELT.dataset.RiferimentoRegistrazione, Volume);
@@ -3710,6 +3711,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                 0,  ['td', {}, {textAlign: "left"}],, ['input', {id: tr_id + "Casella", onchange: (e) => {FunzioneChangeCasella(e); FunzioneOnChange2(e);}}, {width: "80px"}, {RiferimentoRegistrazione: RiferimentoRegistrazione}, {type: "number", min: minCasella, max: maxCasella, step: stepCasella}], ['span', {textContent: " " + labelCasella}]
         ]);
         FunzioniCasellaNumerica(document.getElementById(tr_id + "Casella"));
+        console.log("CreaSlide(), valoreIniziale:", valoreIniziale);
 
         setTimeout(() => {
             if (ELTDaModificare.length == 1) {FunzioneInputSlide({currentTarget: document.getElementById(tr_id + "Slide")});} // Simula inserimento manuale visualizzando correttamente l'interfaccia utente (solo se singola clip)
@@ -4251,9 +4253,9 @@ function CiclaClip() {
     p.className = "btn btn-info btn-sm fa fa-stop"; p.innerText = " " + strInterrompiAscolto; p.onclick = StoppaCicloClip;
     
     ClipInCiclo = datiAudio;
-    datiAudio.alTermine = () => {}; console.log("CiclaClip() avviato - datiAudio.alTermine = () => {}");
+    datiAudio.alTermine = () => {};
     StopVideoGuida(); // Tra le altre cose imposta: RiproduzioneInCorso = false
-    Posizionati((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioIniziale) - opzCicloClip.secondiprimainizio, false, () => {setTimeout(PlayVideoGuida, 100); console.log("CiclaClip - play - attribuzione funzione alTermine", datiAudio); datiAudio.alTermine = RiprendiCicloClip;});
+    Posizionati((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioIniziale) - opzCicloClip.secondiprimainizio, false, () => {setTimeout(PlayVideoGuida, 100); datiAudio.alTermine = RiprendiCicloClip;});
 
     ChiudiMenuOpzioniAscolto();
 }
@@ -4264,7 +4266,7 @@ function RiprendiCicloClip() {
 
 function StoppaCicloClip() {
     if (ClipInCiclo) {
-        ClipInCiclo.alTermine = () => {}; console.log("CiclaClip() stoppato - datiAudio.alTermine = () => {}");
+        ClipInCiclo.alTermine = () => {};
         ClipInCiclo = false;
         StopVideoGuida();
         if (p = document.getElementById('OpzioniClipPulAscolta')) {PulAscoltaPosizioneDefault(p);}
