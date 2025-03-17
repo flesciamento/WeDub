@@ -3707,7 +3707,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
             Tabella.id,
                 ['tr', {id: tr_id}],,
                     ['td', {innerHTML: Stringa}, {fontFamily: 'Verdana', fontSize: '12px'}],
-                    ['td'],, ['input', {id: tr_id + "Slide", value: valoreIniziale, oninput: (e) => {FunzioneInputSlide(e); FunzioneOnChange2(e);}}, {}, {RiferimentoRegistrazione: RiferimentoRegistrazione}, {type: "range", min: minSlide, max: maxSlide, step: stepSlide}],
+                    ['td'],, ['input', {id: tr_id + "Slide", value: +valoreIniziale, oninput: (e) => {FunzioneInputSlide(e); FunzioneOnChange2(e);}}, {}, {RiferimentoRegistrazione: RiferimentoRegistrazione}, {type: "range", min: minSlide, max: maxSlide, step: stepSlide}],
                 0,  ['td', {}, {textAlign: "left"}],, ['input', {id: tr_id + "Casella", onchange: (e) => {FunzioneChangeCasella(e); FunzioneOnChange2(e);}}, {width: "80px"}, {RiferimentoRegistrazione: RiferimentoRegistrazione}, {type: "number", min: minCasella, max: maxCasella, step: stepCasella}], ['span', {textContent: " " + labelCasella}]
         ]);
         FunzioniCasellaNumerica(document.getElementById(tr_id + "Casella"));
