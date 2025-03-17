@@ -3711,7 +3711,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                 0,  ['td', {}, {textAlign: "left"}],, ['input', {id: tr_id + "Casella", onchange: (e) => {FunzioneChangeCasella(e); FunzioneOnChange2(e);}}, {width: "80px"}, {RiferimentoRegistrazione: RiferimentoRegistrazione}, {type: "number", min: minCasella, max: maxCasella, step: stepCasella}], ['span', {textContent: " " + labelCasella}]
         ]);
         FunzioniCasellaNumerica(document.getElementById(tr_id + "Casella"));
-        console.log("CreaSlide(), valoreIniziale:", valoreIniziale);
+        console.log("CreaSlide(), valoreIniziale:", valoreIniziale, "Slide.value:", document.getElementById(tr_id + "Slide").value);
 
         setTimeout(() => {
             if (ELTDaModificare.length == 1) {FunzioneInputSlide({currentTarget: document.getElementById(tr_id + "Slide")});} // Simula inserimento manuale visualizzando correttamente l'interfaccia utente (solo se singola clip)
