@@ -243,7 +243,7 @@ var FunzioniCopione = {
     PosizionatiBattutaPersonaggio: function () {
         const PersonaggioDaEvidenziare = OpzEvidenzia_TestoGuida.value;
 
-        if (PersonaggioDaEvidenziare && !RiproduzioneInCorso) {
+        if (PersonaggioDaEvidenziare) {
             const battute = document.getElementsByName('Battuta_' + PersonaggioDaEvidenziare), totbattute = battute.length, MinutaggioCorrente = VideoGuidaMinutaggioCorrente();
             for(I = 0; I < totbattute; I++) {
                 const MinutaggioBattuta = battute[I].parentElement.dataset.minutaggio;
