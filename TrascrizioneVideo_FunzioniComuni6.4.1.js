@@ -119,7 +119,7 @@ var FunzioniCopione = {
 
     /*** Salva la posizione e la dimensione del copione ***/
     SalvaPosizioneCopione: function () {
-        if ((FunzioniCopione.CopioneEditabile < 2) && (typeof NonCaricarePosizioneCopione == 'undefined')) {
+        if ((FunzioniCopione.CopioneEditabile < 2) || (typeof NonCaricarePosizioneCopione == 'undefined')) {
             AJAX("TrascrizioneVideo_SalvaPosizioneCopione.php", "top=" + encodeURIComponent(ContenitoreTestoGuida.style.top) + "&left=" + encodeURIComponent(ContenitoreTestoGuida.style.left) + "&right=" + encodeURIComponent(ContenitoreTestoGuida.style.right) + "&bottom=" + encodeURIComponent(ContenitoreTestoGuida.style.bottom) + "&fontSize=" + encodeURIComponent(ContenitoreTestoGuida.style.fontSize), "", "", "", true);
         }
     },
@@ -222,14 +222,24 @@ var FunzioniCopione = {
         e.stopPropagation();
         const PersonaggioDaEvidenziare = e.currentTarget.value;
 
+        /* Elimina evidenziazione personaggio precedente (se presente) */
         const battute_evidenziate = document.getElementsByClassName('battuta-evidenziata'), totbattute_evidenziate = battute_evidenziate.length;
         for (let I = 0; I < totbattute_evidenziate; I++) {
             battute_evidenziate[0].className = '';
         }
 
+        /* Evidenzia le battute del personaggio selezionato */
         const battute = document.getElementsByName('Battuta_' + PersonaggioDaEvidenziare), totbattute = battute.length;
         for (let I = 0; I < totbattute; I++) {
             battute[I].className = 'battuta-evidenziata';
+        }
+
+        if (!RiproduzioneInCorso) {
+            const MinutaggioCorrente = VideoGuidaMinutaggioCorrente();
+            for(I = 0; I < totbattute; I++) {
+                const MinutaggioBattuta = battute[I].parentElement.dataset.minutaggio;
+                if (MinutaggioBattuta > MinutaggioCorrente) {FunzioniCopione.FunzionePosizionaVideo(MinutaggioBattuta); return;}
+            }
         }
     },
     /***************************/
