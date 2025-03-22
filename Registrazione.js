@@ -4113,7 +4113,6 @@ function OpzioniClip(Numero, Apri, SalvaAllaChiusura, FunzioneAlTermine = () => 
     } else {
         const OpzClip = document.getElementById(ID_Opzioni);
         OpzClip.abilita(false);
-        DatiAudioRegistrato[Numero].nonscaricarebuffer = false;
         window.removeEventListener('keydown', ScorciatoieTastieraFinestraOpzioni);
         document.getElementById(ELTDaSpostare.id + 'StratoColore').ontouchstart = "";
         ELTDaSpostare = false;
@@ -4154,6 +4153,7 @@ function OpzioniClip(Numero, Apri, SalvaAllaChiusura, FunzioneAlTermine = () => 
             OpzClip.parentNode.removeChild(OpzClip);
             document.getElementById('LogoWEDUB').style.display = "";
             VisualizzazioneGraficaTaglioClip(Numero, VisualizzazioneGraficaTaglioClip.OndaSonoraCompleta = false);
+            DatiAudioRegistrato[Numero].nonscaricarebuffer = false;
             divVetro.style.display = "none";
             ScorciatoieTastiera.sospendi = [];
             RiabilitaSchermata();
