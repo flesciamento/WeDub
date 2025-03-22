@@ -4460,7 +4460,7 @@ function VideoGuidaPronto() {
 
         AltreFunzioniVisualizzaCopioneWeDub = () => {
             AttivaScorrimentoCopione();
-            if (DatiDoppiatori[ID_Utente] && !OpzEvidenzia_TestoGuida.selectedIndex) {
+            if (DatiDoppiatori[ID_Utente] && !OpzEvidenzia_TestoGuida.selectedIndex && !DoppiatoreConsiderato) {
                 const vPersonaggi = Array.from(OpzEvidenzia_TestoGuida);
                 (vPersonaggi.find(el => new RegExp(DatiDoppiatori[ID_Utente].ruolo, 'i').test(el.value)) || vPersonaggi.find(el => new RegExp(DatiDoppiatori[ID_Utente].ruolo.slice(0, (DatiDoppiatori[ID_Utente].ruolo + ",").indexOf(',')), 'i').test(el.value)) || vPersonaggi.find(el => new RegExp(DatiDoppiatori[ID_Utente].ruolo.slice(0, (DatiDoppiatori[ID_Utente].ruolo + " ").indexOf(' ')), 'i').test(el.value)) || {selected: false}).selected = true;
                 OpzEvidenzia_TestoGuida.dispatchEvent(new Event('change'));
