@@ -221,6 +221,8 @@ function AutoAdattaElementiInterfaccia() {
 
 /*** Operazioni al ridimensionamento della finestra ***/
 function Ridisegna() {
+    if ((Math.abs(window.innerHeight - Ridisegna.dimensionePrecedente.altezza) < 10) || (Math.abs(window.innerWidth - Ridisegna.dimensionePrecedente.larghezza) < 10)) {return;}
+
     clearTimeout(tmrRidimensionamentoElementi);
     tmrRidimensionamentoElementi = setTimeout(() => {
         MinutaggiRighello.Ridisegna();
@@ -229,8 +231,10 @@ function Ridisegna() {
         AutoAdattaElementiInterfaccia();
         SeguiCursore();
         CompattaMarcatori();
+        Ridisegna.dimensionePrecedente = {altezza: window.innerHeight, larghezza: window.innerWidth};
     }, 500);
 }
+Ridisegna.dimensionePrecedente = {altezza: window.innerHeight, larghezza: window.innerWidth};
 
 window.addEventListener('resize', Ridisegna);
 /******************************************************/
