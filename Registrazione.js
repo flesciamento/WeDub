@@ -3793,7 +3793,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
         CreaNuoviElementi([
             divcontenitorebody.id, ['div'],,
                 /* Minutaggio */
-                ['div', {id: ID_Opzioni + 'divContenitoreTabellaMinutaggio', className: "col-lg-5"}], ['div', {id: divOpzioneEffetti_id}],
+                ['div', {id: ID_Opzioni + 'divContenitoreTabellaMinutaggio', className: "col-lg-5"}], ['div', {id: divOpzioneEffetti_id}], // la classe: "col-lg-7" viene indicata da SelezioneESpostaELT se selezionata la singola clip
                 1, ['table'],,
                         ['tr'],,
                             ['td', {textContent: strPosizione}, {fontFamily: "Verdana", fontSize: "12px", verticalAlign: "bottom", paddingBottom: "5px"}], ['td'],,
