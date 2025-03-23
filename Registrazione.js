@@ -3793,7 +3793,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
             divcontenitorebody.id, ['div'],,
                 /* Minutaggio */
                 ['div', {className: "col-lg-5"}], ['div', {id: divOpzioneEffetti_id, className: "col-lg-7"}],
-                1, ['table', {id: ID_Opzioni + 'TabellaMinutaggio'}],
+                1, ['table', {id: ID_Opzioni + 'TabellaMinutaggio'}],,
                         ['tr'],,
                             ['td', {textContent: strPosizione}, {fontFamily: "Verdana", fontSize: "12px", verticalAlign: "bottom", paddingBottom: "5px"}], ['td'],,
                                 ['table'],,
@@ -3995,7 +3995,6 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                         }
 
                         function Riattiva() {
-                            pulsante.style.display = "none";
                             divVetro.style.display = "none";
                         }
                     }
