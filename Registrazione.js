@@ -221,7 +221,7 @@ function AutoAdattaElementiInterfaccia() {
 
 /*** Operazioni al ridimensionamento della finestra ***/
 function Ridisegna() {
-    if ((Math.abs(window.innerHeight - Ridisegna.dimensionePrecedente.altezza) < 10) || (Math.abs(window.innerWidth - Ridisegna.dimensionePrecedente.larghezza) < 10)) {return;}
+    if ((Math.abs(window.innerHeight - Ridisegna.dimensionePrecedente.altezza) < diffMinimaZoom) || (Math.abs(window.innerWidth - Ridisegna.dimensionePrecedente.larghezza) < diffMinimaZoom)) {return;}
 
     clearTimeout(tmrRidimensionamentoElementi);
     tmrRidimensionamentoElementi = setTimeout(() => {
