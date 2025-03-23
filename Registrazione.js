@@ -3434,6 +3434,7 @@ function SelezionaESpostaELT(NumeroAudio, X = 0) {
             opzionemodificamultipla.onclick = opzionemodificamultipla.ontouchstart = (e) => {e.currentTarget.style.opacity = 1;};
         }
     });
+    document.getElementById(ID_Opzioni + 'divOpzioneEffetti').className = (SingoloELTDaModificare? "col-lg-7" : "");
     VisualizzazioneGraficaTaglioClip.OndaSonoraCompleta = SingoloELTDaModificare;
 }
 
@@ -3792,7 +3793,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
         CreaNuoviElementi([
             divcontenitorebody.id, ['div'],,
                 /* Minutaggio */
-                ['div', {id: ID_Opzioni + 'divContenitoreTabellaMinutaggio', className: "col-lg-5"}], ['div', {id: divOpzioneEffetti_id, className: "col-lg-7"}],
+                ['div', {id: ID_Opzioni + 'divContenitoreTabellaMinutaggio', className: "col-lg-5"}], ['div', {id: divOpzioneEffetti_id}],
                 1, ['table'],,
                         ['tr'],,
                             ['td', {textContent: strPosizione}, {fontFamily: "Verdana", fontSize: "12px", verticalAlign: "bottom", paddingBottom: "5px"}], ['td'],,
@@ -3996,6 +3997,8 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
 
                         function Riattiva() {
                             pulsante.innerHTML = strSpezzaBattute;
+                            pulsante.style.border = "";
+                            pulsante.abilita(true);
                             divVetro.style.display = "none";
                         }
                     }
