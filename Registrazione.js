@@ -4457,14 +4457,18 @@ function VideoGuidaPronto() {
         document.getElementById('MessaggiUlteriori').innerHTML = Stringa;
 
         /*** Funzioni per gestire il copione We Dub ***/
-        FunzioneAlCaricamentoCopioneWeDub = () => {pulCopioneWeDub.click(); if (Righello.dataset.DisattivaClick == "si") {FunzioniCopione.DisattivaCopione();}};
+        FunzioneAlCaricamentoCopioneWeDub = () => {if (Righello.dataset.DisattivaClick == "no") {pulCopioneWeDub.click();} else {setTimeout(FunzioneAlCaricamentoCopioneWeDub, 1000);}};
 
         AltreFunzioniVisualizzaCopioneWeDub = () => {
             AttivaScorrimentoCopione();
-            if (DatiDoppiatori[ID_Utente] && !OpzEvidenzia_TestoGuida.selectedIndex && !DoppiatoreConsiderato) {
-                const vPersonaggi = Array.from(OpzEvidenzia_TestoGuida);
-                (vPersonaggi.find(el => new RegExp(DatiDoppiatori[ID_Utente].ruolo, 'i').test(el.value)) || vPersonaggi.find(el => new RegExp(DatiDoppiatori[ID_Utente].ruolo.slice(0, (DatiDoppiatori[ID_Utente].ruolo + ",").indexOf(',')), 'i').test(el.value)) || vPersonaggi.find(el => new RegExp(DatiDoppiatori[ID_Utente].ruolo.slice(0, (DatiDoppiatori[ID_Utente].ruolo + " ").indexOf(' ')), 'i').test(el.value)) || {selected: false}).selected = true;
-                OpzEvidenzia_TestoGuida.dispatchEvent(new Event('change'));
+            PosizionatiSulProprioPersonaggio();
+
+            function PosizionatiSulProprioPersonaggio() {
+                if (DatiDoppiatori[ID_Utente] && !OpzEvidenzia_TestoGuida.selectedIndex && !DoppiatoreConsiderato) {
+                    const vPersonaggi = Array.from(OpzEvidenzia_TestoGuida);
+                    (vPersonaggi.find(el => new RegExp(DatiDoppiatori[ID_Utente].ruolo, 'i').test(el.value)) || vPersonaggi.find(el => new RegExp(DatiDoppiatori[ID_Utente].ruolo.slice(0, (DatiDoppiatori[ID_Utente].ruolo + ",").indexOf(',')), 'i').test(el.value)) || vPersonaggi.find(el => new RegExp(DatiDoppiatori[ID_Utente].ruolo.slice(0, (DatiDoppiatori[ID_Utente].ruolo + " ").indexOf(' ')), 'i').test(el.value)) || { selected: false }).selected = true;
+                    OpzEvidenzia_TestoGuida.dispatchEvent(new Event('change'));
+                }
             }
         };
 
