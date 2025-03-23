@@ -3770,7 +3770,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
         ID_Opzioni, ['div', {id: 'OpzioniTitolo', className: "panel-heading text-center"}, {userSelect: "none"}],,
             ['div', {textContent: strOpzioniTraccia, onmousedown: () => {OggettoDaSpostare = divContenitoreOpzioni; document.body.addEventListener('mousemove', SpostaOggettoColMouse);}}, {width: "70%", margin: "0px auto", cursor: "move"}],
             ['a', {id: ID_Opzioni + 'Cancella', className: (AudioAttivo? 'btn btn-danger fa fa-trash-o' : 'btn btn-info fa fa-undo'), title: (AudioAttivo? strCancellaClip : strRipristinaClip), onclick: (e) => {CancellaRipristinaRegistrazione(e.currentTarget.dataset.RiferimentoRegistrazione, !AudioAttivo);}}, {position: "absolute", top: "5px", left: "10px"}, {RiferimentoRegistrazione: RiferimentoRegistrazione}],
-            ['a', {id: ID_Opzioni + 'Duplica', innerHTML: "<span class='fa fa-copy'></span>" + strDuplicaClip_lblPulsante, className: "btn btn-info", title: strDuplicaClip, onclick: (e) => {OpzioniClip(e.currentTarget.dataset.RiferimentoRegistrazione, false, true); DuplicaClip(e.currentTarget.dataset.RiferimentoRegistrazione);}}, {position: "absolute", top: "5px", right: "10px"}, {RiferimentoRegistrazione: RiferimentoRegistrazione}]
+            ['a', {id: ID_Opzioni + 'Duplica', innerHTML: "<span class='fa fa-copy'></span>" + strDuplicaClip_lblPulsante, className: "btn btn-info fa fa-copy", title: strDuplicaClip, onclick: (e) => {OpzioniClip(e.currentTarget.dataset.RiferimentoRegistrazione, false, true); DuplicaClip(e.currentTarget.dataset.RiferimentoRegistrazione);}}, {position: "absolute", top: "5px", right: "10px"}, {RiferimentoRegistrazione: RiferimentoRegistrazione}]
     ]);
     
     /** Contenuto **/
@@ -3792,18 +3792,19 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
         CreaNuoviElementi([
             divcontenitorebody.id, ['div'],,
                 /* Minutaggio */
-                ['table', {id: ID_Opzioni + 'TabellaMinutaggio', className: "col-lg-5"}], ['div', {id: divOpzioneEffetti_id, className: "col-lg-7"}],
-                    1, ['tr'],,
-                         ['td', {textContent: strPosizione}, {fontFamily: "Verdana", fontSize: "12px", verticalAlign: "bottom", paddingBottom: "5px"}], ['td'],,
-                            ['table'],,
-                                ['tr'],,
-                                    ['td', {textContent: strMinuti}, stililabel], ['td'], ['td', {textContent: strSecondi}, stililabel],
-                            -5, ['tr'],,
-                                    ['td', {id: tdPosizioneMinuti_id}], ['td', {textContent: ":"}], ['td', {id: tdPosizioneSecondi_id}],
-                                    tdPosizioneMinuti_id,
-                                        ['input', {id: ID_Opzioni + 'MinutaggioMinuti', className: "SelettoreMinutaggioMinuti", value: MinutaggioAttuale.Minuti, onchange: SpostaMinutaggioModificatoManualmente}, {}, {RiferimentoRegistrazione: RiferimentoRegistrazione}, {type: "number", min: 0, max: MinutaggioMassimo.Minuti, step: 1}],
-                                    tdPosizioneSecondi_id,
-                                        ['input', {id: ID_Opzioni + 'MinutaggioSecondi', className: "SelettoreMinutaggioSecondi", value: MinutaggioAttuale.Secondi, onchange: SpostaMinutaggioModificatoManualmente}, {}, {RiferimentoRegistrazione: RiferimentoRegistrazione}, {type: "number", min: 0, max: 59.999, step: 0.1}]
+                ['div', {className: "col-lg-5"}], ['div', {id: divOpzioneEffetti_id, className: "col-lg-7"}],
+                1, ['table', {id: ID_Opzioni + 'TabellaMinutaggio'}],
+                        ['tr'],,
+                            ['td', {textContent: strPosizione}, {fontFamily: "Verdana", fontSize: "12px", verticalAlign: "bottom", paddingBottom: "5px"}], ['td'],,
+                                ['table'],,
+                                    ['tr'],,
+                                        ['td', {textContent: strMinuti}, stililabel], ['td'], ['td', {textContent: strSecondi}, stililabel],
+                                -5, ['tr'],,
+                                        ['td', {id: tdPosizioneMinuti_id}], ['td', {textContent: ":"}], ['td', {id: tdPosizioneSecondi_id}],
+                                        tdPosizioneMinuti_id,
+                                            ['input', {id: ID_Opzioni + 'MinutaggioMinuti', className: "SelettoreMinutaggioMinuti", value: MinutaggioAttuale.Minuti, onchange: SpostaMinutaggioModificatoManualmente}, {}, {RiferimentoRegistrazione: RiferimentoRegistrazione}, {type: "number", min: 0, max: MinutaggioMassimo.Minuti, step: 1}],
+                                        tdPosizioneSecondi_id,
+                                            ['input', {id: ID_Opzioni + 'MinutaggioSecondi', className: "SelettoreMinutaggioSecondi", value: MinutaggioAttuale.Secondi, onchange: SpostaMinutaggioModificatoManualmente}, {}, {RiferimentoRegistrazione: RiferimentoRegistrazione}, {type: "number", min: 0, max: 59.999, step: 0.1}]
         ]).slice(-2).forEach(input => FunzioniCasellaNumerica(input));
 
                     /* Effetti */
