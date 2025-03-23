@@ -3427,7 +3427,7 @@ function SelezionaESpostaELT(NumeroAudio, X = 0) {
     }
 
     /* Adattamento interfaccia in base al numero delle clip selezionate */
-    document.getElementById(ID_Opzioni + 'Cancella').style.display = document.getElementById(ID_Opzioni + 'Duplica').style.display = document.getElementById(ID_Opzioni + 'TabellaMinutaggio').style.display = document.getElementById(ID_Opzioni + 'TabellaOpzioniRigaTaglioIniziale').style.display = document.getElementById(ID_Opzioni + 'TabellaOpzioniRigaTaglioFinale').style.display = document.getElementById(ID_Opzioni + 'divOpzioniRigaVarie').style.display = document.getElementById(ID_Opzioni + 'textareaCommenti').style.display = (SingoloELTDaModificare ? "" : "none");
+    document.getElementById(ID_Opzioni + 'Cancella').style.display = document.getElementById(ID_Opzioni + 'Duplica').style.display = document.getElementById(ID_Opzioni + 'divContenitoreTabellaMinutaggio').style.display = document.getElementById(ID_Opzioni + 'TabellaOpzioniRigaTaglioIniziale').style.display = document.getElementById(ID_Opzioni + 'TabellaOpzioniRigaTaglioFinale').style.display = document.getElementById(ID_Opzioni + 'divOpzioniRigaVarie').style.display = document.getElementById(ID_Opzioni + 'textareaCommenti').style.display = (SingoloELTDaModificare ? "" : "none");
     [document.getElementById(ID_Opzioni + 'labelPulDaAscoltare'), document.getElementById(ID_Opzioni + 'TabellaOpzioniRigaVolume'), document.getElementById(ID_Opzioni + 'divOpzioneEffetti')].forEach((opzionemodificamultipla) => {
         if (opzionemodificamultipla) {
             opzionemodificamultipla.style.opacity = 1 - (0.5 * (!SingoloELTDaModificare || (opzionemodificamultipla.dataset?.cliccato == "no")));
@@ -3792,8 +3792,8 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
         CreaNuoviElementi([
             divcontenitorebody.id, ['div'],,
                 /* Minutaggio */
-                ['div', {className: "col-lg-5"}], ['div', {id: divOpzioneEffetti_id, className: "col-lg-7"}],
-                1, ['table', {id: ID_Opzioni + 'TabellaMinutaggio'}],,
+                ['div', {id: ID_Opzioni + 'divContenitoreTabellaMinutaggio', className: "col-lg-5"}], ['div', {id: divOpzioneEffetti_id, className: "col-lg-7"}],
+                1, ['table'],,
                         ['tr'],,
                             ['td', {textContent: strPosizione}, {fontFamily: "Verdana", fontSize: "12px", verticalAlign: "bottom", paddingBottom: "5px"}], ['td'],,
                                 ['table'],,
@@ -3995,6 +3995,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                         }
 
                         function Riattiva() {
+                            pulsante.innerHTML = strSpezzaBattute;
                             divVetro.style.display = "none";
                         }
                     }
