@@ -221,7 +221,7 @@ function AutoAdattaElementiInterfaccia() {
 
 /*** Operazioni al ridimensionamento della finestra ***/
 function Ridisegna() {
-    if ((Math.abs(window.innerHeight - Ridisegna.dimensionePrecedente.altezza) < diffMinimaZoom) || (Math.abs(window.innerWidth - Ridisegna.dimensionePrecedente.larghezza) < diffMinimaZoom)) {return;}
+    if ((Math.abs(window.innerHeight - Ridisegna.dimensionePrecedente.altezza) < diffMinimaRidimensionaFinestra) || (Math.abs(window.innerWidth - Ridisegna.dimensionePrecedente.larghezza) < diffMinimaRidimensionaFinestra)) {return;}
 
     clearTimeout(tmrRidimensionamentoElementi);
     tmrRidimensionamentoElementi = setTimeout(() => {
@@ -504,7 +504,7 @@ async function CliccatoCandidatoRuoliDaAssegnare(e) {
 function SelezionaCandidatoRuoliDaAssegnare(ID, FunzioneAlTermine = () => {}) {
     if (ID == RuoliDaAssegnare_CandidatoSelezionato) {return;}
 
-    document.getElementById('divContenutoNomeTraccia' + RuoliDaAssegnare_NumeroTraccia).abilita(false); AttivaImmagineAttesa('Pulse');
+    document.getElementById('divContenutoNomeTraccia' + RuoliDaAssegnare_NumeroTraccia).abilita(false); AttivaImmagineAttesa('Pulse'); document.getElementById('divNotificaNuoveClipRuoliDaAssegnare').style.display = "none";
     
     AJAX("DatiUtente.php", "ID=" + encodeURIComponent(ID),
         function (Dati) {
