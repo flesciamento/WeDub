@@ -309,6 +309,7 @@ function AttivaProgramma() {
         DisabilitaSchermata();
         MinutaggiRighello.Disegna();
         slideZoom.setAttribute('max', (totDurataVideoGuida * 5) | 0);
+        [MinutaggioMinuti, MinutaggioSecondi].forEach(input => FunzioniCasellaNumerica(input));
         if (SessioneOspite && SonoCreatoreProgetto) {document.getElementById('OpzioniDoppiaggio_Registrazione').append(divSelettoreMicrofono, divOpzioniRegistrazione);} // Sposta le opzioni del microfono tra le opzioni del player se siamo il creatore del progetto non doppiatore
         setTimeout(() => {
             /* Adatta la dimensione degli elementi in base al contenuto e allo spazio a disposizione */
