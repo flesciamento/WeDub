@@ -505,7 +505,7 @@ async function CliccatoCandidatoRuoliDaAssegnare(e) {
 function SelezionaCandidatoRuoliDaAssegnare(ID, FunzioneAlTermine = () => {}) {
     if (ID == RuoliDaAssegnare_CandidatoSelezionato) {return;}
 
-    document.getElementById('divContenutoNomeTraccia' + RuoliDaAssegnare_NumeroTraccia).abilita(false); AttivaImmagineAttesa('Pulse'); document.getElementById('divNotificaNuoveClipRuoliDaAssegnare').style.display = "none";
+    document.getElementById('divContenutoNomeTraccia' + RuoliDaAssegnare_NumeroTraccia).abilita(false); AttivaImmagineAttesa('Pulse'); if (divNotifica = document.getElementById('divNotificaNuoveClipRuoliDaAssegnare')) {divNotifica.style.display = "none"};
     
     AJAX("DatiUtente.php", "ID=" + encodeURIComponent(ID),
         function (Dati) {
