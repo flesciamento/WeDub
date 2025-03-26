@@ -3309,7 +3309,7 @@ function CreaElementoLineaTemporale(ID, DoveInserirlo, PartenzaRegistrazione, Lu
             if (StrumentoMouse != toolStandard) {return;}
 
             const ELTAttuale = e.currentTarget;
-            VisualizzazioneGraficaTaglioClip(ELTAttuale.dataset.RiferimentoRegistrazione, true);
+            VisualizzazioneGraficaTaglioClip(ELTAttuale.dataset.RiferimentoRegistrazione, (ELTDaModificare.length > 1));
 
             if (!ELTDaSpostare) {ELTAttuale.style.zIndex = 10000000;}
 
