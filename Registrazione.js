@@ -3838,7 +3838,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
         const divOpzioniVarie_id = ID_Opzioni + 'divOpzioniRigaVarie', pulAscolta_id = ID_Opzioni + 'PulAscolta', ulPulAscolta_id = ID_Opzioni + 'ulMenuPulAscolta', ulPulScarica_id = ID_Opzioni + 'ulMenuPulScarica', liAscoltaSoloTaglio_id = ID_Opzioni + "AscoltaSoloTaglio";
         CreaNuoviElementi([
             divcontenitorebody.id, ['div', {id: divOpzioniVarie_id}],,
-                ['div', {className: "btn-group"}, {marginRight: "5px"}], ['div', {className: "btn-group"}],
+                ['div', {className: "btn-group"}, {marginRight: "5px", width: "125px"}], ['div', {className: "btn-group"}],
                     1, ['a', {id: pulAscolta_id}, {}, {toggle: "dropdown", RiferimentoRegistrazione: RiferimentoRegistrazione}], ['ul', {id: ulPulAscolta_id, className: "dropdown-menu"}],,
                             ['li', {id: liAscoltaSoloTaglio_id, innerHTML: "<span class='fa fa-exchange'></span> " + strSoloTaglio, className: "btn btn-default", onclick: AscoltaInSolo_ParteTagliata}, stiliMenu],
                             ['li', {innerHTML: "<span class='fa fa-toggle-right'></span> " + strDaInizioAFine,                      className: "btn btn-default", onclick: AscoltaInSolo_Tutto}, stiliMenu],
