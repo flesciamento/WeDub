@@ -1536,7 +1536,7 @@ function AbilitaTracciaCI(Abilita) {
 
 
 function ScaricaMemoria_slow() {
-    setTimeout(ScaricaMemoria, 100);
+    setTimeout(ScaricaMemoria, RitardoScaricoMemoriaClip);
 }
 
 function ScaricaMemoria(AncheSuccessivi = false) {
