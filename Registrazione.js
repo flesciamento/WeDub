@@ -1176,7 +1176,7 @@ function ApriCopioneInAltraFinestra(e) {
 
 /*** Video in finestra ***/
 function ApriVideoGuidaInFinestra() {
-    FinestraVideoGuida = ApriFinestra({currentTarget: {dataset: {link: "VideoGuidaInFinestraSeparata.php", nomefinestra: "FinestraVideoGuida"}}});
+    FinestraVideoGuida = ApriFinestra({currentTarget: {dataset: {link: "VideoGuidaInFinestraSeparata.php?N=" + N, nomefinestra: "FinestraVideoGuida"}}});
     //FinestraVideoGuida.document.body.append(VideoGuida);
 }
 /*************************/
@@ -1602,7 +1602,7 @@ function EliminaImgAttesa() {
 function ImmagineAttesaVideoGuida(Attiva) {
     const imgAttesaVideoGuida = document.getElementById('imgAttesaVideoGuida');
     if (Attiva) {
-       imgAttesaVideoGuida || CreaElemento('div', 'imgAttesaVideoGuida', 'ContenitoreVideoGuida', '<div class="sk-circle-fade"><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div></div>').iStyle({position: "absolute", top: "60%", left: "50%"});
+       imgAttesaVideoGuida || FinestraVideoGuida.CreaElemento('div', 'imgAttesaVideoGuida', 'ContenitoreVideoGuida', '<div class="sk-circle-fade"><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div></div>').iStyle({position: "absolute", top: "60%", left: "50%"});
     } else {
        EliminaElemento(imgAttesaVideoGuida);
     }
