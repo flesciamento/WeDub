@@ -1176,8 +1176,8 @@ function ApriCopioneInAltraFinestra(e) {
 
 /*** Video in finestra ***/
 function ApriVideoGuidaInFinestra() {
-    FinestraVideoGuida = ApriFinestra({currentTarget: {dataset: {link: "about:blank", nomefinestra: "FinestraVideoGuida"}}});
-    FinestraVideoGuida.document.body.append(VideoGuida);
+    FinestraVideoGuida = ApriFinestra({currentTarget: {dataset: {link: "VideoGuidaInFinestraSeparata.php", nomefinestra: "FinestraVideoGuida"}}});
+    //FinestraVideoGuida.document.body.append(VideoGuida);
 }
 /*************************/
 
