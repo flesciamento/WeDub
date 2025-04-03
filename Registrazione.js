@@ -1174,6 +1174,13 @@ function ApriCopioneInAltraFinestra(e) {
 }
 /**************************************/
 
+/*** Video in finestra ***/
+function ApriVideoGuidaInFinestra() {
+    FinestraVideoGuida = ApriFinestra({currentTarget: {dataset: {link: "about:blank", nomefinestra: "FinestraVideoGuida"}}});
+    FinestraVideoGuida.document.body.append(VideoGuida);
+}
+/*************************/
+
 
 /*** Precarica clip ***
  * Richiama la funzione CaricaBufferAudio per le clip ancora non caricate, secondo i parametri indicati *
