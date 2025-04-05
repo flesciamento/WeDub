@@ -368,8 +368,9 @@ function InizializzaVideo() {
 }
 
 function PlayPausaCliccandoSulVideo(Attiva) {
-    ContenitoreVideoGuida.onclick = (Attiva? PlayPausa : "");
-    ContenitoreVideoGuida.style.cursor = (Attiva? "pointer" : "auto");
+    const CVG = FinestraVideoGuida.document.getElementById('ContenitoreVideoGuida');
+    CVG.onclick = (Attiva? PlayPausa : "");
+    CVG.style.cursor = (Attiva? "pointer" : "auto");
 }
 
 function VisualizzaSuggerimentiNuoviDoppiatori(Suggerimenti, TipoSuggerimento = '', FunzioneAlTermine = () => {}) {
