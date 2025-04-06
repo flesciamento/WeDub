@@ -1147,6 +1147,7 @@ function ApriCopioneInAltraFinestra(e) {
 /*** Video in finestra ***/
 function CambiaFinestraVideoGuida(e) {
     e.stopPropagation();
+    e.currentTarget.className += " fa-bounce";
     StopVideoGuida();
     DisabilitaSchermata();
     setTimeout(() => {
