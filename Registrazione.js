@@ -19,8 +19,7 @@ const BC = document.getElementById('ProgressoCaricamento'), ContornoBC = documen
 
 const lblVolumeVideoGuida = document.getElementById('lblVolumeVideoGuida');
 const slideVolumeVideoGuida = document.getElementById('VolumeVideoGuida');
-const MinutaggioMinuti = document.getElementById('MinutaggioMinuti');
-const MinutaggioSecondi = document.getElementById('MinutaggioSecondi');
+var MinutaggioMinuti = document.getElementById('MinutaggioMinuti'), MinutaggioSecondi = document.getElementById('MinutaggioSecondi'); // var per consentire di richiamarli anche dalle finestre figlie
 const divContenitoreSlideMinutaggio = document.getElementById('divContenitoreSlideMinutaggio');
 const ControlliInSovrimpressione = document.getElementById('ControlliInSovrimpressione');
 const slideZoom = document.getElementById('Zoom');
