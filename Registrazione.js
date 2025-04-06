@@ -4470,7 +4470,7 @@ function VideoGuidaPronto() {
         /* Aggiunta del tasto che permette di editare il copione */
         const pulSwitchCopioneEditabile = CreaElemento('span', 'pulSwitchCopioneEditabile', ManigliaSposta_TestoGuida.id); pulSwitchCopioneEditabile.className = "btn btn-default fa fa-edit"; pulSwitchCopioneEditabile.style.marginLeft = "10px"; pulSwitchCopioneEditabile.setAttribute('title', str_copione_ModalitaEditAttivata_title); pulSwitchCopioneEditabile.onmousedown = SwitchCopioneEditabile;
         /* Aggiunta del tasto che permette di aprire il copione in una finestra separata */
-        if (!SistemaAttualeAndroid) {const pulCopioneInAltraFinestra = CreaElemento('span', 'pulCopioneInAltraFinestra', ManigliaSposta_TestoGuida.id); pulCopioneInAltraFinestra.className = "btn btn-default fa fa-share-square-o"; pulCopioneInAltraFinestra.style.marginLeft = "10px"; pulCopioneInAltraFinestra.setAttribute('title', str_copione_ApriCopioneInAltraFinestra_title); pulCopioneInAltraFinestra.onmousedown = ApriCopioneInAltraFinestra;}
+        if (!SistemaAttualeAndroid) {const pulCopioneInAltraFinestra = CreaElemento('span', 'pulCopioneInAltraFinestra', ManigliaSposta_TestoGuida.id); pulCopioneInAltraFinestra.className = "btn btn-default fa fa-sign-out"; pulCopioneInAltraFinestra.style.marginLeft = "10px"; pulCopioneInAltraFinestra.setAttribute('title', str_copione_ApriCopioneInAltraFinestra_title); pulCopioneInAltraFinestra.onmousedown = ApriCopioneInAltraFinestra;}
         /**********************************************/
     }
 
