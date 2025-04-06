@@ -1575,9 +1575,8 @@ function EliminaImgAttesa() {
 
 function ImmagineAttesaVideoGuida(Attiva) {
     const imgAttesaVideoGuida = FinestraVideoGuida.document.getElementById('imgAttesaVideoGuida');
-    if (Attiva && !imgAttesaVideoGuida) {
-       div = FinestraVideoGuida.document.createElement('div'); div.id = 'imgAttesaVideoGuida'; div.innerHTML = '<div class="sk-circle-fade"><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div></div>'; div.iStyle({position: "absolute", top: "60%", left: "50%"});
-       FinestraVideoGuida.document.getElementById('ContenitoreVideoGuida').append(div);
+    if (Attiva) {
+        if (!imgAttesaVideoGuida) {div = FinestraVideoGuida.document.createElement('div'); div.id = 'imgAttesaVideoGuida'; div.innerHTML = '<div class="sk-circle-fade"><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div><div class="sk-circle-fade-dot"></div></div>'; div.iStyle({position: "absolute", top: "60%", left: "50%"}); FinestraVideoGuida.document.getElementById('ContenitoreVideoGuida').append(div);}
     } else {
        EliminaElemento(imgAttesaVideoGuida);
     }
