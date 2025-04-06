@@ -339,7 +339,7 @@ function AttivaProgramma() {
     }
 
     divVetro.style.display = "inline";
-    slideMinutaggioAttuale.setAttribute('max', totDurataVideoGuida); slideMinutaggioAttuale.style.display = ""
+    slideMinutaggioAttuale.setAttribute('max', totDurataVideoGuida); slideMinutaggioAttuale.style.display = "";
     ComandiPlayer.style.display = "block";
     AltezzaComandiPlayer = ComandiPlayer.offsetHeight;
 	/***********************/
