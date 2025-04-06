@@ -22,8 +22,6 @@ const slideVolumeVideoGuida = document.getElementById('VolumeVideoGuida');
 const MinutaggioMinuti = document.getElementById('MinutaggioMinuti');
 const MinutaggioSecondi = document.getElementById('MinutaggioSecondi');
 const divContenitoreSlideMinutaggio = document.getElementById('divContenitoreSlideMinutaggio');
-const slideMinutaggioAttuale = document.getElementById('slideMinutaggioAttuale');
-const divAnteprimaMinutaggioSlide = document.getElementById('divAnteprimaMinutaggioSlide');
 const ControlliInSovrimpressione = document.getElementById('ControlliInSovrimpressione');
 const slideZoom = document.getElementById('Zoom');
 const lblSwitchColonnaInternazionale = document.getElementById('pulSwitchCI_testo');
@@ -857,28 +855,6 @@ function MinutaggioCambiato() {
 	Posizionati(+MinutaggioNuovoAggiustato);
 }
 
-function slide_SpostatiAlMinutaggioSelezionato() {
-    Posizionati((slideMinutaggioAttuale.value * (slideMinutaggioAttuale.value >= InizioVideoGuida)) || InizioVideoGuida);
-}
-
-function slide_AnteprimaMinutaggio(e) {
-    const Minutaggio = e.offsetX / slideMinutaggioAttuale.clientWidth * totDurataVideoGuida, M = new MinutiESecondi(Minutaggio);
-    slideMinutaggioAttuale.dataset.valore = Minutaggio;
-    divAnteprimaMinutaggioSlide.iStyle({display: "", left: ((+slideMinutaggioAttuale.offsetLeft) + (+e.offsetX) - 25) + "px"}); divAnteprimaMinutaggioSlide.textContent = M.Minuti + ":" + M.Secondi.toFixed(0).padStart(2, "0");
-}
-
-function slide_PosizionatiAlMinutaggioIndicatoInAnteprima() {
-    setTimeout(() => {
-        slideMinutaggioAttuale.value = slideMinutaggioAttuale.dataset.valore;
-        slide_SpostatiAlMinutaggioSelezionato();
-        slide_AnteprimaMinutaggioScompare();
-    }, 100);
-}
-
-function slide_AnteprimaMinutaggioScompare() {
-    divAnteprimaMinutaggioSlide.style.display = "none";
-}
-
 Righello.onmousedown = PosizionatiAlMinutoCliccato;
 divContenutoTracce.onmousemove = AnteprimaCursoreSeVuoto;
 divContenutoTracce.onmouseleave = EliminaAnteprimaCursore;
@@ -1089,13 +1065,6 @@ function AggiornaMinutaggioVideo(Minutaggio) {
             }
         }
     }
-}
-
-function ControlliInSovrimpressione_Avanza(e) {
-    e.stopPropagation();
-    const Secondi = +e.currentTarget.dataset.secondi;
-    Posizionati(+VideoGuidaMinutaggioCorrente() + (+Secondi));
-    Animazione(e.currentTarget.children[0], "rotazione-" + ((Secondi > 0) ? "destra" : "sinistra") + " 100ms ease 100ms 2 alternate");
 }
 
 function DisabilitaComandiPerRiprodurre(Disabilita) {
