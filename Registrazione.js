@@ -12,7 +12,7 @@ const pulStopRegistrazione = document.getElementById('StopRegistrazione');
 const pulAnnullaRegistrazione = document.getElementById('AnnullaRegistrazione');
 const pulPlay = document.getElementById('Play');
 const imgPlayPausa = document.getElementById('imgPlay');
-const PlayInSovrimpressione = document.getElementById('PlayInSovrimpressione');
+var PlayInSovrimpressione = document.getElementById('PlayInSovrimpressione'); // var per consentire di determinare il play della finestra corrente
 const Cursore = document.getElementById('Cursore'), CursoreAnteprima = document.getElementById('CursoreAnteprima');
 const ContenitorePulMessaggioVocale = document.getElementById('ContenitorePulMessaggioVocale'), didascaliaMessaggioVocale = document.getElementById('didascaliaMessaggioVocale'), pulMessaggioVocale = document.getElementById('pulMessaggioVocale'), selUtenteMessaggioVocale = document.getElementById('selUtenteMessaggioVocale');
 const BC = document.getElementById('ProgressoCaricamento'), ContornoBC = document.getElementById('BarraProgressoCaricamento');
@@ -1147,8 +1147,9 @@ function ApriCopioneInAltraFinestra(e) {
 /*** Video in finestra ***/
 function ApriVideoGuidaInFinestra(e) {
     e.stopPropagation();
+    StopVideoGuida();
+    DisabilitaSchermata();
     FinestraVideoGuida = ApriFinestra({currentTarget: {dataset: {link: "VideoGuidaInFinestraSeparata.php?N=" + N, nomefinestra: "FinestraVideoGuida"}}});
-    //FinestraVideoGuida.document.body.append(VideoGuida);
 }
 /*************************/
 
