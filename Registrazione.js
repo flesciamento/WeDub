@@ -1068,7 +1068,7 @@ function AggiornaMinutaggioVideo(Minutaggio) {
 }
 
 function DisabilitaComandiPerRiprodurre(Disabilita) {
-    pulPlay.disabled = Disabilita; PlayPausaCliccandoSulVideo(!Disabilita); DisabilitaElementiRegistrazione(Disabilita || SolaVisione); pulPlayInSovrimpressione.style.display = (Disabilita ? "none" : "");
+    pulPlay.disabled = Disabilita; PlayPausaCliccandoSulVideo(!Disabilita); DisabilitaElementiRegistrazione(Disabilita || SolaVisione); FinestraVideoGuida.pulPlayInSovrimpressione.style.display = (Disabilita ? "none" : "");
 }
 
 function Posizionati(MinutaggioNuovo, RiabilitaTuttaLaSchermata = false, FunzioneAlTermine = () => {}) {
@@ -1149,7 +1149,9 @@ function ApriVideoGuidaInFinestra(e) {
     e.stopPropagation();
     StopVideoGuida();
     DisabilitaSchermata();
-    FinestraVideoGuida = ApriFinestra({currentTarget: {dataset: {link: "VideoGuidaInFinestraSeparata.php?N=" + N, nomefinestra: "FinestraVideoGuida"}}});
+    setTimeout(() => {
+        FinestraVideoGuida = ApriFinestra({currentTarget: {dataset: {link: "VideoGuidaInFinestraSeparata.php?N=" + N, nomefinestra: "FinestraVideoGuida"}}});
+    }, 500);
 }
 /*************************/
 
@@ -1551,7 +1553,7 @@ function RiabilitaSchermata(Aggiorna) {
 }
 
 function DisabilitaElementiGenerali(Disabilita) {
-    pulPlay.disabled = Disabilita; MinutaggioMinuti.readOnly = Disabilita; MinutaggioSecondi.readOnly = Disabilita; opzFunzionalitaPreRegistrazione.disabled = Disabilita; inputCountdownRegistrazione.disabled = Disabilita; checkAscoltaClipDuranteRegistrazione.disabled = Disabilita; slideMinutaggioAttuale.disabled = Disabilita; ControlliInSovrimpressione.abilita(!Disabilita); pulPlayInSovrimpressione.style.display = (Disabilita ? "none" : "");
+    pulPlay.disabled = Disabilita; MinutaggioMinuti.readOnly = Disabilita; MinutaggioSecondi.readOnly = Disabilita; opzFunzionalitaPreRegistrazione.disabled = Disabilita; inputCountdownRegistrazione.disabled = Disabilita; checkAscoltaClipDuranteRegistrazione.disabled = Disabilita; slideMinutaggioAttuale.disabled = Disabilita; ControlliInSovrimpressione.abilita(!Disabilita); FinestraVideoGuida.pulPlayInSovrimpressione.style.display = (Disabilita ? "none" : "");
 
     divSelettoreMicrofono.abilita(!Disabilita); divOpzioniRegistrazione.abilita(!Disabilita);
     if (ContenitoreStrumenti && !document.getElementById(ID_Opzioni)) {ContenitoreStrumenti.abilita(!Disabilita);}
@@ -2212,7 +2214,7 @@ function ImpostaStatoPlay(StatoPlay) {
     const playpausa = ["play", "pause"], simboloattuale = playpausa[+StatoPlay], simboloprecedente = playpausa[1 - StatoPlay];
     RiproduzioneInCorso = StatoPlay;
     imgPlayPausa.src = "images/" + simboloattuale + "-blue.png";
-    pulPlayInSovrimpressione.className = pulPlayInSovrimpressione.className.replace(simboloprecedente, simboloattuale);
+    FinestraVideoGuida.pulPlayInSovrimpressione.className = FinestraVideoGuida.pulPlayInSovrimpressione.className.replace(simboloprecedente, simboloattuale);
 }
 
 function SospendiRiproduzione() {
