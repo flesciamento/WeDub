@@ -21,7 +21,7 @@ const lblVolumeVideoGuida = document.getElementById('lblVolumeVideoGuida');
 const slideVolumeVideoGuida = document.getElementById('VolumeVideoGuida');
 var MinutaggioMinuti = document.getElementById('MinutaggioMinuti'), MinutaggioSecondi = document.getElementById('MinutaggioSecondi'); // var per consentire di richiamarli anche dalle finestre figlie
 const divContenitoreSlideMinutaggio = document.getElementById('divContenitoreSlideMinutaggio');
-const ControlliInSovrimpressione = document.getElementById('ControlliInSovrimpressione');
+var ControlliInSovrimpressione = document.getElementById('ControlliInSovrimpressione'); // var per consentire di richiamarli anche dalle finestre figlie
 const slideZoom = document.getElementById('Zoom');
 const lblSwitchColonnaInternazionale = document.getElementById('pulSwitchCI_testo');
 const pulSwitchColonnaInternazionale = document.getElementById('pulSwitchColonnaInternazionale');
@@ -1145,7 +1145,7 @@ function ApriCopioneInAltraFinestra(e) {
 /**************************************/
 
 /*** Video in finestra ***/
-function CambiaFinestraVideoGuida(e) {
+function FinestraVideoGuida_cambia(e) {
     e.stopPropagation();
     e.currentTarget.className += " fa-bounce";
     StopVideoGuida();
@@ -1554,7 +1554,7 @@ function RiabilitaSchermata(Aggiorna) {
 }
 
 function DisabilitaElementiGenerali(Disabilita) {
-    pulPlay.disabled = Disabilita; MinutaggioMinuti.readOnly = Disabilita; MinutaggioSecondi.readOnly = Disabilita; opzFunzionalitaPreRegistrazione.disabled = Disabilita; inputCountdownRegistrazione.disabled = Disabilita; checkAscoltaClipDuranteRegistrazione.disabled = Disabilita; FinestraVideoGuida.slideMinutaggioAttuale.disabled = Disabilita; ControlliInSovrimpressione.abilita(!Disabilita); FinestraVideoGuida.pulPlayInSovrimpressione.style.display = (Disabilita ? "none" : "");
+    pulPlay.disabled = Disabilita; MinutaggioMinuti.readOnly = Disabilita; MinutaggioSecondi.readOnly = Disabilita; opzFunzionalitaPreRegistrazione.disabled = Disabilita; inputCountdownRegistrazione.disabled = Disabilita; checkAscoltaClipDuranteRegistrazione.disabled = Disabilita; FinestraVideoGuida.slideMinutaggioAttuale.disabled = Disabilita; FinestraVideoGuida.ControlliInSovrimpressione.abilita(!Disabilita); FinestraVideoGuida.pulPlayInSovrimpressione.style.display = (Disabilita ? "none" : "");
 
     divSelettoreMicrofono.abilita(!Disabilita); divOpzioniRegistrazione.abilita(!Disabilita);
     if (ContenitoreStrumenti && !document.getElementById(ID_Opzioni)) {ContenitoreStrumenti.abilita(!Disabilita);}
@@ -1779,7 +1779,8 @@ function startRecording() {
     /* Stoppa il filmato e predispone l'interfaccia */
     VideoGuidaRimuoviFunzioneAlTimeUpdate(AggiornaTimeline);
 	StopVideoGuida();
-    ContenitoreCopione.FunzioniCopione.OpacitaCopioneDisattivato = 1; DisabilitaSchermata(true); pulPlay.style.opacity = 0;
+    ContenitoreCopione.FunzioniCopione.OpacitaCopioneDisattivato = 1; pulPlay.style.opacity = 0;
+    DisabilitaSchermata(true);
 
     /* Memorizza il minutaggio di partenza della registrazione (utilizzato solo in caso di annullamento per riposizionarsi) */
     MinutaggioPartenzaRegistrazione = VideoGuidaMinutaggioCorrente();
