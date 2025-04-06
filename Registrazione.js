@@ -887,7 +887,7 @@ function PosizionatiAlMinutoCliccato(e) {
 }
 
 function PosizionaCursore(Minutaggio, ritardoscorrimento = 500) {
-    slideMinutaggioAttuale.value = Minutaggio;
+    FinestraVideoGuida.slideMinutaggioAttuale.value = Minutaggio;
     Cursore.style.left = (Minutaggio / totDurataVideoGuida * 100) + "%";
     tmrRitardoScorrimentoCursore = window.setTimeout(SeguiCursore, ritardoscorrimento);
 }
@@ -1552,7 +1552,7 @@ function RiabilitaSchermata(Aggiorna) {
 }
 
 function DisabilitaElementiGenerali(Disabilita) {
-    pulPlay.disabled = Disabilita; MinutaggioMinuti.readOnly = Disabilita; MinutaggioSecondi.readOnly = Disabilita; opzFunzionalitaPreRegistrazione.disabled = Disabilita; inputCountdownRegistrazione.disabled = Disabilita; checkAscoltaClipDuranteRegistrazione.disabled = Disabilita; slideMinutaggioAttuale.disabled = Disabilita; ControlliInSovrimpressione.abilita(!Disabilita); FinestraVideoGuida.pulPlayInSovrimpressione.style.display = (Disabilita ? "none" : "");
+    pulPlay.disabled = Disabilita; MinutaggioMinuti.readOnly = Disabilita; MinutaggioSecondi.readOnly = Disabilita; opzFunzionalitaPreRegistrazione.disabled = Disabilita; inputCountdownRegistrazione.disabled = Disabilita; checkAscoltaClipDuranteRegistrazione.disabled = Disabilita; FinestraVideoGuida.slideMinutaggioAttuale.disabled = Disabilita; ControlliInSovrimpressione.abilita(!Disabilita); FinestraVideoGuida.pulPlayInSovrimpressione.style.display = (Disabilita ? "none" : "");
 
     divSelettoreMicrofono.abilita(!Disabilita); divOpzioniRegistrazione.abilita(!Disabilita);
     if (ContenitoreStrumenti && !document.getElementById(ID_Opzioni)) {ContenitoreStrumenti.abilita(!Disabilita);}
