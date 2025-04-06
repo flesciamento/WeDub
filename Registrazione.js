@@ -278,7 +278,7 @@ function VariaAltezzaTracce() {
 }
 
 function RideterminaLimitiAltezzaTracce() {
-    AltezzaTracceMinima = (+window.innerHeight * 0.4); AltezzaTracceMassima = window.innerHeight - SuddivisioneTracce - 25;
+    AltezzaTracceMinima = (+window.innerHeight * (0.4 - (0.3 * (FinestraVideoGuida != window)))); AltezzaTracceMassima = window.innerHeight - SuddivisioneTracce - 25;
 }
 /********************************************************/
 
