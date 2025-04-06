@@ -1075,8 +1075,9 @@ function Posizionati(MinutaggioNuovo, RiabilitaTuttaLaSchermata = false, Funzion
 
     function RiattivaVideoGuida() {
         if ((Math.round(VideoGuidaMinutaggioCorrente())) != (Math.round(MinutaggioNuovo))) {Posizionati.tmr = setTimeout(RiattivaVideoGuida, 1000); return;}
+        console.log("RiattivaVideoGuida", FinestraVideoGuida, VideoGuidaMinutaggioCorrente(), MinutaggioNuovo);
         Posizionati.InAttesaRiattivazione = false;
-        ImmagineAttesaVideoGuida(false);
+        ImmagineAttesaVideoGuida(false); console.log("Disattivata img attesa");
         if (stavoRiproducendo) {
             PlayVideoGuida();
         } else {
@@ -1103,7 +1104,7 @@ function Posizionati(MinutaggioNuovo, RiabilitaTuttaLaSchermata = false, Funzion
     FunzioneAlTerminePrecaricamento = false;
     EliminaImgAttesa();
     StopVideoGuida();
-    ImmagineAttesaVideoGuida(true);
+    ImmagineAttesaVideoGuida(true); console.log("Attivata img attesa");
     VideoGuidaPosizionati(MinutaggioNuovo);
     Posizionati.InAttesaRiattivazione = true;
     clearTimeout(Posizionati.tmr);
