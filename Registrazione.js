@@ -1145,7 +1145,7 @@ function ApriCopioneInAltraFinestra(e) {
 /**************************************/
 
 /*** Video in finestra ***/
-function ApriVideoGuidaInFinestra(e) {
+function CambiaFinestraVideoGuida(e) {
     e.stopPropagation();
     StopVideoGuida();
     DisabilitaSchermata();
