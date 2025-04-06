@@ -12,7 +12,7 @@ const pulStopRegistrazione = document.getElementById('StopRegistrazione');
 const pulAnnullaRegistrazione = document.getElementById('AnnullaRegistrazione');
 const pulPlay = document.getElementById('Play');
 const imgPlayPausa = document.getElementById('imgPlay');
-var PlayInSovrimpressione = document.getElementById('PlayInSovrimpressione'); // var per consentire di determinare il play della finestra corrente
+var pulPlayInSovrimpressione = document.getElementById('PlayInSovrimpressione'); // var per consentire di determinare il play della finestra corrente
 const Cursore = document.getElementById('Cursore'), CursoreAnteprima = document.getElementById('CursoreAnteprima');
 const ContenitorePulMessaggioVocale = document.getElementById('ContenitorePulMessaggioVocale'), didascaliaMessaggioVocale = document.getElementById('didascaliaMessaggioVocale'), pulMessaggioVocale = document.getElementById('pulMessaggioVocale'), selUtenteMessaggioVocale = document.getElementById('selUtenteMessaggioVocale');
 const BC = document.getElementById('ProgressoCaricamento'), ContornoBC = document.getElementById('BarraProgressoCaricamento');
@@ -1068,7 +1068,7 @@ function AggiornaMinutaggioVideo(Minutaggio) {
 }
 
 function DisabilitaComandiPerRiprodurre(Disabilita) {
-    pulPlay.disabled = Disabilita; PlayPausaCliccandoSulVideo(!Disabilita); DisabilitaElementiRegistrazione(Disabilita || SolaVisione); PlayInSovrimpressione.style.display = (Disabilita ? "none" : "");
+    pulPlay.disabled = Disabilita; PlayPausaCliccandoSulVideo(!Disabilita); DisabilitaElementiRegistrazione(Disabilita || SolaVisione); pulPlayInSovrimpressione.style.display = (Disabilita ? "none" : "");
 }
 
 function Posizionati(MinutaggioNuovo, RiabilitaTuttaLaSchermata = false, FunzioneAlTermine = () => {}) {
@@ -1551,7 +1551,7 @@ function RiabilitaSchermata(Aggiorna) {
 }
 
 function DisabilitaElementiGenerali(Disabilita) {
-    pulPlay.disabled = Disabilita; MinutaggioMinuti.readOnly = Disabilita; MinutaggioSecondi.readOnly = Disabilita; opzFunzionalitaPreRegistrazione.disabled = Disabilita; inputCountdownRegistrazione.disabled = Disabilita; checkAscoltaClipDuranteRegistrazione.disabled = Disabilita; slideMinutaggioAttuale.disabled = Disabilita; ControlliInSovrimpressione.abilita(!Disabilita); PlayInSovrimpressione.style.display = (Disabilita ? "none" : "");
+    pulPlay.disabled = Disabilita; MinutaggioMinuti.readOnly = Disabilita; MinutaggioSecondi.readOnly = Disabilita; opzFunzionalitaPreRegistrazione.disabled = Disabilita; inputCountdownRegistrazione.disabled = Disabilita; checkAscoltaClipDuranteRegistrazione.disabled = Disabilita; slideMinutaggioAttuale.disabled = Disabilita; ControlliInSovrimpressione.abilita(!Disabilita); pulPlayInSovrimpressione.style.display = (Disabilita ? "none" : "");
 
     divSelettoreMicrofono.abilita(!Disabilita); divOpzioniRegistrazione.abilita(!Disabilita);
     if (ContenitoreStrumenti && !document.getElementById(ID_Opzioni)) {ContenitoreStrumenti.abilita(!Disabilita);}
@@ -2212,7 +2212,7 @@ function ImpostaStatoPlay(StatoPlay) {
     const playpausa = ["play", "pause"], simboloattuale = playpausa[+StatoPlay], simboloprecedente = playpausa[1 - StatoPlay];
     RiproduzioneInCorso = StatoPlay;
     imgPlayPausa.src = "images/" + simboloattuale + "-blue.png";
-    PlayInSovrimpressione.className = PlayInSovrimpressione.className.replace(simboloprecedente, simboloattuale);
+    pulPlayInSovrimpressione.className = pulPlayInSovrimpressione.className.replace(simboloprecedente, simboloattuale);
 }
 
 function SospendiRiproduzione() {
