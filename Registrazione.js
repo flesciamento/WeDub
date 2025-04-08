@@ -1154,6 +1154,12 @@ function FinestraVideoGuida_cambia(e) {
         FinestraVideoGuida = ApriFinestra({currentTarget: {dataset: {link: "VideoGuidaInFinestraSeparata.php?N=" + N, nomefinestra: "FinestraVideoGuida"}}});
     }, 500);
 }
+
+function FinestraVideoGuida_chiusa() {
+    setTimeout(() => {
+        if (RiproduzioneInCorso && StoRegistrando) {DeterminaVolumeVideoGuidaPerCI(); VideoGuidaPlay();} else {StopVideoGuida();}
+    }, 1000);
+}
 /*************************/
 
 
