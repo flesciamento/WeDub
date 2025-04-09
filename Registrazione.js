@@ -37,6 +37,7 @@ const opzFunzionalitaPreRegistrazione = document.getElementById('opzFunzionalita
 const checkAscoltaClipDuranteRegistrazione = document.getElementById('checkAscoltaClipDuranteRegistrazione');
 const inputCountdownRegistrazione = document.getElementById('inputCountdownRegistrazione');
 const divElencoCandidati = document.getElementById('divElencoCandidatiRuoliDaAssegnare');
+const divContenitoreNotifiche = document.getElementById('divContenitoreNotifiche');
 const ContenitoreStrumenti = document.getElementById('fieldsetContenitoreStrumenti');
 const divVetro = document.getElementById('Vetro');
 
@@ -184,6 +185,9 @@ function OpacitaRighello(LivelloOpacita) {
         divOpacitaTraccia[I].style.backgroundColor = proprietaBackgroundColor;
     }
 }
+
+divContenitoreNotifiche.onmouseenter = () => {divContenitoreNotifiche.iStyle({opacity: 0.3, pointerEvents: "none"});};
+divContenitoreNotifiche.onmouseleave = () => {setTimeout(() => {divContenitoreNotifiche.iStyle({opacity: 1, pointerEvents: ""});}, 1000);};
 
 function AdattaLunghezzaLivelloMic() {
     lunghezzaLivelloMic = divSelettoreMicrofono.offsetWidth;
