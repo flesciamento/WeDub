@@ -186,7 +186,7 @@ function OpacitaRighello(LivelloOpacita) {
     }
 }
 
-Monitors.onmouseenter = () => {divContenitoreNotifiche.iStyle({opacity: 0.3, pointerEvents: "none"});};
+Monitors.onmousemove = (e) => {if (e.clientX < (window.innerWidth / 0.3)) {divContenitoreNotifiche.iStyle({opacity: 0.3, pointerEvents: "none"});} else {Monitors.onmouseleave();}};
 Monitors.onmouseleave = () => {divContenitoreNotifiche.iStyle({opacity: 1,   pointerEvents: ""});};
 
 function AdattaLunghezzaLivelloMic() {
