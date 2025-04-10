@@ -186,8 +186,7 @@ function OpacitaRighello(LivelloOpacita) {
     }
 }
 
-    Monitors.onmousemove = (e) => {if (e.clientX < (window.innerWidth * 0.3)) {divContenitoreNotifiche.iStyle({opacity: 0.3, pointerEvents: "none"});} else {Monitors.onmouseleave();}};
-    Monitors.onmouseleave = () => {divContenitoreNotifiche.iStyle({opacity: 1,   pointerEvents: ""});};
+divContenitoreNotifiche.onmouseenter = () => {divContenitoreNotifiche.iStyle({opacity: 0.3, pointerEvents: "none"}); setTimeout(() => {divContenitoreNotifiche.iStyle({opacity: 1, pointerEvents: ""});}, 1000);};
 
 function AdattaLunghezzaLivelloMic() {
     lunghezzaLivelloMic = divSelettoreMicrofono.offsetWidth;
