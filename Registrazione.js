@@ -186,8 +186,8 @@ function OpacitaRighello(LivelloOpacita) {
     }
 }
 
-ContenitorePannelloSx.onmouseenter = () => {divContenitoreNotifiche.iStyle({opacity: 0.3, pointerEvents: "none"});};
-ContenitorePannelloSx.onmouseleave = () => {divContenitoreNotifiche.iStyle({opacity: 1,   pointerEvents: ""});};
+Monitors.onmouseenter = () => {divContenitoreNotifiche.iStyle({opacity: 0.3, pointerEvents: "none"});};
+Monitors.onmouseleave = () => {divContenitoreNotifiche.iStyle({opacity: 1,   pointerEvents: ""});};
 
 function AdattaLunghezzaLivelloMic() {
     lunghezzaLivelloMic = divSelettoreMicrofono.offsetWidth;
