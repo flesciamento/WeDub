@@ -1078,7 +1078,6 @@ function Posizionati(MinutaggioNuovo, RiabilitaTuttaLaSchermata = false, Funzion
 
     function RiattivaVideoGuida() {
         if ((Math.round(VideoGuidaMinutaggioCorrente())) != (Math.round(MinutaggioNuovo))) {Posizionati.tmr = setTimeout(RiattivaVideoGuida, 1000); return;}
-        console.log("RiattivaVideoGuida", FinestraVideoGuida, VideoGuidaMinutaggioCorrente(), MinutaggioNuovo);
         Posizionati.InAttesaRiattivazione = false;
         ImmagineAttesaVideoGuida(false);
         if (stavoRiproducendo) {
