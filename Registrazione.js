@@ -2222,12 +2222,10 @@ function ImpostaStatoPlay(StatoPlay) {
 }
 
 function SospendiRiproduzione() {
-    console.log("SospendiRiproduzione()");
     StoppaTutteLeRegistrazioni();
 }
 
 function RiprendiRiproduzione() {
-    console.log("RiprendiRiproduzione()");
     ElaboraClipDaRiprodurre();
     if (ModalitaStreaming) {FunzioneVisualizzazioneTitoli = VisualizzaTitoliInSync;}
 }
