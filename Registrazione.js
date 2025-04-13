@@ -1149,6 +1149,7 @@ function ApriCopioneInAltraFinestra(e) {
 /*** Video in finestra ***/
 function FinestraVideoGuida_cambia(e) {
     e.stopPropagation();
+    if (pulSchermoIntero.dataset.schermointero == "si") {pulSchermoIntero.click();}
     e.currentTarget.className += " fa-bounce";
     StopVideoGuida();
     DisabilitaSchermata();
