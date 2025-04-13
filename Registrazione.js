@@ -186,7 +186,7 @@ function OpacitaRighello(LivelloOpacita) {
     }
 }
 
-divContenitoreNotifiche.onmouseenter = () => {divContenitoreNotifiche.iStyle({opacity: 0.3, pointerEvents: "none"}); setTimeout(() => {divContenitoreNotifiche.iStyle({opacity: 1, pointerEvents: ""});}, 1800);};
+divContenitoreNotifiche.onmouseenter = () => {divContenitoreNotifiche.iStyle({opacity: 0.3, pointerEvents: "none"}); setTimeout(() => {divContenitoreNotifiche.iStyle({opacity: 1, pointerEvents: ""});}, 2000);};
 
 function AdattaLunghezzaLivelloMic() {
     lunghezzaLivelloMic = divSelettoreMicrofono.offsetWidth;
@@ -2544,10 +2544,10 @@ function DownloadTraccia(NumeroTraccia) {
 
 	AJAX("DownloadTraccia.php", Parametri,
 		function (Dati) {
-			const NomeFileZip = NomeProgetto + " - " + NomeDoppiaggio + " - " + strBattute + " " + DatiDoppiatori[ID_UtenteTraccia].nome + ".zip";
-			NomeFileZip.replace(/[^a-zA-Z0-9\. ]/g, "_");
+			const NomeFileZip = (NomeProgetto + " - " + NomeDoppiaggio + " - " + strBattute + " " + DatiDoppiatori[ID_UtenteTraccia].nome + ".zip").replace(/[^a-zA-Z0-9\-\. ]/g, "_");
+            CreaNuoviElementi(["bodyPagina", ['a', {href: Dati.NomeArchivioZip, download: NomeFileZip}]])[0].click();
 
-			Messaggio(strCreazioneZipCompletata + " <a class='btn btn-default' href=\"" + Dati.NomeArchivioZip + "\" download=\"" + NomeFileZip + "\">" + strScaricaQuiZip + "</a>", "OK");
+			Messaggio(strCreazioneZipCompletata, "OK");
 		}, strCreazioneZipInCorso, "", true
 	);
 }
