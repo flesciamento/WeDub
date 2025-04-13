@@ -1889,12 +1889,16 @@ function AnnullaRegistrazione() {
 
 function FermaRegistrazione() {
     /* Ferma la registrazione (se era partita) */
+    console.log("FermaRegistrazione()");
     if ((regMediaRecorder.stop) && (regMediaRecorder.state != 'inactive')) {regMediaRecorder.stop();}
+    console.log("Superato regMediaRecorder.stop");
 
     /* Ripristina l'interfaccia di default */
+    console.log("ResettaContoAllaRovescia");
     ResettaContoAllaRovescia();
+    console.log("clearTimeout(tmrPulsanteStopRegistrazione)");
     clearTimeout(tmrPulsanteStopRegistrazione);
-    pulPlay.style.opacity = ""; pulStopRegistrazione.disabled = true; pulAnnullaRegistrazione.disabled = true;
+    pulPlay.style.opacity = ""; console.log("pulPlay.style.opacity = ''"); pulStopRegistrazione.disabled = true; console.log("pulStopRegistrazione.disabled = true"); pulAnnullaRegistrazione.disabled = true; console.log("pulAnnullaRegistrazione.disabled = true");
     pulRegistra.style.animation = "";
     livelloMic.style.display = "";
     ContenitoreCopione.FunzioniCopione.OpacitaCopioneDisattivato = 0.6;
