@@ -80,6 +80,7 @@ var RiproduzioneInCorso = false;
 var MinutaggioPrecaricamentoClip = 0, FunzioneAlTerminePrecaricamento = false, totClipDaPrecaricare = 0, ContatoreClipPrecaricate = 0, intervalloControllaClipPrecaricate;
 var StoRegistrando = false;
 var EffettuatoAutoTaglioIniziale = false, SecondiAutoTaglioIniziale = 0;
+var NonChiudereFinestra = false;
 var totClipAudioCaricate = 0;
 var totDurataVideoGuida = 0;
 var DimensioneRighello = 100;
@@ -1932,7 +1933,7 @@ function stopRecording() {
     var ELT;
     const NumeroTraccia = Number(DatiDoppiatori[ID_Utente].numeroTraccia), id_ELTprovvisorio = 'ELTprovvisorio';
 	DisabilitaSchermata(true);
-	StoRegistrando = false;
+	StoRegistrando = false; NonChiudereFinestra = true;
 
     DurataUltimaRegistrazione = VideoGuidaMinutaggioCorrente() - MinutaggioUltimaRegistrazione;
     
@@ -2135,7 +2136,7 @@ function SalvaNuovaRegistrazione(Contenuto, OndaSonora) {
     
 	AJAX("SalvaNuovaRegistrazione.php", CreaParametri({ "NumProgetto": N, "NumProvino": P, "Utente": ID_Utente, "Registrazione": ContenutoRegistrazione, "MinutaggioRegistrazione": MinutaggioAttualeRegistrazione, "OndaSonora": OndaSonoraRegistrazione, "Formato": FormatoFile, "InfoAggiuntive": InfoAggiuntiveRegistrazione }),
         function () {
-            EliminaElemento(document.getElementById('ELTprovvisorio')); setTimeout(AggiornaClip, 100); AttivaAggiornamentoClip();
+            EliminaElemento(document.getElementById('ELTprovvisorio')); setTimeout(AggiornaClip, 100); AttivaAggiornamentoClip(); NonChiudereFinestra = false;
         }, strSalvataggioInCorso, strSalvataggioCompletato, true, true
     );
 }
@@ -4420,6 +4421,15 @@ function GestisciTouchMoveLineaTemporale(e) {
 }
 GestisciTouchMoveLineaTemporale.PosizioneYPrec = 0; GestisciTouchMoveLineaTemporale.toccobasso = 0;
 /****************************************/
+
+window.onbeforeunload = (e) => {
+    if (NonChiudereFinestra) {
+        e.preventDefault();
+        return true;
+    }
+    FinestraVideoGuida.close();
+    ContenitoreCopione.close();
+};
 
 function VideoGuidaPronto() {
     if (ModalitaLightAttiva) {NascondiVisualizzaAltreTracce("none");}
