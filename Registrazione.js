@@ -729,8 +729,12 @@ function handleError(error) {
     ErroreMicrofono = error;
 }
 
+function FocusFinestraPrincipale() {
+    window.focus();
+}
+
 function AttivaIngressi() {
-    window.focus(); // Necessario per potere attivare effettivamente gli ingressi
+    FinestraVideoGuida.FocusFinestraPrincipale();
     DisconnettiWorkletRegistrazione();
     if (sorgenteAudioSelezionata) {sorgenteAudioSelezionata.mediaStream.getAudioTracks().forEach(t => t.stop());}
 	navigator.mediaDevices.getUserMedia(ingressi).then(handleSuccess).catch(handleError);
