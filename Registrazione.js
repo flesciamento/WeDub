@@ -730,6 +730,7 @@ function handleError(error) {
 }
 
 function AttivaIngressi() {
+    window.focus(); // Necessario per potere attivare effettivamente gli ingressi
     DisconnettiWorkletRegistrazione();
     if (sorgenteAudioSelezionata) {sorgenteAudioSelezionata.mediaStream.getAudioTracks().forEach(t => t.stop());}
 	navigator.mediaDevices.getUserMedia(ingressi).then(handleSuccess).catch(handleError);
@@ -1759,7 +1760,6 @@ function startRecording() {
 
     const MonitorMicAttivato = (pulMonitorMic.dataset.attivato == "si");
 
-    console.log("registrazione", registrazione, registrazione.port);
     if (QualitaAltaRegistrazione) {
         registrazione.port.onmessage = "";
     } else {
