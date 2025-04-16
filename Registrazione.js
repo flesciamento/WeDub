@@ -1759,6 +1759,7 @@ function startRecording() {
 
     const MonitorMicAttivato = (pulMonitorMic.dataset.attivato == "si");
 
+    console.log("registrazione", registrazione, registrazione.port);
     if (QualitaAltaRegistrazione) {
         registrazione.port.onmessage = "";
     } else {
