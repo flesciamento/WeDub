@@ -729,12 +729,7 @@ function handleError(error) {
     ErroreMicrofono = error;
 }
 
-function FocusFinestraPrincipale() {
-    window.focus();
-}
-
 function AttivaIngressi() {
-    FinestraVideoGuida.FocusFinestraPrincipale();
     DisconnettiWorkletRegistrazione();
     if (sorgenteAudioSelezionata) {sorgenteAudioSelezionata.mediaStream.getAudioTracks().forEach(t => t.stop());}
 	navigator.mediaDevices.getUserMedia(ingressi).then(handleSuccess).catch(handleError);
@@ -1757,6 +1752,8 @@ function startRecording() {
     if (MessaggioIstantaneoInRiproduzione) {return;}
 
     if (document.getElementById(ID_Opzioni)) {Messaggio(strNonSiPuoRegistrareSeFinestraOpzioni); return;}
+
+    if (registrazione == false) {return;}
 
     console.log("startRecording()");
     /* Inizializza */
