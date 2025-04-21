@@ -3876,7 +3876,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                             }
 
                             const bloburl = URL.createObjectURL(new Blob([audiobufferToWav(b, SampleRate, {float32: true, notrattamento: true})]));
-                            ApriFinestra({currentTarget: {dataset: {larghezza: "300px", altezza: "300px", link: "TrattamentoAudio_RiduzioneRumore.php?N=" + encodeURIComponent(da.NumeroUnivoco) + "&Percorso=" + encodeURIComponent(bloburl)}}});
+                            ApriFinestra({currentTarget: {dataset: {larghezza: "300px", altezza: "300px", link: "TrattamentoAudio_RiduzioneRumore.php?N=" + encodeURIComponent(da.NumeroUnivoco) + "&Percorso=" + encodeURIComponent(bloburl) + "&Guadagno=" + GuadagnoPrincipale[da.numero].gain.value + "&TaglioIniziale=" + da.taglioIniziale + "&TaglioFinale=" + da.taglioFinale}}});
 
                             const nomefile = bloburl.slice(bloburl.lastIndexOf('/') + 1) + "." + formatoQualitaAlta;
 
