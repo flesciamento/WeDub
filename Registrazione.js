@@ -3898,8 +3898,8 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                                                     const AttributiPulsanti = {type: "radio", name: "opzAudioOriginaleTrattato"};
                                                     CreaNuoviElementi([
                                                         divTrattamentoAudio_id, ['label', {className: "btn btn-default"}], ['label', {className: "btn btn-default"}],
-                                                            0, ['input', {value: 0, onclick: SelezionaAudio}, {}, {}, AttributiPulsanti], ['span', {textContent: " " + strSelezionaAudioOriginale}],
-                                                            1, ['input', {id: ID_Opzioni + "inputAudioTrattato", value: 1, onclick: SelezionaAudio}, {}, {}, AttributiPulsanti], ['span', {textContent: " " + strSelezionaAudioTrattato}]
+                                                            0, ['input', {value: 0, onclick: SelezionaAudio},                                        {}, {}, AttributiPulsanti], ['span', {textContent: " " + strSelezionaAudioOriginale}],
+                                                            1, ['input', {value: 1, onclick: SelezionaAudio, id: ID_Opzioni + "inputAudioTrattato"}, {}, {}, AttributiPulsanti], ['span', {textContent: " " + strSelezionaAudioTrattato}]
                                                     ])[1].click();
 
                                                     divVetro.style.display = "none";
