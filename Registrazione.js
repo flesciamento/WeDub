@@ -3360,8 +3360,7 @@ function AggiornaAudioDaAscoltare(datiAudio) {
     if (ColonnaInternazionaleAttivata && MutaVideoAlleBattute) {
         const secondiiniziobattuta = TrovaInizioTermineBattuta(datiAudio, true);
         if (secondiiniziobattuta > -1) {
-            datiAudio.alPlay = [{FunzioneAlPlay: CI_DisattivaAudioOriginale, latenzaEventoAlPlay: {secondi: secondiiniziobattuta, riduciSeClipNelMinutaggio: true}}];
-            datiAudio.alPlay = [{FunzioneAlPlay: CI_AttivaAudioOriginale, latenzaEventoAlPlay: {secondi: TrovaInizioTermineBattuta(datiAudio, false), riduciSeClipNelMinutaggio: true}}];
+            datiAudio.alPlay = concat([{FunzioneAlPlay: CI_DisattivaAudioOriginale, latenzaEventoAlPlay: {secondi: secondiiniziobattuta, riduciSeClipNelMinutaggio: true}}, {FunzioneAlPlay: CI_AttivaAudioOriginale, latenzaEventoAlPlay: {secondi: TrovaInizioTermineBattuta(datiAudio, false), riduciSeClipNelMinutaggio: true}}], datiAudio.alPlay);
         }
     }
 }
