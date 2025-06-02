@@ -3327,13 +3327,19 @@ function CreaElementoLineaTemporale(ID, DoveInserirlo, PartenzaRegistrazione, Lu
 function ContrassegnaClipDaAscoltare(datiAudio) {
     if (datiAudio.daAscoltare) {
         document.getElementById('ELTReg' + datiAudio.numero + 'Contenuto').style.border = StileBordoClipDaAscoltare;
-        const Guadagno = GuadagnoPrincipale[datiAudio.numero].gain.value;
-        if (datiAudio.buffer && Guadagno) {
-            const SampleRate = audioContext.sampleRate, s = datiAudio.buffer.getChannelData(0).slice(datiAudio.taglioIniziale * SampleRate, datiAudio.taglioFinale * SampleRate), SogliaUltimaBattuta = TrattamentoClip.AutoTaglioIniziale.SogliaDB / ((Guadagno * (Guadagno > 1)) || 1); // La soglia si adatta al guadagno della clip: più è elevato più la soglia è sensibile. Se il guadagno è inferiore a 1 la soglia si mantiene standard.
-            const secondifineultimabattuta = s.findLastIndex(v => v > SogliaUltimaBattuta) / SampleRate;
-            datiAudio.alPlay = [{FunzioneAlPlay: AJAXSalvaAudioAscoltato, latenzaEventoAlPlay: {secondi: secondifineultimabattuta, riduciSeClipNelMinutaggio: true}}];
-        }
+        const secondifineultimabattuta = TrovaInizioTermineBattuta(datiAudio, false);
+        if (secondifineultimabattuta > -1) {datiAudio.alPlay = [{FunzioneAlPlay: AJAXSalvaAudioAscoltato, latenzaEventoAlPlay: {secondi: secondifineultimabattuta, riduciSeClipNelMinutaggio: true}}];}
     }
+}
+
+function TrovaInizioTermineBattuta(datiAudio, Inizio) {
+    const Guadagno = GuadagnoPrincipale[datiAudio.numero].gain.value;
+    if (datiAudio.buffer && Guadagno) {
+        const SampleRate = audioContext.sampleRate, s = datiAudio.buffer.getChannelData(0).slice(datiAudio.taglioIniziale * SampleRate, datiAudio.taglioFinale * SampleRate), SogliaBattuta = TrattamentoClip.AutoTaglioIniziale.SogliaDB / ((Guadagno * (Guadagno > 1)) || 1); // La soglia si adatta al guadagno della clip: più è elevato più la soglia è sensibile. Se il guadagno è inferiore a 1 la soglia si mantiene standard.
+        return (Inizio? s.findIndex(v => v >= SogliaBattuta) / SampleRate : s.findLastIndex(v => v > SogliaBattuta) / SampleRate);
+    }
+
+    return -1;
 }
 
 function AJAXSalvaAudioAscoltato(datiAudio) {
@@ -3351,6 +3357,13 @@ function VisualizzaModificaAudioAscoltato(datiAudio) {
 
 function AggiornaAudioDaAscoltare(datiAudio) {
     if (datiAudio.daAscoltare) {VisualizzaModificaAudioAscoltato(datiAudio);}
+    if (ColonnaInternazionaleAttivata && MutaVideoAlleBattute) {
+        const secondiiniziobattuta = TrovaInizioTermineBattuta(datiAudio, true);
+        if (secondiiniziobattuta > -1) {
+            datiAudio.alPlay = [{FunzioneAlPlay: CI_DisattivaAudioOriginale, latenzaEventoAlPlay: {secondi: secondiiniziobattuta, riduciSeClipNelMinutaggio: true}}];
+            datiAudio.alPlay = [{FunzioneAlPlay: CI_AttivaAudioOriginale, latenzaEventoAlPlay: {secondi: TrovaInizioTermineBattuta(datiAudio, false), riduciSeClipNelMinutaggio: true}}];
+        }
+    }
 }
 /***************************************/
 
