@@ -1393,7 +1393,7 @@ function PosizioneAttualeDatiCI(secondisucc = 0) {
 
 function CI_AttivaAudioOriginale_slow(FadeIn = true) {
     clearTimeout(CI_AttivaAudioOriginale_slow.tmr);
-    CI_AttivaAudioOriginale_slow.tmr = setTimeout(CI_AttivaAudioOriginale, 250, FadeIn);
+    CI_AttivaAudioOriginale_slow.tmr = setTimeout(CI_AttivaAudioOriginale, 400, FadeIn);
 }
 CI_AttivaAudioOriginale_slow.tmr = false;
 
