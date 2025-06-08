@@ -3373,13 +3373,13 @@ function VisualizzaModificaAudioAscoltato(datiAudio) {
 
 function AggiornaAudioDaAscoltare(datiAudio) {
     if (datiAudio.daAscoltare) {VisualizzaModificaAudioAscoltato(datiAudio);}
-    if (ColonnaInternazionaleAttivata && MutaVideoAlleBattute) {
+    if (MutaVideoAlleBattute) {
         const secondiiniziobattuta = TrovaInizioTermineBattuta(datiAudio, true);
         if (secondiiniziobattuta > -1) {
             const secondifinebattuta = TrovaInizioTermineBattuta(datiAudio, false);
             const FunzioniAlPlay = [{FunzioneAlPlay: CI_DisattivaAudioOriginale, latenzaEventoAlPlay: {secondi: secondiiniziobattuta, riduciSeClipNelMinutaggio: true}}, {FunzioneAlPlay: CI_VerificaSeAttivareAudioOriginale, latenzaEventoAlPlay: {secondi: secondifinebattuta, riduciSeClipNelMinutaggio: true}}].concat(datiAudio.alPlay);
             datiAudio.alPlay = FunzioniAlPlay;
-            datiAudio.iniziobattuta = (+datiAudio.MinutaggioRegistrazione) + (+secondiiniziobattuta); datiAudio.finebattuta = (+datiAudio.MinutaggioRegistrazione) + (+secondifinebattuta);
+            datiAudio.iniziobattuta = (+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioIniziale) + (+secondiiniziobattuta); datiAudio.finebattuta = (+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioIniziale) + (+secondifinebattuta);
         }
     }
 }
