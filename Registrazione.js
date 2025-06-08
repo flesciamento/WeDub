@@ -71,7 +71,7 @@ var ErroreMicrofono = false;
 var lunghezzaLivelloMic = 0;
 var sampleAudioData;
 var DatiAudioRegistrato = [], DatiAudioRegistrato_Registrazione = {}, DatiAudioRegistrato_Utente = {}, ClipDaRiprodurre = [], ClipInCiclo = false;
-var AudioBufferColonnaInternazionale = [], ColonnaInternazionaleAttivata = false, SpezzoniAudioCI = [], TracciaCI;
+var AudioBufferColonnaInternazionale = [], ColonnaInternazionaleAttivata = false, SpezzoniAudioCI = [], TracciaCI, OpzioneCI_MutaVideoPartiDoppiate = false;
 var MinutaggioPartenzaRegistrazione = 0, MinutaggioUltimaRegistrazione = 0, DurataUltimaRegistrazione = 0;
 var MessaggiIstantaneiAttivi = false, MessaggioIstantaneoInRiproduzione = false;
 var ELTDaSpostare = false, ELTCliccato = false, ELTDaRiordinare = {}, ELTDaModificare = [];
@@ -1391,15 +1391,17 @@ function PosizioneAttualeDatiCI(secondisucc = 0) {
     return DatiCI.find((el) => {return (((el.Partenza) <= Minutaggio) && (Minutaggio <= (DatiCI[+DatiCI.indexOf(el) + 1] || {Partenza: totDurataVideoGuida}).Partenza))});
 }
 
-function CI_AttivaAudioOriginaleSeNonCiSonoAltreClipInRiproduzione(datiAudioConsiderato) {
-    console.log("Avviato CI_AttivaAudioOriginaleSeNonCiSonoAltreClipInRiproduzione");
-    const MinutaggioCorrente = VideoGuidaMinutaggioCorrente(), totDatiAudioRegistrato = DatiAudioRegistrato.length;
-    for (let I = 0; I < totDatiAudioRegistrato; I++) {
-        const datiAudio = DatiAudioRegistrato[I];
-        if ((datiAudio != datiAudioConsiderato) && datiAudio.iniziobattuta) {if (((datiAudio.iniziobattuta - 0.4) < MinutaggioCorrente) && (MinutaggioCorrente < datiAudio.finebattuta)) {console.log("Trovata clip in riproduzione", datiAudio); return;}}
+function CI_MutaVideoPartiDoppiate_AttivaAudioOriginale(datiAudioConsiderato) {
+    console.log("Avviato CI_MutaVideoPartiDoppiate_AttivaAudioOriginale");
+    if (ColonnaInternazionaleAttivata && RiproduzioneInCorso && PosizioneAttualeDatiCI().SoloPartiNonDoppiate) {
+        const MinutaggioCorrente = VideoGuidaMinutaggioCorrente(), totDatiAudioRegistrato = DatiAudioRegistrato.length;
+        for (let I = 0; I < totDatiAudioRegistrato; I++) {
+            const datiAudio = DatiAudioRegistrato[I];
+            if ((datiAudio != datiAudioConsiderato) && datiAudio.iniziobattuta) {if (((datiAudio.iniziobattuta - 0.4) < MinutaggioCorrente) && (MinutaggioCorrente < datiAudio.finebattuta)) {console.log("Trovata clip in riproduzione", datiAudio); return;}}
+        }
+        console.log("Non trovate altre clip nel minutaggio corrente", MinutaggioCorrente, "Attivo audio originale.");
+        CI_AttivaAudioOriginale();
     }
-    console.log("Non trovate altre clip nel minutaggio corrente", MinutaggioCorrente, "Attivo audio originale.");
-    CI_AttivaAudioOriginale();
 }
 
 function CI_AttivaAudioOriginale(FadeIn = true) {
@@ -1409,6 +1411,10 @@ function CI_AttivaAudioOriginale(FadeIn = true) {
         const Volume = DatiCIAttuale.VolumeVideoGuida;
         if (SistemaAttualeAndroid || !FadeIn) {ImpostaVolumeAudioOriginale(Volume);} else {FadeInVolumeAudioOriginale(Volume);}
     }
+}
+
+function CI_MutaVideoPartiDoppiate_DisattivaAudioOriginale() {
+    if (ColonnaInternazionaleAttivata && RiproduzioneInCorso && PosizioneAttualeDatiCI().SoloPartiNonDoppiate) {VideoGuidaImpostaVolume(0);}
 }
 
 function CI_DisattivaAudioOriginale() {
@@ -1460,11 +1466,12 @@ function AggiornaRappresentazioneColonnaInternazionale(AggiornaSeModificato = fa
 
     function GestisciSceltaOpzioneCI(dato) {
         const NumeroSegmentoCI = parseInt(dato);
-        if (dato.indexOf("V") > -1) {DatiCI[+NumeroSegmentoCI].VolumeVideoGuida = Number(dato.slice(-1)); SalvaEAggiornaColonnaInternazionale(); return;}
+        if (dato.indexOf("V") > -1) {const BloccoCI = DatiCI[+NumeroSegmentoCI]; BloccoCI.VolumeVideoGuida = Number(dato.slice(-1)); BloccoCI.SoloPartiNonDoppiate = (dato.indexOf("A") > -1); SalvaEAggiornaColonnaInternazionale(); return;}
         if (dato.indexOf("MCI") > -1) {ApriFinestraCI_e_monitora({currentTarget: {dataset: {larghezza: 950, altezza: 600, link: "UploadCI.php?N=" + N + "&SegmentoCI=" + NumeroSegmentoCI + "&DurataVideoGuida=" + Math.floor(totDurataVideoGuida), nomefinestra: "ColonnaInternazionale"}}});}
     }
 
     TracciaCI.innerHTML = "";
+    OpzioneCI_MutaVideoPartiDoppiate = false;
     
     var strSfondo = "", percPartenza = PercentualeMinutaggio(InizioVideoGuida), MenuADiscesa = [];
     for (let I = 0; I < totDatiCI; I++) {
@@ -1474,10 +1481,11 @@ function AggiornaRappresentazioneColonnaInternazionale(AggiornaSeModificato = fa
         MenuADiscesa.push({DoveInserirlo: id_divCI, ID_Menu: 'pulMenuCI' + I, stiliContenitore: {position: "absolute", left: percPartenza.slice(0, -2), width: `calc(${percTermine.slice(0, -2)} - ${percPartenza.slice(0, -2)})`, margin: 0}, stiliMenu: {position: "sticky", left: ContenitoreRighello.style.left, textAlign: "left", color: ((BloccoCI.CI || BloccoCI.VolumeVideoGuida == 0) ? "white" : "black"), fontWeight: (BloccoCI.CI ? "bold" : ""), backgroundColor: colore, width: "fit-content", maxWidth: "100%", minWidth: "20px", overflow: "hidden", textOverflow: "ellipsis"},
             Elementi: (BloccoCI.CI
                         ? [{dato: I + "CI", stringa: strOpzCI_CICaricata, predefinito: true, nascosto: true}, {dato: I + "MCI", stringa: "<span class='fa fa-edit'></span> " + strOpzCI_CIModifica}]
-                        : [{dato: I + "V1", stringa: "<span class='fa fa-volume-up'></span> " + strOpzCI_V1, predefinito: ((BloccoCI.VolumeVideoGuida || 0) > 0)}, {dato: I + "V0", stringa: "<span class='fa fa-volume-off'></span> " + strOpzCI_V0, predefinito: ((BloccoCI.VolumeVideoGuida || 0) == 0)}, {dato: I + "MCI", stringa: "<span class='fa fa-upload'></span> " + strOpzCI_CICarica}]),
+                        : [{dato: I + "V1", stringa: "<span class='fa fa-volume-up'></span> " + strOpzCI_V1, predefinito: (!BloccoCI.SoloPartiNonDoppiate && ((BloccoCI.VolumeVideoGuida || 0) > 0))}, {dato: I + "VA1", stringa: "<span class='fa fa-volume-up'></span> " + strOpzCI_VA1, predefinito: BloccoCI.SoloPartiNonDoppiate}, {dato: I + "V0", stringa: "<span class='fa fa-volume-off'></span> " + strOpzCI_V0, predefinito: (!BloccoCI.SoloPartiNonDoppiate && ((BloccoCI.VolumeVideoGuida || 0) == 0))}, {dato: I + "MCI", stringa: "<span class='fa fa-upload'></span> " + strOpzCI_CICarica}]),
             FunzioneAlClick: GestisciSceltaOpzioneCI
         });
 
+        OpzioneCI_MutaVideoPartiDoppiate += BloccoCI.SoloPartiNonDoppiate;
         percPartenza = percTermine;
     }
 
@@ -3369,11 +3377,11 @@ function VisualizzaModificaAudioAscoltato(datiAudio) {
 
 function AggiornaAudioDaAscoltare(datiAudio) {
     if (datiAudio.daAscoltare) {VisualizzaModificaAudioAscoltato(datiAudio);}
-    if (MutaVideoAlleBattute) {
+    if (OpzioneCI_MutaVideoPartiDoppiate) {
         const secondiiniziobattuta = TrovaInizioTermineBattuta(datiAudio, true);
         if (secondiiniziobattuta > -1) {
             const secondifinebattuta = TrovaInizioTermineBattuta(datiAudio, false);
-            const FunzioniAlPlay = [{FunzioneAlPlay: CI_DisattivaAudioOriginale, latenzaEventoAlPlay: {secondi: secondiiniziobattuta, riduciSeClipNelMinutaggio: true}}, {FunzioneAlPlay: CI_AttivaAudioOriginaleSeNonCiSonoAltreClipInRiproduzione, latenzaEventoAlPlay: {secondi: secondifinebattuta, riduciSeClipNelMinutaggio: true}}].concat(datiAudio.alPlay);
+            const FunzioniAlPlay = [{FunzioneAlPlay: CI_MutaVideoPartiDoppiate_DisattivaAudioOriginale, latenzaEventoAlPlay: {secondi: secondiiniziobattuta, riduciSeClipNelMinutaggio: true}}, {FunzioneAlPlay: CI_MutaVideoPartiDoppiate_AttivaAudioOriginale, latenzaEventoAlPlay: {secondi: secondifinebattuta, riduciSeClipNelMinutaggio: true}}].concat(datiAudio.alPlay);
             datiAudio.alPlay = FunzioniAlPlay;
             datiAudio.iniziobattuta = (+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioIniziale) + (+secondiiniziobattuta); datiAudio.finebattuta = (+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioIniziale) + (+secondifinebattuta);
         }
