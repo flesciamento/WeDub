@@ -1480,13 +1480,13 @@ function AggiornaRappresentazioneColonnaInternazionale(AggiornaSeModificato = fa
     
     var strSfondo = "", percPartenza = PercentualeMinutaggio(InizioVideoGuida), MenuADiscesa = [];
     for (let I = 0; I < totDatiCI; I++) {
-        const BloccoCI = DatiCI[I], colore = (BloccoCI.CI ? "rgba(0, 150, 0, 0.5) " : `rgba(255, 255, 255, ${BloccoCI.VolumeVideoGuida}) `), percTermine = PercentualeMinutaggio((DatiCI[+I + 1] || {Partenza: totDurataVideoGuida}).Partenza);
+        const BloccoCI = DatiCI[I], colore = (BloccoCI.CI ? "rgba(0, 150, 0, 0.5)" : (BloccoCI.SoloPartiNonDoppiate? "rgba(200, 200, 255, 0.5)" : `rgba(255, 255, 255, ${BloccoCI.VolumeVideoGuida})`)) + " ", percTermine = PercentualeMinutaggio((DatiCI[+I + 1] || {Partenza: totDurataVideoGuida}).Partenza);
         strSfondo += colore + percPartenza + colore + percTermine;
 
         MenuADiscesa.push({DoveInserirlo: id_divCI, ID_Menu: 'pulMenuCI' + I, stiliContenitore: {position: "absolute", left: percPartenza.slice(0, -2), width: `calc(${percTermine.slice(0, -2)} - ${percPartenza.slice(0, -2)})`, margin: 0}, stiliMenu: {position: "sticky", left: ContenitoreRighello.style.left, textAlign: "left", color: ((BloccoCI.CI || BloccoCI.VolumeVideoGuida == 0) ? "white" : "black"), fontWeight: (BloccoCI.CI ? "bold" : ""), backgroundColor: colore, width: "fit-content", maxWidth: "100%", minWidth: "20px", overflow: "hidden", textOverflow: "ellipsis"},
             Elementi: (BloccoCI.CI
                         ? [{dato: I + "CI", stringa: strOpzCI_CICaricata, predefinito: true, nascosto: true}, {dato: I + "MCI", stringa: "<span class='fa fa-edit'></span> " + strOpzCI_CIModifica}]
-                        : [{dato: I + "V1", stringa: "<span class='fa fa-volume-up'></span> " + strOpzCI_V1, predefinito: (!BloccoCI.SoloPartiNonDoppiate && ((BloccoCI.VolumeVideoGuida || 0) > 0))}, {dato: I + "VA1", stringa: "<span class='fa fa-volume-up'></span> " + strOpzCI_VA1, predefinito: BloccoCI.SoloPartiNonDoppiate}, {dato: I + "V0", stringa: "<span class='fa fa-volume-off'></span> " + strOpzCI_V0, predefinito: (!BloccoCI.SoloPartiNonDoppiate && ((BloccoCI.VolumeVideoGuida || 0) == 0))}, {dato: I + "MCI", stringa: "<span class='fa fa-upload'></span> " + strOpzCI_CICarica}]),
+                        : [{dato: I + "V1", stringa: "<span class='fa fa-volume-up'></span> " + strOpzCI_V1, predefinito: (!BloccoCI.SoloPartiNonDoppiate && ((BloccoCI.VolumeVideoGuida || 0) > 0))}, {dato: I + "VA1", stringa: "<span class='fa fa-unlink'></span> " + strOpzCI_VA1, predefinito: BloccoCI.SoloPartiNonDoppiate}, {dato: I + "V0", stringa: "<span class='fa fa-volume-off'></span> " + strOpzCI_V0, predefinito: (!BloccoCI.SoloPartiNonDoppiate && ((BloccoCI.VolumeVideoGuida || 0) == 0))}, {dato: I + "MCI", stringa: "<span class='fa fa-upload'></span> " + strOpzCI_CICarica}]),
             FunzioneAlClick: GestisciSceltaOpzioneCI
         });
 
