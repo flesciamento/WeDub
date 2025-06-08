@@ -3379,7 +3379,7 @@ function AggiornaAudioDaAscoltare(datiAudio) {
             const secondifinebattuta = TrovaInizioTermineBattuta(datiAudio, false);
             const FunzioniAlPlay = [{FunzioneAlPlay: CI_DisattivaAudioOriginale, latenzaEventoAlPlay: {secondi: secondiiniziobattuta, riduciSeClipNelMinutaggio: true}}, {FunzioneAlPlay: CI_VerificaSeAttivareAudioOriginale, latenzaEventoAlPlay: {secondi: secondifinebattuta, riduciSeClipNelMinutaggio: true}}].concat(datiAudio.alPlay);
             datiAudio.alPlay = FunzioniAlPlay;
-            datiAudio.iniziobattuta = secondiiniziobattuta; datiAudio.finebattuta = secondifinebattuta;
+            datiAudio.iniziobattuta = (+datiAudio.MinutaggioRegistrazione) + (+secondiiniziobattuta); datiAudio.finebattuta = (+datiAudio.MinutaggioRegistrazione) + (+secondifinebattuta);
         }
     }
 }
