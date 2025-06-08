@@ -1391,11 +1391,20 @@ function PosizioneAttualeDatiCI(secondisucc = 0) {
     return DatiCI.find((el) => {return (((el.Partenza) <= Minutaggio) && (Minutaggio <= (DatiCI[+DatiCI.indexOf(el) + 1] || {Partenza: totDurataVideoGuida}).Partenza))});
 }
 
-function CI_AttivaAudioOriginale_slow(FadeIn = true) {
-    clearTimeout(CI_AttivaAudioOriginale_slow.tmr);
-    CI_AttivaAudioOriginale_slow.tmr = setTimeout(CI_AttivaAudioOriginale, 400, FadeIn);
+function CI_VerificaSeAttivareAudioOriginale() {
+    clearTimeout(CI_VerificaSeAttivareAudioOriginale.tmr);
+    CI_VerificaSeAttivareAudioOriginale.tmr = setTimeout(CI_AttivaAudioOriginaleSeNonCiSonoAltreClipInRiproduzione, 400);
 }
-CI_AttivaAudioOriginale_slow.tmr = false;
+CI_VerificaSeAttivareAudioOriginale.tmr = false;
+
+function CI_AttivaAudioOriginaleSeNonCiSonoAltreClipInRiproduzione() {
+    const MinutaggioCorrente = VideoGuidaMinutaggioCorrente(), totDatiAudioRegistrato = DatiAudioRegistrato.length;
+    for (let I = 0; I < totDatiAudioRegistrato; I++) {
+        const datiAudio = DatiAudioRegistrato[I];
+        if (datiAudio.iniziobattuta && (datiAudio.iniziobattuta < MinutaggioCorrente) && (MinutaggioCorrente < datiAudio.finebattuta)) {return;}
+    }
+    CI_AttivaAudioOriginale();
+}
 
 function CI_AttivaAudioOriginale(FadeIn = true) {
     if (ColonnaInternazionaleAttivata && RiproduzioneInCorso) {
@@ -1407,7 +1416,7 @@ function CI_AttivaAudioOriginale(FadeIn = true) {
 }
 
 function CI_DisattivaAudioOriginale() {
-    clearTimeout(CI_AttivaAudioOriginale_slow.tmr);
+    clearTimeout(CI_VerificaSeAttivareAudioOriginale.tmr);
     if (ColonnaInternazionaleAttivata && RiproduzioneInCorso) {VideoGuidaImpostaVolume(0);}
 }
 
@@ -3367,8 +3376,10 @@ function AggiornaAudioDaAscoltare(datiAudio) {
     if (ColonnaInternazionaleAttivata && MutaVideoAlleBattute) {
         const secondiiniziobattuta = TrovaInizioTermineBattuta(datiAudio, true);
         if (secondiiniziobattuta > -1) {
-            let FunzioniAlPlay = [{FunzioneAlPlay: CI_DisattivaAudioOriginale, latenzaEventoAlPlay: {secondi: secondiiniziobattuta, riduciSeClipNelMinutaggio: true}}, {FunzioneAlPlay: CI_AttivaAudioOriginale_slow, latenzaEventoAlPlay: {secondi: TrovaInizioTermineBattuta(datiAudio, false), riduciSeClipNelMinutaggio: true}}].concat(datiAudio.alPlay);
+            const secondifinebattuta = TrovaInizioTermineBattuta(datiAudio, false);
+            const FunzioniAlPlay = [{FunzioneAlPlay: CI_DisattivaAudioOriginale, latenzaEventoAlPlay: {secondi: secondiiniziobattuta, riduciSeClipNelMinutaggio: true}}, {FunzioneAlPlay: CI_VerificaSeAttivareAudioOriginale, latenzaEventoAlPlay: {secondi: secondifinebattuta, riduciSeClipNelMinutaggio: true}}].concat(datiAudio.alPlay);
             datiAudio.alPlay = FunzioniAlPlay;
+            datiAudio.iniziobattuta = secondiiniziobattuta; datiAudio.finebattuta = secondifinebattuta;
         }
     }
 }
