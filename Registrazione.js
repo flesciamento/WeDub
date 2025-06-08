@@ -1403,7 +1403,7 @@ function CI_AttivaAudioOriginaleSeNonCiSonoAltreClipInRiproduzione(datiAudioCons
     const MinutaggioCorrente = VideoGuidaMinutaggioCorrente(), totDatiAudioRegistrato = DatiAudioRegistrato.length;
     for (let I = 0; I < totDatiAudioRegistrato; I++) {
         const datiAudio = DatiAudioRegistrato[I];
-        if (datiAudio != datiAudioConsiderato && datiAudio.iniziobattuta) {if (((datiAudio.iniziobattuta - 400) < MinutaggioCorrente) && (MinutaggioCorrente < datiAudio.finebattuta)) {console.log("Trovata clip in riproduzione", datiAudio); return;}}
+        if (datiAudio != datiAudioConsiderato && datiAudio.iniziobattuta) {if (((datiAudio.iniziobattuta - 0.400) < MinutaggioCorrente) && (MinutaggioCorrente < datiAudio.finebattuta)) {console.log("Trovata clip in riproduzione", datiAudio); return;}}
     }
     console.log("Non trovate altre clip nel minutaggio corrente", MinutaggioCorrente, "Attivo audio originale.");
     CI_AttivaAudioOriginale();
