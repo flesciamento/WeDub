@@ -1394,15 +1394,18 @@ function PosizioneAttualeDatiCI(secondisucc = 0) {
 function CI_VerificaSeAttivareAudioOriginale() {
     clearTimeout(CI_VerificaSeAttivareAudioOriginale.tmr);
     CI_VerificaSeAttivareAudioOriginale.tmr = setTimeout(CI_AttivaAudioOriginaleSeNonCiSonoAltreClipInRiproduzione, 400);
+    console.log("Settato timeout CI_AttivaAudioOriginaleSeNonCiSonoAltreClipInRiproduzione");
 }
 CI_VerificaSeAttivareAudioOriginale.tmr = false;
 
 function CI_AttivaAudioOriginaleSeNonCiSonoAltreClipInRiproduzione() {
+    console.log("Avviato CI_AttivaAudioOriginaleSeNonCiSonoAltreClipInRiproduzione");
     const MinutaggioCorrente = VideoGuidaMinutaggioCorrente(), totDatiAudioRegistrato = DatiAudioRegistrato.length;
     for (let I = 0; I < totDatiAudioRegistrato; I++) {
         const datiAudio = DatiAudioRegistrato[I];
         if (datiAudio.iniziobattuta && (datiAudio.iniziobattuta < MinutaggioCorrente) && (MinutaggioCorrente < datiAudio.finebattuta)) {return;}
     }
+    console.log("Non trovate altre clip nel minutaggio corrente", MinutaggioCorrente, "Attivo audio originale.");
     CI_AttivaAudioOriginale();
 }
 
@@ -1417,6 +1420,7 @@ function CI_AttivaAudioOriginale(FadeIn = true) {
 
 function CI_DisattivaAudioOriginale() {
     clearTimeout(CI_VerificaSeAttivareAudioOriginale.tmr);
+    console.log("Disattivo audio originale");
     if (ColonnaInternazionaleAttivata && RiproduzioneInCorso) {VideoGuidaImpostaVolume(0);}
 }
 
