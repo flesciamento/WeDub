@@ -1398,12 +1398,12 @@ function CI_VerificaSeAttivareAudioOriginale() {
 }
 CI_VerificaSeAttivareAudioOriginale.tmr = false;
 
-function CI_AttivaAudioOriginaleSeNonCiSonoAltreClipInRiproduzione() {
+function CI_AttivaAudioOriginaleSeNonCiSonoAltreClipInRiproduzione(datiAudioConsiderato) {
     console.log("Avviato CI_AttivaAudioOriginaleSeNonCiSonoAltreClipInRiproduzione");
     const MinutaggioCorrente = VideoGuidaMinutaggioCorrente(), totDatiAudioRegistrato = DatiAudioRegistrato.length;
     for (let I = 0; I < totDatiAudioRegistrato; I++) {
         const datiAudio = DatiAudioRegistrato[I];
-        if (datiAudio.iniziobattuta) {if (((datiAudio.iniziobattuta - 400) < MinutaggioCorrente) && (MinutaggioCorrente < datiAudio.finebattuta)) {console.log("Trovata clip in riproduzione", datiAudio); return;}}
+        if (datiAudio != datiAudioConsiderato && datiAudio.iniziobattuta) {if (((datiAudio.iniziobattuta - 400) < MinutaggioCorrente) && (MinutaggioCorrente < datiAudio.finebattuta)) {console.log("Trovata clip in riproduzione", datiAudio); return;}}
     }
     console.log("Non trovate altre clip nel minutaggio corrente", MinutaggioCorrente, "Attivo audio originale.");
     CI_AttivaAudioOriginale();
