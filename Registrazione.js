@@ -1403,7 +1403,7 @@ function CI_AttivaAudioOriginaleSeNonCiSonoAltreClipInRiproduzione() {
     const MinutaggioCorrente = VideoGuidaMinutaggioCorrente(), totDatiAudioRegistrato = DatiAudioRegistrato.length;
     for (let I = 0; I < totDatiAudioRegistrato; I++) {
         const datiAudio = DatiAudioRegistrato[I];
-        if (datiAudio.iniziobattuta && (datiAudio.iniziobattuta < MinutaggioCorrente) && (MinutaggioCorrente < datiAudio.finebattuta)) {return;}
+        if (datiAudio.iniziobattuta && ((datiAudio.iniziobattuta - 400) < MinutaggioCorrente) && (MinutaggioCorrente < datiAudio.finebattuta)) {return;}
     }
     console.log("Non trovate altre clip nel minutaggio corrente", MinutaggioCorrente, "Attivo audio originale.");
     CI_AttivaAudioOriginale();
@@ -3381,7 +3381,7 @@ function AggiornaAudioDaAscoltare(datiAudio) {
         const secondiiniziobattuta = TrovaInizioTermineBattuta(datiAudio, true);
         if (secondiiniziobattuta > -1) {
             const secondifinebattuta = TrovaInizioTermineBattuta(datiAudio, false);
-            const FunzioniAlPlay = [{FunzioneAlPlay: CI_DisattivaAudioOriginale, latenzaEventoAlPlay: {secondi: secondiiniziobattuta, riduciSeClipNelMinutaggio: true}}, {FunzioneAlPlay: CI_VerificaSeAttivareAudioOriginale, latenzaEventoAlPlay: {secondi: secondifinebattuta, riduciSeClipNelMinutaggio: true}}].concat(datiAudio.alPlay);
+            const FunzioniAlPlay = [{FunzioneAlPlay: CI_DisattivaAudioOriginale, latenzaEventoAlPlay: {secondi: secondiiniziobattuta, riduciSeClipNelMinutaggio: true}}, {FunzioneAlPlay: CI_AttivaAudioOriginaleSeNonCiSonoAltreClipInRiproduzione, latenzaEventoAlPlay: {secondi: secondifinebattuta, riduciSeClipNelMinutaggio: true}}].concat(datiAudio.alPlay);
             datiAudio.alPlay = FunzioniAlPlay;
             datiAudio.iniziobattuta = (+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioIniziale) + (+secondiiniziobattuta); datiAudio.finebattuta = (+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioIniziale) + (+secondifinebattuta);
         }
