@@ -1393,24 +1393,29 @@ function PosizioneAttualeDatiCI(secondisucc = 0) {
 
 function CI_MutaVideoPartiDoppiate_AttivaAudioOriginale(datiAudioConsiderato) {
     console.log("Avviato CI_MutaVideoPartiDoppiate_AttivaAudioOriginale");
-    if (ColonnaInternazionaleAttivata && RiproduzioneInCorso && PosizioneAttualeDatiCI().SoloPartiNonDoppiate) {
+    if (ColonnaInternazionaleAttivata && RiproduzioneInCorso && (DatiCIAttuale = PosizioneAttualeDatiCI()).SoloPartiNonDoppiate) {
         const MinutaggioCorrente = VideoGuidaMinutaggioCorrente(), totDatiAudioRegistrato = DatiAudioRegistrato.length;
         for (let I = 0; I < totDatiAudioRegistrato; I++) {
             const datiAudio = DatiAudioRegistrato[I];
             if ((datiAudio != datiAudioConsiderato) && datiAudio.iniziobattuta) {if (((datiAudio.iniziobattuta - 0.4) < MinutaggioCorrente) && (MinutaggioCorrente < datiAudio.finebattuta)) {console.log("Trovata clip in riproduzione", datiAudio); return;}}
         }
         console.log("Non trovate altre clip nel minutaggio corrente", MinutaggioCorrente, "Attivo audio originale.");
-        CI_AttivaAudioOriginale();
+        CI_DeterminaVolumeAudioOriginale(DatiCIAttuale);
     }
 }
 
-function CI_AttivaAudioOriginale(FadeIn = true) {
+function CI_AttivaAudioOriginale() {
     if (ColonnaInternazionaleAttivata && RiproduzioneInCorso) {
         const DatiCIAttuale = PosizioneAttualeDatiCI(+MixCIeOriginale.anticipoFadeInOriginale + 0.1);
         if (!DatiCIAttuale || DatiCIAttuale.CI) {return;}
-        const Volume = DatiCIAttuale.VolumeVideoGuida;
-        if (SistemaAttualeAndroid || !FadeIn) {ImpostaVolumeAudioOriginale(Volume);} else {FadeInVolumeAudioOriginale(Volume);}
+        if (DatiCIAttuale.SoloPartiNonDoppiate) {CI_MutaVideoPartiDoppiate_AttivaAudioOriginale(); return;}
+        CI_DeterminaVolumeAudioOriginale(DatiCIAttuale);
     }
+}
+
+function CI_DeterminaVolumeAudioOriginale(DatiCIAttuale) {
+    const Volume = DatiCIAttuale.VolumeVideoGuida;
+    if (SistemaAttualeAndroid) {ImpostaVolumeAudioOriginale(Volume);} else {FadeInVolumeAudioOriginale(Volume);}
 }
 
 function CI_MutaVideoPartiDoppiate_DisattivaAudioOriginale() {
