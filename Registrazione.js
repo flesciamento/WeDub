@@ -1485,7 +1485,7 @@ function AggiornaRappresentazioneColonnaInternazionale(AggiornaSeModificato = fa
             FunzioneAlClick: GestisciSceltaOpzioneCI
         });
 
-        OpzioneCI_MutaVideoPartiDoppiate += BloccoCI.SoloPartiNonDoppiate;
+        OpzioneCI_MutaVideoPartiDoppiate += (BloccoCI.SoloPartiNonDoppiate || 0);
         percPartenza = percTermine;
     }
 
