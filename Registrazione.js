@@ -1423,7 +1423,6 @@ function CI_MutaVideoPartiDoppiate_DisattivaAudioOriginale() {
 }
 
 function CI_DisattivaAudioOriginale() {
-    console.log("Disattivo audio originale");
     if (ColonnaInternazionaleAttivata && RiproduzioneInCorso) {VideoGuidaImpostaVolume(0);}
 }
 
