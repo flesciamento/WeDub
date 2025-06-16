@@ -1397,7 +1397,7 @@ function CI_MutaVideoPartiDoppiate_AttivaAudioOriginale(datiAudioConsiderato) {
         const MinutaggioCorrente = VideoGuidaMinutaggioCorrente(), totDatiAudioRegistrato = DatiAudioRegistrato.length;
         for (let I = 0; I < totDatiAudioRegistrato; I++) {
             const datiAudio = DatiAudioRegistrato[I];
-            if ((datiAudio != datiAudioConsiderato) && datiAudio.iniziobattuta) {if (((datiAudio.iniziobattuta - 0.4) < MinutaggioCorrente) && (MinutaggioCorrente < datiAudio.finebattuta)) {console.log("Trovata clip in riproduzione", datiAudio); return;}}
+            if ((datiAudio != datiAudioConsiderato) && datiAudio.iniziobattuta && !datiAudio.Rimosso) {if (((datiAudio.iniziobattuta - 0.4) < MinutaggioCorrente) && (MinutaggioCorrente < datiAudio.finebattuta)) {console.log("Trovata clip in riproduzione", datiAudio); return;}}
         }
         console.log("Non trovate altre clip nel minutaggio corrente", MinutaggioCorrente, "Attivo audio originale.");
         CI_DeterminaVolumeAudioOriginale(DatiCIAttuale);
