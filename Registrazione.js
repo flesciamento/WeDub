@@ -1392,7 +1392,7 @@ function PosizioneAttualeDatiCI(secondisucc = 0) {
 }
 
 function AutoCI_AttivaAudioOriginale(datiAudioConsiderato) {
-    console.log("Avviato CI_MutaVideoPartiDoppiate_AttivaAudioOriginale");
+    console.log("Avviato AutoCI_AttivaAudioOriginale");
     if (ColonnaInternazionaleAttivata && RiproduzioneInCorso && (DatiCIAttuale = PosizioneAttualeDatiCI()).AutoCI) {
         const MinutaggioCorrente = VideoGuidaMinutaggioCorrente(), totDatiAudioRegistrato = DatiAudioRegistrato.length;
         for (let I = 0; I < totDatiAudioRegistrato; I++) {
