@@ -4107,7 +4107,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
          /* Aggiorna la visualizzazione degli effetti audio (si aggiornano in automatico in caso di modifica, ma se rimangono uguali aggiusta la visualizzazione sul taglio iniziale) */
          VisualizzaEffettiAudio(Numero);
 
-         /* Aggiorna la modifica della clip da ascoltare (se sono stati modificati i tagli iniziali e/o finali ricalcola i secondi totali da ascoltare) */
+         /* Aggiorna la modifica della clip da ascoltare (se sono stati modificati i tagli iniziali e/o finali o il guadagno ricalcola i secondi totali da ascoltare) */
          AggiornaAudioDaAscoltare(datiAudio);
     }
 
