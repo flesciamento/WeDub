@@ -3382,6 +3382,7 @@ function VisualizzaModificaAudioAscoltato(datiAudio) {
 function AggiornaAudioDaAscoltare(datiAudio) {
     if (datiAudio.daAscoltare) {VisualizzaModificaAudioAscoltato(datiAudio);}
     if (OpzioneCI_MutaVideoPartiDoppiate) {
+        datiAudio.iniziobattuta = datiAudio.finebattuta = false;
         const secondiiniziobattuta = TrovaInizioTermineBattuta(datiAudio, true);
         if (secondiiniziobattuta > -1) {
             const secondifinebattuta = TrovaInizioTermineBattuta(datiAudio, false);
