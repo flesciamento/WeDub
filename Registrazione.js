@@ -1464,7 +1464,7 @@ function AggiornaRappresentazioneColonnaInternazionale(AggiornaSeModificato = fa
     if (strDatiCI == AggiornaRappresentazioneColonnaInternazionale.strDatiCIPrec) {return;}
 
     const id_divCI = 'Traccia' + (NumeroTotaleTracce - 1).toString(), totDatiCI = DatiCI.length;
-    TracciaCI = document.getElementById(id_divCI);
+    TracciaCI = document.getElementById(id_divCI); TracciaCI.innerHTML = "";
     
     function PercentualeMinutaggio(Minutaggio) {return (Minutaggio / totDurataVideoGuida * 100).toString() + "%, ";}
 
@@ -1473,8 +1473,6 @@ function AggiornaRappresentazioneColonnaInternazionale(AggiornaSeModificato = fa
         if (dato.indexOf("V") > -1) {const BloccoCI = DatiCI[+NumeroSegmentoCI]; BloccoCI.VolumeVideoGuida = Number(dato.slice(-1)); BloccoCI.AutoCI = (dato.indexOf("A") > -1); SalvaEAggiornaColonnaInternazionale(); return;}
         if (dato.indexOf("MCI") > -1) {ApriFinestraCI_e_monitora({currentTarget: {dataset: {larghezza: 950, altezza: 600, link: "UploadCI.php?N=" + N + "&SegmentoCI=" + NumeroSegmentoCI + "&DurataVideoGuida=" + Math.floor(totDurataVideoGuida), nomefinestra: "ColonnaInternazionale"}}});}
     }
-
-    TracciaCI.innerHTML = "";
     
     var strSfondo = "", percPartenza = PercentualeMinutaggio(InizioVideoGuida), MenuADiscesa = [];
     for (let I = 0; I < totDatiCI; I++) {
