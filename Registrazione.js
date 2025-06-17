@@ -4008,6 +4008,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                             const casellaTaglioFinale = document.getElementById(ID_Opzioni + 'TabellaOpzioniRigaTaglioFinaleCasella'); casellaTaglioFinale.value = attacchi[1]; casellaTaglioFinale.dispatchEvent(ev_cambiamento);
                             VisualizzaEffettiAudio(Numero);
                             AggiornaRiproduzioneClip(Numero);
+                            AggiornaAudioDaAscoltare(da);
                             if (NumeroAttacchi > 2) {
                                 let UltimaNonConsiderarla = false;
                                 for(A = 2; A < NumeroAttacchi; A += 2) {
@@ -4083,6 +4084,9 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                     /* Effetti */
                     datiAudio.effetti = effettiprec; datiAudio.intensitaeffetti = intensitaeffettiprec; VisualizzaEffettiAudio(Numero);
                     if (datiAudio.audio) {AttivaEffettiAudio(Numero);}
+
+                    /* Aggiorna l'audio da ascoltare */
+                    AggiornaAudioDaAscoltare(datiAudio);
 
                     /** Elimina eventuali nuove clip create tramite le opzioni e poi chiude la finestra **/
                     const totNuoveClipCreate = NuoveClipCreate.length;
