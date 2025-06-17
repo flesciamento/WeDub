@@ -4320,7 +4320,7 @@ function StoppaCicloClip() {
         if (p = document.getElementById('OpzioniClipPulAscolta')) {PulAscoltaPosizioneDefault(p);}
     }
 }
-/********************************/
+/*******************/
 
 function AggiornaRiproduzioneClip(Numero) {
     if (RiproduzioneInCorso) {
