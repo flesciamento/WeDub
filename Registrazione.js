@@ -1391,15 +1391,21 @@ function PosizioneAttualeDatiCI(secondisucc = 0) {
     return DatiCI.find((el) => {return (((el.Partenza) <= Minutaggio) && (Minutaggio <= (DatiCI[+DatiCI.indexOf(el) + 1] || {Partenza: totDurataVideoGuida}).Partenza))});
 }
 
+function AutoCI_VerificaPresenzaClip(DatiAudioConsiderati) {
+    const MinutaggioCorrente = VideoGuidaMinutaggioCorrente(), totDatiAudioConsiderati = DatiAudioConsiderati.length;
+    for (let I = 0; I < totDatiAudioConsiderati; I++) {
+        const datiAudio = DatiAudioConsiderati[I];
+        if (datiAudio.iniziobattuta && !datiAudio.Rimosso) {if (((datiAudio.iniziobattuta - 0.4) < MinutaggioCorrente) && (MinutaggioCorrente < datiAudio.finebattuta)) {console.log("AutoCI -> Trovata clip", datiAudio); return true;}}
+    }
+    return false;
+}
+
 function AutoCI_AttivaAudioOriginale(datiAudioConsiderato) {
     console.log("Avviato AutoCI_AttivaAudioOriginale");
     if (ColonnaInternazionaleAttivata && RiproduzioneInCorso && (DatiCIAttuale = PosizioneAttualeDatiCI()).AutoCI) {
-        const MinutaggioCorrente = VideoGuidaMinutaggioCorrente(), totDatiAudioRegistrato = DatiAudioRegistrato.length;
-        for (let I = 0; I < totDatiAudioRegistrato; I++) {
-            const datiAudio = DatiAudioRegistrato[I];
-            if ((datiAudio != datiAudioConsiderato) && datiAudio.iniziobattuta && !datiAudio.Rimosso) {if (((datiAudio.iniziobattuta - 0.4) < MinutaggioCorrente) && (MinutaggioCorrente < datiAudio.finebattuta)) {console.log("Trovata clip in riproduzione", datiAudio); return;}}
-        }
-        console.log("Non trovate altre clip nel minutaggio corrente", MinutaggioCorrente, "Attivo audio originale.");
+        da = DatiAudioRegistrato.slice(); da.splice(datiAudioConsiderato.numero, 1);
+        if (AutoCI_VerificaPresenzaClip(da)) {return;}
+        console.log("Non trovate altre clip nel minutaggio corrente, attivo audio originale.");
         CI_DeterminaVolumeAudioOriginale(DatiCIAttuale);
     }
 }
@@ -1429,7 +1435,15 @@ function CI_DisattivaAudioOriginale() {
 function DeterminaVolumeVideoGuidaPerCI() {
     if (ColonnaInternazionaleAttivata) {
         const DatiCIAttuale = PosizioneAttualeDatiCI();
-        if (!DatiCIAttuale || DatiCIAttuale.CI) {VideoGuidaImpostaVolume(0);} else {ImpostaVolumeAudioOriginale(DatiCIAttuale.VolumeVideoGuida);}
+        if (!DatiCIAttuale || DatiCIAttuale.CI) {
+            VideoGuidaImpostaVolume(0);
+        } else {
+            if (DatiCIAttuale.AutoCI) {
+                if (AutoCI_VerificaPresenzaClip(DatiAudioRegistrato)) {VideoGuidaImpostaVolume(0);} else {ImpostaVolumeAudioOriginale(DatiCIAttuale.VolumeVideoGuida);}
+            } else {
+                ImpostaVolumeAudioOriginale(DatiCIAttuale.VolumeVideoGuida);
+            }
+        }
     }
 }
 
@@ -2198,7 +2212,6 @@ function PlayVideoGuida() {
         VideoGuidaRimuoviFunzioneAlTimeUpdate(FunzioneNormaleAlTimeUpdate);
         VideoGuidaFunzioneAlTimeUpdate(FunzioneNormaleAlTimeUpdate);
         ImpostaStatoPlay(true);
-        DeterminaVolumeVideoGuidaPerCI();
         if (ContenitoreCopione.FunzioniCopione.CopioneVisualizzato) {ContenitoreCopione.FunzioniCopione.AttivaTestoGuida();}
         if (StoRegistrando == false) {
             if (VerificaClipPrecaricate(SecondiPrecaricamentoAlPlay) == false) {return;}
@@ -2220,6 +2233,7 @@ function PlayVideoGuida() {
             DisabilitaSchermata();
             VideoGuidaPlay();
         }
+        DeterminaVolumeVideoGuidaPerCI();
     }
 }
 
@@ -3288,7 +3302,7 @@ function VisualizzazioneNellaLineaTemporale(datiAudio) {
         const Didascalia = ((ID_Utente == datiAudio.ID_Utente) ? strTuaRegistrazione + " " : strClipDi + NomeDoppiatore + " ") + datiAudio.Data;
         CreaElementoLineaTemporale('ELTReg' + datiAudio.numero, 'Traccia' + NumeroTraccia, datiAudio.MinutaggioRegistrazione, datiAudio.Durata, Didascalia, datiAudio.numero, "0%", "100%", datiAudio.imgOndaSonora).style.display = "inline";
     } catch (err) {
-        CreaElementoLineaTemporale('ELTReg' + datiAudio.numero, 'ContenutoTracce', datiAudio.MinutaggioRegistrazione, datiAudio.Durata, "", datiAudio.numero, "-100px", "0px", "", false); // Se il doppiatore è stato aggiunto dopo il caricamento della pagina e quindi non trova la traccia corrispondente, crea l'ELT nascosto in maniera tale da creare comunque l'elemento (ed evitare che si generino errori di elemento non trovato)
+        CreaElementoLineaTemporale('ELTReg' + datiAudio.numero, 'ContenutoTracce', datiAudio.MinutaggioRegistrazione, datiAudio.Durata, "", datiAudio.numero, "-100px", "0px", ""); // Se il doppiatore è stato aggiunto dopo il caricamento della pagina e quindi non trova la traccia corrispondente, crea l'ELT nascosto in maniera tale da creare comunque l'elemento (ed evitare che si generino errori di elemento non trovato)
     }
 }
 
