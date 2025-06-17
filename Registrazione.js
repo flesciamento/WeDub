@@ -4014,7 +4014,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                                     const SecondiAttacco = attacchi[A], SecondiStacco = attacchi[+A + 1] || (lunghezzaBufferConsiderata / SampleRate); // l'ultima battuta potrebbe non avere lo stacco, in questo caso si prende la fine del taglio originale della clip. Se però quest'ultimo segmento è troppo piccolo, non lo crea e salta al termine
                                     if ((SecondiStacco - SecondiAttacco) > SpezzaBattute.SecondiTaglioMinimo) {
                                         DuplicaClip(Numero, (ClipNuova) => {
-                                            ClipNuova.taglioIniziale = SecondiAttacco; ClipNuova.taglioFinale = SecondiStacco; SelezionaESpostaELT(ClipNuova.numero); VisualizzazioneGraficaTaglioClip(ClipNuova.numero); VisualizzaEffettiAudio(ClipNuova.numero); VisualizzaModificaAudioAscoltato(ClipNuova); NuoveClipCreate.push(ClipNuova);
+                                            ClipNuova.taglioIniziale = SecondiAttacco; ClipNuova.taglioFinale = SecondiStacco; SelezionaESpostaELT(ClipNuova.numero); VisualizzazioneGraficaTaglioClip(ClipNuova.numero); VisualizzaEffettiAudio(ClipNuova.numero); AggiornaAudioDaAscoltare(ClipNuova); NuoveClipCreate.push(ClipNuova);
                                             if (NuoveClipCreate.length >= (NumeroAttacchi / 2) - 1 - UltimaNonConsiderarla) {SuddivisioneInBattuteEffettuata();}
                                         });
                                     } else {
