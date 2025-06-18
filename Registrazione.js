@@ -1402,7 +1402,7 @@ function AutoCI_VerificaPresenzaClip(DatiAudioConsiderati) {
 
 function AutoCI_AttivaAudioOriginale(datiAudioConsiderato) {
     console.log("Avviato AutoCI_AttivaAudioOriginale");
-    if (ColonnaInternazionaleAttivata && RiproduzioneInCorso && PosizioneAttualeDatiCI().AutoCI) {
+    if (ColonnaInternazionaleAttivata && RiproduzioneInCorso && (DatiCIAttuale = PosizioneAttualeDatiCI()).AutoCI) {
         da = DatiAudioRegistrato.slice(); da.splice(datiAudioConsiderato.numero, 1);
         if (AutoCI_VerificaPresenzaClip(da)) {return;}
         console.log("Non trovate altre clip nel minutaggio corrente, attivo audio originale.");
