@@ -1435,14 +1435,10 @@ function CI_DisattivaAudioOriginale() {
 function DeterminaVolumeVideoGuidaPerCI() {
     if (ColonnaInternazionaleAttivata) {
         const DatiCIAttuale = PosizioneAttualeDatiCI();
-        if (!DatiCIAttuale || DatiCIAttuale.CI) {
+        if (!DatiCIAttuale || DatiCIAttuale.CI || (DatiCIAttuale.AutoCI && AutoCI_VerificaPresenzaClip(DatiAudioRegistrato))) {
             VideoGuidaImpostaVolume(0);
         } else {
-            if (DatiCIAttuale.AutoCI) {
-                if (AutoCI_VerificaPresenzaClip(DatiAudioRegistrato)) {VideoGuidaImpostaVolume(0);} else {ImpostaVolumeAudioOriginale(DatiCIAttuale.VolumeVideoGuida);}
-            } else {
-                ImpostaVolumeAudioOriginale(DatiCIAttuale.VolumeVideoGuida);
-            }
+            ImpostaVolumeAudioOriginale(DatiCIAttuale.VolumeVideoGuida);
         }
     }
 }
@@ -3030,7 +3026,7 @@ function CambiaVolumeCI() {
         GuadagnoPrincipale[datiAudioCI.numero].gain.value = Volume;
     });
 
-    if (VolumeVideoOriginale = PosizioneAttualeDatiCI().VolumeVideoGuida) {ImpostaVolumeAudioOriginale(VolumeVideoOriginale);}
+    DeterminaVolumeVideoGuidaPerCI();
 }
 
 function appendBuffer(vBuffer, partenzaprimobuffer = 0) {
