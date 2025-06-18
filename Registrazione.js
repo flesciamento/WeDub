@@ -1402,24 +1402,23 @@ function AutoCI_VerificaPresenzaClip(DatiAudioConsiderati) {
 
 function AutoCI_AttivaAudioOriginale(datiAudioConsiderato) {
     console.log("Avviato AutoCI_AttivaAudioOriginale");
-    if (ColonnaInternazionaleAttivata && RiproduzioneInCorso && (DatiCIAttuale = PosizioneAttualeDatiCI()).AutoCI) {
+    if (ColonnaInternazionaleAttivata && RiproduzioneInCorso && PosizioneAttualeDatiCI().AutoCI) {
         da = DatiAudioRegistrato.slice(); da.splice(datiAudioConsiderato.numero, 1);
         if (AutoCI_VerificaPresenzaClip(da)) {return;}
         console.log("Non trovate altre clip nel minutaggio corrente, attivo audio originale.");
-        CI_DeterminaVolumeAudioOriginale(DatiCIAttuale);
+        CI_VolumeAudioOriginale(DatiCIAttuale);
     }
 }
 
 function CI_AttivaAudioOriginale() {
     if (ColonnaInternazionaleAttivata && RiproduzioneInCorso) {
         const DatiCIAttuale = PosizioneAttualeDatiCI(+MixCIeOriginale.anticipoFadeInOriginale + 0.1);
-        if (!DatiCIAttuale || DatiCIAttuale.CI) {return;}
-        if (DatiCIAttuale.AutoCI) {AutoCI_AttivaAudioOriginale(); return;}
-        CI_DeterminaVolumeAudioOriginale(DatiCIAttuale);
+        if (CI_CondizioniAudioOriginaleDisattivato(DatiCIAttuale)) {return;}
+        CI_VolumeAudioOriginale(DatiCIAttuale);
     }
 }
 
-function CI_DeterminaVolumeAudioOriginale(DatiCIAttuale) {
+function CI_VolumeAudioOriginale(DatiCIAttuale) {
     const Volume = DatiCIAttuale.VolumeVideoGuida;
     if (SistemaAttualeAndroid) {ImpostaVolumeAudioOriginale(Volume);} else {FadeInVolumeAudioOriginale(Volume);}
 }
@@ -1435,12 +1434,16 @@ function CI_DisattivaAudioOriginale() {
 function DeterminaVolumeVideoGuidaPerCI() {
     if (ColonnaInternazionaleAttivata) {
         const DatiCIAttuale = PosizioneAttualeDatiCI();
-        if (!DatiCIAttuale || DatiCIAttuale.CI || (DatiCIAttuale.AutoCI && AutoCI_VerificaPresenzaClip(DatiAudioRegistrato))) {
+        if (CI_CondizioniAudioOriginaleDisattivato(DatiCIAttuale)) {
             VideoGuidaImpostaVolume(0);
         } else {
             ImpostaVolumeAudioOriginale(DatiCIAttuale.VolumeVideoGuida);
         }
     }
+}
+
+function CI_CondizioniAudioOriginaleDisattivato(DatiCIAttuale) {
+    return (!DatiCIAttuale || DatiCIAttuale.CI || (DatiCIAttuale.AutoCI && AutoCI_VerificaPresenzaClip(DatiAudioRegistrato)));
 }
 
 function CalcolaVolumeAudioOriginale(Volume) {
