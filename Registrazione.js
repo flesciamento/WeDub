@@ -1487,6 +1487,7 @@ function AggiornaRappresentazioneColonnaInternazionale(AggiornaSeModificato = fa
         if (dato.indexOf("MCI") > -1) {ApriFinestraCI_e_monitora({currentTarget: {dataset: {larghezza: 950, altezza: 600, link: "UploadCI.php?N=" + N + "&SegmentoCI=" + NumeroSegmentoCI + "&DurataVideoGuida=" + Math.floor(totDurataVideoGuida), nomefinestra: "ColonnaInternazionale"}}});}
     }
     
+    OpzioneAutoCI = false;
     var strSfondo = "", percPartenza = PercentualeMinutaggio(InizioVideoGuida), MenuADiscesa = [];
     for (let I = 0; I < totDatiCI; I++) {
         const BloccoCI = DatiCI[I], colore = (BloccoCI.CI ? "rgba(0, 150, 0, 0.5)" : (BloccoCI.AutoCI? "rgba(200, 200, 255, 0.5)" : `rgba(255, 255, 255, ${BloccoCI.VolumeVideoGuida})`)) + " ", percTermine = PercentualeMinutaggio((DatiCI[+I + 1] || {Partenza: totDurataVideoGuida}).Partenza);
@@ -1498,6 +1499,8 @@ function AggiornaRappresentazioneColonnaInternazionale(AggiornaSeModificato = fa
                         : [{dato: I + "V1", stringa: "<span class='fa fa-volume-up'></span> " + strOpzCI_V1, predefinito: (!BloccoCI.AutoCI && ((BloccoCI.VolumeVideoGuida || 0) > 0))}, {dato: I + "VA1", stringa: "<span class='fa fa-unlink'></span> " + strOpzCI_VA1, predefinito: BloccoCI.AutoCI}, {dato: I + "V0", stringa: "<span class='fa fa-volume-off'></span> " + strOpzCI_V0, predefinito: (!BloccoCI.AutoCI && ((BloccoCI.VolumeVideoGuida || 0) == 0))}, {dato: I + "MCI", stringa: "<span class='fa fa-upload'></span> " + strOpzCI_CICarica}]),
             FunzioneAlClick: GestisciSceltaOpzioneCI
         });
+
+        OpzioneAutoCI += (BloccoCI.AutoCI || 0);
 
         percPartenza = percTermine;
     }
