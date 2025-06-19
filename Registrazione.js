@@ -3154,7 +3154,8 @@ function OttieniDurataAudio(Numero, Funzione, SecondaFunzione) {
             }
 
             VisualizzaClipCaricata(Numero, Funzione, SecondaFunzione);
-            if (RiproduzioneInCorso) {VerificaClipDaRiprodurre(Numero, VideoGuidaMinutaggioCorrente()); FunzioneRiproduzioneClip = RiproduciClipInSync;}
+            OperazioniAlBufferCaricato(Numero);
+            if (RiproduzioneInCorso) {FunzioneRiproduzioneClip = RiproduciClipInSync;}
         }, true);
 
     } else {
@@ -3173,9 +3174,6 @@ function VisualizzaClipCaricata(Numero, Funzione, SecondaFunzione) {
 
     /** Lancia la seconda funzione **/
     if (SecondaFunzione) {SecondaFunzione(datiAudio);}
-
-    /** Se il buffer è stato già precaricato, visualizza l'ELT di conseguenza **/
-    if (datiAudio.buffer) {VisualizzaELTBufferCaricato(Numero);}
 
     /** Elimina il flag CreazioneInCorso **/
     datiAudio.CreazioneInCorso = false;
