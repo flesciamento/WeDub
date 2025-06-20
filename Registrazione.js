@@ -1247,14 +1247,18 @@ function CaricaBufferAudio(Numero, FunzioneAlTermine = () => {}, SoloBuffer = fa
             console.log(err, datiAudio.NumeroUnivoco, datiAudio.Registrazione);
             /* Se in modalità streaming avvisa soltanto */
             if (ModalitaStreaming) {Messaggio(strErroreCaricamentoClip); return;}
-            
-            /* Flagga l'audio come danneggiato */
-            AJAX("AggiornaAudioDanneggiato.php", "N=" + datiAudio.NumeroUnivoco + "&Info=" + encodeURIComponent(err + " - " + datiAudio.infoAggiuntive),
-                () => {/* Passa avanti col caricamento 
-                    if (!CaricamentoInizialeTerminato) {AggiornaCaricamentoClip();}*/
-                    /* Lo manda nel cestino, così non interferisce con i caricamenti (tanto non verrà più aggiornato) */
-                    datiAudio.Rimosso = true; datiAudio.danneggiato = true;
-                }, "", "", true);
+
+            if (datiAudio.Durata) {
+                Messaggio(strErroreCaricamentoClip + " " + err);
+            } else {
+                /* Se la prima volta che prova a caricarlo fallisce, flagga l'audio come danneggiato */
+                AJAX("AggiornaAudioDanneggiato.php", "N=" + datiAudio.NumeroUnivoco + "&Info=" + encodeURIComponent(err + " - " + datiAudio.infoAggiuntive),
+                    () => {/* Passa avanti col caricamento 
+                        if (!CaricamentoInizialeTerminato) {AggiornaCaricamentoClip();}*/
+                        /* Lo manda nel cestino, così non interferisce con i caricamenti (tanto non verrà più aggiornato) */
+                        datiAudio.Rimosso = true; datiAudio.danneggiato = true;
+                    }, "", "", true);
+            }
         });
     });
 }
