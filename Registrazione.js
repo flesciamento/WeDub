@@ -1522,7 +1522,7 @@ AggiornaRappresentazioneColonnaInternazionale.strDatiCIPrec = "";
 
 function AggiornaCIModificata() {
     DisattivaVecchiaCI();
-    CaricaColonnaInternazionale({volume: DeterminaVolumeCI()});
+    CaricaColonnaInternazionale({volume: VolumeAttualeCI()});
     if (FunzioneAlTerminePrecaricamento) {FunzioneAlTerminePrecaricamento();}  // Se è PlayVideoGuida() rifarà la verifica delle clip da precaricare.
 }
 
@@ -3013,7 +3013,7 @@ function SwitchColonnaInternazionale() {
     ColonnaInternazionaleAttivata = !ColonnaInternazionaleAttivata;
     const CI = ColonnaInternazionaleAttivata;
     lblVolumeVideoGuida.innerText = (CI ? strVolumeInternazionale : strVolumeFilmato);
-    slideVolumeVideoGuida.value = (CI ? DeterminaVolumeCI() : CambiaVolumeVideoGuida.volume);
+    slideVolumeVideoGuida.value = (CI ? VolumeAttualeCI() : CambiaVolumeVideoGuida.volume);
     slideVolumeVideoGuida.onchange = (CI ? CambiaVolumeCI : CambiaVolumeVideoGuida);
     if (CI) {DeterminaVolumeVideoGuidaPerCI()} else {VideoGuidaImpostaVolume(CambiaVolumeVideoGuida.volume);}
 
@@ -3025,7 +3025,7 @@ function SwitchColonnaInternazionale() {
     EscludiRipristinaTraccia("CI", (CI ? "Ripristina" : "Escludi"));
 }
 
-function DeterminaVolumeCI() {
+function VolumeAttualeCI() {
     return (AudioBufferColonnaInternazionale.length ? GuadagnoPrincipale[AudioBufferColonnaInternazionale[0].numero].gain.value : 1);
 }
 
