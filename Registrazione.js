@@ -1399,13 +1399,12 @@ function AutoCI_VerificaPresenzaClip(DatiAudioConsiderati) {
     const MinutaggioCorrente = VideoGuidaMinutaggioCorrente(), totDatiAudioConsiderati = DatiAudioConsiderati.length;
     for (let I = 0; I < totDatiAudioConsiderati; I++) {
         const datiAudio = DatiAudioConsiderati[I];
-        if (datiAudio.iniziobattuta && !datiAudio.Rimosso) {if (((datiAudio.iniziobattuta - 0.4) < MinutaggioCorrente) && (MinutaggioCorrente < datiAudio.finebattuta)) {console.log("AutoCI -> Trovata clip", datiAudio); return true;}}
+        if (datiAudio.iniziobattuta && !datiAudio.Rimosso) {if (((datiAudio.iniziobattuta - 0.4) < MinutaggioCorrente) && (MinutaggioCorrente < datiAudio.finebattuta)) {return true;}}
     }
     return false;
 }
 
 function AutoCI_AttivaAudioOriginale(datiAudioConsiderato) {
-    console.log("Avviato AutoCI_AttivaAudioOriginale");
     if (ColonnaInternazionaleAttivata && RiproduzioneInCorso && (DatiCIAttuale = PosizioneAttualeDatiCI()).AutoCI) {
         da = DatiAudioRegistrato.slice(); da.splice(datiAudioConsiderato.numero, 1);
         if (AutoCI_VerificaPresenzaClip(da)) {return;}
