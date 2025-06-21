@@ -2756,7 +2756,7 @@ function CaricamentoInizialeRegistrazioniAudio() {
 }
 
 function CreazioneClipPrimoCaricamento(DatiClipAudio) {
-    const totClipAudio = DatiClipAudio.length, PresenteColonnaInternazionale = DatiCI.find(el => el.CI), CondizionePulsanteSwitchColonnaInternazionale = (!Provino && !ModalitaStreaming && (PresenteColonnaInternazionale || SonoCreatoreProgetto));
+    const totClipAudio = DatiClipAudio.length, PresenteColonnaInternazionale = DatiCI.find(el => el.CI || el.AutoCI), CondizionePulsanteSwitchColonnaInternazionale = (!Provino && !ModalitaStreaming && (PresenteColonnaInternazionale || SonoCreatoreProgetto));
 
     CaricaColonnaInternazionale({volume: 1});
     ColonnaInternazionaleAttivata = (ModalitaStreaming || CondizionePulsanteSwitchColonnaInternazionale);
