@@ -2893,7 +2893,7 @@ function AggiornaClip(FunzioneAlTermine = () => {}, FunzioneNuovaClip = Riposizi
                     CambiaVolumeClip(NumAudio, DatiAggiornati.Guadagno);
                     
                     /* Taglio iniziale e finale */
-                    datiAudio.taglioIniziale = DatiAggiornati.TaglioIniziale; datiAudio.taglioFinale = DatiAggiornati.TaglioFinale; VisualizzazioneGraficaTaglioClip(NumAudio);
+                    if ((datiAudio.taglioIniziale != DatiAggiornati.taglioIniziale) || (datiAudio.taglioFinale != DatiAggiornati.taglioFinale)) {datiAudio.taglioIniziale = DatiAggiornati.TaglioIniziale; datiAudio.taglioFinale = DatiAggiornati.TaglioFinale; VisualizzazioneGraficaTaglioClip(NumAudio); AggiornaAudioDaAscoltare(datiAudio);}
                    
                     /* Effetti */
                     datiAudio.effetti = DatiAggiornati.Effetti; datiAudio.intensitaeffetti = DatiAggiornati.IntensitaEffetti; VisualizzaEffettiAudio(NumAudio); if (datiAudio.audio) {AttivaEffettiAudio(NumAudio);}
