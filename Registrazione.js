@@ -1299,12 +1299,12 @@ function PrecaricaClipSuccessiva() {
 
 function VisualizzaELTBufferCaricato(Numero) {
     const ELT = document.getElementById('ELTReg' + Numero);
-    if (ELT) {ELT.iStyle({opacity: 1, transform: ""});}
+    if (ELT) {ELT.iStyle({opacity: OpacitaClipCaricata, transform: ""});}
 }
 
 function VisualizzaELTBufferScaricato(Numero) {
     const ELT = document.getElementById('ELTReg' + Numero);
-    if (ELT) {ELT.style.opacity = 0.9;}
+    if (ELT) {ELT.style.opacity = OpacitaClipNonCaricata;}
 }
 
 function GeneraBufferCI(datiAudio, buffer, FunzioneAlTermine = () => {}) {
@@ -3311,7 +3311,7 @@ function VisualizzazioneNellaLineaTemporale(datiAudio) {
 
 function CreaElementoLineaTemporale(ID, DoveInserirlo, PartenzaRegistrazione, LunghezzaRegistrazione, Stringa, RiferimentoRegistrazione, Posizione, Altezza, imgOndaSonora) {
 	const ELT = CreaElemento('div', ID, DoveInserirlo), datiAudio = DatiAudioRegistrato[RiferimentoRegistrazione];
-    ELT.title = Stringa; ELT.className = "ELT transizione-morbida-si"; ELT.setAttribute("name", "ELT"); ELT.iStyle({display: "none", opacity: 0.8, transform: "scaleY(0.9)", position: 'absolute', top: Posizione, height: Altezza});
+    ELT.title = Stringa; ELT.className = "ELT transizione-morbida-si"; ELT.setAttribute("name", "ELT"); ELT.iStyle({display: "none", opacity: OpacitaClipNonCaricata, transform: "scaleY(0.9)", position: 'absolute', top: Posizione, height: Altezza});
     ELT.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione;
     InserimentoInProporzioneNellaLineaTemporale(ELT, PartenzaRegistrazione, LunghezzaRegistrazione);
     
