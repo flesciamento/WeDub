@@ -2919,7 +2919,7 @@ function AggiornaClip(FunzioneAlTermine = () => {}, FunzioneNuovaClip = Riposizi
                     }
 
                     /* Ascoltato */
-                    if (SonoCreatoreProgetto && (datiAudio.daAscoltare != !(+DatiAggiornati.Visualizzato))) {datiAudio.daAscoltare = !(+DatiAggiornati.Visualizzato); VisualizzaModificaAudioAscoltato(datiAudio);}
+                    if (SonoCreatoreProgetto && (datiAudio.daAscoltare != !(+DatiAggiornati.Visualizzato))) {datiAudio.daAscoltare = !(+DatiAggiornati.Visualizzato); ResetBordoAudioAscoltato(datiAudio); AggiornaAudioDaAscoltare(datiAudio);}
 				}
             }
             
@@ -3390,10 +3390,12 @@ function AJAXSalvaAudioAscoltato(datiAudio) {
 }
 
 function VisualizzaModificaAudioAscoltato(datiAudio) {
-    document.getElementById('ELTReg' + datiAudio.numero + 'Contenuto').style.border = "";
+    ResetBordoAudioAscoltato(datiAudio);
     datiAudio.alPlay = [];
     ContrassegnaClipDaAscoltare(datiAudio);
 }
+
+function ResetBordoAudioAscoltato(datiAudio) {document.getElementById('ELTReg' + datiAudio.numero + 'Contenuto').style.border = "";}
 
 function AggiornaAudioDaAscoltare(datiAudio) {
     datiAudio.alPlay = []; datiAudio.iniziobattuta = datiAudio.finebattuta = false;
@@ -3736,7 +3738,6 @@ function AdattaAltezzaTraccia(Numero) {
 
 function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
     const datiAudio = DatiAudioRegistrato[RiferimentoRegistrazione], PartenzaRegistrazione = datiAudio.MinutaggioRegistrazione, LunghezzaRegistrazione = datiAudio.Durata, AudioAttivo = !datiAudio.Rimosso;
-    const fontPredefiniti = "'Open Sans', sans-serif";
     var NuovoAudioTrattato = false, NuoveClipCreate = [], Tabella;
 
     /** Memorizza il valore attuale di tutte le opzioni per poterle ripristinare in caso di annullamento **/
@@ -3756,7 +3757,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
         CreaNuoviElementi([
             Tabella.id,
                 ['tr', {id: tr_id}],,
-                    ['td', {innerHTML: Stringa}, {fontFamily: fontPredefiniti, fontSize: '12px'}],
+                    ['td', {innerHTML: Stringa}, {fontSize: '12px'}],
                     ['td'],, ['input', {id: tr_id + "Slide", value: +valoreIniziale, oninput: (e) => {FunzioneInputSlide(e); FunzioneOnChange2(e);}}, {}, {RiferimentoRegistrazione: RiferimentoRegistrazione}, {type: "range", min: minSlide, max: maxSlide, step: stepSlide}],
                 0,  ['td', {}, {textAlign: "left"}],, ['input', {id: tr_id + "Casella", onchange: (e) => {FunzioneChangeCasella(e); FunzioneOnChange2(e);}}, {width: "80px"}, {RiferimentoRegistrazione: RiferimentoRegistrazione}, {type: "number", min: minCasella, max: maxCasella, step: stepCasella}], ['span', {textContent: " " + labelCasella}]
         ]);
@@ -3838,7 +3839,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
 
         /*** Posizione ed effetti della clip ***/
         const tdPosizioneMinuti_id = ID_Opzioni + 'tdOpzionePosizioneMinuti', tdPosizioneSecondi_id = ID_Opzioni + 'tdOpzionePosizioneSecondi', divOpzioneEffetti_id = ID_Opzioni + 'divOpzioneEffetti';
-        const stililabel = {fontFamily: fontPredefiniti, fontSize: "12px"};
+        const stililabel = {fontSize: "12px"};
         function SpostaMinutaggioModificatoManualmente(e) {SpostaMinutaggioRegistrazione(e.currentTarget.dataset.RiferimentoRegistrazione);}
         CreaNuoviElementi([
             divcontenitorebody.id, ['div'],,
@@ -3846,7 +3847,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                 ['div', {id: ID_Opzioni + 'divContenitoreTabellaMinutaggio', className: "col-lg-5"}], ['div', {id: divOpzioneEffetti_id}], // la classe: "col-lg-7" viene indicata da SelezionaESpostaELT se selezionata la singola clip
                 1, ['table', {id: ID_Opzioni + 'TabellaMinutaggio'}],,
                         ['tr'],,
-                            ['td', {textContent: strPosizione}, {fontFamily: fontPredefiniti, fontSize: "12px", verticalAlign: "bottom", paddingBottom: "5px"}], ['td'],,
+                            ['td', {textContent: strPosizione}, {fontSize: "12px", verticalAlign: "bottom", paddingBottom: "5px"}], ['td'],,
                                 ['table'],,
                                     ['tr'],,
                                         ['td', {textContent: strMinuti}, stililabel], ['td'], ['td', {textContent: strSecondi}, stililabel],
