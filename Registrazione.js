@@ -3571,16 +3571,16 @@ function RiposizionamentoAutomaticoClipSovrapposte(ELTConsiderato) {
     if (ELTDaSpostare == false) {
         const tolleranza = 0.5; // Secondi di tolleranza per la sovrapposizione della parte arancione delle clip.
 
-        var ID_NuoviELTDaRiordinare = {}, ID_ELT_trovati = [], ELTSovrapposti = [], ContELTSovrapposti = -1, NumeroELTDaRiordinare = 1, NumeroELTDaRiordinare_prec = 1;
+        var ID_NuoviELTDaRiordinare = {}, ID_ELT_trovati = [], ELTSovrapposti = [], NumeroELTDaRiordinare = 1, NumeroELTDaRiordinare_prec = 1;
 
         function TrovaELTDaRiordinare(ELTComparazione) {
             const datiAudioConsiderato = DatiAudioRegistrato[ELTComparazione.dataset.RiferimentoRegistrazione], MinutaggioPartenzaClipConsiderata = (+datiAudioConsiderato.MinutaggioRegistrazione) + (+datiAudioConsiderato.taglioIniziale) + (+tolleranza), TermineClipConsiderata = (+datiAudioConsiderato.MinutaggioRegistrazione) + (+datiAudioConsiderato.taglioFinale) - tolleranza;
-            ELTSovrapposti[++ContELTSovrapposti] = 0;
+            ELTSovrapposti[datiAudioConsiderato.numero] = 0;
             DatiAudioRegistrato_Utente[datiAudioConsiderato.ID_Utente].forEach((datiAudio) => {
                 const ELT = document.getElementById('ELTReg' + datiAudio.numero);
-                ( (ELT) && (ELT.style.display != "none") && (ELT.style.visibility != "hidden") && (((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioIniziale)) < TermineClipConsiderata) && (MinutaggioPartenzaClipConsiderata < ((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioFinale))) && (ELTDaRiordinare[ELT.id] = true) && (ID_NuoviELTDaRiordinare[ELT.id] = true) && (ELTSovrapposti[ContELTSovrapposti]++) );
+                ( (ELT) && (ELT.style.display != "none") && (ELT.style.visibility != "hidden") && (((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioIniziale)) < TermineClipConsiderata) && (MinutaggioPartenzaClipConsiderata < ((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioFinale))) && (ELTDaRiordinare[ELT.id] = true) && (ID_NuoviELTDaRiordinare[ELT.id] = true) && (ELTSovrapposti[datiAudioConsiderato.numero]++) );
             });
-            console.log("ELTSovrapposti[", ContELTSovrapposti, "] = ", ELTSovrapposti[ContELTSovrapposti]);
+            console.log("ELTSovrapposti[", datiAudioConsiderato.numero, "] = ", ELTSovrapposti[datiAudioConsiderato.numero]);
         }
 
         function TrovaTuttiGliELTSovrapposti() {
