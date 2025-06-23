@@ -3620,7 +3620,7 @@ function PosizioneOriginaleClipSovrapposte() {
             document.getElementById(idELT).iStyle({top: "0%", height: "100%"});
         }
 
-        ELTDaRiordinare = [];
+        ELTDaRiordinare = {};
     }
 }
 
