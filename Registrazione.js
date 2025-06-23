@@ -3571,7 +3571,7 @@ function RiposizionamentoAutomaticoClipSovrapposte(ELTConsiderato) {
     if (ELTDaSpostare == false) {
         const tolleranza = 0.5; // Secondi di tolleranza per la sovrapposizione della parte arancione delle clip.
 
-        var ID_NuoviELTDaRiordinare = {}, ID_ELT_trovati = [], ELTSovrapposti = {}, NumeroELTDaRiordinare = 1, NumeroELTDaRiordinare_prec = 1;
+        var ID_NuoviELTDaRiordinare = {}, ID_ELT_trovati = [], ELTSovrapposti = [], NumeroELTDaRiordinare = 1, NumeroELTDaRiordinare_prec = 1;
 
         function TrovaELTDaRiordinare(ELTComparazione) {
             const datiAudioConsiderato = DatiAudioRegistrato[ELTComparazione.dataset.RiferimentoRegistrazione], MinutaggioPartenzaClipConsiderata = (+datiAudioConsiderato.MinutaggioRegistrazione) + (+datiAudioConsiderato.taglioIniziale) + (+tolleranza), TermineClipConsiderata = (+datiAudioConsiderato.MinutaggioRegistrazione) + (+datiAudioConsiderato.taglioFinale) - tolleranza;
