@@ -3622,7 +3622,9 @@ function RiposizionamentoAutomaticoClipSovrapposte(ELTConsiderato) {
                 R++;
             }
             const altezzaclip = 100 / R;
+            console.log("Riga", Riga);
             for (let I = 0; I < R; I++) {
+                console.log(I, Riga[I]);
                 Riga[I].forEach(da => document.getElementById('ELTReg' + da.numero).iStyle({top: (altezzaclip * I) + "%", height: altezzaclip + "%"}));
             }
         }
