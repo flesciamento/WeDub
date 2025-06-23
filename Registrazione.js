@@ -3578,7 +3578,7 @@ function RiposizionamentoAutomaticoClipSovrapposte(ELTConsiderato) {
             ELTSovrapposti[datiAudioConsiderato.numero] = 0;
             DatiAudioRegistrato_Utente[datiAudioConsiderato.ID_Utente].forEach((datiAudio) => {
                 const ELT = document.getElementById('ELTReg' + datiAudio.numero);
-                ( (ELT) && (ELT.style.display != "none") && (ELT.style.visibility != "hidden") && (((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioIniziale)) < TermineClipConsiderata) && (MinutaggioPartenzaClipConsiderata < ((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioFinale))) && (ELTDaRiordinare[ELT.id] = true) && (ID_NuoviELTDaRiordinare[ELT.id] = true) && (ELTSovrapposti[datiAudioConsiderato.id]++) );
+                ( (ELT) && (ELT.style.display != "none") && (ELT.style.visibility != "hidden") && (((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioIniziale)) < TermineClipConsiderata) && (MinutaggioPartenzaClipConsiderata < ((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioFinale))) && (ELTDaRiordinare[ELT.id] = true) && (ID_NuoviELTDaRiordinare[ELT.id] = true) && (ELTSovrapposti[datiAudioConsiderato.numero]++) );
             });
             console.log("ELTSovrapposti[", datiAudioConsiderato.numero, "] = ", ELTSovrapposti[datiAudioConsiderato.numero]);
         }
