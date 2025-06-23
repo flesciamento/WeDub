@@ -3571,16 +3571,17 @@ function RiposizionamentoAutomaticoClipSovrapposte(ELTConsiderato) {
     if (ELTDaSpostare == false) {
         const tolleranza = 0.5; // Secondi di tolleranza per la sovrapposizione della parte arancione delle clip.
 
-        var ID_NuoviELTDaRiordinare = {}, ID_ELT_trovati = [], ELTSovrapposti = [], NumeroELTDaRiordinare = 1, NumeroELTDaRiordinare_prec = 1;
+        var ID_NuoviELTDaRiordinare = {}, ID_ELT_trovati = [], ELTSovrapposti = {}, NumeroELTDaRiordinare = 1, NumeroELTDaRiordinare_prec = 1;
 
         function TrovaELTDaRiordinare(ELTComparazione) {
             const datiAudioConsiderato = DatiAudioRegistrato[ELTComparazione.dataset.RiferimentoRegistrazione], MinutaggioPartenzaClipConsiderata = (+datiAudioConsiderato.MinutaggioRegistrazione) + (+datiAudioConsiderato.taglioIniziale) + (+tolleranza), TermineClipConsiderata = (+datiAudioConsiderato.MinutaggioRegistrazione) + (+datiAudioConsiderato.taglioFinale) - tolleranza;
-            ELTSovrapposti[datiAudioConsiderato.numero] = 0;
+            ELTSovrapposti[ELTComparazione.id] = [];
             DatiAudioRegistrato_Utente[datiAudioConsiderato.ID_Utente].forEach((datiAudio) => {
                 const ELT = document.getElementById('ELTReg' + datiAudio.numero);
-                ( (ELT) && (ELT.style.display != "none") && (ELT.style.visibility != "hidden") && (((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioIniziale)) < TermineClipConsiderata) && (MinutaggioPartenzaClipConsiderata < ((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioFinale))) && (ELTDaRiordinare[ELT.id] = true) && (ID_NuoviELTDaRiordinare[ELT.id] = true) && (ELTSovrapposti[datiAudioConsiderato.numero]++) );
+                ( (ELT) && (ELT.style.display != "none") && (ELT.style.visibility != "hidden") && (((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioIniziale)) < TermineClipConsiderata) && (MinutaggioPartenzaClipConsiderata < ((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioFinale))) && (ELTDaRiordinare[ELT.id] = true) && (ID_NuoviELTDaRiordinare[ELT.id] = true) && (ELTSovrapposti[ELTComparazione.id].push(ELT.id)));
             });
-            console.log("ELTSovrapposti[", datiAudioConsiderato.numero, "] = ", ELTSovrapposti[datiAudioConsiderato.numero]);
+
+            if (ELTComparazione.style.visibility != "hidden") {ELTSovrapposti[ELTComparazione.id].push(ELTComparazione.id);} // Non tiene conto dell'elemento considerato se questo è stato cestinato e quindi ha liberato la timeline
         }
 
         function TrovaTuttiGliELTSovrapposti() {
@@ -3604,17 +3605,27 @@ function RiposizionamentoAutomaticoClipSovrapposte(ELTConsiderato) {
 
         
         /* Effettua il riposizionamento */
-        function MaxELTSovrapposti() {return ELTSovrapposti.reduce((a, b) => Math.max(a, b), 0);}
+        for(IDELT in ELTSovrapposti) {
+            const totELTSovrapposti = ELTSovrapposti[IDELT].length;
+            ELTSovrapposti[IDELT].sort();
+            if (totELTSovrapposti > 0) {
+                const altezzaclip = 100 / totELTSovrapposti;
+                for (let I = 0; I < totELTSovrapposti; I++) {
+                    document.getElementById(ELTSovrapposti[IDELT][I]).iStyle({top: (altezzaclip * I) + "%", height: altezzaclip + "%"});
+                }
+            }
+        }
+
+        /*
         if (ELTConsiderato.style.visibility == "hidden") {ID_ELT_trovati.splice(ID_ELT_trovati.indexOf(ELTConsiderato.id), 1);} // Non tiene conto dell'elemento considerato se questo è stato cestinato.
         ID_ELT_trovati.sort(); // Serve ad effettuare la sovrapposizione delle clip sempre nello stesso ordine
-        ELTSovrapposti.splice(ELTSovrapposti.indexOf(MaxELTSovrapposti()), 1);
-        const totELTDaRiordinare = ID_ELT_trovati.length, totRighe = MaxELTSovrapposti(); console.log("totRighe", totRighe, ELTSovrapposti);
+        const totELTDaRiordinare = ID_ELT_trovati.length;
         if (totELTDaRiordinare > 0) {
-            const altezzaclip = 100 / totRighe;
+            const altezzaclip = 100 / totELTDaRiordinare;
             for (let I = 0; I < totELTDaRiordinare; I++) {
                 document.getElementById(ID_ELT_trovati[I]).iStyle({top: (altezzaclip * I) + "%", height: altezzaclip + "%"});
             }
-        }
+        }*/
     }    
 }
 
