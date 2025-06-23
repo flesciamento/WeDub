@@ -3606,7 +3606,6 @@ function RiposizionamentoAutomaticoClipSovrapposte(ELTConsiderato) {
         ID_ELT_trovati.sort(); // Serve ad effettuare la sovrapposizione delle clip sempre nello stesso ordine
         const totELTDaRiordinare = ID_ELT_trovati.length;
         if (totELTDaRiordinare > 0) {
-            
             DatiAudioRegistrato_Sovrapposti.sort((a, b) => (b.Durata - a.Durata));
             R = 0;
             Riga[R] = DatiAudioRegistrato_Sovrapposti.slice();
