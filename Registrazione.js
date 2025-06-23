@@ -2795,7 +2795,7 @@ async function TermineCaricamentoClip() {
                     PosizionatiEAttivaInterfaccia();
                 }
                 
-                if (DatiDoppiatori[DoppiatoreConsiderato].numeroTraccia == RuoliDaAssegnare_NumeroTraccia) {SelezionaCandidatoRuoliDaAssegnare(DoppiatoreConsiderato, TrovaClipEPosizionati);} else {TrovaClipEPosizionati();}
+                if (DatiDoppiatori[DoppiatoreConsiderato].numeroTraccia === RuoliDaAssegnare_NumeroTraccia) {SelezionaCandidatoRuoliDaAssegnare(DoppiatoreConsiderato, TrovaClipEPosizionati);} else {TrovaClipEPosizionati();}
 
             } else {
                 PosizionatiEAttivaInterfaccia();
