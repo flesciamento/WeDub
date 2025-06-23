@@ -3577,7 +3577,7 @@ function RiposizionamentoAutomaticoClipSovrapposte(ELTConsiderato) {
             const datiAudioConsiderato = DatiAudioRegistrato[ELTComparazione.dataset.RiferimentoRegistrazione], MinutaggioPartenzaClipConsiderata = (+datiAudioConsiderato.MinutaggioRegistrazione) + (+datiAudioConsiderato.taglioIniziale) + (+tolleranza), TermineClipConsiderata = (+datiAudioConsiderato.MinutaggioRegistrazione) + (+datiAudioConsiderato.taglioFinale) - tolleranza;
             DatiAudioRegistrato_Utente[datiAudioConsiderato.ID_Utente].forEach((datiAudio) => {
                 const ELT = document.getElementById('ELTReg' + datiAudio.numero);
-                ( (ELT) && (ELT.style.display != "none") && (ELT.style.visibility != "hidden") && (((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioIniziale)) < TermineClipConsiderata) && (MinutaggioPartenzaClipConsiderata < ((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioFinale))) && (ELTDaRiordinare[ELT.id] = true) && (ID_NuoviELTDaRiordinare[ELT.id] = true) && (DatiAudioRegistrato_Sovrapposti.push(datiAudio)) );
+                ( (ELT) && (ELT.style.display != "none") && (ELT.style.visibility != "hidden") && (((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioIniziale)) < TermineClipConsiderata) && (MinutaggioPartenzaClipConsiderata < ((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioFinale))) && (ELTDaRiordinare[ELT.id] = true) && (ID_NuoviELTDaRiordinare[ELT.id] = true) && (!datiAudio.includes(DatiAudioRegistrato_Sovrapposti) && DatiAudioRegistrato_Sovrapposti.push(datiAudio)) );
             });
         }
 
@@ -3602,7 +3602,7 @@ function RiposizionamentoAutomaticoClipSovrapposte(ELTConsiderato) {
 
         
         /* Effettua il riposizionamento */
-        if (ELTConsiderato.style.visibility == "hidden") {ID_ELT_trovati.splice(ID_ELT_trovati.indexOf(ELTConsiderato.id), 1);} else {DatiAudioRegistrato_Sovrapposti.push(ELTConsiderato.dataset.RiferimentoRegistrazione);} // Non tiene conto dell'elemento considerato se questo è stato cestinato.
+        if (ELTConsiderato.style.visibility == "hidden") {ID_ELT_trovati.splice(ID_ELT_trovati.indexOf(ELTConsiderato.id), 1);} else {DatiAudioRegistrato_Sovrapposti.push(DatiAudioRegistrato[ELTConsiderato.dataset.RiferimentoRegistrazione]);} // Non tiene conto dell'elemento considerato se questo è stato cestinato.
         ID_ELT_trovati.sort(); // Serve ad effettuare la sovrapposizione delle clip sempre nello stesso ordine
         const totELTDaRiordinare = ID_ELT_trovati.length;
         if (totELTDaRiordinare > 0) {
