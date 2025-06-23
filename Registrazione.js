@@ -3604,9 +3604,11 @@ function RiposizionamentoAutomaticoClipSovrapposte(ELTConsiderato) {
 
         
         /* Effettua il riposizionamento */
+        function MaxELTSovrapposti() {return ELTSovrapposti.reduce((a, b) => Math.max(a, b), 0);}
         if (ELTConsiderato.style.visibility == "hidden") {ID_ELT_trovati.splice(ID_ELT_trovati.indexOf(ELTConsiderato.id), 1);} // Non tiene conto dell'elemento considerato se questo è stato cestinato.
         ID_ELT_trovati.sort(); // Serve ad effettuare la sovrapposizione delle clip sempre nello stesso ordine
-        const totELTDaRiordinare = ID_ELT_trovati.length, totRighe = Math.max(...ELTSovrapposti.slice(1)); console.log("totRighe", totRighe, ELTSovrapposti);
+        ELTSovrapposti.splice(ELTSovrapposti.indexOf(MaxELTSovrapposti()), 1);
+        const totELTDaRiordinare = ID_ELT_trovati.length, totRighe = MaxELTSovrapposti(); console.log("totRighe", totRighe, ELTSovrapposti);
         if (totELTDaRiordinare > 0) {
             const altezzaclip = 100 / totRighe;
             for (let I = 0; I < totELTDaRiordinare; I++) {
