@@ -3577,7 +3577,7 @@ function RiposizionamentoAutomaticoClipSovrapposte(ELTConsiderato) {
             const datiAudioConsiderato = DatiAudioRegistrato[ELTComparazione.dataset.RiferimentoRegistrazione], MinutaggioPartenzaClipConsiderata = (+datiAudioConsiderato.MinutaggioRegistrazione) + (+datiAudioConsiderato.taglioIniziale) + (+tolleranza), TermineClipConsiderata = (+datiAudioConsiderato.MinutaggioRegistrazione) + (+datiAudioConsiderato.taglioFinale) - tolleranza;
             DatiAudioRegistrato_Utente[datiAudioConsiderato.ID_Utente].forEach((datiAudio) => {
                 const ELT = document.getElementById('ELTReg' + datiAudio.numero);
-                ( (ELT) && (ELT.style.display != "none") && (ELT.style.visibility != "hidden") && (((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioIniziale)) < TermineClipConsiderata) && (MinutaggioPartenzaClipConsiderata < ((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioFinale))) && (ELTDaRiordinare[ELT.id] = true) && (ID_NuoviELTDaRiordinare[ELT.id] = true) && (!datiAudio.includes(DatiAudioRegistrato_Sovrapposti) && DatiAudioRegistrato_Sovrapposti.push(datiAudio)) );
+                ( (ELT) && (ELT.style.display != "none") && (ELT.style.visibility != "hidden") && (((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioIniziale)) < TermineClipConsiderata) && (MinutaggioPartenzaClipConsiderata < ((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioFinale))) && (ELTDaRiordinare[ELT.id] = true) && (ID_NuoviELTDaRiordinare[ELT.id] = true) && (!DatiAudioRegistrato_Sovrapposti.includes(datiAudio) && DatiAudioRegistrato_Sovrapposti.push(datiAudio)) );
             });
         }
 
