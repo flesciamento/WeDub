@@ -3608,7 +3608,7 @@ function RiposizionamentoAutomaticoClipSovrapposte(ELTConsiderato) {
         /* Effettua il riposizionamento */
         //if (ELTConsiderato.style.visibility == "hidden") {PrimaRiga.includes(datiAudioELTConsiderato) && PrimaRiga.splice(PrimaRiga.indexOf(datiAudioELTConsiderato), 1);} // Non tiene conto dell'elemento considerato se questo è stato cestinato e ha liberato la timeline.
         if (PrimaRiga.length > 0) {
-            PrimaRiga.sort((a, b) => (a.numero - b.numero)); // Serve ad effettuare la sovrapposizione delle clip sempre nello stesso ordine
+            PrimaRiga.sort((a, b) => (b.Durata - a.Durata)); // Serve ad effettuare la sovrapposizione delle clip sempre nello stesso ordine
             let R = 0;
             while (RigaConsiderata = Riga[R]) {
                 for (let C = 0; C < RigaConsiderata.length; C++) {
