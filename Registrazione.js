@@ -2700,6 +2700,8 @@ async function ApriCestinoTraccia(e) {
         });
     }
 
+    Cestino.className += " fa-bounce";
+
     const totAudioDellaTraccia = AudioDellaTraccia.length;
     if (totAudioDellaTraccia) {
         await pausa(100);
