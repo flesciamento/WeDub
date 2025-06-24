@@ -2702,6 +2702,7 @@ async function ApriCestinoTraccia(e) {
 
     const totAudioDellaTraccia = AudioDellaTraccia.length;
     if (totAudioDellaTraccia) {
+        Cestino.style.animation = "";
         Cestino.className += " fa-bounce";
         await pausa(100);
         if (Cestino.dataset.ripristinati == "si") {
