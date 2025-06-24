@@ -3570,67 +3570,69 @@ function SelezionaTutteLeClipDiUnUtente(e) {
 }
 
 function RiposizionamentoAutomaticoClipSovrapposte(ELTConsiderato) {
-    if (ELTDaSpostare == false) {
-        const tolleranza = 0.5; // Secondi di tolleranza per la sovrapposizione della parte arancione delle clip.
-        const ID_UtenteConsiderato = DatiAudioRegistrato[ELTConsiderato.dataset.RiferimentoRegistrazione].ID_Utente;
-        //const datiAudioELTConsiderato = DatiAudioRegistrato[ELTConsiderato.dataset.RiferimentoRegistrazione];
+    if (ELTDaSpostare) {return;}
 
-        var ID_NuoviELTDaRiordinare = {}, ID_ELT_trovati = [], Riga = [], NumeroELTDaRiordinare = 1, NumeroELTDaRiordinare_prec = 1;
-        Riga[0] = [];
-        const PrimaRiga = Riga[0];
+    const tolleranza = 0.5; // Secondi di tolleranza per la sovrapposizione della parte arancione delle clip.
+    const ID_UtenteConsiderato = DatiAudioRegistrato[ELTConsiderato.dataset.RiferimentoRegistrazione].ID_Utente;
 
-        function TrovaELTDaRiordinare(ELTComparazione) {
-            const datiAudioConsiderato = DatiAudioRegistrato[ELTComparazione.dataset.RiferimentoRegistrazione], MinutaggioPartenzaClipConsiderata = (+datiAudioConsiderato.MinutaggioRegistrazione) + (+datiAudioConsiderato.taglioIniziale) + (+tolleranza), TermineClipConsiderata = (+datiAudioConsiderato.MinutaggioRegistrazione) + (+datiAudioConsiderato.taglioFinale) - tolleranza;
-            DatiAudioRegistrato_Utente[ID_UtenteConsiderato].forEach((datiAudio) => {
-                const ELT = document.getElementById('ELTReg' + datiAudio.numero);
-                ( (ELT) && (ELT.style.display != "none") && (ELT.style.visibility != "hidden") && (((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioIniziale)) < TermineClipConsiderata) && (MinutaggioPartenzaClipConsiderata < ((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioFinale))) && (ELTDaRiordinare[ELT.id] = true) && (ID_NuoviELTDaRiordinare[ELT.id] = true) && (!PrimaRiga.includes(datiAudio) && PrimaRiga.push(datiAudio)) );
-            });
+    var ID_NuoviELTDaRiordinare = {}, Riga = [[]], NumeroELTDaRiordinare = 1, NumeroELTDaRiordinare_prec = 0;
+    const PrimaRiga = Riga[0];
+
+    function InizioFineClip(da) {
+        const inizio = (+da.MinutaggioRegistrazione) + (+da.taglioIniziale);
+        const fine = (+da.MinutaggioRegistrazione) + (+da.taglioFinale);
+        return [inizio, fine];
+    }
+
+    function ClipSiSovrappongono(a, b) {
+        const [inizioA, fineA] = InizioFineClip(a);
+        const [inizioB, fineB] = InizioFineClip(b);
+        return ((inizioA < (fineB - tolleranza)) && ((inizioB + (+tolleranza)) < fineA));
+    }
+
+    function TrovaELTDaRiordinare(ELTComparazione) {
+        const datiAudioConsiderato = DatiAudioRegistrato[ELTComparazione.dataset.RiferimentoRegistrazione];
+        DatiAudioRegistrato_Utente[ID_UtenteConsiderato].forEach((datiAudio) => {
+            const ELT = document.getElementById('ELTReg' + datiAudio.numero);
+            ( (ELT) && (ELT.style.display != "none") && (ELT.style.visibility != "hidden") && ClipSiSovrappongono(datiAudio, datiAudioConsiderato) && (ELTDaRiordinare[ELT.id] = true) && (ID_NuoviELTDaRiordinare[ELT.id] = true) && (!PrimaRiga.includes(datiAudio) && PrimaRiga.push(datiAudio)) );
+        });
+    }
+
+    /* Trova tutti gli ELT sovrapposti con l'ELTConsiderato e ripete il check per tutti gli ELT trovati */
+    ID_NuoviELTDaRiordinare[ELTConsiderato.id] = true;
+    while(NumeroELTDaRiordinare > NumeroELTDaRiordinare_prec) {
+        NumeroELTDaRiordinare_prec = NumeroELTDaRiordinare;
+        for (idELT in ID_NuoviELTDaRiordinare) {
+            TrovaELTDaRiordinare(document.getElementById(idELT));
         }
 
-        function TrovaTuttiGliELTSovrapposti() {
-            for (idELT in ID_NuoviELTDaRiordinare) {
-                TrovaELTDaRiordinare(document.getElementById(idELT));
-            }
+        NumeroELTDaRiordinare = PrimaRiga.length;
+    }
 
-            ID_ELT_trovati = Object.keys(ID_NuoviELTDaRiordinare);
     
-            NumeroELTDaRiordinare = ID_ELT_trovati.length;
-    
-            if (NumeroELTDaRiordinare > NumeroELTDaRiordinare_prec) {
-                NumeroELTDaRiordinare_prec = NumeroELTDaRiordinare;
-                TrovaTuttiGliELTSovrapposti();
-            }
-        }
-
-        /* Trova tutti gli ELT sovrapposti con l'ELTConsiderato e ripete il check per tutti gli ELT trovati */
-        ID_NuoviELTDaRiordinare[ELTConsiderato.id] = true;
-        TrovaTuttiGliELTSovrapposti();
-
-        
-        /* Effettua il riposizionamento */
-        //if (ELTConsiderato.style.visibility == "hidden") {PrimaRiga.includes(datiAudioELTConsiderato) && PrimaRiga.splice(PrimaRiga.indexOf(datiAudioELTConsiderato), 1);} // Non tiene conto dell'elemento considerato se questo è stato cestinato e ha liberato la timeline.
-        if (PrimaRiga.length > 0) {
-            PrimaRiga.sort((a, b) => ((b.taglioFinale - b.taglioIniziale) - (a.taglioFinale - a.taglioIniziale))); // Serve ad effettuare la sovrapposizione delle clip sempre nello stesso ordine
-            let R = 0;
-            while (RigaConsiderata = Riga[R]) {
-                for (let C = 0; C < RigaConsiderata.length; C++) {
-                    const datiAudioConsiderato = RigaConsiderata[C], MinutaggioPartenzaClipConsiderata = (+datiAudioConsiderato.MinutaggioRegistrazione) + (+datiAudioConsiderato.taglioIniziale) + (+tolleranza), TermineClipConsiderata = (+datiAudioConsiderato.MinutaggioRegistrazione) + (+datiAudioConsiderato.taglioFinale) - tolleranza;;
-                    for (let I = 0; I < RigaConsiderata.length; I++) {
-                        const datiAudio = RigaConsiderata[I];
-                        if (datiAudioConsiderato == datiAudio) {continue;}
-                        if ((((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioIniziale)) < TermineClipConsiderata) && (MinutaggioPartenzaClipConsiderata < ((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioFinale)))) {RigaConsiderata.splice(RigaConsiderata.indexOf(datiAudioConsiderato), 1); Riga[R + 1] = (Riga[R + 1] || []); Riga[R + 1].push(datiAudioConsiderato); I = RigaConsiderata.length; C--; continue;}
-                    }
+    /* Effettua il riposizionamento */
+    //if (ELTConsiderato.style.visibility == "hidden") {PrimaRiga.includes(datiAudioELTConsiderato) && PrimaRiga.splice(PrimaRiga.indexOf(datiAudioELTConsiderato), 1);} // Non tiene conto dell'elemento considerato se questo è stato cestinato e ha liberato la timeline.
+    if (PrimaRiga.length > 0) {
+        PrimaRiga.sort((a, b) => ((b.taglioFinale - b.taglioIniziale) - (a.taglioFinale - a.taglioIniziale)));
+        let R = 0;
+        while (RigaConsiderata = Riga[R]) {
+            for (let C = 0; C < RigaConsiderata.length; C++) {
+                const datiAudioConsiderato = RigaConsiderata[C];
+                for (let I = 0; I < RigaConsiderata.length; I++) {
+                    const datiAudio = RigaConsiderata[I];
+                    if (datiAudioConsiderato == datiAudio) {continue;}
+                    if (ClipSiSovrappongono(datiAudio, datiAudioConsiderato)) {const NumNuovaRiga = +R + 1; RigaConsiderata.splice(C, 1); Riga[NumNuovaRiga] = (Riga[NumNuovaRiga] || []); Riga[NumNuovaRiga].push(datiAudioConsiderato); I = RigaConsiderata.length; C--; continue;}
                 }
-                R++;
             }
-
-            const altezzaclip = 100 / R;
-            console.log("Riga", Riga);
-            for (let I = 0; I < R; I++) {
-                Riga[I].forEach(da => document.getElementById('ELTReg' + da.numero).iStyle({top: (altezzaclip * I) + "%", height: altezzaclip + "%"}));
-            }
+            R++;
         }
-    }    
+
+        const altezzaclip = 100 / R;
+        for (let I = 0; I < R; I++) {
+            const topELT = (altezzaclip * I) + "%";
+            Riga[I].forEach(da => document.getElementById('ELTReg' + da.numero).iStyle({top: topELT, height: altezzaclip + "%"}));
+        }
+    }
 }
 
 function PosizioneOriginaleClipSovrapposte() {
