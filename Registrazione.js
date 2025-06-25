@@ -3609,7 +3609,7 @@ function RiposizionamentoAutomaticoClipSovrapposte(ELTConsiderato) {
     
     /* Effettua il riposizionamento */
     if (PrimaRiga.length > 0) {
-        PrimaRiga.sort((a, b) => ((b.taglioFinale - b.taglioIniziale) - (a.taglioFinale - a.taglioIniziale)));
+        PrimaRiga.sort((a, b) => ((a.taglioFinale - a.taglioIniziale) - (b.taglioFinale - b.taglioIniziale)));
         let R = 0;
         while (RigaConsiderata = Riga[R]) {
             for (let C = 0; C < RigaConsiderata.length; C++) {
