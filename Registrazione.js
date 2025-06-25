@@ -3370,7 +3370,7 @@ function ContrassegnaClipDaAscoltare(datiAudio) {
     if (datiAudio.daAscoltare) {
         document.getElementById('ELTReg' + datiAudio.numero + 'Contenuto').style.border = StileBordoClipDaAscoltare;
         const secondifineultimabattuta = TrovaInizioTermineBattuta(datiAudio, false);
-        if (secondifineultimabattuta > -1) {datiAudio.alPlay = [{FunzioneAlPlay: AJAXSalvaAudioAscoltato, latenzaEventoAlPlay: {secondi: secondifineultimabattuta, riduciSeClipNelMinutaggio: true}}];}
+        if (secondifineultimabattuta > -1) {datiAudio.alPlay = [{FunzioneAlPlay: AJAXSalvaAudioAscoltato, latenzaEventoAlPlay: {secondi: +secondifineultimabattuta + 0.5, riduciSeClipNelMinutaggio: true}}];}
     }
 }
 
@@ -3393,7 +3393,8 @@ function AJAXSalvaAudioAscoltato(datiAudio) {
 
 function VisualizzaModificaAudioAscoltato(datiAudio) {
     ResetBordoAudioAscoltato(datiAudio);
-    datiAudio.alPlay = [];
+    const NumEventoAlPlay = datiAudio.alPlay.find(el => (el.FunzioneAlPlay == AJAXSalvaAudioAscoltato));
+    if (NumEventoAlPlay > -1) {datiAudio.alPlay.splice(NumEventoAlPlay, 1);}
     ContrassegnaClipDaAscoltare(datiAudio);
 }
 
