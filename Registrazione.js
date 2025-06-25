@@ -1399,7 +1399,7 @@ function AutoCI_VerificaPresenzaClip(DatiAudioConsiderati) {
     const MinutaggioCorrente = VideoGuidaMinutaggioCorrente(), totDatiAudioConsiderati = DatiAudioConsiderati.length;
     for (let I = 0; I < totDatiAudioConsiderati; I++) {
         const datiAudio = DatiAudioConsiderati[I];
-        if (datiAudio.iniziobattuta && !datiAudio.Rimosso) {if (((datiAudio.iniziobattuta - 0.4) < MinutaggioCorrente) && (MinutaggioCorrente < datiAudio.finebattuta)) {return true;}}
+        if (datiAudio.iniziobattuta && !datiAudio.Rimosso && !datiAudio.Escluso && !TracceEscluse.includes(datiAudio.ID_Utente) && ((datiAudio.iniziobattuta - 0.4) < MinutaggioCorrente) && (MinutaggioCorrente < datiAudio.finebattuta)) {return true;}
     }
     return false;
 }
