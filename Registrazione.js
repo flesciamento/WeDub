@@ -3582,13 +3582,13 @@ function RiposizionamentoAutomaticoClipSovrapposte(ELTConsiderato) {
     function InizioFineClip(da) {
         const inizio = (+da.MinutaggioRegistrazione) + (+da.taglioIniziale);
         const fine = (+da.MinutaggioRegistrazione) + (+da.taglioFinale);
-        InizioFineAudio[da] = [inizio, fine];
-        return InizioFineAudio[da];
+        InizioFineAudio[da.numero] = [inizio, fine];
+        return InizioFineAudio[da.numero];
     }
 
     function ClipSiSovrappongono(a, b) {
-        const [inizioA, fineA] = /* InizioFineAudio[a] || */ InizioFineClip(a);
-        const [inizioB, fineB] = /* InizioFineAudio[b] || */ InizioFineClip(b);
+        const [inizioA, fineA] = InizioFineAudio[a.numero] || InizioFineClip(a);
+        const [inizioB, fineB] = InizioFineAudio[b.numero] || InizioFineClip(b);
         return ((inizioA < (fineB - tolleranza)) && ((inizioB + (+tolleranza)) < fineA));
     }
 
@@ -3604,15 +3604,7 @@ function RiposizionamentoAutomaticoClipSovrapposte(ELTConsiderato) {
     for(I = 0; I < PrimaRiga.length; I++) {
         TrovaELTDaRiordinare(PrimaRiga[I]);
     }
-    console.log("PrimaRiga", PrimaRiga);
-   /*  while(NumeroELTDaRiordinare > NumeroELTDaRiordinare_prec) {
-        const totDatiAudioPrimaRiga = PrimaRiga.length;
-        
-
-        NumeroELTDaRiordinare_prec = NumeroELTDaRiordinare;
-        NumeroELTDaRiordinare = PrimaRiga.length;
-    } */
-
+    
     
     /* Effettua il riposizionamento */
     if (PrimaRiga.length > 0) {
