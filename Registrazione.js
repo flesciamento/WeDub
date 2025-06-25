@@ -3576,7 +3576,7 @@ function RiposizionamentoAutomaticoClipSovrapposte(ELTConsiderato) {
     const datiAudioELTConsiderato = DatiAudioRegistrato[ELTConsiderato.dataset.RiferimentoRegistrazione];
     const ID_UtenteConsiderato = datiAudioELTConsiderato.ID_Utente;
 
-    var Riga = [[]], NumeroELTDaRiordinare = 1, NumeroELTDaRiordinare_prec = 0, InizioFineAudio = {};
+    var Riga = [[]], InizioFineAudio = {};
     const PrimaRiga = Riga[0];
 
     function InizioFineClip(da) {
@@ -3587,8 +3587,8 @@ function RiposizionamentoAutomaticoClipSovrapposte(ELTConsiderato) {
     }
 
     function ClipSiSovrappongono(a, b) {
-        const [inizioA, fineA] = InizioFineAudio[a] || InizioFineClip(a);
-        const [inizioB, fineB] = InizioFineAudio[b] || InizioFineClip(b);
+        const [inizioA, fineA] = /* InizioFineAudio[a] || */ InizioFineClip(a);
+        const [inizioB, fineB] = /* InizioFineAudio[b] || */ InizioFineClip(b);
         return ((inizioA < (fineB - tolleranza)) && ((inizioB + (+tolleranza)) < fineA));
     }
 
@@ -3604,6 +3604,7 @@ function RiposizionamentoAutomaticoClipSovrapposte(ELTConsiderato) {
     for(I = 0; I < PrimaRiga.length; I++) {
         TrovaELTDaRiordinare(PrimaRiga[I]);
     }
+    console.log("PrimaRiga", PrimaRiga);
    /*  while(NumeroELTDaRiordinare > NumeroELTDaRiordinare_prec) {
         const totDatiAudioPrimaRiga = PrimaRiga.length;
         
