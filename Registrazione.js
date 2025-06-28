@@ -1392,7 +1392,7 @@ function CI_AttivaAudioOriginalePocoPrimaDelTermine(datiAudio) {
 
 function PosizioneAttualeDatiCI(secondisucc = 0) {
     const Minutaggio = (+VideoGuidaMinutaggioCorrente()) + (+secondisucc);
-    return DatiCI.find((el) => {return (((el.Partenza) <= Minutaggio) && (Minutaggio <= (DatiCI[+DatiCI.indexOf(el) + 1] || {Partenza: totDurataVideoGuida}).Partenza))});
+    return DatiCI.find((el) => {return ((el.Partenza <= Minutaggio) && (Minutaggio <= (DatiCI[+DatiCI.indexOf(el) + 1] || {Partenza: totDurataVideoGuida}).Partenza))});
 }
 
 function AutoCI_VerificaPresenzaClip(DatiAudioConsiderati) {
