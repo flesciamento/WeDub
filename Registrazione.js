@@ -3612,12 +3612,13 @@ function RiposizionamentoAutomaticoClipSovrapposte(ELTConsiderato) {
         PrimaRiga.sort((a, b) => ((a.taglioFinale - a.taglioIniziale) - (b.taglioFinale - b.taglioIniziale)));
         let R = 0;
         while (RigaConsiderata = Riga[R]) {
+            const NumNuovaRiga = +R + 1;
             for (let C = 0; C < RigaConsiderata.length; C++) {
                 const datiAudioConsiderato = RigaConsiderata[C];
                 for (let I = 0; I < RigaConsiderata.length; I++) {
                     const datiAudio = RigaConsiderata[I];
                     if (datiAudioConsiderato == datiAudio) {continue;}
-                    if (ClipSiSovrappongono(datiAudio, datiAudioConsiderato)) {const NumNuovaRiga = +R + 1; RigaConsiderata.splice(C, 1); Riga[NumNuovaRiga] = (Riga[NumNuovaRiga] || []); Riga[NumNuovaRiga].push(datiAudioConsiderato); I = RigaConsiderata.length; C--; continue;}
+                    if (ClipSiSovrappongono(datiAudio, datiAudioConsiderato)) {RigaConsiderata.splice(I, 1); Riga[NumNuovaRiga] = (Riga[NumNuovaRiga] || []); Riga[NumNuovaRiga].push(datiAudioConsiderato); I--;}
                 }
             }
             R++;
