@@ -2975,7 +2975,7 @@ function CheckUtentiAttivi() {
                     if (TantiUtentiOnline) {
                         selUtenteMessaggioVocale.style.display = "inline";
                         selUtenteMessaggioVocale.value = SelezionePrecedente;
-                        (!selUtenteMessaggioVocale.value) && (selUtenteMessaggioVocale.selectedIndex = 0); // Se non trova l'utente precedentemente selezionato, sposta la selezione in "Tutti gli utenti".
+                        ((!selUtenteMessaggioVocale.value) && (selUtenteMessaggioVocale.selectedIndex = 0)); // Se non trova l'utente precedentemente selezionato, sposta la selezione in "Tutti gli utenti".
 
                         StringaDidascaliaMessaggioVocale = strMessaggioVocaleVariUtentiOnline;
                         StringaPulMessaggioVocale = strParlaCon;
