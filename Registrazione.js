@@ -3596,7 +3596,7 @@ function RiposizionamentoAutomaticoClipSovrapposte(ELTConsiderato) {
     function TrovaELTDaRiordinare(datiAudioConsiderato) {
         DatiAudioRegistrato_Utente[ID_UtenteConsiderato].forEach((datiAudio) => {
             const ELT = document.getElementById('ELTReg' + datiAudio.numero);
-            ( (ELT) && (ELT.style.display != "none") && (ELT.style.visibility != "hidden") && ClipSiSovrappongono(datiAudio, datiAudioConsiderato) && (ELTDaRiordinare[ELT.id] = true) && (!PrimaRiga.includes(datiAudio) && PrimaRiga.push(datiAudio)) );
+            (!PrimaRiga.includes(datiAudio) && (ELT) && (ELT.style.display != "none") && (ELT.style.visibility != "hidden") && ClipSiSovrappongono(datiAudio, datiAudioConsiderato) && (ELTDaRiordinare[ELT.id] = true) && PrimaRiga.push(datiAudio) );
         });
     }
 
