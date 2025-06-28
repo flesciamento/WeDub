@@ -3595,8 +3595,7 @@ function RiposizionamentoAutomaticoClipSovrapposte(ELTConsiderato) {
 
     function TrovaELTDaRiordinare(datiAudioConsiderato) {
         DatiAudioRegistrato_Utente[ID_UtenteConsiderato].forEach((datiAudio) => {
-            const ELT = document.getElementById('ELTReg' + datiAudio.numero);
-            ( !PrimaRiga.includes(datiAudio) && (ELT) && (ELT.style.display != "none") && (ELT.style.visibility != "hidden") && ClipSiSovrappongono(datiAudio, datiAudioConsiderato) && (ELTDaRiordinare[ELT.id] = true) && PrimaRiga.push(datiAudio) );
+            ( !PrimaRiga.includes(datiAudio) && (ELT = document.getElementById('ELTReg' + datiAudio.numero)) && (ELT.style.display != "none") && (ELT.style.visibility != "hidden") && ClipSiSovrappongono(datiAudio, datiAudioConsiderato) && (ELTDaRiordinare[ELT.id] = true) && PrimaRiga.push(datiAudio) );
         });
     }
 
@@ -3609,7 +3608,7 @@ function RiposizionamentoAutomaticoClipSovrapposte(ELTConsiderato) {
     
     /* Effettua il riposizionamento */
     if (PrimaRiga.length > 0) {
-        PrimaRiga.sort((a, b) => ((a.taglioFinale - a.taglioIniziale) - (b.taglioFinale - b.taglioIniziale)));
+        PrimaRiga.sort((a, b) => ((b.taglioFinale - b.taglioIniziale) - (a.taglioFinale - a.taglioIniziale)));
         let R = 0;
         while (RigaConsiderata = Riga[R]) {
             const NumNuovaRiga = +R + 1;
@@ -3618,7 +3617,7 @@ function RiposizionamentoAutomaticoClipSovrapposte(ELTConsiderato) {
                 for (let I = 0; I < RigaConsiderata.length; I++) {
                     const datiAudio = RigaConsiderata[I];
                     if (datiAudioConsiderato == datiAudio) {continue;}
-                    if (ClipSiSovrappongono(datiAudio, datiAudioConsiderato)) {RigaConsiderata.splice(I, 1); Riga[NumNuovaRiga] = (Riga[NumNuovaRiga] || []); Riga[NumNuovaRiga].push(datiAudioConsiderato); I--;}
+                    if (ClipSiSovrappongono(datiAudio, datiAudioConsiderato)) {RigaConsiderata.splice(I, 1); Riga[NumNuovaRiga] = (Riga[NumNuovaRiga] || []); Riga[NumNuovaRiga].push(datiAudio); I--;}
                 }
             }
             R++;
