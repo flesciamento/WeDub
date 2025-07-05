@@ -74,7 +74,7 @@ var DatiAudioRegistrato = [], DatiAudioRegistrato_Registrazione = {}, DatiAudioR
 var AudioBufferColonnaInternazionale = [], ColonnaInternazionaleAttivata = false, SpezzoniAudioCI = [], TracciaCI, OpzioneAutoCI = false;
 var MinutaggioPartenzaRegistrazione = 0, MinutaggioUltimaRegistrazione = 0, DurataUltimaRegistrazione = 0;
 var MessaggiIstantaneiAttivi = false, MessaggioIstantaneoInRiproduzione = false;
-var ELTDaSpostare = false, ELTCliccato = false, ELTDaRiordinare = {}, ELTDaModificare = [];
+var ELTDaSpostare = false, ELTCliccato = false, ELTDaModificare = [];
 var StrumentoMouse = 0;
 var RiproduzioneInCorso = false;
 var MinutaggioPrecaricamentoClip = 0, FunzioneAlTerminePrecaricamento = false, totClipDaPrecaricare = 0, ContatoreClipPrecaricate = 0, intervalloControllaClipPrecaricate;
@@ -3600,7 +3600,7 @@ function RiposizionamentoAutomaticoClipSovrapposte(ELTConsiderato) {
 
     function TrovaELTDaRiordinare(datiAudioConsiderato) {
         DatiAudioVisibili.forEach((datiAudio) => {
-            ( !PrimaRiga.includes(datiAudio) && ClipSiSovrappongono(datiAudio, datiAudioConsiderato) && (ELTDaRiordinare["ELTReg" + datiAudio.numero] = true) && PrimaRiga.push(datiAudio) );
+            ( !PrimaRiga.includes(datiAudio) && ClipSiSovrappongono(datiAudio, datiAudioConsiderato) && PrimaRiga.push(datiAudio) );
         });
     }
 
@@ -3636,14 +3636,10 @@ function RiposizionamentoAutomaticoClipSovrapposte(ELTConsiderato) {
     }
 }
 
-function PosizioneOriginaleClipSovrapposte() {
-    if (Righello.dataset.DisattivaClick == "no") {
-        for (idELT in ELTDaRiordinare) {
-            document.getElementById(idELT).iStyle({top: "0%", height: "100%"});
-        }
-
-        ELTDaRiordinare = {};
-    }
+function PosizioneOriginaleClipSovrapposte(ID_Utente) {
+    DatiAudioRegistrato_Utente[ID_Utente].forEach((datiAudio) => {
+        document.getElementById("ELTReg" + datiAudio.numero).iStyle({top: "0%", height: "100%"});
+    });
 }
 
 function VisualizzaCommentiELT(Numero) {
