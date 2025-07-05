@@ -3577,8 +3577,13 @@ function RiposizionamentoAutomaticoClipSovrapposte(ELTConsiderato) {
     const datiAudioELTConsiderato = DatiAudioRegistrato[ELTConsiderato.dataset.RiferimentoRegistrazione];
     const ID_UtenteConsiderato = datiAudioELTConsiderato.ID_Utente;
 
-    var Riga = [[]], InizioFineAudio = {};
+    var Riga = [[]], InizioFineAudio = {}, DatiAudioVisibili = [];
     const PrimaRiga = Riga[0];
+
+    /* Raccoglie tutti i DatiAudioRegistrato visibili sulla timeline per la traccia considerata */
+    DatiAudioRegistrato_Utente[ID_UtenteConsiderato].forEach((datiAudio) => {
+        ( (ELT = document.getElementById('ELTReg' + datiAudio.numero)) && (ELT.style.display != "none") && (ELT.style.visibility != "hidden") && DatiAudioVisibili.push(datiAudio) );
+    });
 
     function InizioFineClip(da) {
         const inizio = (+da.MinutaggioRegistrazione) + (+da.taglioIniziale);
@@ -3590,12 +3595,12 @@ function RiposizionamentoAutomaticoClipSovrapposte(ELTConsiderato) {
     function ClipSiSovrappongono(a, b) {
         const [inizioA, fineA] = InizioFineAudio[a.numero] || InizioFineClip(a);
         const [inizioB, fineB] = InizioFineAudio[b.numero] || InizioFineClip(b);
-        return ((inizioA < (fineB - tolleranza)) && ((inizioB + (+tolleranza)) < fineA));
+        return ((inizioA < (fineB - tolleranza)) && (((+inizioB) + (+tolleranza)) < fineA));
     }
 
     function TrovaELTDaRiordinare(datiAudioConsiderato) {
-        DatiAudioRegistrato_Utente[ID_UtenteConsiderato].forEach((datiAudio) => {
-            ( !PrimaRiga.includes(datiAudio) && (ELT = document.getElementById('ELTReg' + datiAudio.numero)) && (ELT.style.display != "none") && (ELT.style.visibility != "hidden") && ClipSiSovrappongono(datiAudio, datiAudioConsiderato) && (ELTDaRiordinare[ELT.id] = true) && PrimaRiga.push(datiAudio) );
+        DatiAudioVisibili.forEach((datiAudio) => {
+            ( !PrimaRiga.includes(datiAudio) && ClipSiSovrappongono(datiAudio, datiAudioConsiderato) && (ELTDaRiordinare[ELT.id] = true) && PrimaRiga.push(datiAudio) );
         });
     }
 
