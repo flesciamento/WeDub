@@ -3600,7 +3600,7 @@ function RiposizionamentoAutomaticoClipSovrapposte(ELTConsiderato) {
 
     function TrovaELTDaRiordinare(datiAudioConsiderato) {
         DatiAudioVisibili.forEach((datiAudio) => {
-            ( !PrimaRiga.includes(datiAudio) && ClipSiSovrappongono(datiAudio, datiAudioConsiderato) && (ELTDaRiordinare[ELT.id] = true) && PrimaRiga.push(datiAudio) );
+            ( !PrimaRiga.includes(datiAudio) && ClipSiSovrappongono(datiAudio, datiAudioConsiderato) && (ELTDaRiordinare["ELTReg" + datiAudio.numero] = true) && PrimaRiga.push(datiAudio) );
         });
     }
 
