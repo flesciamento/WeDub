@@ -3369,8 +3369,8 @@ function CreaElementoLineaTemporale(ID, DoveInserirlo, PartenzaRegistrazione, Lu
 function ContrassegnaClipDaAscoltare(datiAudio) {
     if (datiAudio.daAscoltare) {
         document.getElementById('ELTReg' + datiAudio.numero + 'Contenuto').style.border = StileBordoClipDaAscoltare;
-        const secondifineultimabattuta = TrovaInizioTermineBattuta(datiAudio, false);
-        if (secondifineultimabattuta > -1) {datiAudio.alPlay = [{FunzioneAlPlay: AJAXSalvaAudioAscoltato, latenzaEventoAlPlay: {secondi: +secondifineultimabattuta + 0.5, riduciSeClipNelMinutaggio: true}}];}
+        datiAudio.secondifineultimabattuta = TrovaInizioTermineBattuta(datiAudio, false);
+        if (datiAudio.secondifineultimabattuta > -1) {datiAudio.alPlay = [{FunzioneAlPlay: AJAXSalvaAudioAscoltato, latenzaEventoAlPlay: {secondi: +datiAudio.secondifineultimabattuta + 0.5, riduciSeClipNelMinutaggio: true}}];}
     }
 }
 
@@ -3401,12 +3401,12 @@ function VisualizzaModificaAudioAscoltato(datiAudio) {
 function ResetBordoAudioAscoltato(datiAudio) {document.getElementById('ELTReg' + datiAudio.numero + 'Contenuto').style.border = "";}
 
 function AggiornaAudioDaAscoltare(datiAudio) {
-    datiAudio.alPlay = []; datiAudio.iniziobattuta = datiAudio.finebattuta = false;
+    datiAudio.alPlay = []; datiAudio.iniziobattuta = datiAudio.finebattuta = datiAudio.secondifineultimabattuta = false;
     if (datiAudio.daAscoltare) {VisualizzaModificaAudioAscoltato(datiAudio);}
     if (OpzioneAutoCI) {
         const secondiiniziobattuta = TrovaInizioTermineBattuta(datiAudio, true);
         if (secondiiniziobattuta > -1) {
-            const secondifinebattuta = TrovaInizioTermineBattuta(datiAudio, false);
+            const secondifinebattuta = datiAudio.secondifineultimabattuta || TrovaInizioTermineBattuta(datiAudio, false);
             const FunzioniAlPlay = [{FunzioneAlPlay: AutoCI_DisattivaAudioOriginale, latenzaEventoAlPlay: {secondi: secondiiniziobattuta, riduciSeClipNelMinutaggio: true}}, {FunzioneAlPlay: AutoCI_AttivaAudioOriginale, latenzaEventoAlPlay: {secondi: secondifinebattuta, riduciSeClipNelMinutaggio: true}}].concat(datiAudio.alPlay);
             datiAudio.alPlay = FunzioniAlPlay;
             datiAudio.iniziobattuta = (+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioIniziale) + (+secondiiniziobattuta); datiAudio.finebattuta = (+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioIniziale) + (+secondifinebattuta);
