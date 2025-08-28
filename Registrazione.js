@@ -1130,7 +1130,7 @@ function SwitchCopioneEditabile(e) {
     if (ContenitoreCopione.FunzioniCopione.CopioneEditabile) {
         for (let I = 0; I < tots; I++) {
             s[I].setAttribute('contenteditable', true);
-            s[I].onblur = VerificaModificaCopione;
+            s[I].onkeyup = VerificaModificaCopione;
         }
         const d = ContenitoreCopione.TestoGuida.getElementsByTagName('div'), totd = d.length;
         for (let I = 0; I < totd; I++) {
@@ -1142,7 +1142,7 @@ function SwitchCopioneEditabile(e) {
     } else {
         for (let I = 0; I < tots; I++) {
             s[I].removeAttribute('contenteditable');
-            s[I].onblur = "";
+            s[I].onkeyup = "";
         }
         ContenitoreCopione.document.getElementById('LatoSx_TestoGuida').style.pointerEvents = "";
     }
@@ -1150,7 +1150,6 @@ function SwitchCopioneEditabile(e) {
 
 function VerificaModificaCopione(e) {
     const divContenitore = e.currentTarget.parentElement.parentElement, id_pulSalva = divContenitore.id + "pulSalva";
-    console.log("blur", divContenitore);
     if (!ContenitoreCopione.document.getElementById(id_pulSalva) && (AcquisisciTestoCopione(divContenitore) != divContenitore.dataset.orig)) {
         CreaNuoviElementi([divContenitore, ['a', {id: id_pulSalva, className: "alert btn-warning", innerHTML: "<span class='fa fa-" + (SonoCreatoreProgetto? "save" : "undo") + "'></span>", onclick: (SonoCreatoreProgetto? SalvaCopioneModificato : RipristinaCopioneModificato)}, {margin: "10px 5px", padding: "0 5px", lineHeight: 2}]]);
     }
