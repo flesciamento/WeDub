@@ -1128,10 +1128,10 @@ function SwitchCopioneEditabile(e) {
     pulSwitchCopioneEditabile.className = pulSwitchCopioneEditabile.className.replace(classe_pulsante[1 - ContenitoreCopione.FunzioniCopione.CopioneEditabile], classe_pulsante[ContenitoreCopione.FunzioniCopione.CopioneEditabile]);
     const s = ContenitoreCopione.TestoGuida.querySelectorAll("[name='ContenutoEditabile']"), tots = s.length;
     if (ContenitoreCopione.FunzioniCopione.CopioneEditabile) {
-        ContenitoreCopione.FunzioniCopione.FunzioneModificaBattuta = VerificaModificaCopione;
+        ContenitoreCopione.FunzioniCopione.FunzioneModificaBattuta = VerificaModificaCopione_slow;
         for (let I = 0; I < tots; I++) {
             s[I].setAttribute('contenteditable', true);
-            s[I].onkeydown = VerificaModificaCopione;
+            s[I].onkeydown = VerificaModificaCopione_slow;
         }
         const d = ContenitoreCopione.TestoGuida.getElementsByTagName('div'), totd = d.length;
         for (let I = 0; I < totd; I++) {
@@ -1148,6 +1148,12 @@ function SwitchCopioneEditabile(e) {
         ContenitoreCopione.document.getElementById('LatoSx_TestoGuida').style.pointerEvents = "";
     }
 }
+
+function VerificaModificaCopione_slow(e) {
+    clearTimeout(VerificaModificaCopione_slow.tmr);
+    VerificaModificaCopione_slow.tmr = setTimeout(VerificaModificaCopione, 300);
+}
+VerificaModificaCopione_slow.tmr = false;
 
 function VerificaModificaCopione(e) {
     const divContenitore = e.currentTarget.parentElement.parentElement, id_pulSalva = divContenitore.id + "pulSalva";
