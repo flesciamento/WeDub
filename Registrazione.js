@@ -1150,14 +1150,14 @@ function SwitchCopioneEditabile(e) {
 }
 
 function VerificaModificaCopione_slow(e) {
+    const divContenitore = e.currentTarget.parentElement.parentElement;
     clearTimeout(VerificaModificaCopione_slow.tmr);
-    VerificaModificaCopione_slow.tmr = setTimeout(VerificaModificaCopione, 300, e);
+    VerificaModificaCopione_slow.tmr = setTimeout(VerificaModificaCopione, 300, divContenitore);
 }
 VerificaModificaCopione_slow.tmr = false;
 
-function VerificaModificaCopione(e) {
-    console.log("VerificaModificaCopione(", e, ")");
-    const divContenitore = e.currentTarget.parentElement.parentElement, id_pulSalva = divContenitore.id + "pulSalva";
+function VerificaModificaCopione(divContenitore) {
+    const id_pulSalva = divContenitore.id + "pulSalva";
     if (!ContenitoreCopione.document.getElementById(id_pulSalva) && (AcquisisciTestoCopione(divContenitore) != divContenitore.dataset.orig)) {
         CreaNuoviElementi([divContenitore, ['a', {id: id_pulSalva, className: "alert btn-warning", innerHTML: "<span class='fa fa-" + (SonoCreatoreProgetto? "save" : "undo") + "'></span>", onclick: (SonoCreatoreProgetto? SalvaCopioneModificato : RipristinaCopioneModificato)}, {margin: "10px 5px", padding: "0 5px", lineHeight: 2}]]);
     }
@@ -1174,7 +1174,6 @@ function SalvaCopioneModificato(e) {
 
 function RipristinaCopioneModificato(e) {
     const divContenitore = TrovaElementoCopioneModificato(e, ContenitoreCopione);
-    EliminaElemento(e.currentTarget);
     divContenitore.innerHTML = ContenitoreCopione.FunzioniCopione.FormattaTesto("<span><span><br>" + divContenitore.dataset.orig + "</span></span>");
     ContenitoreCopione.document.getElementById('OpzEvidenzia_TestoGuida').dispatchEvent(ev_cambiamento);
 }
