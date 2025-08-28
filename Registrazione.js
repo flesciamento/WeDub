@@ -1150,6 +1150,7 @@ function SwitchCopioneEditabile(e) {
 
 function VerificaModificaCopione(e) {
     const divContenitore = e.currentTarget.parentElement.parentElement, id_pulSalva = divContenitore.id + "pulSalva";
+    console.log(id_pulSalva, ContenitoreCopione.document.getElementById(id_pulSalva));
     if (!ContenitoreCopione.document.getElementById(id_pulSalva) && (AcquisisciTestoCopione(divContenitore) != divContenitore.dataset.orig)) {
         CreaNuoviElementi([divContenitore, ['a', {id: id_pulSalva, className: "alert btn-warning", innerHTML: "<span class='fa fa-" + (SonoCreatoreProgetto? "save" : "undo") + "'></span>", onclick: (SonoCreatoreProgetto? SalvaCopioneModificato : RipristinaCopioneModificato)}, {margin: "10px 5px", padding: "0 5px", lineHeight: 2}]]);
     }
