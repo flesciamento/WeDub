@@ -4445,7 +4445,8 @@ function NascondiVisualizzaAltreTracce(Visualizzazione) {
 /*** Gestione scorciatoie di tastiera ***/
 function ScorciatoieTastiera(e) {
     let Tasto = e.code, TastoPremuto = "", SpiegazioneTasto = "";
-    if (['TEXTAREA', 'INPUT', 'SPAN'].includes(document.activeElement.tagName) || ScorciatoieTastiera.sospendi.includes(Tasto)) {return;}
+    const ElementiCheNonIntercettanoScorciatoieTastiera = ['TEXTAREA', 'INPUT', 'SPAN'];
+    if (ElementiCheNonIntercettanoScorciatoieTastiera.includes(document.activeElement.tagName) || ElementiCheNonIntercettanoScorciatoieTastiera.includes(ContenitoreCopione.document.activeElement.tagName) || ScorciatoieTastiera.sospendi.includes(Tasto)) {return;}
 
     InclusoIn = (a) => (a.includes(Tasto) ? Tasto : false);
 
