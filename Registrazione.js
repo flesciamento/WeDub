@@ -1151,7 +1151,7 @@ function SwitchCopioneEditabile(e) {
 
 function VerificaModificaCopione_slow(e) {
     clearTimeout(VerificaModificaCopione_slow.tmr);
-    VerificaModificaCopione_slow.tmr = setTimeout(VerificaModificaCopione, 300);
+    VerificaModificaCopione_slow.tmr = setTimeout(VerificaModificaCopione, 300, e);
 }
 VerificaModificaCopione_slow.tmr = false;
 
