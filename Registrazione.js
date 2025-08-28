@@ -1166,6 +1166,7 @@ function SalvaCopioneModificato(e) {
 
 function RipristinaCopioneModificato(e) {
     const divContenitore = TrovaElementoCopioneModificato(e, ContenitoreCopione);
+    EliminaElemento(e.currentTarget);
     divContenitore.innerHTML = ContenitoreCopione.FunzioniCopione.FormattaTesto("<span><span><br>" + divContenitore.dataset.orig + "</span></span>");
     ContenitoreCopione.document.getElementById('OpzEvidenzia_TestoGuida').dispatchEvent(ev_cambiamento);
 }
