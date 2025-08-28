@@ -1126,17 +1126,44 @@ function SwitchCopioneEditabile(e) {
     const pulSwitchCopioneEditabile = ContenitoreCopione.document.getElementById('pulSwitchCopioneEditabile'), classe_pulsante = ["default", "warning"];
     ContenitoreCopione.FunzioniCopione.CopioneEditabile = 1 * (ContenitoreCopione.FunzioniCopione.CopioneEditabile == 0);
     pulSwitchCopioneEditabile.className = pulSwitchCopioneEditabile.className.replace(classe_pulsante[1 - ContenitoreCopione.FunzioniCopione.CopioneEditabile], classe_pulsante[ContenitoreCopione.FunzioniCopione.CopioneEditabile]);
-    const s = ContenitoreCopione.TestoGuida.querySelectorAll("[name='ContenutoEditabile']"), tots = s.length;
+    const s = ContenitoreCopione.TestoGuida.getElementsByName('ContenutoEditabile'), tots = s.length;
     if (ContenitoreCopione.FunzioniCopione.CopioneEditabile) {
-        Messaggio(str_copione_ModalitaEditAttivata_spiegazione + str_copione_ModalitaEditAttivata_modifiche[1 * SonoCreatoreProgetto]);
         for (let I = 0; I < tots; I++) {
             s[I].setAttribute('contenteditable', true);
+            s[I].onblur = VerificaModificaCopione;
         }
+        const d = ContenitoreCopione.TestoGuida.getElementsByTagName('div'), totd = d.length;
+        for (let I = 0; I < totd; I++) {
+            d[I].dataset.orig = AcquisisciTestoCopione(d[I]);
+        }
+        Messaggio(str_copione_ModalitaEditAttivata_spiegazione + str_copione_ModalitaEditAttivata_modifiche[1 * SonoCreatoreProgetto]);
     } else {
         for (let I = 0; I < tots; I++) {
             s[I].removeAttribute('contenteditable');
+            s[I].onblur = "";
         }
     }
+}
+
+function VerificaModificaCopione(e) {
+    const divContenitore = e.currentTarget.parentElement.parentElement, id_pulSalva = divContenitore.id + "pulSalva";
+    console.log("blur", divContenitore);
+    if (!document.getElementById(id_pulSalva) && ((AcquisisciTestoCopione(divContenitore)) != divContenitore.dataset.orig)) {
+        CreaNuoviElementi(divContenitore.id, ['a', {id: id_pulSalva, className: "btn btn-default", innerHTML: "<span class='fa fa-" + (SonoCreatoreProgetto? "save" : "undo") + "'></span>", onclick: (SonoCreatoreProgetto? SalvaCopioneModificato : RipristinaCopioneModificato)}]);
+    }
+}
+
+function SalvaCopioneModificato(e) {
+    const divContenitore = document.getElementById(e.currentTarget.id.replace('pulSalva', '')), Testo = AcquisisciTestoCopione(divContenitore);
+    ContenitoreCopione.FunzioniCopione.DisattivaCopione();
+    AJAX("TrascrizioneVideo_SalvaCopione.php", "NumID=" + encodeURIComponent(divContenitore.dataset.numid) + "&N=" + encodeURIComponent(N) + "&Testo=" + encodeURIComponent(Testo) + "&Minutaggio=" + encodeURIComponent(divContenitore.dataset.minutaggio), () => {ContenitoreCopione.FunzioniCopione.RiattivaCopione();}, "", strSalvataggioCompletato, true);
+    divContenitore.dataset.orig = Testo;
+    EliminaElemento(e.currentTarget);
+}
+
+function RipristinaCopioneModificato(e) {
+    const divContenitore = document.getElementById(e.currentTarget.id.replace('pulSalva', ''));
+    divContenitore.innerHTML = ContenitoreCopione.FunzioniCopione.FormattaTesto("<span><span><br>" + divContenitore.dataset.orig + "</span></span>");
 }
 
 function ApriCopioneInAltraFinestra(e) {
