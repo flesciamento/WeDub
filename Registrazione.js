@@ -1128,9 +1128,10 @@ function SwitchCopioneEditabile(e) {
     pulSwitchCopioneEditabile.className = pulSwitchCopioneEditabile.className.replace(classe_pulsante[1 - ContenitoreCopione.FunzioniCopione.CopioneEditabile], classe_pulsante[ContenitoreCopione.FunzioniCopione.CopioneEditabile]);
     const s = ContenitoreCopione.TestoGuida.querySelectorAll("[name='ContenutoEditabile']"), tots = s.length;
     if (ContenitoreCopione.FunzioniCopione.CopioneEditabile) {
+        ContenitoreCopione.FunzioniCopione.FunzioneModificaBattuta = VerificaModificaCopione;
         for (let I = 0; I < tots; I++) {
             s[I].setAttribute('contenteditable', true);
-            s[I].onkeyup = VerificaModificaCopione;
+            s[I].onkeydown = VerificaModificaCopione;
         }
         const d = ContenitoreCopione.TestoGuida.getElementsByTagName('div'), totd = d.length;
         for (let I = 0; I < totd; I++) {
@@ -1142,7 +1143,7 @@ function SwitchCopioneEditabile(e) {
     } else {
         for (let I = 0; I < tots; I++) {
             s[I].removeAttribute('contenteditable');
-            s[I].onkeyup = "";
+            s[I].onkeydown = "";
         }
         ContenitoreCopione.document.getElementById('LatoSx_TestoGuida').style.pointerEvents = "";
     }
