@@ -1152,7 +1152,7 @@ function VerificaModificaCopione(e) {
     const divContenitore = e.currentTarget.parentElement.parentElement, id_pulSalva = divContenitore.id + "pulSalva";
     console.log("blur", divContenitore);
     if (!document.getElementById(id_pulSalva) && (AcquisisciTestoCopione(divContenitore) != divContenitore.dataset.orig)) {
-        CreaNuoviElementi([divContenitore.id, ['a', {id: id_pulSalva, className: "alert btn-warning", innerHTML: "<span class='fa fa-" + (SonoCreatoreProgetto? "save" : "undo") + "'></span>", onclick: (SonoCreatoreProgetto? SalvaCopioneModificato : RipristinaCopioneModificato)}, {margin: "10px 5px", padding: "0 5px", lineHeight: 2}]]);
+        CreaNuoviElementi([divContenitore, ['a', {id: id_pulSalva, className: "alert btn-warning", innerHTML: "<span class='fa fa-" + (SonoCreatoreProgetto? "save" : "undo") + "'></span>", onclick: (SonoCreatoreProgetto? SalvaCopioneModificato : RipristinaCopioneModificato)}, {margin: "10px 5px", padding: "0 5px", lineHeight: 2}]]);
     }
 }
 
