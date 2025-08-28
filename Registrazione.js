@@ -1133,10 +1133,6 @@ function SwitchCopioneEditabile(e) {
             s[I].setAttribute('contenteditable', true);
             s[I].onkeydown = VerificaModificaCopione_slow;
         }
-        const d = ContenitoreCopione.TestoGuida.getElementsByTagName('div'), totd = d.length;
-        for (let I = 0; I < totd; I++) {
-            d[I].dataset.orig = AcquisisciTestoCopione(d[I]);
-        }
         ContenitoreCopione.document.getElementById('LatoSx_TestoGuida').style.pointerEvents = "none";
         Messaggio(str_copione_ModalitaEditAttivata_spiegazione + str_copione_ModalitaEditAttivata_modifiche[1 * SonoCreatoreProgetto]);
 
@@ -1159,7 +1155,7 @@ VerificaModificaCopione_slow.tmr = false;
 
 function VerificaModificaCopione(divContenitore) {
     const id_pulSalva = divContenitore.id + "pulSalva";
-    if (!ContenitoreCopione.document.getElementById(id_pulSalva) && (AcquisisciTestoCopione(divContenitore) != divContenitore.dataset.orig)) {
+    if (!ContenitoreCopione.document.getElementById(id_pulSalva) && (AcquisisciTestoCopione(divContenitore) != TrovaDatiCopioneID(divContenitore.dataset.numid).testo)) {
         CreaNuoviElementi([divContenitore, ['a', {id: id_pulSalva, className: "alert btn-warning", innerHTML: "<span class='fa fa-" + (SonoCreatoreProgetto? "save" : "undo") + "'></span>", onclick: (SonoCreatoreProgetto? SalvaCopioneModificato : RipristinaCopioneModificato)}, {margin: "10px 5px", padding: "0 5px", lineHeight: 2}]]);
     }
 }
@@ -1168,14 +1164,14 @@ function SalvaCopioneModificato(e) {
     const divContenitore = TrovaElementoCopioneModificato(e, ContenitoreCopione), Testo = AcquisisciTestoCopione(divContenitore);
     ContenitoreCopione.FunzioniCopione.DisattivaCopione();
     AJAX("TrascrizioneVideo_SalvaCopione.php", "NumID=" + encodeURIComponent(divContenitore.dataset.numid) + "&N=" + encodeURIComponent(N) + "&Testo=" + encodeURIComponent(Testo) + "&Minutaggio=" + encodeURIComponent(divContenitore.dataset.minutaggio), () => {ContenitoreCopione.FunzioniCopione.RiattivaCopione();}, "", strSalvataggioCompletato, true);
-    divContenitore.dataset.orig = Testo;
+    TrovaDatiCopioneID(divContenitore.dataset.numid).testo = Testo;
     EliminaElemento(e.currentTarget);
     if (ContenitoreCopione != window) {TrovaElementoCopioneModificato(e, window).innerHTML = divContenitore.innerHTML;}
 }
 
 function RipristinaCopioneModificato(e) {
     const divContenitore = TrovaElementoCopioneModificato(e, ContenitoreCopione);
-    divContenitore.innerHTML = ContenitoreCopione.FunzioniCopione.FormattaTesto("<span><span><br>" + divContenitore.dataset.orig + "</span></span>");
+    divContenitore.innerHTML = ContenitoreCopione.FunzioniCopione.FormattaTesto("<span><span><br>" + TrovaDatiCopioneID(divContenitore.dataset.numid).testo + "</span></span>");
     ContenitoreCopione.document.getElementById('OpzEvidenzia_TestoGuida').dispatchEvent(ev_cambiamento);
 }
 
