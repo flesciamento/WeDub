@@ -1126,7 +1126,7 @@ function SwitchCopioneEditabile(e) {
     const pulSwitchCopioneEditabile = ContenitoreCopione.document.getElementById('pulSwitchCopioneEditabile'), classe_pulsante = ["default", "warning"];
     ContenitoreCopione.FunzioniCopione.CopioneEditabile = 1 * (ContenitoreCopione.FunzioniCopione.CopioneEditabile == 0);
     pulSwitchCopioneEditabile.className = pulSwitchCopioneEditabile.className.replace(classe_pulsante[1 - ContenitoreCopione.FunzioniCopione.CopioneEditabile], classe_pulsante[ContenitoreCopione.FunzioniCopione.CopioneEditabile]);
-    const s = ContenitoreCopione.TestoGuida.getElementsByName('ContenutoEditabile'), tots = s.length;
+    const s = ContenitoreCopione.TestoGuida.querySelectorAll("[name='ContenutoEditabile']"), tots = s.length;
     if (ContenitoreCopione.FunzioniCopione.CopioneEditabile) {
         for (let I = 0; I < tots; I++) {
             s[I].setAttribute('contenteditable', true);
