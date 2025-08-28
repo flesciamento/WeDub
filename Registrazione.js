@@ -1141,6 +1141,7 @@ function SwitchCopioneEditabile(e) {
         Messaggio(str_copione_ModalitaEditAttivata_spiegazione + str_copione_ModalitaEditAttivata_modifiche[1 * SonoCreatoreProgetto]);
 
     } else {
+        ContenitoreCopione.FunzioniCopione.FunzioneModificaBattuta = "";
         for (let I = 0; I < tots; I++) {
             s[I].removeAttribute('contenteditable');
             s[I].onkeydown = "";
