@@ -1160,8 +1160,8 @@ function SalvaCopioneModificato(e) {
     ContenitoreCopione.FunzioniCopione.DisattivaCopione();
     AJAX("TrascrizioneVideo_SalvaCopione.php", "NumID=" + encodeURIComponent(divContenitore.dataset.numid) + "&N=" + encodeURIComponent(N) + "&Testo=" + encodeURIComponent(Testo) + "&Minutaggio=" + encodeURIComponent(divContenitore.dataset.minutaggio), () => {ContenitoreCopione.FunzioniCopione.RiattivaCopione();}, "", strSalvataggioCompletato, true);
     divContenitore.dataset.orig = Testo;
-    if (ContenitoreCopione != window) {TrovaElementoCopioneModificato(e, window).innerHTML = divContenitore.innerHTML;}
     EliminaElemento(e.currentTarget);
+    if (ContenitoreCopione != window) {TrovaElementoCopioneModificato(e, window).innerHTML = divContenitore.innerHTML;}
 }
 
 function RipristinaCopioneModificato(e) {
