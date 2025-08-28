@@ -1157,16 +1157,21 @@ function VerificaModificaCopione(e) {
 }
 
 function SalvaCopioneModificato(e) {
-    const divContenitore = document.getElementById(e.currentTarget.id.replace('pulSalva', '')), Testo = AcquisisciTestoCopione(divContenitore);
+    const divContenitore = TrovaElementoCopioneModificato(e, ContenitoreCopione), Testo = AcquisisciTestoCopione(divContenitore);
     ContenitoreCopione.FunzioniCopione.DisattivaCopione();
     AJAX("TrascrizioneVideo_SalvaCopione.php", "NumID=" + encodeURIComponent(divContenitore.dataset.numid) + "&N=" + encodeURIComponent(N) + "&Testo=" + encodeURIComponent(Testo) + "&Minutaggio=" + encodeURIComponent(divContenitore.dataset.minutaggio), () => {ContenitoreCopione.FunzioniCopione.RiattivaCopione();}, "", strSalvataggioCompletato, true);
     divContenitore.dataset.orig = Testo;
+    if (ContenitoreCopione != window) {TrovaElementoCopioneModificato(e, window).innerHTML = Testo;}
     EliminaElemento(e.currentTarget);
 }
 
 function RipristinaCopioneModificato(e) {
-    const divContenitore = document.getElementById(e.currentTarget.id.replace('pulSalva', ''));
+    const divContenitore = TrovaElementoCopioneModificato(e, ContenitoreCopione);
     divContenitore.innerHTML = ContenitoreCopione.FunzioniCopione.FormattaTesto("<span><span><br>" + divContenitore.dataset.orig + "</span></span>");
+}
+
+function TrovaElementoCopioneModificato(e, Finestra) {
+    return Finestra.document.getElementById(e.currentTarget.id.replace('pulSalva', ''));
 }
 
 function ApriCopioneInAltraFinestra(e) {
