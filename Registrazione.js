@@ -616,12 +616,12 @@ function AggiungiDoppiatoreCandidatoNelCast(e) {
     const AttributiPulsantiOpzioni = {type: "radio", name: "opzMantenereRuoliDaAssegnare"};
     const NuoviElementi = CreaNuoviElementi([
         /* Barra del titolo */
-        PannelloOpzioni.id,
+        PannelloOpzioni,
             ['div', {innerHTML: "<b>" + strStaiAggiungendoUtente + DatiDoppiatoreCandidato.nomecandidato + " " + strNelCast + "</b>", className: "panel-heading text-center"}],,
                 ['a', {className: "btn btn-danger fa fa-times", onclick: AnnullaAggiungiDoppiatore}, {position: "absolute", top: "5px", left: "10px"}],
         
         /* Opzioni */
-        PannelloOpzioni.id,
+        PannelloOpzioni,
             ['div', {id: divBody_id, className: "panel-body text-center"}],,
                 ['div', {innerHTML: strDescriviPersonaggiDoppiatiDa + "<b>" + DatiDoppiatoreCandidato.nomecandidato + "</b>&nbsp;"}, {margin: "10px 20px 40px 20px"}],, ['input', {id: inputRuoliCandidato_id}, {}, {}, {type: "text", name: "RuoloCandidato", size: 30, value: strRuoliDaAssegnare}],
                     
@@ -629,7 +629,7 @@ function AggiungiDoppiatoreCandidatoNelCast(e) {
             2,  ['div', {}, {margin: "20px"}],, ['label', {id: PannelloOpzioni.id + "lblMantieni", className: "btn btn-default"}],, ['input', {value: 1, onclick: AttivaOpzioneTracciaRuoliDaAssegnare}, {}, {}, AttributiPulsantiOpzioni], ['span', {textContent: strVoglioMantenereRuoliDaAssegnare}],
 
         /* Salva e annulla */
-        PannelloOpzioni.id,
+        PannelloOpzioni,
             ['div', {className: "panel-footer"}, {height: "60px"}],,
                 ['a', {innerHTML: "<span class='fa fa-times'></span> " + strAnnullalemodifiche, className: "btn btn-default", onclick: AnnullaAggiungiDoppiatore}, {position: "absolute", left: "15%"}],
                 ['a', {innerHTML: "<span class='fa fa-arrow-right'></span> " + strProcedi, className: "btn btn-success", onclick: InserisciIlDoppiatoreNelCast}, {position: "absolute", right: "15%"}]
