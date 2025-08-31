@@ -4603,9 +4603,9 @@ function VideoGuidaPronto() {
         FunzioniCopione.FunzionePosizionaVideo = Posizionati;
 
         /* Aggiunta del tasto che permette di editare il copione */
-        const pulSwitchCopioneEditabile = CreaElemento('span', 'pulSwitchCopioneEditabile', ManigliaSposta_TestoGuida.id); pulSwitchCopioneEditabile.className = "btn btn-default fa fa-edit"; pulSwitchCopioneEditabile.style.marginLeft = "10px"; pulSwitchCopioneEditabile.setAttribute('title', str_copione_ModalitaEditAttivata_title); pulSwitchCopioneEditabile.onmousedown = SwitchCopioneEditabile;
+        CreaNuoviElementi([ManigliaSposta_TestoGuida, ['span', {id: "pulSwitchCopioneEditabile", className: "btn btn-default fa fa-edit", title: str_copione_ModalitaEditAttivata_title, onmousedown: SwitchCopioneEditabile}, {marginLeft: "10px"}]]);
         /* Aggiunta del tasto che permette di aprire il copione in una finestra separata */
-        if (!SistemaAttualeAndroid) {const pulCopioneInAltraFinestra = CreaElemento('span', 'pulCopioneInAltraFinestra', ManigliaSposta_TestoGuida.id); pulCopioneInAltraFinestra.className = "btn btn-default fa fa-sign-out"; pulCopioneInAltraFinestra.style.marginLeft = "10px"; pulCopioneInAltraFinestra.setAttribute('title', str_copione_ApriCopioneInAltraFinestra_title); pulCopioneInAltraFinestra.onmousedown = ApriCopioneInAltraFinestra;}
+        if (!SistemaAttualeAndroid) {CreaNuoviElementi([ManigliaSposta_TestoGuida, ['span', {id: "pulCopioneInAltraFinestra", className: "btn btn-default fa fa-sign-out", title: str_copione_ApriCopioneInAltraFinestra_title, onmousedown: ApriCopioneInAltraFinestra}, {marginLeft: "10px"}]]);}
         /**********************************************/
     }
 
