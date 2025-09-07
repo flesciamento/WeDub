@@ -102,8 +102,6 @@ var GuadagnoPrincipale = [], FiltroBandaAR = [], GuadagnoDelay1 = [], EffettoDel
 
 var LatenzaAudio = 0;
 
-var ev_cambiamento = new Event('change');
-
 var ControlPremuto = false;
 
 pulRegistra.addEventListener('click', toggleRecording);
