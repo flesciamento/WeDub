@@ -325,7 +325,7 @@ function SalvaCopione(divContenitore, AggiornaTesto = false, NumeroSpanBattutaCu
     AJAX("TrascrizioneVideo_SalvaCopione.php", "NumID=" + encodeURIComponent(NumID) + "&N=" + encodeURIComponent(N) + "&Testo=" + encodeURIComponent(Testo) + "&Minutaggio=" + encodeURIComponent(divContenitore.dataset.minutaggio), "", "", strModificheSalvate, true);
 
     if (AggiornaTesto) {
-        divContenitore.innerHTML = FunzioniCopione.RiformattaBloccoTesto(Testo);
+        FunzioniCopione.RiformattaBloccoTesto(divContenitore, Testo);
 
         if (NumeroSpanBattutaCursore !== false) {
             const ID_ElementoContenitore = divContenitore.id;

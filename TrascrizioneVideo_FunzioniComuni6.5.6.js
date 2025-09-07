@@ -87,10 +87,9 @@ var FunzioniCopione = {
         return Testo.replace(/\n/g, '<br>').replace(new RegExp('<br>\\s+|<br>(?![' + PatternRegexNomePersonaggio + ']+:)', 'g'), `</span><br><b ${FunzioniNomePersonaggio}>&nbsp;</b><span></span><span ${TestoEditabile}>`).replace(new RegExp('<br>([' + PatternRegexNomePersonaggio + ']+):', 'g'), `</span></span><br style='line-height: 5px;'><span data-battuta='1' name=\"Battuta_$1\"><b ${FunzioniNomePersonaggio}>$1</b><span>: </span><span ${TestoEditabile}>`);
     },
 
-    RiformattaBloccoTesto: function (Testo) {
-        const strTestoFormattato = FunzioniCopione.FormattaTesto("<span><span><br>" + Testo + "</span></span>");
+    RiformattaBloccoTesto: function (divBloccoTesto, Testo) {
+        divBloccoTesto.innerHTML = FunzioniCopione.FormattaTesto("<span><span><br>" + Testo + "</span></span>");
         OpzEvidenzia_TestoGuida.dispatchEvent(ev_cambiamento);
-        return strTestoFormattato;
     },
 
     Appari: function () {
