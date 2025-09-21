@@ -568,7 +568,7 @@ function NotificaMessaggiChatCandidato() {
 }
 
 function AggiungiDoppiatoreCandidatoNelCast(e) {
-    const pulAggiungiDoppiatoreCandidatoNelCast = e.currentTarget, DatiDoppiatoreCandidato = pulAggiungiDoppiatoreCandidatoNelCast.dataset, strRuoliDaAssegnare = document.getElementById('spanRuoliTraccia' + RuoliDaAssegnare_NumeroTraccia).innerHTML.replace(/<b>|<\/b>/g, "**");
+    const pulAggiungiDoppiatoreCandidatoNelCast = e.currentTarget, DatiDoppiatoreCandidato = pulAggiungiDoppiatoreCandidatoNelCast.dataset, strRuoliDaAssegnare = document.getElementById('spanRuoliTraccia' + RuoliDaAssegnare_NumeroTraccia).dataset.stringaoriginale;
     /** @type {HTMLElement} **/
     var divPersonaggiLiberi = false, inputPersonaggiLiberi;
 
