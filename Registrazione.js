@@ -1156,7 +1156,7 @@ function VerificaModificaCopione(divContenitore) {
     if (!ContenitoreCopione.document.getElementById(id_pulRipristina) && (AcquisisciTestoCopione(divContenitore) != TrovaDatiCopioneID(divContenitore.dataset.numid).testo)) {
         const NuoviPulsanti = [divContenitore];
         if (SonoCreatoreProgetto) {NuoviPulsanti.push(['a', {id: id_pulSalva, className: "alert btn-warning", innerHTML: "<span class='fa fa-save'></span>", onclick: SalvaCopioneModificato}, {margin: "10px 5px", padding: "0 5px", lineHeight: 2}, {idcontenitore: divContenitore.id}]);}
-        NuoviPulsanti.push(['a', {id: id_pulRipristina, className: "alert btn-" + (SonoCreatoreProgetto? "default" : "warning"), innerHTML: "<span class='fa fa-undo'></span>", onclick: RipristinaCopioneModificato}, {margin: "10px 5px", padding: "0 5px", lineHeight: 2}, {idcontenitore: divContenitore.id}]);
+        NuoviPulsanti.push(['a', {id: id_pulRipristina, className: "alert btn-warning", innerHTML: "<span class='fa fa-undo'></span>", onclick: RipristinaCopioneModificato}, {margin: "10px 5px", padding: "0 5px", lineHeight: 2}, {idcontenitore: divContenitore.id}]);
         CreaNuoviElementi(NuoviPulsanti);
     }
 }
