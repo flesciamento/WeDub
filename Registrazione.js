@@ -3681,7 +3681,7 @@ function PosizioneOriginaleClipSovrapposte(ID_Utente) {
 
 function VisualizzaCommentiELT(Numero) {
     function FormattaCommenti(Commenti) {
-        return Commenti.ritorniACapoHTML().replace(/(".+?")/g, "<span style='font-size: 90%; font-style: italic;'>$1</span>");
+        return FormattaTestoConSintassi(Commenti).replace(/(".+?")/g, "<span style='font-size: 90%; font-style: italic;'>$1</span>");
     }
 
     const datiAudio = DatiAudioRegistrato[Numero], CommentiDoppiatore = datiAudio.commentiDoppiatore, CommentiCreatoreProgetto = datiAudio.commentiCreatoreProgetto, Doppiaspunta = "<span class='fa fa-check' style='color: white; font-size: 9px;'></span><span class='fa fa-check' style='color: darkturquoise; font-size: 9px; position: relative; left: -5px;'></span>", GrandezzaFont = (SistemaAttualeAndroid ? "20px" : "");
