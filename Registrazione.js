@@ -1152,9 +1152,12 @@ function VerificaModificaCopione_slow(e) {
 VerificaModificaCopione_slow.tmr = false;
 
 function VerificaModificaCopione(divContenitore) {
-    const id_pulSalva = divContenitore.id + "pulSalva";
-    if (!ContenitoreCopione.document.getElementById(id_pulSalva) && (AcquisisciTestoCopione(divContenitore) != TrovaDatiCopioneID(divContenitore.dataset.numid).testo)) {
-        CreaNuoviElementi([divContenitore, ['a', {id: id_pulSalva, className: "alert btn-warning", innerHTML: "<span class='fa fa-" + (SonoCreatoreProgetto? "save" : "undo") + "'></span>", onclick: (SonoCreatoreProgetto? SalvaCopioneModificato : RipristinaCopioneModificato)}, {margin: "10px 5px", padding: "0 5px", lineHeight: 2}]]);
+    const id_pulSalva = divContenitore.id + "pulSalva", id_pulRipristina = divContenitore.id + "pulRipristina";
+    if (!ContenitoreCopione.document.getElementById(id_pulRipristina) && (AcquisisciTestoCopione(divContenitore) != TrovaDatiCopioneID(divContenitore.dataset.numid).testo)) {
+        const NuoviPulsanti = [divContenitore];
+        if (SonoCreatoreProgetto) {NuoviPulsanti.push(['a', {id: id_pulSalva, className: "alert btn-warning", innerHTML: "<span class='fa fa-save'></span>", onclick: SalvaCopioneModificato}, {margin: "10px 5px", padding: "0 5px", lineHeight: 2}]);}
+        NuoviPulsanti.push(['a', {id: id_pulRipristina, className: "alert btn-" + (SonoCreatoreProgetto? "default" : "warning"), innerHTML: "<span class='fa fa-undo'></span>", onclick: RipristinaCopioneModificato}, {margin: "10px 5px", padding: "0 5px", lineHeight: 2}]);
+        CreaNuoviElementi(NuoviPulsanti);
     }
 }
 
