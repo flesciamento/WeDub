@@ -4589,8 +4589,8 @@ function VideoGuidaPronto() {
             AttivaScorrimentoCopione();
 
             if (DatiDoppiatori[ID_Utente] && !OpzEvidenzia_TestoGuida.selectedIndex && !DoppiatoreConsiderato) {
-                const vPersonaggi = Array.from(OpzEvidenzia_TestoGuida);
-                (vPersonaggi.find(el => new RegExp(DatiDoppiatori[ID_Utente].ruolo, 'i').test(el.value)) || vPersonaggi.find(el => new RegExp(DatiDoppiatori[ID_Utente].ruolo.slice(0, (DatiDoppiatori[ID_Utente].ruolo + ",").indexOf(',')), 'i').test(el.value)) || vPersonaggi.find(el => new RegExp(DatiDoppiatori[ID_Utente].ruolo.slice(0, (DatiDoppiatori[ID_Utente].ruolo + " ").indexOf(' ')), 'i').test(el.value)) || {selected: false}).selected = true;
+                const vPersonaggi = Array.from(OpzEvidenzia_TestoGuida), strRuoli = DatiDoppiatori[ID_Utente].ruolo.replace(/\/\//g, " ").replace(/[^A-Za-z0-9àéèìòù,\. ]+/g, '').toLowerCase();
+                (vPersonaggi.find(el => {const NomePersonaggio = el.value.toLowerCase(); return ((strRuoli == NomePersonaggio) || (strRuoli.slice(0, (strRuoli + ",").indexOf(',')) == NomePersonaggio) || (strRuoli.slice(0, (strRuoli + " ").indexOf(' ') == NomePersonaggio)));}) || {selected: false}).selected = true;
                 OpzEvidenzia_TestoGuida.dispatchEvent(new Event('change'));
             }
         };
