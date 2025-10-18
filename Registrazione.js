@@ -2800,15 +2800,19 @@ function CreazioneClipPrimoCaricamento(DatiClipAudio) {
     const totClipAudio = DatiClipAudio.length, PresenteColonnaInternazionale = DatiCI.find(el => el.CI || el.AutoCI), CondizionePulsanteSwitchColonnaInternazionale = (!Provino && !ModalitaStreaming && (PresenteColonnaInternazionale || SonoCreatoreProgetto));
 
     CaricaColonnaInternazionale({volume: 1});
-    ColonnaInternazionaleAttivata = (ModalitaStreaming || CondizionePulsanteSwitchColonnaInternazionale);
+    ColonnaInternazionaleAttivata = ( ModalitaStreaming || (CondizionePulsanteSwitchColonnaInternazionale && !((DatiCI.length == 1) && DatiCI[0].AutoCI)) ); // La colonna internazionale si attiva in automatico se siamo in modalità streaming oppure se è tutta automatica (in quest'ultimo caso viene messa come disattivata per poi attivarla con la funzione SwitchColonnaInternazionale())
 
-    if (CondizionePulsanteSwitchColonnaInternazionale) {SwitchColonnaInternazionale(); setTimeout(() => {pulSwitchColonnaInternazionale.style.display = "";}, 500); if (SonoCreatoreProgetto && (pulEscludiTracciaCI = document.getElementById('EscludiRipristinaTraccia' + (NumeroTotaleTracce - 1).toString()))) {pulEscludiTracciaCI.onclick = pulSwitchColonnaInternazionale.onclick;}}
+    if (CondizionePulsanteSwitchColonnaInternazionale) {
+        SwitchColonnaInternazionale(); // Attiva/Disattiva la colonna internazionale visualizzando correttamente il pulsante
+        if (SonoCreatoreProgetto && (pulEscludiTracciaCI = document.getElementById('EscludiRipristinaTraccia' + (NumeroTotaleTracce - 1).toString()))) {pulEscludiTracciaCI.onclick = pulSwitchColonnaInternazionale.onclick;} // L'esclusione della traccia CI attiva il pulsante di switch
+        setTimeout(() => {pulSwitchColonnaInternazionale.style.display = "";}, 500); // Visualizza il pulsante di switch
+    }
 
     for (let I = 0; I < totClipAudio; I++) {
         CreaNuovaClipAudio(DatiClipAudio[I]);
     }
 
-    TermineCaricamentoClip();
+    setTimeout(TermineCaricamentoClip, 100);
 }
 
 async function TermineCaricamentoClip() {
