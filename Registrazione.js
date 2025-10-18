@@ -2797,10 +2797,10 @@ function CaricamentoInizialeRegistrazioniAudio() {
 }
 
 function CreazioneClipPrimoCaricamento(DatiClipAudio) {
-    const totClipAudio = DatiClipAudio.length, PresenteColonnaInternazionale = DatiCI.find(el => el.CI || el.AutoCI), CondizionePulsanteSwitchColonnaInternazionale = (!Provino && !ModalitaStreaming && (PresenteColonnaInternazionale || SonoCreatoreProgetto));
+    const totClipAudio = DatiClipAudio.length, PresenteColonnaInternazionale = DatiCI.find(el => el.CI || el.AutoCI), CondizionePulsanteSwitchColonnaInternazionale = (!Provino && !ModalitaStreaming && (PresenteColonnaInternazionale || SonoCreatoreProgetto)), CondizioneColonnaInternazionaleAttiva = (((DatiCI.length == 1) && DatiCI[0].AutoCI) || SonoCreatoreProgetto);
 
     CaricaColonnaInternazionale({volume: 1});
-    ColonnaInternazionaleAttivata = ( ModalitaStreaming || (CondizionePulsanteSwitchColonnaInternazionale && !((DatiCI.length == 1) && DatiCI[0].AutoCI)) ); // La colonna internazionale si attiva in automatico se siamo in modalità streaming oppure se è tutta automatica (in quest'ultimo caso viene messa come disattivata per poi attivarla con la funzione SwitchColonnaInternazionale())
+    ColonnaInternazionaleAttivata = ( ModalitaStreaming || (CondizionePulsanteSwitchColonnaInternazionale && !CondizioneColonnaInternazionaleAttiva) ); // La colonna internazionale si attiva in automatico se siamo in modalità streaming, se siamo il creatore del progetto oppure se è tutta automatica (in caso in cui non siamo nella modalità streaming, viene messa come disattivata per poi attivarla con la funzione SwitchColonnaInternazionale())
 
     if (CondizionePulsanteSwitchColonnaInternazionale) {
         SwitchColonnaInternazionale(); // Attiva/Disattiva la colonna internazionale visualizzando correttamente il pulsante
