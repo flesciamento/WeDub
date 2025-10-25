@@ -391,7 +391,7 @@ function VisualizzaSuggerimentiNuoviDoppiatori(Suggerimenti, TipoSuggerimento = 
     }
     
 
-    boxSuggerimenti.iStyle({zIndex: 10000000000000, position: "fixed", fontWeight: "bold", transition: "All 2s", pointerEvents: "All"});
+    boxSuggerimenti.iStyle({zIndex: 10000000000000, position: "fixed", fontWeight: "bold", transition: "All 2s", pointerEvents: "All", whiteSpace: "normal"});
     pulOkBoxSuggerimenti.className = "btn btn-default"; pulOkBoxSuggerimenti.iStyle({position: "absolute", right: "0px"}); pulOkBoxSuggerimenti.onmousedown = SuggerimentoSuccessivo;
 
     VisualizzaSuggerimento();
