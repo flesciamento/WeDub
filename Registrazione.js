@@ -2940,7 +2940,7 @@ function AggiornaClip(FunzioneAlTermine = () => {}, FunzioneNuovaClip = Riposizi
                     CambiaVolumeClip(NumAudio, DatiAggiornati.Guadagno);
                     
                     /* Taglio iniziale e finale */
-                    if ((datiAudio.taglioIniziale != DatiAggiornati.TaglioIniziale) || (datiAudio.taglioFinale != DatiAggiornati.TaglioFinale)) {datiAudio.taglioIniziale = DatiAggiornati.TaglioIniziale; datiAudio.taglioFinale = DatiAggiornati.TaglioFinale; VisualizzazioneGraficaTaglioClip(NumAudio); console.log("Variazione taglio clip - AggiornaAudioDaAscoltare"); AggiornaAudioDaAscoltare(datiAudio);}
+                    if ((datiAudio.taglioIniziale != DatiAggiornati.TaglioIniziale) || (datiAudio.taglioFinale != DatiAggiornati.TaglioFinale)) {datiAudio.taglioIniziale = DatiAggiornati.TaglioIniziale; datiAudio.taglioFinale = DatiAggiornati.TaglioFinale; VisualizzazioneGraficaTaglioClip(NumAudio); AggiornaAudioDaAscoltare(datiAudio);}
                    
                     /* Effetti */
                     datiAudio.effetti = DatiAggiornati.Effetti; datiAudio.intensitaeffetti = DatiAggiornati.IntensitaEffetti; VisualizzaEffettiAudio(NumAudio); if (datiAudio.audio) {AttivaEffettiAudio(NumAudio);}
@@ -2966,7 +2966,7 @@ function AggiornaClip(FunzioneAlTermine = () => {}, FunzioneNuovaClip = Riposizi
                     }
 
                     /* Ascoltato */
-                    if (SonoCreatoreProgetto && (datiAudio.daAscoltare != !(+DatiAggiornati.Visualizzato))) {datiAudio.daAscoltare = !(+DatiAggiornati.Visualizzato); ResetBordoAudioAscoltato(datiAudio); console.log("Variazione Ascoltato - AggiornaAudioDaAscoltare"); AggiornaAudioDaAscoltare(datiAudio);}
+                    if (SonoCreatoreProgetto && (datiAudio.daAscoltare != !(+DatiAggiornati.Visualizzato))) {datiAudio.daAscoltare = !(+DatiAggiornati.Visualizzato); ResetBordoAudioAscoltato(datiAudio); AggiornaAudioDaAscoltare(datiAudio);}
 				}
             }
             
