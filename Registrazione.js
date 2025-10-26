@@ -2940,8 +2940,7 @@ function AggiornaClip(FunzioneAlTermine = () => {}, FunzioneNuovaClip = Riposizi
                     CambiaVolumeClip(NumAudio, DatiAggiornati.Guadagno);
                     
                     /* Taglio iniziale e finale */
-                    console.log(datiAudio.TaglioIniziale, DatiAggiornati.taglioIniziale, datiAudio.taglioFinale, DatiAggiornati.taglioFinale);
-                    if ((datiAudio.taglioIniziale != DatiAggiornati.taglioIniziale) || (datiAudio.taglioFinale != DatiAggiornati.taglioFinale)) {datiAudio.taglioIniziale = DatiAggiornati.TaglioIniziale; datiAudio.taglioFinale = DatiAggiornati.TaglioFinale; VisualizzazioneGraficaTaglioClip(NumAudio); console.log("Variazione taglio clip - AggiornaAudioDaAscoltare"); AggiornaAudioDaAscoltare(datiAudio);}
+                    if ((datiAudio.taglioIniziale != DatiAggiornati.TaglioIniziale) || (datiAudio.taglioFinale != DatiAggiornati.TaglioFinale)) {datiAudio.taglioIniziale = DatiAggiornati.TaglioIniziale; datiAudio.taglioFinale = DatiAggiornati.TaglioFinale; VisualizzazioneGraficaTaglioClip(NumAudio); console.log("Variazione taglio clip - AggiornaAudioDaAscoltare"); AggiornaAudioDaAscoltare(datiAudio);}
                    
                     /* Effetti */
                     datiAudio.effetti = DatiAggiornati.Effetti; datiAudio.intensitaeffetti = DatiAggiornati.IntensitaEffetti; VisualizzaEffettiAudio(NumAudio); if (datiAudio.audio) {AttivaEffettiAudio(NumAudio);}
