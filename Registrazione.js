@@ -2346,7 +2346,8 @@ function VerificaClipPrecaricate(SecondiMinimiClipPrecaricate, PrecaricamentoLeg
 function DisattivaClipNonCI(Disattiva) {
     DatiAudioRegistrato.forEach((datiAudio) => {
         if (datiAudio.ID_Utente != 'CI') {datiAudio.disattivato = Disattiva;}
-    })
+    });
+    DeterminaVolumeVideoGuidaPerCI();
 }
 
 function ElaboraClipDaRiprodurre() {
