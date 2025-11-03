@@ -3658,7 +3658,7 @@ function RiposizionamentoAutomaticoClipSovrapposte(ELTConsiderato) {
     
     /* Effettua il riposizionamento */
     if (PrimaRiga.length > 0) {
-        PrimaRiga.sort((a, b) => ( (a.Registrazione == b.Registrazione) && ((b.taglioFinale - b.taglioIniziale) - (a.taglioFinale - a.taglioIniziale))) );
+        PrimaRiga.sort((a, b) => ( (a.Registrazione <= b.Registrazione) && ((b.taglioFinale - b.taglioIniziale) - (a.taglioFinale - a.taglioIniziale))) );
         let R = 0;
         while (RigaConsiderata = Riga[R]) {
             const NumNuovaRiga = +R + 1;
