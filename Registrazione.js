@@ -2805,7 +2805,7 @@ function CreazioneClipPrimoCaricamento(DatiClipAudio) {
 
     if (CondizionePulsanteSwitchColonnaInternazionale) {
         SwitchColonnaInternazionale(); // Attiva/Disattiva la colonna internazionale visualizzando correttamente il pulsante
-        if (SonoCreatoreProgetto && (pulEscludiTracciaCI = document.getElementById('EscludiRipristinaTraccia' + (NumeroTotaleTracce - 1).toString()))) {pulEscludiTracciaCI.onclick = pulSwitchColonnaInternazionale.onclick;} // L'esclusione della traccia CI attiva il pulsante di switch
+        if (SonoCreatoreProgetto && (pulEscludiTracciaCI = document.getElementById('EscludiRipristinaTraccia' + (NumeroTotaleTracce - 1).toString()))) {pulEscludiTracciaCI.onclick = pulSwitchColonnaInternazionale.onclick;} // L'utilizzo del pulsante per escludere/includere la traccia CI, attiva il pulsante di switch
         setTimeout(() => {pulSwitchColonnaInternazionale.style.display = "";}, 500); // Visualizza il pulsante di switch
     }
 
@@ -3658,7 +3658,7 @@ function RiposizionamentoAutomaticoClipSovrapposte(ELTConsiderato) {
     
     /* Effettua il riposizionamento */
     if (PrimaRiga.length > 0) {
-        PrimaRiga.sort((a, b) => ((b.taglioFinale - b.taglioIniziale) - (a.taglioFinale - a.taglioIniziale)));
+        PrimaRiga.sort((a, b) => ( (a.ID_Utente == b.ID_Utente) || ((b.taglioFinale - b.taglioIniziale) - (a.taglioFinale - a.taglioIniziale))) );
         let R = 0;
         while (RigaConsiderata = Riga[R]) {
             const NumNuovaRiga = +R + 1;
