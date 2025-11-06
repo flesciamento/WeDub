@@ -3004,7 +3004,7 @@ function CheckUtentiAttivi() {
             const totUtentiAttiviOltreMe = UtentiAttiviOltreMe.length;
             if (totUtentiAttiviOltreMe) {
                 if (!SessioneOspite || (SonoCreatoreProgetto && !ProgettoCompletato)) {
-                    MessaggiIstantaneiAttivi = true; ContenitorePulMessaggioVocale.style.display = "inline-block"; pulMessaggioVocale.abilita(true); CheckMessaggiVocaliIstantanei();
+                    MessaggiIstantaneiAttivi = true; ContenitorePulMessaggioVocale.style.display = "inline-block"; pulMessaggioVocale.abilita(!MessaggioIstantaneoInRiproduzione); CheckMessaggiVocaliIstantanei();
 
                     const TantiUtentiOnline = (totUtentiAttiviOltreMe > 1);
                     const SelezionePrecedente = selUtenteMessaggioVocale.value;
