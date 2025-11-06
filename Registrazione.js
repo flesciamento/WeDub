@@ -4275,6 +4275,7 @@ function OpzioniClip(Numero, Apri, SalvaAllaChiusura, FunzioneAlTermine = () => 
             OpzClip.parentNode.removeChild(OpzClip);
             document.getElementById('LogoWEDUB').style.display = "";
             VisualizzazioneGraficaTaglioClip(Numero, VisualizzazioneGraficaTaglioClip.OndaSonoraCompleta = false);
+            setTimeout(() => {DatiAudioRegistrato.forEach(datiAudio => VisualizzazioneGraficaTaglioClip(datiAudio.numero));}, 1000);
             DatiAudioRegistrato[Numero].nonscaricarebuffer = false;
             divVetro.style.display = "none";
             ScorciatoieTastiera.sospendi = [];
