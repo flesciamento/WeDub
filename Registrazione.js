@@ -90,7 +90,7 @@ var WindowScrollY_Iniziale = 0;
 var TracceEscluse = [];
 var RuoliDaAssegnare_CandidatoSelezionato = "RuoliDaAssegnare";
 var FunzioneNormaleAlTimeUpdate, FunzioneRiproduzioneClip;
-var UtentiAttivi = [], UtentiAttiviOltreMe = [];
+var UtentiAttiviNelProgetto = [], UtentiOnline = [], UtentiAttiviOltreMe = [];
 var SolaVisione = SessioneOspite;
 var SistemaAttualeAndroid = false;
 var currentTimeIniziale = 0, orarioIniziale = 0;
@@ -589,7 +589,8 @@ function AggiungiDoppiatoreCandidatoNelCast(e) {
             const NuoviElementi = CreaNuoviElementi([
                 divBody_id,
                     ['div', {textContent: strIndicaRuoliDaAssegnare}, {margin: "10px"}],,
-                        ['input', {onchange: VerificaCampoRuoliLiberi}, {}, {}, {type: "text", name: "RuoliDaAssegnare", size: 30, value: strRuoliDaAssegnare}],
+                        ['br'],
+                        ['textarea', {onchange: VerificaCampoRuoliLiberi}, {}, {}, {name: "RuoliDaAssegnare", value: strRuoliDaAssegnare}],
                         ['div']
             ]);
             divPersonaggiLiberi = NuoviElementi[0]; inputPersonaggiLiberi = NuoviElementi[1];
@@ -2992,13 +2993,14 @@ function CheckUtentiAttivi() {
     AJAX("UtentiNelProgetto.php", "N=" + N + "&ID=" + encodeURIComponent(ID_Doppiatori.join("|")),
         (Dati) => {
             const totUtenti = Dati.length;
-            UtentiAttivi = [];
+            UtentiOnline = []; UtentiAttiviNelProgetto = [];
             for (let I = 0; I < totUtenti; I++) {
+                UtentiOnline.push(Dati[I]);
                 const UtenteSiTrovaNelProgetto = (+Dati[I].UtenteNelProgetto == +N);
-                if (UtenteAttivo(Dati[I].DataUltimaAzione) && UtenteSiTrovaNelProgetto) {UtentiAttivi.push(Dati[I]);}
+                if (UtenteAttivo(Dati[I].DataUltimaAzione) && UtenteSiTrovaNelProgetto) {UtentiAttiviNelProgetto.push(Dati[I]);}
                 VisualizzaUtenteAttivoProgettoDoppiaggio(Dati[I].ID, Dati[I].DataUltimaAzione, UtenteSiTrovaNelProgetto);
             }
-            UtentiAttiviOltreMe = UtentiAttivi.slice(); UtentiAttiviOltreMe.splice(UtentiAttiviOltreMe.findIndex(el => el.ID == ID_Utente), 1);
+            UtentiAttiviOltreMe = UtentiAttiviNelProgetto.slice(); UtentiAttiviOltreMe.splice(UtentiAttiviOltreMe.findIndex(el => el.ID == ID_Utente), 1);
 
             clearInterval(CheckMessaggiVocaliIstantanei.tmr);
             const totUtentiAttiviOltreMe = UtentiAttiviOltreMe.length;
