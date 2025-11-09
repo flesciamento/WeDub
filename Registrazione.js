@@ -590,7 +590,7 @@ function AggiungiDoppiatoreCandidatoNelCast(e) {
                 divBody_id,
                     ['div', {textContent: strIndicaRuoliDaAssegnare}, {margin: "10px"}],,
                         ['br'],
-                        ['textarea', {textContent: strRuoliDaAssegnare, onchange: VerificaCampoRuoliLiberi}],
+                        ['textarea', {textContent: strRuoliDaAssegnare, onchange: VerificaCampoRuoliLiberi}, {width: "100%"}],
                         ['div']
             ]);
             divPersonaggiLiberi = NuoviElementi[0]; inputPersonaggiLiberi = NuoviElementi[1];
