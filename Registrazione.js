@@ -1805,7 +1805,7 @@ function CheckMessaggiVocaliIstantanei() {
                 MessaggioIstantaneoInRiproduzione = true;
                 CaricaAudio(0, {Registrazione: Dati.FileMessaggioIstantaneo}, 'arraybuffer',
                     (Contenuto) => {
-                        CreaNuoviElementi(document.body, ['a', {href: Dati.FileMessaggioIstantaneo}])[0].click();
+                        CreaNuoviElementi([document.body, ['a', {href: Dati.FileMessaggioIstantaneo}]])[0].click();
                         audioContext.decodeAudioData(Contenuto).then((buffer) => {
                             const MI = new AudioBufferSourceNode(audioContext, {buffer: buffer});
                             const compressore = audioContext.createDynamicsCompressor(); compressore.threshold.value = -50; compressore.knee.value = 40;
