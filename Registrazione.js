@@ -1745,6 +1745,7 @@ function RegistraMessaggioVocale() {
 
     DisabilitaSchermata(); livelloMic.style.width = 0; pulMessaggioVocale.abilita(true);
     AttivaDisattivaMonitorMic(false);
+    canaleAudio = []; canaleAudio.length = 0;
     if (QualitaAltaRegistrazione) {
         registrazione.port.onmessage = "";
         registrazione.port.postMessage({numCanale: AcquisisciCanaleRegistrazione(), modalita: "Registrazione"});
