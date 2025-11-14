@@ -1745,7 +1745,7 @@ function RegistraMessaggioVocale() {
 
     DisabilitaSchermata(); livelloMic.style.width = 0; pulMessaggioVocale.abilita(true);
     AttivaDisattivaMonitorMic(false);
-    canaleAudio = []; canaleAudio.length = 0;
+    InizializzaRegistrazione();
     if (QualitaAltaRegistrazione) {
         registrazione.port.onmessage = "";
         registrazione.port.postMessage({numCanale: AcquisisciCanaleRegistrazione(), modalita: "Registrazione"});
@@ -1827,6 +1827,10 @@ function CheckMessaggiVocaliIstantanei() {
 CheckMessaggiVocaliIstantanei.tmr = false;
 /*****************************/
 
+function InizializzaRegistrazione() {
+    canaleAudio = []; canaleAudio.length = 0; recordedBlobs = []; LunghezzaNuovaRegistrazione = 0;
+}
+
 function startRecording() {
     if (ErroreMicrofono) {Messaggio(strErroreMic + ErroreMicrofono, "A"); return;}
 
@@ -1838,7 +1842,7 @@ function startRecording() {
 
     console.log("startRecording()");
     /* Inizializza */
-    canaleAudio = []; canaleAudio.length = 0; recordedBlobs = []; LunghezzaNuovaRegistrazione = 0; StoRegistrando = true;
+    InizializzaRegistrazione(); StoRegistrando = true;
 
     const MonitorMicAttivato = (pulMonitorMic.dataset.attivato == "si");
 
