@@ -3068,7 +3068,7 @@ function SwitchColonnaInternazionale() {
     lblVolumeVideoGuida.innerText = (CI ? strVolumeInternazionale : strVolumeFilmato);
     slideVolumeVideoGuida.value = (CI ? VolumeAttualeCI() : CambiaVolumeVideoGuida.volume);
     slideVolumeVideoGuida.onchange = (CI ? CambiaVolumeCI : CambiaVolumeVideoGuida);
-    if (CI) {DeterminaVolumeVideoGuidaPerCI()} else {VideoGuidaImpostaVolume(CambiaVolumeVideoGuida.volume);}
+    if (CI) {DeterminaVolumeVideoGuidaPerCI();} else {VideoGuidaImpostaVolume(CambiaVolumeVideoGuida.volume);}
 
     if (pulSwitchColonnaInternazionale) {
         pulSwitchColonnaInternazionale.className = "btn btn-" + (CI ? "primary" : "default");
