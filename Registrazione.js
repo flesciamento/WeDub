@@ -2139,10 +2139,10 @@ function audiobufferToWav(buffer, sampleRate, opt) {
 }
 
 /*** Codifica un AudioBuffer in formato flac ***/
-async function audioBufferToFlac(audioBuffer, sampleRate, opz = {}) {
+async function audioBufferToFlac(buffer, sampleRate, opz = {}) {
     await Flac.isReady();
 
-    const lunghezzaBuffer = audioBuffer.length, bitDepth = (opz.bitDepth || 24), compressionLevel = (opz.Compressione || 8);
+    const lunghezzaBuffer = buffer.length, bitDepth = (opz.bitDepth || 24), compressionLevel = (opz.Compressione || 8);
 
     const maxInt = {16: 32767, 24: 8388607, 32: 2147483647}[bitDepth], minInt = {16: -32768, 24: -8388608, 32: -2147483648}[bitDepth];
 
@@ -2151,7 +2151,7 @@ async function audioBufferToFlac(audioBuffer, sampleRate, opz = {}) {
 
     let index = 0;
     for (let i = 0; i < lunghezzaBuffer; i++) {
-        let s = audioBuffer[i];
+        let s = buffer[i];
 
         // Clipping
         if (s > 1) s = 1;
@@ -2236,7 +2236,7 @@ function CentraOndaSonora(buffer) {
     }
 }
 
-function CreaOndaSonoraPNG(audioBuffer, width = 3000, height = 200) {
+function CreaOndaSonoraPNG(buffer, width = 3000, height = 200) {
     return new Promise((resolve, reject) => {
         const canvas = document.createElement('canvas');
         canvas.width = width;
@@ -2245,7 +2245,7 @@ function CreaOndaSonoraPNG(audioBuffer, width = 3000, height = 200) {
         ctx.imageSmoothingEnabled = false;
 
         // Dati primo canale
-        const data = audioBuffer.getChannelData(0);
+        const data = buffer;
         const step = Math.ceil(data.length / width);
         const amp = height / 2;
         const soglia = 0.01;
