@@ -2187,7 +2187,7 @@ async function audioBufferToFlac(buffer, sampleRate, opz = {}) {
         Flac.finish(encoder);
         Flac.delete_encoder(encoder); */
 
-        resolve(new Blob(flacBuffers, {type: "audio/flac"}));
+        resolve(flacBuffers);
     });
 }
 
