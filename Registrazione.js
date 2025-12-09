@@ -2176,8 +2176,8 @@ async function audioBufferToFlac(audioBuffer, sampleRate, bitDepth = 24, compres
 
     var flac_return = Flac.FLAC__stream_encoder_process_interleaved(flac_encoder, interleaved, lunghezzaBuffer);
 
-    flac_ok &= Flac.FLAC__stream_encoder_finish(flac_encoder);
-    console.log("flac finish: " + flac_ok);
+    Flac.FLAC__stream_encoder_finish(flac_encoder);
+    console.log("flac finish.");
     Flac.FLAC__stream_encoder_delete(flac_encoder);
 
     /* Flac.set_write_callback(encoder, (buffer) => {flacBuffers.push(buffer);});
