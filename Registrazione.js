@@ -2324,7 +2324,7 @@ async function CreaRegistrazione_wav() {
 
 
 function SalvaNuovaRegistrazione(Contenuto, OndaSonora) {
-    const ContenutoRegistrazione = new File([Contenuto], "RegistrazioneAudio"), OndaSonoraRegistrazione = new File([OndaSonora], "OndaSonora"), MinutaggioAttualeRegistrazione = MinutaggioUltimaRegistrazione, FormatoFile = (QualitaAltaRegistrazione? formatoQualitaAlta : formatoQualitaMedia), InfoAggiuntiveRegistrazione = `${SistemaOperativoAttuale} ${NomeBrowserAttuale} ${VersioneBrowserAttuale} - ${audioContext.sampleRate} Hz - qualità ${(QualitaAltaRegistrazione? "alta" : "media")}, modalità ${(ModalitaLightAttiva? (ModalitaUltraLightAttiva? "ultra light" : "light") : "normale")} - ${(EffettuatoAutoTaglioIniziale? "effettuato auto taglio iniziale per circa " + (SecondiAutoTaglioIniziale).arrotonda(1) + "sec." : "nessun auto taglio iniziale.")} ${VersioneJS}`;
+    const ContenutoRegistrazione = new File(Contenuto, "RegistrazioneAudio"), OndaSonoraRegistrazione = new File([OndaSonora], "OndaSonora"), MinutaggioAttualeRegistrazione = MinutaggioUltimaRegistrazione, FormatoFile = (QualitaAltaRegistrazione? formatoQualitaAlta : formatoQualitaMedia), InfoAggiuntiveRegistrazione = `${SistemaOperativoAttuale} ${NomeBrowserAttuale} ${VersioneBrowserAttuale} - ${audioContext.sampleRate} Hz - qualità ${(QualitaAltaRegistrazione? "alta" : "media")}, modalità ${(ModalitaLightAttiva? (ModalitaUltraLightAttiva? "ultra light" : "light") : "normale")} - ${(EffettuatoAutoTaglioIniziale? "effettuato auto taglio iniziale per circa " + (SecondiAutoTaglioIniziale).arrotonda(1) + "sec." : "nessun auto taglio iniziale.")} ${VersioneJS}`;
     RiattivaInterfacciaDopoRegistrazione();
     clearInterval(tmrAggiornaClip); EliminaAnteprimaOndaSonora();
     
