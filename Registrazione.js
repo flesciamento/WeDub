@@ -2142,15 +2142,15 @@ function audiobufferToWav(buffer, sampleRate, opt) {
 async function audioBufferToFlac(audioBuffer, sampleRate, bitDepth = 24, compressionLevel = 8) {
   await Flac.isReady();
 
-  const length = audioBuffer.length;
+  const lunghezzaBuffer = audioBuffer.length;
 
   const maxInt = {16: 32767, 24: 8388607, 32: 2147483647}[bitDepth], minInt = {16: -32768, 24: -8388608, 32: -2147483648}[bitDepth];
 
   // Usiamo sempre Int32Array: libflac vuole int32 interleaved
-  const interleaved = new Int32Array(length);
+  const interleaved = new Int32Array(lunghezzaBuffer);
 
   let index = 0;
-  for (let i = 0; i < length; i++) {
+  for (let i = 0; i < lunghezzaBuffer; i++) {
       let s = audioBuffer[i];
 
       // Clipping
@@ -2165,16 +2165,27 @@ async function audioBufferToFlac(audioBuffer, sampleRate, bitDepth = 24, compres
   return new Promise((resolve) => {
     const flacBuffers = [];
 
-    const encoder = Flac.create_libflac_encoder(sampleRate, 1, bitDepth, compressionLevel);
+    const flac_encoder = Flac.create_libflac_encoder(sampleRate, 1, bitDepth, compressionLevel);
 
-    Flac.init_encoder(encoder);
+    var write_callback_fn = function(encodedData /*Uint8Array*/, bytes, samples, current_frame){
+        //store all encoded data "pieces" into a buffer
+        flacBuffers.push(encodedData);
+    };
+    
+    status_encoder = Flac.init_encoder_stream(flac_encoder, write_callback_fn);
 
-    Flac.set_write_callback(encoder, (buffer) => {flacBuffers.push(buffer);});
+    var flac_return = Flac.FLAC__stream_encoder_process_interleaved(flac_encoder, interleaved, lunghezzaBuffer);
+
+    flac_ok &= Flac.FLAC__stream_encoder_finish(flac_encoder);
+    console.log("flac finish: " + flac_ok);
+    Flac.FLAC__stream_encoder_delete(flac_encoder);
+
+    /* Flac.set_write_callback(encoder, (buffer) => {flacBuffers.push(buffer);});
 
     Flac.encode_interleaved_int32(encoder, interleaved, length);
 
     Flac.finish(encoder);
-    Flac.delete_encoder(encoder);
+    Flac.delete_encoder(encoder); */
 
     resolve(new Blob(flacBuffers, {type: "audio/flac"}));
   });
