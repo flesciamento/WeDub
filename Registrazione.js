@@ -2328,7 +2328,7 @@ function SalvaNuovaRegistrazione(Contenuto, OndaSonora) {
     RiattivaInterfacciaDopoRegistrazione();
     clearInterval(tmrAggiornaClip); EliminaAnteprimaOndaSonora();
     
-	AJAX("SalvaNuovaRegistrazione.php", CreaParametri({ "NumProgetto": N, "NumProvino": P, "Utente": ID_Utente, "Registrazione": ContenutoRegistrazione, "MinutaggioRegistrazione": MinutaggioAttualeRegistrazione, "OndaSonora": OndaSonoraRegistrazione, "Formato": FormatoFile, "InfoAggiuntive": InfoAggiuntiveRegistrazione }),
+	AJAX("SalvaNuovaRegistrazione-unstable.php", CreaParametri({ "NumProgetto": N, "NumProvino": P, "Utente": ID_Utente, "Registrazione": ContenutoRegistrazione, "MinutaggioRegistrazione": MinutaggioAttualeRegistrazione, "OndaSonora": OndaSonoraRegistrazione, "Formato": FormatoFile, "InfoAggiuntive": InfoAggiuntiveRegistrazione }),
         function () {
             EliminaElemento(document.getElementById('ELTprovvisorio')); setTimeout(AggiornaClip, 100); AttivaAggiornamentoClip(); NonChiudereFinestra = false;
         }, strSalvataggioInCorso, strSalvataggioCompletato, true, true
