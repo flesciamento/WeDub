@@ -2138,6 +2138,49 @@ function audiobufferToWav(buffer, sampleRate, opt) {
     return encodeWAV((opt.notrattamento? buffer : EffettuaTrattamentoAudio(buffer, sampleRate)), format, sampleRate, numChannels, bitDepth);
 }
 
+/*** Codifica un AudioBuffer in formato flac ***/
+async function audioBufferToFlac(audioBuffer, sampleRate, bitDepth = 24, compressionLevel = 8) {
+  await Flac.ready();
+
+  const length = audioBuffer.length;
+
+  const maxInt = {16: 32767, 24: 8388607, 32: 2147483647}[bitDepth], minInt = {16: -32768, 24: -8388608, 32: -2147483648}[bitDepth];
+
+  // Usiamo sempre Int32Array: libflac vuole int32 interleaved
+  const interleaved = new Int32Array(length);
+
+  let index = 0;
+  for (let i = 0; i < length; i++) {
+      let s = audioBuffer[i];
+
+      // Clipping
+      if (s > 1) s = 1;
+      if (s < -1) s = -1;
+
+      const intSample = Math.round(s * maxInt);
+
+      interleaved[index++] = Math.max(minInt, Math.min(maxInt, intSample));
+  }
+
+  return new Promise((resolve) => {
+    const flacBuffers = [];
+
+    const encoder = Flac.create_libflac_encoder(sampleRate, 1, bitDepth, compressionLevel);
+
+    Flac.init_encoder(encoder);
+
+    Flac.set_write_callback(encoder, (buffer) => {flacBuffers.push(buffer);});
+
+    Flac.encode_interleaved_int32(encoder, interleaved, length);
+
+    Flac.finish(encoder);
+    Flac.delete_encoder(encoder);
+
+    resolve(new Blob(flacBuffers, {type: "audio/flac"}));
+  });
+}
+
+
 function EffettuaTrattamentoAudio(buffer, sampleRate) {
     CentraOndaSonora(buffer);
 
@@ -2182,7 +2225,7 @@ function CentraOndaSonora(buffer) {
     }
 }
 
-function CreaRegistrazione_wav() {
+async function CreaRegistrazione_wav() {
     const sampleRate = audioContext.sampleRate;
 
     /*** Creazione audio wav ***
@@ -2199,15 +2242,18 @@ function CreaRegistrazione_wav() {
     }
 
     var buffer = flattenArray(canaleAudio, LunghezzaNuovaRegistrazione);
-    var ConversioneWav = audiobufferToWav(buffer, sampleRate, {float32: true});
+    /* var ConversioneWav = audiobufferToWav(buffer, sampleRate, {float32: true}); */
+    const FileFlac = await audioBufferToFlac(buffer, sampleRate);
+    CreaNuoviElementi([document.body, ['a', {href: URL.createObjectURL(FileFlac)}]])[0].click();
     /****************************/
 
     if (ffmpeg_TotaleProcessi > 0) {
         // var fileAudio = new Blob([ConversioneWav], { type: 'audio/wav' }); var URLBuffer = URL.createObjectURL(fileAudio); console.log(URLBuffer);
-        initWorker();
+        /* initWorker();
         sampleAudioData = new Uint8Array(ConversioneWav);
         runCommand(ffmpeg_Processi[0]);
-        if (ffmpeg_TotaleProcessi == 2) {setTimeout(() => {runCommand(ffmpeg_Processi[1]);}, 1000);}
+        if (ffmpeg_TotaleProcessi == 2) {setTimeout(() => {runCommand(ffmpeg_Processi[1]);}, 1000);} */
+        
         Messaggio(strCaricamentoInCorso); ComparsaBarraCaricamento();
         BC.style.transition = "all 10s"; VisualizzaProgressoBarraCaricamento(BC, 0.5);
 
@@ -2215,6 +2261,7 @@ function CreaRegistrazione_wav() {
         ffmpeg_FunzioneAlTermineProcessi(ConversioneWav);
     }
 }
+
 
 function SalvaNuovaRegistrazione(Contenuto, OndaSonora) {
     const ContenutoRegistrazione = Contenuto.slice(), OndaSonoraRegistrazione = OndaSonora.slice(), MinutaggioAttualeRegistrazione = MinutaggioUltimaRegistrazione, FormatoFile = (QualitaAltaRegistrazione? formatoQualitaAlta : formatoQualitaMedia), InfoAggiuntiveRegistrazione = `${SistemaOperativoAttuale} ${NomeBrowserAttuale} ${VersioneBrowserAttuale} - ${audioContext.sampleRate} Hz - qualità ${(QualitaAltaRegistrazione? "alta" : "media")}, modalità ${(ModalitaLightAttiva? (ModalitaUltraLightAttiva? "ultra light" : "light") : "normale")} - ${(EffettuatoAutoTaglioIniziale? "effettuato auto taglio iniziale per circa " + (SecondiAutoTaglioIniziale).arrotonda(1) + "sec." : "nessun auto taglio iniziale.")} ${VersioneJS}`;
