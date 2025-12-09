@@ -2139,7 +2139,7 @@ function audiobufferToWav(buffer, sampleRate, opt) {
 }
 
 /*** Codifica un AudioBuffer in formato flac ***/
-async function audioBufferToFlac(audioBuffer, sampleRate, opz) {
+async function audioBufferToFlac(audioBuffer, sampleRate, opz = {}) {
     await Flac.isReady();
 
     const lunghezzaBuffer = audioBuffer.length, bitDepth = (opz.bitDepth || 24), compressionLevel = (opz.Compressione || 8);
