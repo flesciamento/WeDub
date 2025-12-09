@@ -2139,56 +2139,56 @@ function audiobufferToWav(buffer, sampleRate, opt) {
 }
 
 /*** Codifica un AudioBuffer in formato flac ***/
-async function audioBufferToFlac(audioBuffer, sampleRate, bitDepth = 24, compressionLevel = 8) {
-  await Flac.isReady();
+async function audioBufferToFlac(audioBuffer, sampleRate, opz) {
+    await Flac.isReady();
 
-  const lunghezzaBuffer = audioBuffer.length;
+    const lunghezzaBuffer = audioBuffer.length, bitDepth = (opz.bitDepth || 24), compressionLevel = (opz.Compressione || 8);
 
-  const maxInt = {16: 32767, 24: 8388607, 32: 2147483647}[bitDepth], minInt = {16: -32768, 24: -8388608, 32: -2147483648}[bitDepth];
+    const maxInt = {16: 32767, 24: 8388607, 32: 2147483647}[bitDepth], minInt = {16: -32768, 24: -8388608, 32: -2147483648}[bitDepth];
 
-  // Usiamo sempre Int32Array: libflac vuole int32 interleaved
-  const interleaved = new Int32Array(lunghezzaBuffer);
+    // Usiamo sempre Int32Array: libflac vuole int32 interleaved
+    const interleaved = new Int32Array(lunghezzaBuffer);
 
-  let index = 0;
-  for (let i = 0; i < lunghezzaBuffer; i++) {
-      let s = audioBuffer[i];
+    let index = 0;
+    for (let i = 0; i < lunghezzaBuffer; i++) {
+        let s = audioBuffer[i];
 
-      // Clipping
-      if (s > 1) s = 1;
-      if (s < -1) s = -1;
+        // Clipping
+        if (s > 1) s = 1;
+        if (s < -1) s = -1;
 
-      const intSample = Math.round(s * maxInt);
+        const intSample = Math.round(s * maxInt);
 
-      interleaved[index++] = Math.max(minInt, Math.min(maxInt, intSample));
-  }
+        interleaved[index++] = Math.max(minInt, Math.min(maxInt, intSample));
+    }
 
-  return new Promise((resolve) => {
-    const flacBuffers = [];
+    return new Promise((resolve) => {
+        const flacBuffers = [];
 
-    const flac_encoder = Flac.create_libflac_encoder(sampleRate, 1, bitDepth, compressionLevel);
+        const flac_encoder = Flac.create_libflac_encoder(sampleRate, 1, bitDepth, compressionLevel);
 
-    var write_callback_fn = function(encodedData /*Uint8Array*/, bytes, samples, current_frame){
-        //store all encoded data "pieces" into a buffer
-        flacBuffers.push(encodedData);
-    };
-    
-    status_encoder = Flac.init_encoder_stream(flac_encoder, write_callback_fn);
+        var write_callback_fn = function(encodedData /*Uint8Array*/, bytes, samples, current_frame) {
+            //store all encoded data "pieces" into a buffer
+            flacBuffers.push(encodedData);
+        };
 
-    Flac.FLAC__stream_encoder_process_interleaved(flac_encoder, interleaved, lunghezzaBuffer);
+        status_encoder = Flac.init_encoder_stream(flac_encoder, write_callback_fn);
 
-    Flac.FLAC__stream_encoder_finish(flac_encoder);
-    console.log("flac finish.");
-    Flac.FLAC__stream_encoder_delete(flac_encoder);
+        Flac.FLAC__stream_encoder_process_interleaved(flac_encoder, interleaved, lunghezzaBuffer);
 
-    /* Flac.set_write_callback(encoder, (buffer) => {flacBuffers.push(buffer);});
+        Flac.FLAC__stream_encoder_finish(flac_encoder);
+        console.log("flac finish.");
+        Flac.FLAC__stream_encoder_delete(flac_encoder);
 
-    Flac.encode_interleaved_int32(encoder, interleaved, length);
+        /* Flac.set_write_callback(encoder, (buffer) => {flacBuffers.push(buffer);});
 
-    Flac.finish(encoder);
-    Flac.delete_encoder(encoder); */
+        Flac.encode_interleaved_int32(encoder, interleaved, length);
 
-    resolve(new Blob(flacBuffers, {type: "audio/flac"}));
-  });
+        Flac.finish(encoder);
+        Flac.delete_encoder(encoder); */
+
+        resolve(new Blob(flacBuffers, {type: "audio/flac"}));
+    });
 }
 
 
@@ -2236,15 +2236,62 @@ function CentraOndaSonora(buffer) {
     }
 }
 
+function CreaOndaSonoraPNG(audioBuffer, width = 3000, height = 200) {
+    return new Promise((resolve, reject) => {
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.imageSmoothingEnabled = false;
+
+        // Dati primo canale
+        const data = audioBuffer.getChannelData(0);
+        const step = Math.ceil(data.length / width);
+        const amp = height / 2;
+        const soglia = 0.01;
+
+        // Sfondo trasparente
+        ctx.clearRect(0, 0, width, height);
+
+        // Colore onda
+        ctx.fillStyle = 'blue';
+
+        for (let i = 0; i < width; i++) {
+            let min = 1.0;
+            let max = -1.0;
+
+            for (let j = 0; j < step; j++) {
+                const idx = i * step + j;
+                if (idx < data.length) {
+                    const datum = data[idx];
+                    if (datum < min) min = datum;
+                    if (datum > max) max = datum;
+                }
+            }
+
+            const amplitude = max - min;
+            
+            if (amplitude > soglia) {
+                const yMin = (1 + min) * amp, yMax = (1 + max) * amp;
+                ctx.fillRect(i, yMin, 1, Math.max(1, yMax - yMin));
+            }
+        }
+
+        canvas.toBlob(blob => resolve(blob), 'image/png');
+    });
+}
+
+
 async function CreaRegistrazione_wav() {
     const sampleRate = audioContext.sampleRate;
 
-    /*** Creazione audio wav ***
+    /*** Flatten Array ***
      * codice di meziantou https://gist.github.com/meziantou/edb7217fddfbb70e899e */
     function flattenArray(channelBuffer, recordingLength) {
         var result = new Float32Array(recordingLength);
         var offset = 0;
-        for (var i = 0; i < channelBuffer.length; i++) {
+        const lunghezzaBuffer = channelBuffer.length;
+        for (var i = 0; i < lunghezzaBuffer; i++) {
             var buffer = channelBuffer[i];
             result.set(buffer, offset);
             offset += buffer.length;
@@ -2252,10 +2299,12 @@ async function CreaRegistrazione_wav() {
         return result;
     }
 
-    var buffer = flattenArray(canaleAudio, LunghezzaNuovaRegistrazione);
+    const buffer = EffettuaTrattamentoAudio(flattenArray(canaleAudio, LunghezzaNuovaRegistrazione), sampleRate);
     /* var ConversioneWav = audiobufferToWav(buffer, sampleRate, {float32: true}); */
     const FileFlac = await audioBufferToFlac(buffer, sampleRate);
-    CreaNuoviElementi([document.body, ['a', {href: URL.createObjectURL(FileFlac)}]])[0].click();
+    const OndaSonora = await CreaOndaSonoraPNG(buffer);
+    ffmpeg_FunzioneAlTermineProcessi(FileFlac, OndaSonora);
+    //CreaNuoviElementi([document.body, ['a', {href: URL.createObjectURL(FileFlac)}]])[0].click();
     /****************************/
 
     if (ffmpeg_TotaleProcessi > 0) {
