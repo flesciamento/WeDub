@@ -2242,7 +2242,7 @@ function CreaOndaSonoraPNG(buffer, width = 3000, height = 200) {
         canvas.width = width;
         canvas.height = height;
         const ctx = canvas.getContext('2d');
-        ctx.imageSmoothingEnabled = false;
+        ctx.imageSmoothingEnabled = true;
 
         // Dati primo canale
         const data = buffer;
