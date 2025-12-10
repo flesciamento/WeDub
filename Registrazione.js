@@ -2277,7 +2277,7 @@ function CreaOndaSonoraPNG(buffer, width = 3000, height = 200) {
             }
         }
 
-        canvas.toBlob(blob => resolve(blob), 'image/png');
+        canvas.toBlob(blob => resolve(blob), 'image/gif');
     });
 }
 
