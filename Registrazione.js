@@ -714,7 +714,7 @@ function handleSuccess(stream) {
     divSelettoreMicrofono.setAttribute('title', Didascalia);
 
     if (document.getElementById('QualitaRegistrazione').dataset.valore == 0) {
-        regMediaRecorder = new MediaRecorder(stream, {mimeType: 'audio/webm'});
+        regMediaRecorder = new MediaRecorder(stream, {mimeType: 'audio/webm;codecs=opus'});
         regMediaRecorder.ondataavailable = handleDataAvailable;
         QualitaAltaRegistrazione = false;
     }
@@ -2301,6 +2301,8 @@ async function CreaRegistrazione_wav() {
 
     const buffer = EffettuaTrattamentoAudio(flattenArray(canaleAudio, LunghezzaNuovaRegistrazione), sampleRate);
     /* var ConversioneWav = audiobufferToWav(buffer, sampleRate, {float32: true}); */
+    Messaggio(strCaricamentoInCorso); ComparsaBarraCaricamento();
+    BC.style.transition = "all 10s"; VisualizzaProgressoBarraCaricamento(BC, 0.5);
     const FileFlac = await audioBufferToFlac(buffer, sampleRate);
     const OndaSonora = await CreaOndaSonoraPNG(buffer);
     ffmpeg_FunzioneAlTermineProcessi(FileFlac, OndaSonora);
@@ -2314,8 +2316,7 @@ async function CreaRegistrazione_wav() {
         runCommand(ffmpeg_Processi[0]);
         if (ffmpeg_TotaleProcessi == 2) {setTimeout(() => {runCommand(ffmpeg_Processi[1]);}, 1000);} */
         
-        Messaggio(strCaricamentoInCorso); ComparsaBarraCaricamento();
-        BC.style.transition = "all 10s"; VisualizzaProgressoBarraCaricamento(BC, 0.5);
+       
 
     } else {
         ffmpeg_FunzioneAlTermineProcessi(ConversioneWav);
