@@ -2248,7 +2248,7 @@ function CreaOndaSonoraPNG(buffer, width = 3000, height = 200) {
         const data = buffer;
         const step = Math.ceil(data.length / width);
         const amp = height / 2;
-        const soglia = 0.01;
+        const soglia = 0.001;
 
         // Sfondo trasparente
         ctx.clearRect(0, 0, width, height);
