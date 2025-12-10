@@ -2236,15 +2236,14 @@ function CentraOndaSonora(buffer) {
     }
 }
 
-function CreaOndaSonoraPNG(buffer, width = 3000, height = 200) {
+function CreaOndaSonoraPNG(buffer, width = 1000, height = 200) {
     return new Promise((resolve, reject) => {
         const canvas = document.createElement('canvas');
         canvas.width = width;
         canvas.height = height;
         const ctx = canvas.getContext('2d');
-        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingEnabled = false;
 
-        // Dati primo canale
         const data = buffer;
         const step = Math.ceil(data.length / width);
         const amp = height / 2;
@@ -2277,7 +2276,7 @@ function CreaOndaSonoraPNG(buffer, width = 3000, height = 200) {
             }
         }
 
-        canvas.toBlob(blob => resolve(blob), 'image/gif');
+        canvas.toBlob(blob => resolve(blob), 'image/png');
     });
 }
 
