@@ -2248,17 +2248,22 @@ function RidisegnaOndeSonore() {
 
     const ELT_Visibili = document.querySelectorAll('[name="ELT"]:not([style*="visibility: hidden"]):not([style*="display: none"])'), totELT_Visibili = ELT_Visibili.length;
     for (let I = 0; I < totELT_Visibili; I++) {
-        RidisegnaOndaSonora(ELT_Visibili[I]);
+        RidisegnaOndaSonora(ELT_Visibili[I].dataset.RiferimentoRegistrazione);
     }
 }
 
-function RidisegnaOndaSonora(ELT) {
-    const datiAudio = DatiAudioRegistrato[ELT.dataset.RiferimentoRegistrazione];
-    if (!datiAudio.buffer || ModalitaLightAttiva || ModalitaStreaming) {return;}
+function RidisegnaOndaSonora(Numero) {
+    clearTimeout(RidisegnaOndaSonora.tmr[Numero]);
 
-    const ELT_OndaSonora = document.getElementById(ELT.id + 'OndaSonora'), datiDimensioneELT = ELT_OndaSonora.getBoundingClientRect();
-    CreaOndaSonoraPNG(datiAudio.buffer.getChannelData(0), datiDimensioneELT.width, datiDimensioneELT.height).then(o => {URL.revokeObjectURL(ELT_OndaSonora.src); ELT_OndaSonora.src = URL.createObjectURL(o);});
+    RidisegnaOndaSonora.tmr[Numero] = setTimeout(() => {
+        const datiAudio = DatiAudioRegistrato[Numero];
+        if (!datiAudio.buffer || ModalitaLightAttiva || ModalitaStreaming || (GuadagnoPrincipale[Numero].gain.value == 0)) {return;}
+
+        const ELT_OndaSonora = document.getElementById("ELTReg" + Numero + 'OndaSonora'), datiDimensioneELT = ELT_OndaSonora.getBoundingClientRect();
+        CreaOndaSonoraPNG(datiAudio.buffer.getChannelData(0), datiDimensioneELT.width, datiDimensioneELT.height).then(o => {URL.revokeObjectURL(ELT_OndaSonora.src); ELT_OndaSonora.src = URL.createObjectURL(o);});
+    }, 100);
 }
+RidisegnaOndaSonora.tmr = [];
 
 async function CreaRegistrazione_wav() {
     const sampleRate = audioContext.sampleRate;
@@ -2513,7 +2518,7 @@ function CambiaVolumeClip(Numero, Volume) {
 
 function VisualizzaAmpiezzaOndaSonora(Numero) {
     const OndaSonoraVisualizzata = document.getElementById("ELTReg" + Numero + "OndaSonora");
-    if (OndaSonoraVisualizzata) {const percVolume = (GuadagnoPrincipale[Numero].gain.value * 100) | 0; OndaSonoraVisualizzata.iStyle({height: percVolume + "%", top: ((100 - percVolume) / 2) + "%"}); RidisegnaOndaSonora(document.getElementById('ELTReg' + Numero));}
+    if (OndaSonoraVisualizzata) {const percVolume = (GuadagnoPrincipale[Numero].gain.value * 100) | 0; OndaSonoraVisualizzata.iStyle({height: percVolume + "%", top: ((100 - percVolume) / 2) + "%"}); RidisegnaOndaSonora(Numero);}
 }
 /***************************************/
 
@@ -4211,7 +4216,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                         }
                     }
 
-        if (!datiAudio.buffer) {pulAscolta.abilita(false); (!pulRiduciRumore.dataset.riduzionerumoreapplicata && pulRiduciRumore.abilita(false)); pulSpezzaBattute.abilita(false); pulAscolta.innerHTML = " <span class='fa fa-spin fa-spinner'></span> " + strCaricamento; CaricaBufferAudio(RiferimentoRegistrazione, () => {if (pulAscolta) {PulAscoltaPosizioneDefault(pulAscolta); pulAscolta.abilita(true); (!pulRiduciRumore.dataset.riduzionerumoreapplicata && pulRiduciRumore.abilita(true)); pulSpezzaBattute.abilita(true);} RidisegnaOndaSonora(document.getElementById('ELTReg' + RiferimentoRegistrazione));});}
+        if (!datiAudio.buffer) {pulAscolta.abilita(false); (!pulRiduciRumore.dataset.riduzionerumoreapplicata && pulRiduciRumore.abilita(false)); pulSpezzaBattute.abilita(false); pulAscolta.innerHTML = " <span class='fa fa-spin fa-spinner'></span> " + strCaricamento; CaricaBufferAudio(RiferimentoRegistrazione, () => {if (pulAscolta) {PulAscoltaPosizioneDefault(pulAscolta); pulAscolta.abilita(true); (!pulRiduciRumore.dataset.riduzionerumoreapplicata && pulRiduciRumore.abilita(true)); pulSpezzaBattute.abilita(true);} RidisegnaOndaSonora(RiferimentoRegistrazione);});}
         datiAudio.nonscaricarebuffer = true;
                         
                 /* Commenti */
