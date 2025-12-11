@@ -154,6 +154,7 @@ function CambiaZoom() {
     SeguiCursore();
     if (+DimensioneRighelloPrec > +DimensioneRighello) {MinutaggiRighello.Cancella();}
     tmrRidisegnaRighello = setTimeout(() => {MinutaggiRighello.Ridisegna(); CompattaMarcatori();}, 1000);
+    RidisegnaOndeSonore();
     slideZoom.blur(); // permette di continuare ad utilizzare i comandi da tastiera
 }
 
@@ -593,8 +594,8 @@ function AggiungiDoppiatoreCandidatoNelCast(e) {
                         ['textarea', {textContent: strRuoliDaAssegnare, onchange: VerificaCampoRuoliLiberi}, {width: "100%"}],
                         ['div']
             ]);
-            divPersonaggiLiberi = NuoviElementi[0]; inputPersonaggiLiberi = NuoviElementi[1];
-            const divAiuto = NuoviElementi[2];
+            divPersonaggiLiberi = NuoviElementi[0]; inputPersonaggiLiberi = NuoviElementi[2];
+            const divAiuto = NuoviElementi[3];
             
             function VerificaCampoRuoliLiberi() {
                 const Condizione = ValidaCondizioneMinimaCampoDiTesto(inputPersonaggiLiberi);
@@ -2240,6 +2241,13 @@ function CreaOndaSonoraPNG(buffer, width = 1000, height = 100) {
             worker.terminate();
         };
     });
+}
+
+function RidisegnaOndeSonore() {
+    if (ModalitaLightAttiva || ModalitaStreaming) {return;}
+
+    const ELT_Visibili = document.querySelectorAll('[name="ELT"]:not([style*="visibility: hidden"]):not([style*="display: none"])'), totELT_Visibili = ELT_Visibili.length;
+
 }
 
 
