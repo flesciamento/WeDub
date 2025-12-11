@@ -2227,7 +2227,7 @@ function CentraOndaSonora(buffer) {
 
 function CreaOndaSonoraPNG(buffer, width = 1000, height = 100) {
     return new Promise((resolve, reject) => {
-        const worker = new Worker(percorsoWorkerOnda);
+        const worker = new Worker(percorsoWorkerOndaSonora);
 
         worker.postMessage({buffer, width, height});
 
@@ -2247,9 +2247,18 @@ function RidisegnaOndeSonore() {
     if (ModalitaLightAttiva || ModalitaStreaming) {return;}
 
     const ELT_Visibili = document.querySelectorAll('[name="ELT"]:not([style*="visibility: hidden"]):not([style*="display: none"])'), totELT_Visibili = ELT_Visibili.length;
-
+    for (let I = 0; I < totELT_Visibili; I++) {
+        RidisegnaOndaSonora(ELT_Visibili[I]);
+    }
 }
 
+function RidisegnaOndaSonora(ELT) {
+    const datiAudio = DatiAudioRegistrato[ELT.dataset.RiferimentoRegistrazione];
+    if (!datiAudio.buffer || ModalitaLightAttiva || ModalitaStreaming) {return;}
+
+    const ELT_OndaSonora = document.getElementById(ELT.id + 'OndaSonora'), datiDimensioneELT = ELT_OndaSonora.getBoundingClientRect();
+    CreaOndaSonoraPNG(datiAudio.buffer.getChannelData(0), datiDimensioneELT.width, datiDimensioneELT.height).then(o => {URL.revokeObjectURL(ELT_OndaSonora.src); ELT_OndaSonora.src = URL.createObjectURL(o);});
+}
 
 async function CreaRegistrazione_wav() {
     const sampleRate = audioContext.sampleRate;
