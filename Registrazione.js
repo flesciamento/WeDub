@@ -2513,7 +2513,7 @@ function CambiaVolumeClip(Numero, Volume) {
 
 function VisualizzaAmpiezzaOndaSonora(Numero) {
     const OndaSonoraVisualizzata = document.getElementById("ELTReg" + Numero + "OndaSonora");
-    if (OndaSonoraVisualizzata) {const percVolume = (GuadagnoPrincipale[Numero].gain.value * 100) | 0; OndaSonoraVisualizzata.iStyle({height: percVolume + "%", top: ((100 - percVolume) / 2) + "%"});}
+    if (OndaSonoraVisualizzata) {const percVolume = (GuadagnoPrincipale[Numero].gain.value * 100) | 0; OndaSonoraVisualizzata.iStyle({height: percVolume + "%", top: ((100 - percVolume) / 2) + "%"}); RidisegnaOndaSonora(document.getElementById('ELTReg' + Numero));}
 }
 /***************************************/
 
@@ -3911,7 +3911,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
     function CreaSlide(IDRiferimento, Stringa, minSlide, maxSlide, stepSlide, minCasella, maxCasella, stepCasella, labelCasella, FunzioneInputSlide, FunzioneChangeCasella, valoreIniziale, FunzioneOnChange2 = () => {}) {
         const tr_id = ID_Opzioni + 'TabellaOpzioniRiga' + IDRiferimento;
         CreaNuoviElementi([
-            Tabella.id,
+            Tabella,
                 ['tr', {id: tr_id}],,
                     ['td', {innerHTML: Stringa}, {fontSize: '12px'}],
                     ['td'],, ['input', {id: tr_id + "Slide", value: +valoreIniziale, oninput: (e) => {FunzioneInputSlide(e); FunzioneOnChange2(e);}}, {}, {RiferimentoRegistrazione: RiferimentoRegistrazione}, {type: "range", min: minSlide, max: maxSlide, step: stepSlide}],
@@ -4211,7 +4211,7 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                         }
                     }
 
-        if (!datiAudio.buffer) {pulAscolta.abilita(false); (!pulRiduciRumore.dataset.riduzionerumoreapplicata && pulRiduciRumore.abilita(false)); pulSpezzaBattute.abilita(false); pulAscolta.innerHTML = " <span class='fa fa-spin fa-spinner'></span> " + strCaricamento; CaricaBufferAudio(RiferimentoRegistrazione, () => {if (pulAscolta) {PulAscoltaPosizioneDefault(pulAscolta); pulAscolta.abilita(true); (!pulRiduciRumore.dataset.riduzionerumoreapplicata && pulRiduciRumore.abilita(true)); pulSpezzaBattute.abilita(true);}});}
+        if (!datiAudio.buffer) {pulAscolta.abilita(false); (!pulRiduciRumore.dataset.riduzionerumoreapplicata && pulRiduciRumore.abilita(false)); pulSpezzaBattute.abilita(false); pulAscolta.innerHTML = " <span class='fa fa-spin fa-spinner'></span> " + strCaricamento; CaricaBufferAudio(RiferimentoRegistrazione, () => {if (pulAscolta) {PulAscoltaPosizioneDefault(pulAscolta); pulAscolta.abilita(true); (!pulRiduciRumore.dataset.riduzionerumoreapplicata && pulRiduciRumore.abilita(true)); pulSpezzaBattute.abilita(true);} RidisegnaOndaSonora(document.getElementById('ELTReg' + RiferimentoRegistrazione));});}
         datiAudio.nonscaricarebuffer = true;
                         
                 /* Commenti */
@@ -4225,41 +4225,41 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
         const pulAnnulla = CreaElemento('a', ID_Opzioni + 'Annulla', div.id, "<span class='fa fa-times'></span> " + strAnnullalemodifiche); pulAnnulla.className = "btn btn-default"; pulAnnulla.iStyle({position: "absolute", left: "15%"});
                 pulAnnulla.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione;
                 pulAnnulla.addEventListener('click',
-                function (e) {
-                    const Numero = e.currentTarget.dataset.RiferimentoRegistrazione;
-                    /** Rimette i valori iniziali **/
-                    /* Buffer */
-                    RiassegnaBufferOriginale();
+                    function (e) {
+                        const Numero = e.currentTarget.dataset.RiferimentoRegistrazione;
+                        /** Rimette i valori iniziali **/
+                        /* Buffer */
+                        RiassegnaBufferOriginale();
 
-                    /* Minutaggio */
-                    document.getElementById(ID_Opzioni + 'MinutaggioMinuti').value = minutiprec; document.getElementById(ID_Opzioni + 'MinutaggioSecondi').value = secondiprec;
-                    SpostaMinutaggioRegistrazione(Numero);
-                    
-                    /* Guadagno */
-                    CambiaVolumeClip(Numero, Number(guadagnoprec));
-                    
-                    /* Tagli iniziali e finali */
-                    CambiaTaglioInizialeClip(Numero, taglioinizialeprec);
-                    CambiaTaglioFinaleClip  (Numero, tagliofinaleprec);
+                        /* Minutaggio */
+                        document.getElementById(ID_Opzioni + 'MinutaggioMinuti').value = minutiprec; document.getElementById(ID_Opzioni + 'MinutaggioSecondi').value = secondiprec;
+                        SpostaMinutaggioRegistrazione(Numero);
+                        
+                        /* Guadagno */
+                        CambiaVolumeClip(Numero, Number(guadagnoprec));
+                        
+                        /* Tagli iniziali e finali */
+                        CambiaTaglioInizialeClip(Numero, taglioinizialeprec);
+                        CambiaTaglioFinaleClip  (Numero, tagliofinaleprec);
 
-                    /* Effetti */
-                    datiAudio.effetti = effettiprec; datiAudio.intensitaeffetti = intensitaeffettiprec; VisualizzaEffettiAudio(Numero);
-                    if (datiAudio.audio) {AttivaEffettiAudio(Numero);}
+                        /* Effetti */
+                        datiAudio.effetti = effettiprec; datiAudio.intensitaeffetti = intensitaeffettiprec; VisualizzaEffettiAudio(Numero);
+                        if (datiAudio.audio) {AttivaEffettiAudio(Numero);}
 
-                    /* Aggiorna l'audio da ascoltare */
-                    AggiornaAudioDaAscoltare(datiAudio);
+                        /* Aggiorna l'audio da ascoltare */
+                        AggiornaAudioDaAscoltare(datiAudio);
 
-                    /** Elimina eventuali nuove clip create tramite le opzioni e poi chiude la finestra **/
-                    const totNuoveClipCreate = NuoveClipCreate.length;
-                    if (totNuoveClipCreate == 0) {
-                        OpzioniClip(Numero, false, false);
-                    } else {
-                        divVetro.iStyle({display: "inline", opacity: 0});
-                        var NuoveClipCestinate = 0;
-                        NuoveClipCreate.forEach((da) => {da.Rimosso = true; CestinaClip(da.numero); SalvaModificheClipAudio(da.numero, () => {if (++NuoveClipCestinate >= totNuoveClipCreate) {OpzioniClip(Numero, false, false);}});});
+                        /** Elimina eventuali nuove clip create tramite le opzioni e poi chiude la finestra **/
+                        const totNuoveClipCreate = NuoveClipCreate.length;
+                        if (totNuoveClipCreate == 0) {
+                            OpzioniClip(Numero, false, false);
+                        } else {
+                            divVetro.iStyle({display: "inline", opacity: 0});
+                            var NuoveClipCestinate = 0;
+                            NuoveClipCreate.forEach((da) => {da.Rimosso = true; CestinaClip(da.numero); SalvaModificheClipAudio(da.numero, () => {if (++NuoveClipCestinate >= totNuoveClipCreate) {OpzioniClip(Numero, false, false);}});});
+                        }
                     }
-                }
-            );
+                );
                 
         const pulSalva = CreaElemento('a', ID_Opzioni + 'Salva', div.id, "<span class='fa fa-check'></span> " + strSalva); pulSalva.className = "btn btn-success"; pulSalva.iStyle({position: "absolute", right: "15%"});
                 pulSalva.dataset.RiferimentoRegistrazione = RiferimentoRegistrazione;
