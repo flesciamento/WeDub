@@ -2167,25 +2167,13 @@ async function audioBufferToFlac(buffer, sampleRate, opz = {}) {
 
         const flac_encoder = Flac.create_libflac_encoder(sampleRate, 1, bitDepth, compressionLevel);
 
-        var write_callback_fn = function(encodedData /*Uint8Array*/, bytes, samples, current_frame) {
-            //store all encoded data "pieces" into a buffer
-            flacBuffers.push(encodedData);
-        };
-
-        status_encoder = Flac.init_encoder_stream(flac_encoder, write_callback_fn);
+        status_encoder = Flac.init_encoder_stream(flac_encoder, encodedData => flacBuffers.push(encodedData));
 
         Flac.FLAC__stream_encoder_process_interleaved(flac_encoder, interleaved, lunghezzaBuffer);
 
         Flac.FLAC__stream_encoder_finish(flac_encoder);
         console.log("flac finish.");
         Flac.FLAC__stream_encoder_delete(flac_encoder);
-
-        /* Flac.set_write_callback(encoder, (buffer) => {flacBuffers.push(buffer);});
-
-        Flac.encode_interleaved_int32(encoder, interleaved, length);
-
-        Flac.finish(encoder);
-        Flac.delete_encoder(encoder); */
 
         resolve(flacBuffers);
     });
@@ -2236,47 +2224,21 @@ function CentraOndaSonora(buffer) {
     }
 }
 
-function CreaOndaSonoraPNG(buffer, width = 1000, height = 200) {
+function CreaOndaSonoraPNG(buffer, width = 1000, height = 100) {
     return new Promise((resolve, reject) => {
-        const canvas = document.createElement('canvas');
-        canvas.width = width;
-        canvas.height = height;
-        const ctx = canvas.getContext('2d');
-        ctx.imageSmoothingEnabled = false;
+        const worker = new Worker(percorsoWorkerOnda);
 
-        const data = buffer;
-        const step = Math.ceil(data.length / width);
-        const amp = height / 2;
-        const soglia = 0.001;
+        worker.postMessage({buffer, width, height});
 
-        // Sfondo trasparente
-        ctx.clearRect(0, 0, width, height);
-
-        // Colore onda
-        ctx.fillStyle = 'blue';
-
-        for (let i = 0; i < width; i++) {
-            let min = 1.0;
-            let max = -1.0;
-
-            for (let j = 0; j < step; j++) {
-                const idx = i * step + j;
-                if (idx < data.length) {
-                    const datum = data[idx];
-                    if (datum < min) min = datum;
-                    if (datum > max) max = datum;
-                }
+        worker.onmessage = (e) => {
+            if (e.data.OndaCreata) {
+                resolve(e.data.blob);
+            } else {
+                reject(e.data.error);
             }
 
-            const amplitude = max - min;
-            
-            if (amplitude > soglia) {
-                const yMin = (1 + min) * amp, yMax = (1 + max) * amp;
-                ctx.fillRect(i, yMin, 1, Math.max(1, yMax - yMin));
-            }
-        }
-
-        canvas.toBlob(blob => resolve(blob), 'image/png');
+            worker.terminate();
+        };
     });
 }
 
