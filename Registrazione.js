@@ -2783,7 +2783,8 @@ function CancellaRipristinaRegistrazione(Numero, Ripristina) {
     VisualizzaClipAudio(Numero, Ripristina);
     
     if (Ripristina == false) {
-        DatiAudioRegistrato[Numero].buffer = false; DatiAudioRegistrato.RichiestoCaricamentoBuffer = false;
+        const datiAudio = DatiAudioRegistrato[Numero];
+        datiAudio.buffer = false; datiAudio.RichiestoCaricamentoBuffer = false;
         CestinaClip(Numero);
         if (VisualizzaSuggerimentiCestinaClip) {
             const Cestino = document.getElementById('ApriCestinoTraccia' + DatiDoppiatori[DatiAudioRegistrato[Numero].ID_Utente].numeroTraccia);
