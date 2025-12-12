@@ -2783,7 +2783,6 @@ function CancellaRipristinaRegistrazione(Numero, Ripristina) {
     VisualizzaClipAudio(Numero, Ripristina);
     
     if (Ripristina == false) {
-        
         CestinaClip(Numero);
         if (VisualizzaSuggerimentiCestinaClip) {
             const Cestino = document.getElementById('ApriCestinoTraccia' + DatiDoppiatori[DatiAudioRegistrato[Numero].ID_Utente].numeroTraccia);
