@@ -2261,7 +2261,7 @@ function RidisegnaOndaSonora(Numero) {
 
         const ELT_OndaSonora = document.getElementById("ELTReg" + Numero + 'OndaSonora'), datiDimensioneELT = ELT_OndaSonora.getBoundingClientRect();
         CreaOndaSonoraPNG(datiAudio.buffer.getChannelData(0), datiDimensioneELT.width, datiDimensioneELT.height).then(o => {URL.revokeObjectURL(ELT_OndaSonora.src); ELT_OndaSonora.src = URL.createObjectURL(o);});
-    }, 1000);
+    }, 300);
 }
 RidisegnaOndaSonora.tmr = [];
 
