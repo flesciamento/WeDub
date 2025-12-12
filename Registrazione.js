@@ -4282,16 +4282,26 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
                 });
 
     function AggiornaModificheClip() {
-         /* Aggiorna i commenti sulla clip */
-         const Numero = datiAudio.numero, AutoreCommenti = (SonoCreatoreProgetto? "CreatoreProgetto" : "Doppiatore"), DestinatarioCommenti = (SonoCreatoreProgetto? "Doppiatore" : "CreatoreProgetto");
-         datiAudio['commenti' + AutoreCommenti] = textarea.value.trim(); datiAudio['commentiVisualizzati' + DestinatarioCommenti] *= (datiAudio['commenti' + AutoreCommenti] == datiAudio['commenti' + AutoreCommenti + "_prec"]);
-         VisualizzaCommentiELT(Numero);
-         
-         /* Aggiorna la visualizzazione degli effetti audio (si aggiornano in automatico in caso di modifica, ma se rimangono uguali aggiusta la visualizzazione sul taglio iniziale) */
-         VisualizzaEffettiAudio(Numero);
+        /* Aggiorna i commenti sulla clip */
+        const Numero = datiAudio.numero, AutoreCommenti = (SonoCreatoreProgetto? "CreatoreProgetto" : "Doppiatore"), DestinatarioCommenti = (SonoCreatoreProgetto? "Doppiatore" : "CreatoreProgetto");
+        datiAudio['commenti' + AutoreCommenti] = textarea.value.trim(); datiAudio['commentiVisualizzati' + DestinatarioCommenti] *= (datiAudio['commenti' + AutoreCommenti] == datiAudio['commenti' + AutoreCommenti + "_prec"]);
+        VisualizzaCommentiELT(Numero);
+        
+        /* Aggiorna la visualizzazione degli effetti audio (si aggiornano in automatico in caso di modifica, ma se rimangono uguali aggiusta la visualizzazione sul taglio iniziale) */
+        VisualizzaEffettiAudio(Numero);
 
-         /* Aggiorna la modifica della clip da ascoltare (se sono stati modificati i tagli iniziali e/o finali o il guadagno ricalcola i secondi totali da ascoltare) */
-         AggiornaAudioDaAscoltare(datiAudio);
+        /* Aggiorna l'anteprima dell'onda sonora se è stato modificato il guadagno (il nome del file è sempre lo stesso - la cache del browser riprenderebbe sempre lo stesso file)
+        const guadagnoattuale = GuadagnoPrincipale[Numero].gain.value;
+        if ((guadagnoprec != guadagnoattuale) && (guadagnoattuale > 0)) {
+            fetch(document.getElementById('ELTReg' + datiAudio.numero + 'OndaSonora').src).then(
+                function (immagine) {
+                    AJAX("SalvaOndaSonoraAggiornata.php", {N: datiAudio.NumeroUnivoco, OndaSonora: new File([immagine.blob()], "OndaSonora.png")}, "", "", "", true, true);
+                }
+            ).catch(() => {});
+        }*/
+
+        /* Aggiorna la modifica della clip da ascoltare (se sono stati modificati i tagli iniziali e/o finali o il guadagno, ricalcola i secondi totali da ascoltare) */
+        AggiornaAudioDaAscoltare(datiAudio);
     }
 
     function RiassegnaBufferOriginale() {
