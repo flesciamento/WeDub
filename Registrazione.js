@@ -1609,7 +1609,7 @@ function ScaricaMemoria(AncheSuccessivi = false) {
     const MinutaggioVideo = VideoGuidaMinutaggioCorrente(), totAudio = DatiAudioRegistrato.length;
     for (let I = 0; I < totAudio; I++) {
         const datiAudio = DatiAudioRegistrato[I];
-        if (datiAudio.buffer && (!datiAudio.nonscaricarebuffer) && (((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioFinale) < MinutaggioVideo) || (AncheSuccessivi && ((+datiAudio.MinutaggioRegistrazione) > MinutaggioVideo)))) {
+        if (datiAudio.buffer && (!datiAudio.nonscaricarebuffer) && (datiAudio.Rimosso || ((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioFinale) < MinutaggioVideo) || (AncheSuccessivi && ((+datiAudio.MinutaggioRegistrazione) > MinutaggioVideo)))) {
             datiAudio.audio = null; datiAudio.buffer = null; datiAudio.bufferdalegare = null; datiAudio.RichiestoCaricamentoBuffer = false;
             VisualizzaELTBufferScaricato(datiAudio.numero);
         }
@@ -2256,7 +2256,7 @@ function RidisegnaOndaSonora(Numero) {
 
     RidisegnaOndaSonora.tmr[Numero] = setTimeout(() => {
         const datiAudio = DatiAudioRegistrato[Numero];
-        if (!datiAudio.buffer || ModalitaLightAttiva || ModalitaStreaming || (GuadagnoPrincipale[Numero].gain.value == 0)) {return;}
+        if (!datiAudio.buffer || datiAudio.Cestinato || ModalitaLightAttiva || ModalitaStreaming || (GuadagnoPrincipale[Numero].gain.value == 0)) {return;}
 
         const ELT_OndaSonora = document.getElementById("ELTReg" + Numero + 'OndaSonora'), datiDimensioneELT = ELT_OndaSonora.getBoundingClientRect();
         CreaOndaSonoraPNG(datiAudio.buffer.getChannelData(0), datiDimensioneELT.width, datiDimensioneELT.height).then(o => {URL.revokeObjectURL(ELT_OndaSonora.src); ELT_OndaSonora.src = URL.createObjectURL(o);});
@@ -2783,8 +2783,7 @@ function CancellaRipristinaRegistrazione(Numero, Ripristina) {
     VisualizzaClipAudio(Numero, Ripristina);
     
     if (Ripristina == false) {
-        const datiAudio = DatiAudioRegistrato[Numero];
-        datiAudio.buffer = false; datiAudio.RichiestoCaricamentoBuffer = false;
+        
         CestinaClip(Numero);
         if (VisualizzaSuggerimentiCestinaClip) {
             const Cestino = document.getElementById('ApriCestinoTraccia' + DatiDoppiatori[DatiAudioRegistrato[Numero].ID_Utente].numeroTraccia);
@@ -2804,6 +2803,8 @@ function CancellaRipristinaRegistrazione(Numero, Ripristina) {
 
 async function CestinaClip(Numero, SenzaAnimazione = false, RiposizionamentoAutomatico = true) {
     const ELT = document.getElementById('ELTReg' + Numero), Cestino = document.getElementById('ApriCestinoTraccia' + DatiDoppiatori[DatiAudioRegistrato[Numero].ID_Utente].numeroTraccia);
+
+    DatiAudioRegistrato[Numero].Cestinato = true;
 
     if (ELT) {
         if (SenzaAnimazione) {
@@ -2875,6 +2876,7 @@ function CestinaClipRimosse(datiAudio, SenzaAnimazione = false) {
 function VisualizzaClipRimosse(datiAudio) {
     const Numero = datiAudio.numero, ELT = document.getElementById('ELTReg' + Numero);
     ELT.style.visibility = "visible";
+    DatiAudioRegistrato[Numero].Cestinato = false;
     VisualizzaELTNormale(Numero);
     InserimentoInProporzioneNellaLineaTemporale(ELT, datiAudio.MinutaggioRegistrazione, datiAudio.Durata);
     setTimeout(() => {RiposizionamentoAutomaticoELT_NumClipAudio(Numero);}, 1000);
