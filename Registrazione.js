@@ -152,9 +152,8 @@ function CambiaZoom() {
 
     CambiaDimensioneContenitoreTracce();
     SeguiCursore();
-    if (+DimensioneRighelloPrec > +DimensioneRighello) {MinutaggiRighello.Cancella();}
+    if (+DimensioneRighelloPrec > +DimensioneRighello) {MinutaggiRighello.Cancella();} else {RidisegnaOndeSonore();}
     tmrRidisegnaRighello = setTimeout(() => {MinutaggiRighello.Ridisegna(); CompattaMarcatori();}, 1000);
-    RidisegnaOndeSonore();
     slideZoom.blur(); // permette di continuare ad utilizzare i comandi da tastiera
 }
 
