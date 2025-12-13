@@ -1791,7 +1791,7 @@ function MandaMessaggioVocale() {
 
 async function SalvaMessaggioVocale(buffer, sampleRate, opz) {
     const Contenuto = await audioBufferToFlac(EffettuaTrattamentoAudio(buffer, sampleRate), sampleRate, opz);
-    const MessaggioVocale = new File([Contenuto], "MessaggioVocale.flac"), FormatoFile = "flac", UtentiDestinatari = selUtenteMessaggioVocale.value;
+    const MessaggioVocale = new File(Contenuto, "MessaggioVocale.flac"), FormatoFile = "flac", UtentiDestinatari = selUtenteMessaggioVocale.value;
     RiabilitaSchermata(); pulMessaggioVocale.abilita(false); setTimeout(AttivaIngressi, 500);
     AJAX("MandaMessaggioIstantaneo.php", CreaParametri({N: N, FileMessaggioIstantaneo: MessaggioVocale, Formato: FormatoFile, Destinatari: UtentiDestinatari}), () => {pulMessaggioVocale.className = "btn btn-default"; pulMessaggioVocale.children[0].className = "fa fa-microphone"; pulMessaggioVocale.abilita(Righello.dataset.DisattivaClick == "no");}, strInvioInCorso, strInviato, true, true);
     setTimeout(AggiornaClip, 500);
