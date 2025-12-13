@@ -2259,7 +2259,7 @@ function RidisegnaOndaSonora(Numero) {
         if (!datiAudio.buffer || datiAudio.Cestinato || ModalitaLightAttiva || ModalitaStreaming || (GuadagnoPrincipale[Numero].gain.value == 0)) {return;}
 
         const ELT_OndaSonora = document.getElementById("ELTReg" + Numero + 'OndaSonora'), datiDimensioneELT = ELT_OndaSonora.getBoundingClientRect();
-        CreaOndaSonoraPNG(datiAudio.buffer.getChannelData(0), datiDimensioneELT.width, datiDimensioneELT.height).then(o => {URL.revokeObjectURL(ELT_OndaSonora.src); ELT_OndaSonora.src = URL.createObjectURL(o);});
+        if (datiDimensioneELT.with > ParametriOndaSonora.larghezzaDefault) {CreaOndaSonoraPNG(datiAudio.buffer.getChannelData(0), datiDimensioneELT.width, datiDimensioneELT.height).then(o => {URL.revokeObjectURL(ELT_OndaSonora.src); ELT_OndaSonora.src = URL.createObjectURL(o);});}
     }, 500);
 }
 RidisegnaOndaSonora.tmr = [];
