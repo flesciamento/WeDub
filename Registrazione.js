@@ -71,7 +71,7 @@ var ErroreMicrofono = false;
 var lunghezzaLivelloMic = 0;
 var sampleAudioData;
 var DatiAudioRegistrato = [], DatiAudioRegistrato_Registrazione = {}, DatiAudioRegistrato_Utente = {}, ClipDaRiprodurre = [], ClipInCiclo = false;
-var AudioBufferColonnaInternazionale = [], ColonnaInternazionaleAttivata = false, SpezzoniAudioCI = [], TracciaCI, OpzioneAutoCI = false;
+var AudioBufferColonnaInternazionale = [], ColonnaInternazionaleAttivata = false, TracciaCI, OpzioneAutoCI = false;
 var MinutaggioPartenzaRegistrazione = 0, MinutaggioUltimaRegistrazione = 0, DurataUltimaRegistrazione = 0;
 var MessaggiIstantaneiAttivi = false, MessaggioIstantaneoInRiproduzione = false;
 var ELTDaSpostare = false, ELTCliccato = false, ELTDaModificare = [];
@@ -2875,7 +2875,7 @@ function CestinaClipRimosse(datiAudio, SenzaAnimazione = false) {
 function VisualizzaClipRimosse(datiAudio) {
     const Numero = datiAudio.numero, ELT = document.getElementById('ELTReg' + Numero);
     ELT.style.visibility = "visible";
-    DatiAudioRegistrato[Numero].Cestinato = false;
+    datiAudio.Cestinato = false;
     VisualizzaELTNormale(Numero);
     InserimentoInProporzioneNellaLineaTemporale(ELT, datiAudio.MinutaggioRegistrazione, datiAudio.Durata);
     setTimeout(() => {RiposizionamentoAutomaticoELT_NumClipAudio(Numero);}, 1000);
