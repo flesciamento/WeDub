@@ -55,7 +55,7 @@ const Provino = (TipoProgetto == 'Provino');
 
 const ID_Opzioni = 'OpzioniClip';
 
-const formatoQualitaAlta = "flac", formatoQualitaMedia = "ogg";
+const formatoQualitaAlta = "flac", formatoQualitaMedia = "flac";
 
 const toolStandard = 0, toolDividiClip = 1, toolEscludiClip = 2, toolMarcatore = 3, puntatoreTool = ["pointer", "url(images/CursoreMouseLineaTemporale_toolDividiClip.png) 8 0, auto", "url(images/CursoreMouseLineaTemporale_toolEscludiClip.png) 8 0, auto", "url(images/CursoreMouseLineaTemporale_toolMarcatore.png) 8 0, auto"], scorciatoieTool = ["KeyG", "KeyX", "KeyM", "KeyF"];
 
@@ -72,7 +72,7 @@ var lunghezzaLivelloMic = 0;
 var sampleAudioData;
 var DatiAudioRegistrato = [], DatiAudioRegistrato_Registrazione = {}, DatiAudioRegistrato_Utente = {}, ClipDaRiprodurre = [], ClipInCiclo = false;
 var AudioBufferColonnaInternazionale = [], ColonnaInternazionaleAttivata = false, TracciaCI, OpzioneAutoCI = false;
-var MinutaggioPartenzaRegistrazione = 0, MinutaggioUltimaRegistrazione = 0, DurataUltimaRegistrazione = 0;
+var MinutaggioPartenzaRegistrazione = 0, MinutaggioUltimaRegistrazione = 0;
 var MessaggiIstantaneiAttivi = false, MessaggioIstantaneoInRiproduzione = false;
 var ELTDaSpostare = false, ELTCliccato = false, ELTDaModificare = [];
 var StrumentoMouse = 0;
@@ -695,7 +695,7 @@ function ProcessaAudio_AcquisisciRegistrazione(e) {
     canaleAudio = e.data.audioRegistrato;
     LunghezzaNuovaRegistrazione = canaleAudio.length * 128;
     DisconnettiWorkletRegistrazione();
-    MandaACreaRegistrazione(CreaRegistrazione_wav);
+    MandaACreaRegistrazione(CreaRegistrazione_raw);
 }
 /********************************************/
 
@@ -1771,7 +1771,7 @@ function MandaMessaggioVocale() {
         RegistraMessaggioVocale.RegistrazionePartita = false;
         GeneraOndaSonoraMessaggioVocale.termina();
         pulMessaggioVocale.abilita(false);
-        ffmpeg_TotaleProcessi = 0; ffmpeg_FunzioneAlTermineProcessi = SalvaMessaggioVocale;
+        funzioneSalvataggioAudio = SalvaMessaggioVocale;
         TrattamentoClip.TaglioFinale.applica = false;
         if (QualitaAltaRegistrazione) {
             registrazione.port.onmessage = ProcessaAudio_AcquisisciRegistrazione;
@@ -1789,8 +1789,9 @@ function MandaMessaggioVocale() {
     }
 }
 
-function SalvaMessaggioVocale(Contenuto) {
-    const MessaggioVocale = new File([Contenuto], "MessaggioVocale.wav"), FormatoFile = "wav", UtentiDestinatari = selUtenteMessaggioVocale.value;
+async function SalvaMessaggioVocale(buffer, sampleRate, opz) {
+    const Contenuto = await FileFlac(EffettuaTrattamentoAudio(buffer, sampleRate), sampleRate, opz);
+    const MessaggioVocale = new File([Contenuto], "MessaggioVocale.flac"), FormatoFile = "flac", UtentiDestinatari = selUtenteMessaggioVocale.value;
     RiabilitaSchermata(); pulMessaggioVocale.abilita(false); setTimeout(AttivaIngressi, 500);
     AJAX("MandaMessaggioIstantaneo.php", CreaParametri({N: N, FileMessaggioIstantaneo: MessaggioVocale, Formato: FormatoFile, Destinatari: UtentiDestinatari}), () => {pulMessaggioVocale.className = "btn btn-default"; pulMessaggioVocale.children[0].className = "fa fa-microphone"; pulMessaggioVocale.abilita(Righello.dataset.DisattivaClick == "no");}, strInvioInCorso, strInviato, true, true);
     setTimeout(AggiornaClip, 500);
@@ -1828,7 +1829,7 @@ CheckMessaggiVocaliIstantanei.tmr = false;
 /*****************************/
 
 function InizializzaRegistrazione() {
-    canaleAudio = []; canaleAudio.length = 0; recordedBlobs = []; LunghezzaNuovaRegistrazione = 0;
+    canaleAudio = []; canaleAudio.length = 0; LunghezzaNuovaRegistrazione = 0; recordedBlobs = [];
 }
 
 function startRecording() {
@@ -2005,28 +2006,23 @@ function EliminaAnteprimaOndaSonora() {
 
 /*** Salvataggio registrazione ***/
 function stopRecording() {
-    ffmpeg_TotaleProcessi = 2; ffmpeg_FunzioneAlTermineProcessi = SalvaNuovaRegistrazione;
+    funzioneSalvataggioAudio = ConvertiInFlacESalva;
     if (QualitaAltaRegistrazione) {
-        ffmpeg_Processi = ["-i clip1 output." + formatoQualitaAlta, "-i clip1 -lavfi \"showwavespic=s=3000x200:colors=blue\" onda.gif"];
         registrazione.port.onmessage = ProcessaAudio_AcquisisciRegistrazione;
         registrazione.port.postMessage({numCanale: AcquisisciCanaleRegistrazione(), modalita: "AcquisisciRegistrazione"});
     } else {
-        ffmpeg_Processi = ["-i clip1 output." + formatoQualitaMedia, "-i clip1 -lavfi \"showwavespic=s=3000x200:colors=blue\" onda.gif"];
         regMediaRecorder.onstop = () => {MandaACreaRegistrazione(CreaRegistrazione_mediaRecorder);};
     }
 
     FermaRegistrazione();
 
-    var ELT;
-    const NumeroTraccia = Number(DatiDoppiatori[ID_Utente].numeroTraccia), id_ELTprovvisorio = 'ELTprovvisorio';
 	DisabilitaSchermata(true);
 	StoRegistrando = false; NonChiudereFinestra = true;
-
-    DurataUltimaRegistrazione = VideoGuidaMinutaggioCorrente() - MinutaggioUltimaRegistrazione;
     
     if (document.getElementById(id_ELTprovvisorio) == null) {
-        ELT = CreaElemento('div', id_ELTprovvisorio, "Traccia" + NumeroTraccia, strInElaborazione);
-        ELT.iStyle({position: 'absolute', top: "0%", height: "100%", border: "1px dashed grey", display: 'inline', verticalAlign: 'middle', color: 'grey'});
+        const NumeroTraccia = Number(DatiDoppiatori[ID_Utente].numeroTraccia), id_ELTprovvisorio = 'ELTprovvisorio', DurataUltimaRegistrazione = VideoGuidaMinutaggioCorrente() - MinutaggioUltimaRegistrazione;
+        const ELT = CreaElemento('div', id_ELTprovvisorio, "Traccia" + NumeroTraccia, strInElaborazione);
+        ELT.iStyle({position: 'absolute', top: "0%", height: "100%", border: "1px dashed grey", display: 'inline', color: 'grey'});
         InserimentoInProporzioneNellaLineaTemporale(ELT, MinutaggioUltimaRegistrazione, DurataUltimaRegistrazione);
     }
 }
@@ -2044,21 +2040,9 @@ function CreaRegistrazione_mediaRecorder() {
 
     CaricaAudio(0, {Registrazione: URLBuffer}, 'arraybuffer',
         function (Contenuto) {
-            /* Per una resa più fedele, l'audio viene decodificato in audiobuffer e trasformato in un arraybuffer formato audio wav prima di essere convertito nel formato desiderato */
+            /* Per una resa più fedele, l'audio viene decodificato in audiobuffer prima di essere convertito nel formato desiderato */
             audioContext.decodeAudioData(Contenuto).then((buffer) => {
-                var ConversioneWav = audiobufferToWav(buffer.getChannelData(AcquisisciCanaleRegistrazione()), buffer.sampleRate);
-
-                if (ffmpeg_TotaleProcessi > 0) {
-                    initWorker();
-                    sampleAudioData = new Uint8Array(ConversioneWav);
-                    runCommand(ffmpeg_Processi[0]);
-                    if (ffmpeg_TotaleProcessi == 2) {setTimeout(() => {runCommand(ffmpeg_Processi[1]);}, 1000);}
-                    Messaggio(strCaricamentoInCorso); ComparsaBarraCaricamento();
-                    BC.style.transition = "all 10s"; VisualizzaProgressoBarraCaricamento(BC, 0.5);
-                    
-                } else {
-                    ffmpeg_FunzioneAlTermineProcessi(ConversioneWav);
-                }
+                funzioneSalvataggioAudio(buffer.getChannelData(AcquisisciCanaleRegistrazione()), buffer.sampleRate, {bitDepth: 16});
             });
             URL.revokeObjectURL(URLBuffer);
         }
@@ -2256,7 +2240,7 @@ function RidisegnaOndaSonora(Numero) {
 
     RidisegnaOndaSonora.tmr[Numero] = setTimeout(() => {
         const datiAudio = DatiAudioRegistrato[Numero];
-        if (!datiAudio.buffer || datiAudio.Cestinato || ModalitaLightAttiva || ModalitaStreaming || (GuadagnoPrincipale[Numero].gain.value == 0)) {return;}
+        if (!datiAudio.buffer || datiAudio.Cestinato || ModalitaLightAttiva || StoRegistrando || ModalitaStreaming || (GuadagnoPrincipale[Numero].gain.value == 0)) {return;}
 
         const ELT_OndaSonora = document.getElementById("ELTReg" + Numero + 'OndaSonora'), datiDimensioneELT = ELT_OndaSonora.getBoundingClientRect();
         if (datiDimensioneELT.width > ParametriOndaSonora.larghezzaDefault) {CreaOndaSonoraPNG(datiAudio.buffer.getChannelData(0), datiDimensioneELT.width, datiDimensioneELT.height).then(o => {URL.revokeObjectURL(ELT_OndaSonora.src); ELT_OndaSonora.src = URL.createObjectURL(o);});}
@@ -2264,7 +2248,7 @@ function RidisegnaOndaSonora(Numero) {
 }
 RidisegnaOndaSonora.tmr = [];
 
-async function CreaRegistrazione_wav() {
+async function CreaRegistrazione_raw() {
     const sampleRate = audioContext.sampleRate;
 
     /*** Flatten Array ***
@@ -2281,30 +2265,18 @@ async function CreaRegistrazione_wav() {
         return result;
     }
 
-    const buffer = EffettuaTrattamentoAudio(flattenArray(canaleAudio, LunghezzaNuovaRegistrazione), sampleRate);
-    /* var ConversioneWav = audiobufferToWav(buffer, sampleRate, {float32: true}); */
-    Messaggio(strCaricamentoInCorso); ComparsaBarraCaricamento();
-    BC.style.transition = "all 10s"; VisualizzaProgressoBarraCaricamento(BC, 0.5);
-    const FileFlac = await audioBufferToFlac(buffer, sampleRate);
-    const OndaSonora = await CreaOndaSonoraPNG(buffer);
-    ffmpeg_FunzioneAlTermineProcessi(FileFlac, OndaSonora);
-    //CreaNuoviElementi([document.body, ['a', {href: URL.createObjectURL(FileFlac)}]])[0].click();
+    const buffer = flattenArray(canaleAudio, LunghezzaNuovaRegistrazione);
+    funzioneSalvataggioAudio(buffer, sampleRate);
     /****************************/
-
-    if (ffmpeg_TotaleProcessi > 0) {
-        // var fileAudio = new Blob([ConversioneWav], { type: 'audio/wav' }); var URLBuffer = URL.createObjectURL(fileAudio); console.log(URLBuffer);
-        /* initWorker();
-        sampleAudioData = new Uint8Array(ConversioneWav);
-        runCommand(ffmpeg_Processi[0]);
-        if (ffmpeg_TotaleProcessi == 2) {setTimeout(() => {runCommand(ffmpeg_Processi[1]);}, 1000);} */
-        
-       
-
-    } else {
-        ffmpeg_FunzioneAlTermineProcessi(ConversioneWav);
-    }
 }
 
+async function ConvertiInFlacESalva(buffer, sampleRate, opz = {}) {
+    buffer = EffettuaTrattamentoAudio(buffer, sampleRate);
+    Messaggio(strCaricamentoInCorso); ComparsaBarraCaricamento(); VisualizzaProgressoBarraCaricamento(BC, 0.5);
+    const FileFlac = await audioBufferToFlac(buffer, sampleRate, opz);
+    const OndaSonora = await CreaOndaSonoraPNG(buffer);
+    SalvaNuovaRegistrazione(FileFlac, OndaSonora);
+}
 
 function SalvaNuovaRegistrazione(Contenuto, OndaSonora) {
     const ContenutoRegistrazione = new File(Contenuto, "RegistrazioneAudio"), OndaSonoraRegistrazione = new File([OndaSonora], "OndaSonora"), MinutaggioAttualeRegistrazione = MinutaggioUltimaRegistrazione, FormatoFile = (QualitaAltaRegistrazione? formatoQualitaAlta : formatoQualitaMedia), InfoAggiuntiveRegistrazione = `${SistemaOperativoAttuale} ${NomeBrowserAttuale} ${VersioneBrowserAttuale} - ${audioContext.sampleRate} Hz - qualità ${(QualitaAltaRegistrazione? "alta" : "media")}, modalità ${(ModalitaLightAttiva? (ModalitaUltraLightAttiva? "ultra light" : "light") : "normale")} - ${(EffettuatoAutoTaglioIniziale? "effettuato auto taglio iniziale per circa " + (SecondiAutoTaglioIniziale).arrotonda(1) + "sec." : "nessun auto taglio iniziale.")} ${VersioneJS}`;
@@ -4291,16 +4263,6 @@ function CreaFinestraOpzioniClip(RiferimentoRegistrazione) {
         
         /* Aggiorna la visualizzazione degli effetti audio (si aggiornano in automatico in caso di modifica, ma se rimangono uguali aggiusta la visualizzazione sul taglio iniziale) */
         VisualizzaEffettiAudio(Numero);
-
-        /* Aggiorna l'anteprima dell'onda sonora se è stato modificato il guadagno (il nome del file è sempre lo stesso - la cache del browser riprenderebbe sempre lo stesso file)
-        const guadagnoattuale = GuadagnoPrincipale[Numero].gain.value;
-        if ((guadagnoprec != guadagnoattuale) && (guadagnoattuale > 0)) {
-            fetch(document.getElementById('ELTReg' + datiAudio.numero + 'OndaSonora').src).then(
-                function (immagine) {
-                    AJAX("SalvaOndaSonoraAggiornata.php", {N: datiAudio.NumeroUnivoco, OndaSonora: new File([immagine.blob()], "OndaSonora.png")}, "", "", "", true, true);
-                }
-            ).catch(() => {});
-        }*/
 
         /* Aggiorna la modifica della clip da ascoltare (se sono stati modificati i tagli iniziali e/o finali o il guadagno, ricalcola i secondi totali da ascoltare) */
         AggiornaAudioDaAscoltare(datiAudio);
