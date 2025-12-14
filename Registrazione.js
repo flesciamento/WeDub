@@ -2020,8 +2020,10 @@ function stopRecording() {
 	DisabilitaSchermata(true);
 	StoRegistrando = false; NonChiudereFinestra = true;
     
+    const id_ELTprovvisorio = 'ELTprovvisorio';
+    
     if (document.getElementById(id_ELTprovvisorio) == null) {
-        const NumeroTraccia = Number(DatiDoppiatori[ID_Utente].numeroTraccia), id_ELTprovvisorio = 'ELTprovvisorio', DurataUltimaRegistrazione = VideoGuidaMinutaggioCorrente() - MinutaggioUltimaRegistrazione;
+        const NumeroTraccia = Number(DatiDoppiatori[ID_Utente].numeroTraccia), DurataUltimaRegistrazione = VideoGuidaMinutaggioCorrente() - MinutaggioUltimaRegistrazione;
         const ELT = CreaElemento('div', id_ELTprovvisorio, "Traccia" + NumeroTraccia, strInElaborazione);
         ELT.iStyle({position: 'absolute', top: "0%", height: "100%", border: "1px dashed grey", display: 'inline', color: 'grey'});
         InserimentoInProporzioneNellaLineaTemporale(ELT, MinutaggioUltimaRegistrazione, DurataUltimaRegistrazione);
