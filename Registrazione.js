@@ -53,7 +53,7 @@ const simboloEffettoELT = {'': "", 'radio': riquadroSimboloEffettoELT + simboloE
 
 const Provino = (TipoProgetto == 'Provino');
 
-const ID_Opzioni = 'OpzioniClip';
+const ID_Opzioni = 'OpzioniClip', id_ELTprovvisorio = 'ELTprovvisorio';
 
 const formatoQualitaAlta = "flac", formatoQualitaMedia = "flac";
 
@@ -2020,8 +2020,6 @@ function stopRecording() {
 	DisabilitaSchermata(true);
 	StoRegistrando = false; NonChiudereFinestra = true;
     
-    const id_ELTprovvisorio = 'ELTprovvisorio';
-    
     if (document.getElementById(id_ELTprovvisorio) == null) {
         const NumeroTraccia = Number(DatiDoppiatori[ID_Utente].numeroTraccia), DurataUltimaRegistrazione = VideoGuidaMinutaggioCorrente() - MinutaggioUltimaRegistrazione;
         const ELT = CreaElemento('div', id_ELTprovvisorio, "Traccia" + NumeroTraccia, strInElaborazione);
@@ -2288,7 +2286,7 @@ function SalvaNuovaRegistrazione(Contenuto, OndaSonora) {
     
 	AJAX("SalvaNuovaRegistrazione.php", CreaParametri({ "NumProgetto": N, "NumProvino": P, "Utente": ID_Utente, "Registrazione": ContenutoRegistrazione, "MinutaggioRegistrazione": MinutaggioAttualeRegistrazione, "OndaSonora": OndaSonoraRegistrazione, "Formato": FormatoFile, "InfoAggiuntive": InfoAggiuntiveRegistrazione }),
         function () {
-            EliminaElemento(document.getElementById('ELTprovvisorio')); setTimeout(AggiornaClip, 100); AttivaAggiornamentoClip(); NonChiudereFinestra = false;
+            EliminaElemento(document.getElementById(id_ELTprovvisorio)); setTimeout(AggiornaClip, 100); AttivaAggiornamentoClip(); NonChiudereFinestra = false;
         }, strSalvataggioInCorso, strSalvataggioCompletato, true, true
     );
 }
