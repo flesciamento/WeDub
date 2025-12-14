@@ -2292,7 +2292,6 @@ function SalvaNuovaRegistrazione(Contenuto, OndaSonora) {
 }
 
 function RiattivaInterfacciaDopoRegistrazione() {
-    //if (worker) {worker.terminate(); isWorkerLoaded = false; worker = false;}
     setTimeout(AttivaIngressi, 500); setTimeout(RiabilitaSchermata, 1000);
 }
 /*********************/
