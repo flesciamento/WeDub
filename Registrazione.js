@@ -77,6 +77,7 @@ var MessaggiIstantaneiAttivi = false, MessaggioIstantaneoInRiproduzione = false;
 var ELTDaSpostare = false, ELTCliccato = false, ELTDaModificare = [];
 var StrumentoMouse = 0;
 var RiproduzioneInCorso = false;
+var funzioneSalvataggioAudio = () => {};
 var MinutaggioPrecaricamentoClip = 0, FunzioneAlTerminePrecaricamento = false, totClipDaPrecaricare = 0, ContatoreClipPrecaricate = 0, intervalloControllaClipPrecaricate;
 var StoRegistrando = false;
 var EffettuatoAutoTaglioIniziale = false, SecondiAutoTaglioIniziale = 0;
