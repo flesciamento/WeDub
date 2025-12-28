@@ -3449,7 +3449,7 @@ function CreaElementoLineaTemporale(ID, DoveInserirlo, PartenzaRegistrazione, Lu
         /*** Eventi al click dell'elemento nella linea temporale ***/
         StratoColoreELT.addEventListener('mousedown', GestioneEventoELTCliccato);
         
-        ELT.addEventListener('mouseup', DisattivaSpostamentoManualeClip, true);
+        ELT.addEventListener('mouseup', DisattivaSpostamentoManualeClip, true); ELT.addEventListener('touchend', DisattivaSpostamentoManualeClip, true);
 
         /*** Eventi al passaggio del mouse ***/
         ELT.addEventListener('mouseenter', (e) => {
