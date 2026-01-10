@@ -2595,7 +2595,7 @@ function DividiClip_puntatorerilasciato(e) {
 
     const styleImmagini = "style='float: left; height: 40px; border-radius: 20%;'", classePulsanti = 'btn btn-default btn-lg';
     let Opzioni = [
-        document.body.id,
+        document.body,
             ['div', {id: PannelloOpzioni_id, className: "panel panel-info"}, {position: "fixed", top: "100px", left: "30%", zIndex: 100000000}],,
 
             /* Barra del titolo */
@@ -3674,18 +3674,56 @@ function AnteprimaSelezioneClip(ELTConsiderato, ClientX, FunzioneTouchEnd = () =
 }
 AnteprimaSelezioneClip.Visualizza = () => {}; AnteprimaSelezioneClip.Elimina = () => {}; AnteprimaSelezioneClip.tmr = false;
 
-
+/*** Seleziona tutte le clip di un utente ***/
 function SelezionaTutteLeClipDiUnUtente(e) {
     const ID_Utente = e.currentTarget.dataset.idutente;
+    /** Verifica se può selezionare le clip **/
     if ((Righello.dataset.DisattivaClick == "no") && !StoRegistrando && DatiAudioRegistrato_Utente[ID_Utente]) {
-        DatiAudioRegistrato_Utente[ID_Utente].forEach((da) => {
-            if (da.Rimosso) {return;}
-            const ELT = document.getElementById('ELTReg' + da.numero);
-            if (ELT && !ELTDaModificare.includes(ELT)) {SelezionaESpostaELT(da.numero);}
-        });
-        CambiaTool(toolStandard);
+        /** Verifica se esistono clip da ascoltare, in caso contrario seleziona automaticamente tutte le clip non cestinate, altrimenti apre la finestra delle opzioni **/
+        const EffettuaSelezioneMultiplaClip = (ProprietaClipDaSelezionare) => {RiabilitaSchermata(); SelezioneMultiplaClip({ID_Utente: ID_Utente, condizioni: ProprietaClipDaSelezionare});};
+        if (DatiAudioRegistrato_Utente[ID_Utente].find(da => da.daAscoltare)) {
+            const PannelloOpzioni_id = "OpzioniSelezioneClipUtente", classePulsanti = 'btn btn-default btn-lg', ChiudiFinestraOpzioni = () => EliminaElemento(document.getElementById(PannelloOpzioni_id));
+            const Opzioni = [
+                  document.body,
+                    ['div', {id: PannelloOpzioni_id, className: "panel panel-info"}, {position: "fixed", top: "100px", left: "30%", zIndex: 100000000}],,
+
+                    /* Barra del titolo */
+                        ['div', {className: "panel-heading text-center"}, {padding: "20px"}],,
+                            ['div', {textContent: DatiDoppiatori[ID_Utente].Nome + " (" + DatiDoppiatori[ID_Utente].Ruolo + ")"}, {fontWeight: "bold"}],
+                            ['div', {textContent: strQualiClipSelezionare}],
+                            ['a', {className: "btn btn-danger fa fa-times", onclick: ChiudiFinestraOpzioni}, {position: "absolute", top: "5px", left: "10px"}],
+
+                    /* Opzioni */
+                    0,  ['div', {className: "panel-body text-center"}],,
+                            ['div', {textContent: strSelezionaSoloClipNuove,   className: classePulsanti, onclick: () => {EffettuaSelezioneMultiplaClip({Rimosso: false, daAscoltare: true});}},  {width: "100%", fontSize: "14pt", margin: "20px 0", lineHeight: 1.8}],
+                            ['div', {textContent: strSelezionaSoloVecchieClip, className: classePulsanti, onclick: () => {EffettuaSelezioneMultiplaClip({Rimosso: false, daAscoltare: false});}}, {width: "100%", fontSize: "14pt", marginBottom: "20px", lineHeight: 1.8}],
+                            ['div', {textContent: strSelezionaTutteLeClip,     className: classePulsanti, onclick: () => {EffettuaSelezioneMultiplaClip({Rimosso: false});}},                     {width: "100%", fontSize: "14pt", lineHeight: 1.8}],
+
+                    /* Annulla */
+                    0,  ['div', {className: "panel-footer text-center"}],,
+                            ['div', {textContent: strSelezione_ClipCestinateIgnorate}, {fontSize: "10px"}],
+                            ['a', {id: PannelloOpzioni_id + "pulAnnulla", innerHTML: "<span class='fa fa-times'></span> " + strAnnullalemodifiche, className: "btn btn-default", onclick: ChiudiFinestraOpzioni}]
+                 ];
+
+            DisabilitaSchermata();
+            CreaNuoviElementi(Opzioni);
+
+        } else {
+            EffettuaSelezioneMultiplaClip({Rimosso: false});
+        }
     }
 }
+
+function SelezioneMultiplaClip(opz) {
+    const ID_Utente = opz.ID_Utente, vCondizioni = Object.entries(opz.condizioni), datiAudioFiltrati = DatiAudioRegistrato_Utente[ID_Utente].filter(da => vCondizioni.every(([proprieta, valore]) => da[proprieta] == valore));
+    datiAudioFiltrati.forEach(da => {
+        const ELT = document.getElementById('ELTReg' + da.numero);
+        if (ELT && !ELTDaModificare.includes(ELT)) {SelezionaESpostaELT(da.numero);}
+    });
+    CambiaTool(toolStandard);
+}
+/***********************************************/
+
 
 function RiposizionamentoAutomaticoClipSovrapposte(ELTConsiderato) {
     if (ELTDaSpostare) {return;}
