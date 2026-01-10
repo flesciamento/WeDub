@@ -3681,7 +3681,9 @@ function SelezionaTutteLeClipDiUnUtente(e) {
     if ((Righello.dataset.DisattivaClick == "no") && !StoRegistrando && DatiAudioRegistrato_Utente[ID_Utente]) {
         /** Apre la finestra delle opzioni se esistono clip da ascoltare insieme a quelle già ascoltate, in caso contrario seleziona automaticamente tutte le clip non cestinate **/
         const PannelloOpzioni_id = "OpzioniSelezioneClipUtente", ChiudiFinestraOpzioni = () => {RiabilitaSchermata(); EliminaElemento(document.getElementById(PannelloOpzioni_id));};
-        const EffettuaSelezioneMultiplaClip = (ProprietaClipDaSelezionare) => {ChiudiFinestraOpzioni(); SelezioneMultiplaClip({ID_Utente: ID_Utente, condizioni: ProprietaClipDaSelezionare});};
+        function EffettuaSelezioneMultiplaClipUtente(AltreProprietaClipDaSelezionare = {}) {
+            ChiudiFinestraOpzioni(); SelezioneMultiplaClip(Object.assign({}, {ID_Utente: ID_Utente, Rimosso: false}, AltreProprietaClipDaSelezionare));
+        };
         if (DatiAudioRegistrato_Utente[ID_Utente].find(da => da.daAscoltare) && DatiAudioRegistrato_Utente[ID_Utente].find(da => !da.daAscoltare)) {
             const classePulsanti = 'btn btn-default btn-lg';
             const Opzioni = [
@@ -3696,9 +3698,9 @@ function SelezionaTutteLeClipDiUnUtente(e) {
 
                     /* Opzioni */
                     0,  ['div', {className: "panel-body text-center"}],,
-                            ['div', {textContent: strSelezionaSoloClipNuove,   className: classePulsanti, onclick: () => {EffettuaSelezioneMultiplaClip({Rimosso: false, daAscoltare: true});}},  {width: "100%", fontSize: "14pt", margin: "20px 0", lineHeight: 1.8}],
-                            ['div', {textContent: strSelezionaSoloVecchieClip, className: classePulsanti, onclick: () => {EffettuaSelezioneMultiplaClip({Rimosso: false, daAscoltare: false});}}, {width: "100%", fontSize: "14pt", marginBottom: "20px", lineHeight: 1.8}],
-                            ['div', {textContent: strSelezionaTutteLeClip,     className: classePulsanti, onclick: () => {EffettuaSelezioneMultiplaClip({Rimosso: false});}},                     {width: "100%", fontSize: "14pt", lineHeight: 1.8}],
+                            ['div', {textContent: strSelezionaSoloClipNuove,   className: classePulsanti, onclick: () => {EffettuaSelezioneMultiplaClipUtente({daAscoltare: true});}},  {width: "100%", fontSize: "14pt", margin: "20px 0", lineHeight: 1.8}],
+                            ['div', {textContent: strSelezionaSoloVecchieClip, className: classePulsanti, onclick: () => {EffettuaSelezioneMultiplaClipUtente({daAscoltare: false});}}, {width: "100%", fontSize: "14pt", marginBottom: "20px", lineHeight: 1.8}],
+                            ['div', {textContent: strSelezionaTutteLeClip,     className: classePulsanti, onclick: () => {EffettuaSelezioneMultiplaClipUtente();}},                     {width: "100%", fontSize: "14pt", lineHeight: 1.8}],
 
                     /* Annulla */
                     0,  ['div', {className: "panel-footer text-center"}],,
@@ -3710,13 +3712,13 @@ function SelezionaTutteLeClipDiUnUtente(e) {
             CreaNuoviElementi(Opzioni);
 
         } else {
-            EffettuaSelezioneMultiplaClip({Rimosso: false});
+            EffettuaSelezioneMultiplaClipUtente();
         }
     }
 }
 
-function SelezioneMultiplaClip(opz) {
-    const ID_Utente = opz.ID_Utente, vCondizioni = Object.entries(opz.condizioni), datiAudioFiltrati = DatiAudioRegistrato_Utente[ID_Utente].filter(da => vCondizioni.every(([proprieta, valore]) => da[proprieta] == valore));
+function SelezioneMultiplaClip(condizioni) {
+    const vCondizioni = Object.entries(condizioni), datiAudioFiltrati = DatiAudioRegistrato.filter(da => vCondizioni.every(([proprieta, valore]) => da[proprieta] == valore));
     datiAudioFiltrati.forEach(da => {
         const ELT = document.getElementById('ELTReg' + da.numero);
         if (ELT && !ELTDaModificare.includes(ELT)) {SelezionaESpostaELT(da.numero);}
