@@ -3682,7 +3682,7 @@ function SelezionaTutteLeClipDiUnUtente(e) {
         /** Verifica se esistono clip da ascoltare, in caso contrario seleziona automaticamente tutte le clip non cestinate, altrimenti apre la finestra delle opzioni **/
         const EffettuaSelezioneMultiplaClip = (ProprietaClipDaSelezionare) => {RiabilitaSchermata(); SelezioneMultiplaClip({ID_Utente: ID_Utente, condizioni: ProprietaClipDaSelezionare});};
         if (DatiAudioRegistrato_Utente[ID_Utente].find(da => da.daAscoltare)) {
-            const PannelloOpzioni_id = "OpzioniSelezioneClipUtente", classePulsanti = 'btn btn-default btn-lg', ChiudiFinestraOpzioni = () => EliminaElemento(document.getElementById(PannelloOpzioni_id));
+            const PannelloOpzioni_id = "OpzioniSelezioneClipUtente", classePulsanti = 'btn btn-default btn-lg', ChiudiFinestraOpzioni = () => {RiabilitaSchermata(); EliminaElemento(document.getElementById(PannelloOpzioni_id));};
             const Opzioni = [
                   document.body,
                     ['div', {id: PannelloOpzioni_id, className: "panel panel-info"}, {position: "fixed", top: "100px", left: "30%", zIndex: 100000000}],,
