@@ -3691,7 +3691,7 @@ function SelezionaTutteLeClipDiUnUtente(e) {
                     ['div', {id: PannelloOpzioni_id, className: "panel panel-info"}, {position: "fixed", top: "100px", left: "30%", zIndex: 100000000}],,
 
                     /* Barra del titolo */
-                        ['div', {className: "panel-heading text-center"}],,
+                        ['div', {className: "panel-heading text-center"}, {paddingTop: "30px"}],,
                             ['div', {textContent: strTitoloSelezioneMultiplaClipUtente}, {fontSize: "16px", fontWeight: "bold"}],
                             ['div', {textContent: DatiDoppiatori[ID_Utente].nome + " (" + DatiDoppiatori[ID_Utente].ruolo + ")"}, {fontWeight: "bold"}],
                             ['div', {textContent: strQualiClipSelezionare}],
