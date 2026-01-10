@@ -3689,7 +3689,7 @@ function SelezionaTutteLeClipDiUnUtente(e) {
 
                     /* Barra del titolo */
                         ['div', {className: "panel-heading text-center"}, {padding: "20px"}],,
-                            ['div', {textContent: DatiDoppiatori[ID_Utente].Nome + " (" + DatiDoppiatori[ID_Utente].Ruolo + ")"}, {fontWeight: "bold"}],
+                            ['div', {textContent: DatiDoppiatori[ID_Utente].nome + " (" + DatiDoppiatori[ID_Utente].ruolo + ")"}, {fontWeight: "bold"}],
                             ['div', {textContent: strQualiClipSelezionare}],
                             ['a', {className: "btn btn-danger fa fa-times", onclick: ChiudiFinestraOpzioni}, {position: "absolute", top: "5px", left: "10px"}],
 
