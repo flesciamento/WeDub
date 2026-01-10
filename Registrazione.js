@@ -3679,10 +3679,11 @@ function SelezionaTutteLeClipDiUnUtente(e) {
     const ID_Utente = e.currentTarget.dataset.idutente;
     /** Verifica se può selezionare le clip **/
     if ((Righello.dataset.DisattivaClick == "no") && !StoRegistrando && DatiAudioRegistrato_Utente[ID_Utente]) {
-        /** Verifica se esistono clip da ascoltare, in caso contrario seleziona automaticamente tutte le clip non cestinate, altrimenti apre la finestra delle opzioni **/
-        const EffettuaSelezioneMultiplaClip = (ProprietaClipDaSelezionare) => {RiabilitaSchermata(); SelezioneMultiplaClip({ID_Utente: ID_Utente, condizioni: ProprietaClipDaSelezionare});};
-        if (DatiAudioRegistrato_Utente[ID_Utente].find(da => da.daAscoltare)) {
-            const PannelloOpzioni_id = "OpzioniSelezioneClipUtente", classePulsanti = 'btn btn-default btn-lg', ChiudiFinestraOpzioni = () => {RiabilitaSchermata(); EliminaElemento(document.getElementById(PannelloOpzioni_id));};
+        /** Verifica se esistono anche clip da ascoltare, in caso contrario seleziona automaticamente tutte le clip non cestinate, altrimenti apre la finestra delle opzioni **/
+        const PannelloOpzioni_id = "OpzioniSelezioneClipUtente", ChiudiFinestraOpzioni = () => {RiabilitaSchermata(); EliminaElemento(document.getElementById(PannelloOpzioni_id));};
+        const EffettuaSelezioneMultiplaClip = (ProprietaClipDaSelezionare) => {ChiudiFinestraOpzioni(); SelezioneMultiplaClip({ID_Utente: ID_Utente, condizioni: ProprietaClipDaSelezionare});};
+        if (DatiAudioRegistrato_Utente[ID_Utente].find(da => da.daAscoltare) && DatiAudioRegistrato_Utente[ID_Utente].find(da => !da.daAscoltare)) {
+            const classePulsanti = 'btn btn-default btn-lg';
             const Opzioni = [
                   document.body,
                     ['div', {id: PannelloOpzioni_id, className: "panel panel-info"}, {position: "fixed", top: "100px", left: "30%", zIndex: 100000000}],,
