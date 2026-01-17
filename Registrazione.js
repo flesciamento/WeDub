@@ -1492,7 +1492,7 @@ function CI_CondizioniAudioOriginaleDisattivato(DatiCIAttuale) {
 }
 
 function CalcolaVolumeAudioOriginale(Volume) {
-    return Volume * (AudioBufferColonnaInternazionale.length ? GuadagnoPrincipale[AudioBufferColonnaInternazionale[0].numero].gain.value : slideVolumeVideoGuida.value);
+    return (Volume * (AudioBufferColonnaInternazionale.length ? GuadagnoPrincipale[AudioBufferColonnaInternazionale[0].numero].gain.value : slideVolumeVideoGuida.value)) * AttivaDisattivaCI.attivata;
 }
 
 function ImpostaVolumeAudioOriginale(Volume) {
