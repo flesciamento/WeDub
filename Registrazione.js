@@ -3145,7 +3145,7 @@ function SwitchColonnaInternazionale() {
 }
 
 function VolumeAttualeCI() {
-    return (AudioBufferColonnaInternazionale.length ? GuadagnoPrincipale[AudioBufferColonnaInternazionale[0].numero].gain.value : 1);
+    return (AudioBufferColonnaInternazionale.length ? GuadagnoPrincipale[AudioBufferColonnaInternazionale[0].numero].gain.value : 1) * AttivaDisattivaCI.attiva;
 }
 
 function CambiaVolumeCI() {
