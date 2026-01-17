@@ -3160,7 +3160,8 @@ function ApplicaVolumeCI(Volume) {
 
 function AttivaDisattivaCI(Attiva = !AttivaDisattivaCI.attivata) {
     if (Attiva) {
-        ApplicaVolumeCI(+slideVolumeVideoGuida.value);
+        if (ColonnaInternazionaleAttivata && (slideVolumeVideoGuida.value == 0)) {slideVolumeVideoGuida.value = 1;} // Rimette il volume al massimo se era a zero
+        ApplicaVolumeCI(+slideVolumeVideoGuida.value || 1);
     } else {
         ApplicaVolumeCI(0);
         if (ColonnaInternazionaleAttivata) {slideVolumeVideoGuida.value = 0;}
@@ -3168,6 +3169,7 @@ function AttivaDisattivaCI(Attiva = !AttivaDisattivaCI.attivata) {
 
     pulSwitchAudioTraccia_CambiaIcona("CI", Attiva);
     DeterminaVolumeVideoGuidaPerCI();
+    AttivaDisattivaCI.attivata = Attiva;
 }
 AttivaDisattivaCI.attivata = true;
 
