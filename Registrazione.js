@@ -3168,8 +3168,8 @@ function AttivaDisattivaCI(Attiva = !AttivaDisattivaCI.attivata) {
     }
 
     pulSwitchAudioTraccia_CambiaIcona("CI", Attiva);
-    DeterminaVolumeVideoGuidaPerCI();
     AttivaDisattivaCI.attivata = Attiva;
+    DeterminaVolumeVideoGuidaPerCI();
 }
 AttivaDisattivaCI.attivata = true;
 
