@@ -3149,7 +3149,7 @@ function VolumeAttualeCI() {
 }
 
 function CambiaVolumeCI() {
-    AttivaDisattivaCI(true);
+    AttivaDisattivaCI(slideVolumeVideoGuida.value > 0);
 }
 
 function ApplicaVolumeCI(Volume) {
