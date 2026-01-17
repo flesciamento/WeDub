@@ -2877,7 +2877,7 @@ function CreazioneClipPrimoCaricamento(DatiClipAudio) {
 
     if (CondizionePulsanteSwitchColonnaInternazionale) {
         SwitchColonnaInternazionale(); // Attiva/Disattiva la colonna internazionale visualizzando correttamente il pulsante
-        if (SonoCreatoreProgetto && (pulEscludiTracciaCI = document.getElementById('EscludiRipristinaTraccia' + (NumeroTotaleTracce - 1).toString()))) {pulEscludiTracciaCI.onclick = AttivaDisattivaCI;}
+        if (SonoCreatoreProgetto && (pulEscludiTracciaCI = document.getElementById('EscludiRipristinaTraccia' + (NumeroTotaleTracce - 1).toString()))) {pulEscludiTracciaCI.onclick = () => {AttivaDisattivaCI();};} // Si manda la funzione con () => {} per evitare che venga passato l'attributo event
         setTimeout(() => {pulSwitchColonnaInternazionale.style.display = "";}, 500); // Visualizza il pulsante di switch
     }
 
