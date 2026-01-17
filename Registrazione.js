@@ -2708,9 +2708,11 @@ function DownloadTraccia(NumeroTraccia) {
  * @param {String} IDUtente la traccia da escludere o ripristinare
  * @param {String} EscludiRipristina (facoltativo) determina se la traccia in questione va esclusa ("Escludi") o ripristinata ("Ripristina"). Se non è indicato nulla, passa al comportamento di default (esclude o ripristina la traccia in base al suo stato precedente). */
 function EscludiRipristinaTraccia(IDUtente, EscludiRipristina = "") {
+    const CambiaIconaPulsanteSwitchAudioTraccia = (Attiva) => {if (IDUtente != "CI") {pulSwitchAudioTraccia_CambiaIcona(IDUtente, Attiva);}};
+
     if (TracceEscluse.includes(IDUtente)) {
         /* Riattiva la traccia */
-        if (EscludiRipristina == "Escludi") {pulSwitchAudioTraccia_CambiaIcona(IDUtente, false); return;}
+        if (EscludiRipristina == "Escludi") {CambiaIconaPulsanteSwitchAudioTraccia(false); return;}
         
         TracceEscluse.splice(TracceEscluse.indexOf(IDUtente), 1);
         if (RiproduzioneInCorso) {
@@ -2719,11 +2721,11 @@ function EscludiRipristinaTraccia(IDUtente, EscludiRipristina = "") {
             FunzioneRiproduzioneClip = RiproduciClipInSync;
         }
         
-        pulSwitchAudioTraccia_CambiaIcona(IDUtente, true);
+        CambiaIconaPulsanteSwitchAudioTraccia(true);
 
     } else {
         /* Esclude la traccia */
-        if (EscludiRipristina == "Ripristina") {pulSwitchAudioTraccia_CambiaIcona(IDUtente, true); return;}
+        if (EscludiRipristina == "Ripristina") {CambiaIconaPulsanteSwitchAudioTraccia(true); return;}
         
         TracceEscluse.push(IDUtente);
 
@@ -2731,14 +2733,14 @@ function EscludiRipristinaTraccia(IDUtente, EscludiRipristina = "") {
             if (DatiAudioRegistrato_Utente[IDUtente]) {DatiAudioRegistrato_Utente[IDUtente].forEach((datiAudio) => {EliminaClipDaRiprodurre(datiAudio.numero); StoppaClipAudio(datiAudio);});}
         }
 
-        pulSwitchAudioTraccia_CambiaIcona(IDUtente, false);
+        CambiaIconaPulsanteSwitchAudioTraccia(false);
     }
 }
 
 function pulSwitchAudioTraccia_CambiaIcona(IDUtente, Stato) {
     const pulEscludiRipristinaTraccia = document.getElementById('EscludiRipristinaTraccia' + DatiDoppiatori[IDUtente]?.numeroTraccia);
     const classebtn = ["danger", "default"], classevolume = ["off", "up"];
-    if (pulEscludiRipristinaTraccia && (IDUtente != "CI")) {pulEscludiRipristinaTraccia.className = "btn btn-" + classebtn[+Stato] + " btn-xs fa fa-volume-" + classevolume[+Stato];}
+    if (pulEscludiRipristinaTraccia) {pulEscludiRipristinaTraccia.className = "btn btn-" + classebtn[+Stato] + " btn-xs fa fa-volume-" + classevolume[+Stato];}
 }
 
 function EscludiRipristinaClip(Numero) {
@@ -2875,7 +2877,7 @@ function CreazioneClipPrimoCaricamento(DatiClipAudio) {
 
     if (CondizionePulsanteSwitchColonnaInternazionale) {
         SwitchColonnaInternazionale(); // Attiva/Disattiva la colonna internazionale visualizzando correttamente il pulsante
-        if (SonoCreatoreProgetto && (pulEscludiTracciaCI = document.getElementById('EscludiRipristinaTraccia' + (NumeroTotaleTracce - 1).toString()))) {pulEscludiTracciaCI.onclick = AttivaDisattivaCI();}
+        if (SonoCreatoreProgetto && (pulEscludiTracciaCI = document.getElementById('EscludiRipristinaTraccia' + (NumeroTotaleTracce - 1).toString()))) {pulEscludiTracciaCI.onclick = AttivaDisattivaCI;}
         setTimeout(() => {pulSwitchColonnaInternazionale.style.display = "";}, 500); // Visualizza il pulsante di switch
     }
 
@@ -3147,11 +3149,7 @@ function VolumeAttualeCI() {
 }
 
 function CambiaVolumeCI() {
-    const Volume = Number(slideVolumeVideoGuida.value);
-
     AttivaDisattivaCI(true);
-
-    DeterminaVolumeVideoGuidaPerCI();
 }
 
 function ApplicaVolumeCI(Volume) {
@@ -3163,12 +3161,13 @@ function ApplicaVolumeCI(Volume) {
 function AttivaDisattivaCI(Attiva = !AttivaDisattivaCI.attivata) {
     if (Attiva) {
         ApplicaVolumeCI(+slideVolumeVideoGuida.value);
-        pulSwitchAudioTraccia_CambiaIcona("CI", true);
     } else {
         ApplicaVolumeCI(0);
         if (ColonnaInternazionaleAttivata) {slideVolumeVideoGuida.value = 0;}
-        pulSwitchAudioTraccia_CambiaIcona("CI", false);
     }
+
+    pulSwitchAudioTraccia_CambiaIcona("CI", Attiva);
+    DeterminaVolumeVideoGuidaPerCI();
 }
 AttivaDisattivaCI.attivata = true;
 
