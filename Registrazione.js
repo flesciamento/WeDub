@@ -2243,8 +2243,8 @@ function RidisegnaOndaSonora(Numero) {
         const datiAudio = DatiAudioRegistrato[Numero];
         if (!datiAudio.buffer || datiAudio.Cestinato || ModalitaLightAttiva || StoRegistrando || ModalitaStreaming || (GuadagnoPrincipale[Numero].gain.value == 0)) {return;}
 
-        const ELT_OndaSonora = document.getElementById("ELTReg" + Numero + 'OndaSonora'), datiDimensioneELT = ELT_OndaSonora.getBoundingClientRect();
-        if (datiDimensioneELT.width > ParametriOndaSonora.larghezzaMinimaRidisegno) {CreaOndaSonoraPNG(datiAudio.buffer.getChannelData(0), datiDimensioneELT.width, datiDimensioneELT.height).then(o => {URL.revokeObjectURL(ELT_OndaSonora.src); ELT_OndaSonora.src = URL.createObjectURL(o);});}
+        const ELT_OndaSonora = document.getElementById("ELTReg" + Numero + 'OndaSonora'), datiDimensioneELT_OndaSonora = ELT_OndaSonora.getBoundingClientRect();
+        if (datiDimensioneELT_OndaSonora.width > ParametriOndaSonora.larghezzaMinimaRidisegno) {CreaOndaSonoraPNG(datiAudio.buffer.getChannelData(0), datiDimensioneELT_OndaSonora.width, datiDimensioneELT_OndaSonora.height).then(o => {URL.revokeObjectURL(ELT_OndaSonora.src); ELT_OndaSonora.src = URL.createObjectURL(o);});}
     }, 500);
 }
 RidisegnaOndaSonora.tmr = [];
@@ -2708,16 +2708,9 @@ function DownloadTraccia(NumeroTraccia) {
  * @param {String} IDUtente la traccia da escludere o ripristinare
  * @param {String} EscludiRipristina (facoltativo) determina se la traccia in questione va esclusa ("Escludi") o ripristinata ("Ripristina"). Se non è indicato nulla, passa al comportamento di default (esclude o ripristina la traccia in base al suo stato precedente). */
 function EscludiRipristinaTraccia(IDUtente, EscludiRipristina = "") {
-    const pulEscludiRipristinaTraccia = document.getElementById('EscludiRipristinaTraccia' + DatiDoppiatori[IDUtente]?.numeroTraccia);
-    
-    function CambiaIconaVolume(Stato) {
-        const classebtn = ["danger", "default"], classevolume = ["off", "up"];
-        if (pulEscludiRipristinaTraccia) {pulEscludiRipristinaTraccia.className = "btn btn-" + classebtn[+Stato] + " btn-xs fa fa-volume-" + classevolume[+Stato];}
-    }
-
     if (TracceEscluse.includes(IDUtente)) {
         /* Riattiva la traccia */
-        if (EscludiRipristina == "Escludi") {CambiaIconaVolume(false); return;}
+        if (EscludiRipristina == "Escludi") {pulSwitchAudioTraccia_CambiaIcona(IDUtente, false); return;}
         
         TracceEscluse.splice(TracceEscluse.indexOf(IDUtente), 1);
         if (RiproduzioneInCorso) {
@@ -2726,11 +2719,11 @@ function EscludiRipristinaTraccia(IDUtente, EscludiRipristina = "") {
             FunzioneRiproduzioneClip = RiproduciClipInSync;
         }
         
-        CambiaIconaVolume(true);
+        pulSwitchAudioTraccia_CambiaIcona(IDUtente, true);
 
     } else {
         /* Esclude la traccia */
-        if (EscludiRipristina == "Ripristina") {CambiaIconaVolume(true); return;}
+        if (EscludiRipristina == "Ripristina") {pulSwitchAudioTraccia_CambiaIcona(IDUtente, true); return;}
         
         TracceEscluse.push(IDUtente);
 
@@ -2738,8 +2731,14 @@ function EscludiRipristinaTraccia(IDUtente, EscludiRipristina = "") {
             if (DatiAudioRegistrato_Utente[IDUtente]) {DatiAudioRegistrato_Utente[IDUtente].forEach((datiAudio) => {EliminaClipDaRiprodurre(datiAudio.numero); StoppaClipAudio(datiAudio);});}
         }
 
-        CambiaIconaVolume(false);
+        pulSwitchAudioTraccia_CambiaIcona(IDUtente, false);
     }
+}
+
+function pulSwitchAudioTraccia_CambiaIcona(IDUtente, Stato) {
+    const pulEscludiRipristinaTraccia = document.getElementById('EscludiRipristinaTraccia' + DatiDoppiatori[IDUtente]?.numeroTraccia);
+    const classebtn = ["danger", "default"], classevolume = ["off", "up"];
+    if (pulEscludiRipristinaTraccia && (IDUtente != "CI")) {pulEscludiRipristinaTraccia.className = "btn btn-" + classebtn[+Stato] + " btn-xs fa fa-volume-" + classevolume[+Stato];}
 }
 
 function EscludiRipristinaClip(Numero) {
@@ -2876,7 +2875,7 @@ function CreazioneClipPrimoCaricamento(DatiClipAudio) {
 
     if (CondizionePulsanteSwitchColonnaInternazionale) {
         SwitchColonnaInternazionale(); // Attiva/Disattiva la colonna internazionale visualizzando correttamente il pulsante
-        if (SonoCreatoreProgetto && (pulEscludiTracciaCI = document.getElementById('EscludiRipristinaTraccia' + (NumeroTotaleTracce - 1).toString()))) {pulEscludiTracciaCI.onclick = pulSwitchColonnaInternazionale.onclick;} // L'utilizzo del pulsante per escludere/includere la traccia CI, attiva il pulsante di switch
+        if (SonoCreatoreProgetto && (pulEscludiTracciaCI = document.getElementById('EscludiRipristinaTraccia' + (NumeroTotaleTracce - 1).toString()))) {pulEscludiTracciaCI.onclick = AttivaDisattivaCI();}
         setTimeout(() => {pulSwitchColonnaInternazionale.style.display = "";}, 500); // Visualizza il pulsante di switch
     }
 
@@ -3150,12 +3149,28 @@ function VolumeAttualeCI() {
 function CambiaVolumeCI() {
     const Volume = Number(slideVolumeVideoGuida.value);
 
-    AudioBufferColonnaInternazionale.forEach((datiAudioCI) => {
-        GuadagnoPrincipale[datiAudioCI.numero].gain.value = Volume;
-    });
+    AttivaDisattivaCI(true);
 
     DeterminaVolumeVideoGuidaPerCI();
 }
+
+function ApplicaVolumeCI(Volume) {
+    AudioBufferColonnaInternazionale.forEach((datiAudioCI) => {
+        GuadagnoPrincipale[datiAudioCI.numero].gain.value = Volume;
+    });
+}
+
+function AttivaDisattivaCI(Attiva = !AttivaDisattivaCI.attivata) {
+    if (Attiva) {
+        ApplicaVolumeCI(+slideVolumeVideoGuida.value);
+        pulSwitchAudioTraccia_CambiaIcona("CI", true);
+    } else {
+        ApplicaVolumeCI(0);
+        if (ColonnaInternazionaleAttivata) {slideVolumeVideoGuida.value = 0;}
+        pulSwitchAudioTraccia_CambiaIcona("CI", false);
+    }
+}
+AttivaDisattivaCI.attivata = true;
 
 function appendBuffer(vBuffer, partenzaprimobuffer = 0) {
     const totBuffer = vBuffer.length;
