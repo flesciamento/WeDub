@@ -3679,7 +3679,7 @@ function SelezionaTutteLeClipDiUnUtente(e) {
     const ID_Utente = e.currentTarget.dataset.idutente;
     /** Verifica se può selezionare le clip **/
     if ((Righello.dataset.DisattivaClick == "no") && !StoRegistrando && DatiAudioRegistrato_Utente[ID_Utente]) {
-        /** Apre la finestra delle opzioni se esistono clip da ascoltare insieme a quelle già ascoltate, in caso contrario seleziona automaticamente tutte le clip non cestinate **/
+        /** Se esistono clip da ascoltare insieme a quelle già ascoltate apre la finestra delle opzioni, in caso contrario seleziona automaticamente tutte le clip non cestinate **/
         const PannelloOpzioni_id = "OpzioniSelezioneClipUtente", ChiudiFinestraOpzioni = () => {RiabilitaSchermata(); EliminaElemento(document.getElementById(PannelloOpzioni_id));};
         function EffettuaSelezioneMultiplaClipUtente(AltreProprietaClipDaSelezionare = {}) {
             ChiudiFinestraOpzioni(); SelezioneMultiplaClip(Object.assign({}, {ID_Utente: ID_Utente, Rimosso: false}, AltreProprietaClipDaSelezionare));
