@@ -3700,7 +3700,7 @@ function SelezionaTutteLeClipDiUnUtente(e) {
         function EffettuaSelezioneMultiplaClipUtente(AltreProprietaClipDaSelezionare = {}) {
             ChiudiFinestraOpzioni(); SelezioneMultiplaClip(Object.assign({}, {ID_Utente: ID_Utente, Rimosso: false}, AltreProprietaClipDaSelezionare));
         };
-        if (DatiAudioRegistrato_Utente[ID_Utente].find(da => da.daAscoltare) && DatiAudioRegistrato_Utente[ID_Utente].find(da => !da.daAscoltare)) {
+        if (DatiAudioRegistrato_Utente[ID_Utente].find(da => da.daAscoltare && !da.Rimosso) && DatiAudioRegistrato_Utente[ID_Utente].find(da => !da.daAscoltare && !da.Rimosso)) {
             const classePulsanti = 'btn btn-default btn-lg';
             const Opzioni = [
                   document.body,
