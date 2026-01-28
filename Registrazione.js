@@ -3237,9 +3237,10 @@ function CaricaAudio(Numero, Dati, TipoDato, Funzione, FunzioneAlTermine1, Funzi
         /** Verifica se si tratta di Colonna Internazionale **
         * in questo caso disattiva le vecchie clip e ricarica la CI aggiornata */
         if (Dati.Registrazione.slice(0, 13) == "ColonneAudio/") {
+            Dati.RichiestoCaricamentoBuffer = false; // In questo caso Dati è DatiAudioRegistrato[Numero]
             AcquisisciNuovaCI();
         } else {
-            window.setTimeout(() => {CaricaAudio(Numero, Dati, TipoDato, Funzione, FunzioneAlTermine1, FunzioneAlTermine2);}, 1000);
+            window.setTimeout(() => {CaricaAudio(Numero, Dati, TipoDato, Funzione, FunzioneAlTermine1, FunzioneAlTermine2);}, 1000);   
         }
 	};
     
