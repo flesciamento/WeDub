@@ -195,7 +195,7 @@ function AdattaLunghezzaLivelloMic() {
 
 /*** Per i vari pulsanti dei pannelli sinistro e destro, lascia la sola icona se lo spazio non basta ***/
 function AdattaDimensionePulsanti() {
-    const CondizioneStandardCompressionePulsanti = (window.innerWidth < 1450);
+    const CondizioneStandardCompressionePulsanti = (window.innerWidth < SoglieCompressionePulsanti.sogliaLarghezza);
     const pulsantiDx = document.querySelectorAll('#ContenitorePannelloDx > .btn'), totPulsantiDx = pulsantiDx.length;
     const ClassePulsanteDx = (CondizioneStandardCompressionePulsanti ? "btn-scritta-a-comparsa" : "");
     for(I = 0; I < totPulsantiDx; I++) {
