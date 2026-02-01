@@ -2592,7 +2592,8 @@ function DividiClip_puntatorerilasciato(e) {
         pulAnnulla.innerHTML = strAttenderePrego; pulAnnulla.className = 'btn-lg';
     }
 
-    const styleImmagini = "style='float: left; height: 40px; border-radius: 20%;'", classePulsanti = 'btn btn-default btn-lg', selezioneparteiniziale = (secondiInizioTaglio <= taglioclip_diffmin), selezionepartefinale = (secondiFineTaglio >= (DatiAudioRegistrato[ELT.dataset.RiferimentoRegistrazione].Durata - taglioclip_diffmin)), selezionepartecentrale = (!selezioneparteiniziale && !selezionepartefinale);
+    const datiAudio = DatiAudioRegistrato[ELT.dataset.RiferimentoRegistrazione];
+    const styleImmagini = "style='float: left; height: 40px; border-radius: 20%;'", classePulsanti = 'btn btn-default btn-lg', selezioneparteiniziale = (secondiInizioTaglio <= (+datiAudio.taglioIniziale) + (+taglioclip_diffmin)), selezionepartefinale = (secondiFineTaglio >= (datiAudio.taglioFinale - taglioclip_diffmin));
     let Opzioni = [
         document.body,
             ['div', {id: PannelloOpzioni_id, className: "panel panel-info"}, {position: "fixed", top: "100px", left: "30%", zIndex: 100000000}],,
@@ -2603,7 +2604,7 @@ function DividiClip_puntatorerilasciato(e) {
 
             /* Opzioni */
             0,  ['div', {className: "panel-body text-center"}],,
-                    ['div'],, ['span', {innerHTML: `<img ${styleImmagini} src='images/${(selezioneparteiniziale? "Esempio_taglio_iniziale.png" : (selezionepartefinale? "Esempio_taglio_finale.png" : "Esempio_taglio_segmento.png"))}' />&nbsp;` + strTagliaViaSelezionato, className: classePulsanti, onclick: EliminaSegmentoSelezionato}, {width: "100%", fontSize: "14pt", margin: "20px 0", lineHeight: 1.8}],
+                    ['div'],, ['span', {innerHTML: `<img ${styleImmagini} src='images/${(selezioneparteiniziale? "Esempio_taglio_iniziale.png"       : (selezionepartefinale? "Esempio_taglio_finale.png"       : "Esempio_taglio_segmento.png"))}' />&nbsp;` + strTagliaViaSelezionato, className: classePulsanti, onclick: EliminaSegmentoSelezionato}, {width: "100%", fontSize: "14pt", margin: "20px 0", lineHeight: 1.8}],
                 3,  ['div'],, ['span', {innerHTML: `<img ${styleImmagini} src='images/${(selezioneparteiniziale? "Esempio_mantenimento_iniziale.png" : (selezionepartefinale? "Esempio_mantenimento_finale.png" : "Esempio_mantenimento_segmento.png"))}' />&nbsp;` + strTagliaViaIlResto, className: classePulsanti, onclick: MantieniSoloSegmentoSelezionato}, {width: "100%", fontSize: "14pt", marginBottom: "20px", lineHeight: 1.8}],
 
             /* Annulla */
@@ -2612,7 +2613,7 @@ function DividiClip_puntatorerilasciato(e) {
     ];
     
     /* Se la selezione è tutta all'interno della clip, prevede anche la terza opzione: "Separa la zona selezionata dal resto della clip" */
-    if ((secondiInizioTaglio > taglioclip_diffmin) && (secondiFineTaglio < (DatiAudioRegistrato[ELT.dataset.RiferimentoRegistrazione].Durata - taglioclip_diffmin))) {
+    if ((secondiInizioTaglio > taglioclip_diffmin) && (secondiFineTaglio < (datiAudio.Durata - taglioclip_diffmin))) {
         Opzioni = Opzioni.concat([
                 3,  ['div'],, ['span', {innerHTML: "<img " + styleImmagini + " src='images/Esempio_taglio_nuova_clip.png' />&nbsp;" + strTagliaECreaNuovaClip, className: classePulsanti, onclick: CreaNuovaClipDaSegmentoSelezionato}, {width: "100%", fontSize: "14pt", lineHeight: 1.8}]
         ]);
@@ -2626,7 +2627,6 @@ function DividiClip_puntatorerilasciato(e) {
     }
 
     function MantieniSoloSegmentoSelezionato(e) {
-        const datiAudio = DatiAudioRegistrato[ELT.dataset.RiferimentoRegistrazione];
         datiAudio.taglioIniziale = secondiInizioTaglio; datiAudio.taglioFinale = secondiFineTaglio;
         SalvaModificheClipAudio(datiAudio.numero, () => {AggiornaClip(TerminaDividiClip);});
         AggiornaAudioDaAscoltare(datiAudio);
