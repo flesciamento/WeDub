@@ -2494,7 +2494,6 @@ function VisualizzaAmpiezzaOndaSonora(Numero) {
 /***************************************/
 
 /*** Gestione dei tagli (iniziali e finali) della clip ***/
-const taglioclip_diffmin = 0.1;
 function ev_CambiaTaglioInizialeClip(e) {
     var TaglioIniziale = Math.abs(e.currentTarget.value);
     const Numero = e.currentTarget.dataset.RiferimentoRegistrazione, IDELT_Opzioni = "OpzioniClipTabellaOpzioniRigaTaglio", datiAudio = DatiAudioRegistrato[Numero], sogliamassima = (datiAudio.taglioFinale - taglioclip_diffmin), condizione = (TaglioIniziale < sogliamassima);
@@ -2593,7 +2592,7 @@ function DividiClip_puntatorerilasciato(e) {
         pulAnnulla.innerHTML = strAttenderePrego; pulAnnulla.className = 'btn-lg';
     }
 
-    const styleImmagini = "style='float: left; height: 40px; border-radius: 20%;'", classePulsanti = 'btn btn-default btn-lg';
+    const styleImmagini = "style='float: left; height: 40px; border-radius: 20%;'", classePulsanti = 'btn btn-default btn-lg', selezioneparteiniziale = (secondiInizioTaglio <= taglioclip_diffmin), selezionepartefinale = (secondiFineTaglio >= (DatiAudioRegistrato[ELT.dataset.RiferimentoRegistrazione].Durata - taglioclip_diffmin)), selezionepartecentrale = (!selezioneparteiniziale && !selezionepartefinale);
     let Opzioni = [
         document.body,
             ['div', {id: PannelloOpzioni_id, className: "panel panel-info"}, {position: "fixed", top: "100px", left: "30%", zIndex: 100000000}],,
@@ -2604,8 +2603,8 @@ function DividiClip_puntatorerilasciato(e) {
 
             /* Opzioni */
             0,  ['div', {className: "panel-body text-center"}],,
-                    ['div'],, ['span', {innerHTML: "<img " + styleImmagini + " src='images/Esempio_taglio_segmento.png' />&nbsp;" + strTagliaViaSelezionato, className: classePulsanti, onclick: EliminaSegmentoSelezionato}, {width: "100%", fontSize: "14pt", margin: "20px 0", lineHeight: 1.8}],
-                3,  ['div'],, ['span', {innerHTML: "<img " + styleImmagini + " src='images/Esempio_mantenimento_segmento.png' />&nbsp;" + strTagliaViaIlResto, className: classePulsanti, onclick: MantieniSoloSegmentoSelezionato}, {width: "100%", fontSize: "14pt", marginBottom: "20px", lineHeight: 1.8}],
+                    ['div'],, ['span', {innerHTML: `<img ${styleImmagini} src='images/${(selezioneparteiniziale? "Esempio_taglio_iniziale.png" : (selezionepartefinale? "Esempio_taglio_finale.png" : "Esempio_taglio_segmento.png"))}' />&nbsp;` + strTagliaViaSelezionato, className: classePulsanti, onclick: EliminaSegmentoSelezionato}, {width: "100%", fontSize: "14pt", margin: "20px 0", lineHeight: 1.8}],
+                3,  ['div'],, ['span', {innerHTML: `<img ${styleImmagini} src='images/${(selezioneparteiniziale? "Esempio_mantenimento_iniziale.png" : (selezionepartefinale? "Esempio_mantenimento_finale.png" : "Esempio_mantenimento_segmento.png"))}' />&nbsp;` + strTagliaViaIlResto, className: classePulsanti, onclick: MantieniSoloSegmentoSelezionato}, {width: "100%", fontSize: "14pt", marginBottom: "20px", lineHeight: 1.8}],
 
             /* Annulla */
             0,  ['div', {className: "panel-footer"}],,
