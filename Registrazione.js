@@ -2908,7 +2908,7 @@ async function TermineCaricamentoClip() {
                 function TrovaClipEPosizionati() {
                     if (DatiAudioUtente = DatiAudioRegistrato_Utente[DoppiatoreConsiderato]) {
                         const PrimaClipDaAscoltare = DatiAudioUtente.find((el) => el.daAscoltare && !el.Rimosso);
-                        if (PrimaClipDaAscoltare) {PosizioneInizialeCursore = PrimaClipDaAscoltare.MinutaggioRegistrazione - 2; slideZoom.value = 1000; CambiaZoom(); window.scroll({top: document.getElementById('Traccia' + DatiDoppiatori[DoppiatoreConsiderato].numeroTraccia).offsetTop - 90});}
+                        if (PrimaClipDaAscoltare) {PosizioneInizialeCursore = PrimaClipDaAscoltare.taglioIniziale - 2; slideZoom.value = 1000; CambiaZoom(); window.scroll({top: document.getElementById('Traccia' + DatiDoppiatori[DoppiatoreConsiderato].numeroTraccia).offsetTop - 90});}
                     }
                     PosizionatiEAttivaInterfaccia();
                 }
