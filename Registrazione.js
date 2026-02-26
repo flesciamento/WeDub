@@ -2672,7 +2672,7 @@ function DividiClip(Numero, secondiInizioTaglio, secondiFineTaglio, MessaggioAlT
 
 function EliminaEventiPuntatoreDividiClip() {
     Righello.removeEventListener('mousemove', AnteprimaSelezioneClip.Visualizza); Righello.removeEventListener('touchmove', AnteprimaSelezioneClip.Visualizza);
-    Righello.removeEventListener('mouseup',   DividiClip_puntatorerilasciato);
+    Righello.removeEventListener('mouseup', DividiClip_puntatorerilasciato); Righello.removeEventListener('mouseleave', DividiClip_puntatorerilasciato);
 }
 
 function TerminaDividiClip() {
@@ -3634,7 +3634,7 @@ function DividiClipELT(NumeroAudio, X) {
         AnteprimaSelezioneClip(ELT, X, DividiClip_puntatorerilasciato);
         EliminaEventiPuntatoreDividiClip();
         Righello.addEventListener('mousemove', AnteprimaSelezioneClip.Visualizza); Righello.addEventListener('touchmove', AnteprimaSelezioneClip.Visualizza);
-        Righello.addEventListener('mouseup', DividiClip_puntatorerilasciato);
+        Righello.addEventListener('mouseup', DividiClip_puntatorerilasciato); Righello.addEventListener('mouseleave', DividiClip_puntatorerilasciato);
         Righello.dataset.DisattivaClick = "si";
     }
 }
