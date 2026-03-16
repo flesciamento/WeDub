@@ -689,10 +689,9 @@ function ProcessaAudio_Monitora(e) {
     }
 
     const input = e.data.audioBuffer, totInput = input.length;
-    var sum = 0.0, media = 0.0, i = 0;
-
-    for (i = 0; i < totInput; ++i) {
-        sum += Math.abs(input[i]);
+    let sum = 0.0;
+    for (let i = 0; i < totInput; ++i) {
+        sum += input[i] * input[i];
     }
 
    const rms = Math.sqrt(sum / totInput), perc_db = dbToPercent(rmsToDb(rms));
