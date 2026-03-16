@@ -695,11 +695,8 @@ function ProcessaAudio_Monitora(e) {
     }
 
    const rms = Math.sqrt(sum / totInput), perc_db = dbToPercent(rmsToDb(rms));
-   //const valore = (media * ParametriLivelloMic.percIncidenzaValore) + (ProcessaAudio_Monitora.valoreprec * ParametriLivelloMic.percIncidenzaValorePrec);
-   //ProcessaAudio_Monitora.valoreprec = media;
    livelloMic.style.width = perc_db + "%";
 }
-ProcessaAudio_Monitora.valoreprec = 0;
 
 function ProcessaAudio_AcquisisciRegistrazione(e) {
     canaleAudio = e.data.audioRegistrato;
