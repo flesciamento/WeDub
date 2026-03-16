@@ -678,6 +678,16 @@ function VerificaNuoveClipAltriCandidati(FunzioneAlTermine = () => {}) {
 
 /*** Funzioni al processamento dell'audio ***/
 function ProcessaAudio_Monitora(e) {
+    function rmsToDb(rms) {
+        return 20 * Math.log10(rms);
+    }
+
+    function dbToPercent(db) {
+        const GuadagnoMinimo = -60, GuadagnoMassimo = 0;
+        db = Math.max(db, GuadagnoMinimo);
+        return ((db - GuadagnoMinimo) / (-GuadagnoMinimo + GuadagnoMassimo)) * 100;
+    }
+
     const input = e.data.audioBuffer, totInput = input.length;
     var sum = 0.0, media = 0.0, i = 0;
 
@@ -685,10 +695,10 @@ function ProcessaAudio_Monitora(e) {
         sum += Math.abs(input[i]);
     }
 
-   media = sum / totInput;
-   const valore = (media * ParametriLivelloMic.percIncidenzaValore) + (ProcessaAudio_Monitora.valoreprec * ParametriLivelloMic.percIncidenzaValorePrec);
-   ProcessaAudio_Monitora.valoreprec = media;
-   livelloMic.style.width = (valore * lunghezzaLivelloMic) + "px";
+   const rms = Math.sqrt(sum / totInput), perc_db = dbToPercent(rmsToDb(rms));
+   //const valore = (media * ParametriLivelloMic.percIncidenzaValore) + (ProcessaAudio_Monitora.valoreprec * ParametriLivelloMic.percIncidenzaValorePrec);
+   //ProcessaAudio_Monitora.valoreprec = media;
+   livelloMic.style.width = perc_db + "%";
 }
 ProcessaAudio_Monitora.valoreprec = 0;
 
