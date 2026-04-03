@@ -229,6 +229,7 @@ function Ridisegna() {
         AdattaLunghezzaLivelloMic();
         if (RidimensionaVideo) {RidimensionaVideo();}
         AutoAdattaElementiInterfaccia();
+        if (FunzioniCopione.CopioneVisualizzato) {VerificaSoglieAltezzaLarghezzaCopione();}
         SeguiCursore();
         CompattaMarcatori();
         Ridisegna.dimensionePrecedente = {altezza: window.innerHeight, larghezza: window.innerWidth};
