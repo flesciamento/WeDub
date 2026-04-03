@@ -365,7 +365,7 @@ if (typeof NonCaricarePosizioneCopione == 'undefined') {setTimeout(() => {AJAX("
 async function VerificaSoglieAltezzaLarghezzaCopione() {
     const soglia_altezza = 200, soglia_larghezza = 600;
     if (ContenitoreTestoGuida.offsetHeight < soglia_altezza) {ContenitoreTestoGuida.style.height = soglia_altezza + "px"; await pausa(100); ContenitoreTestoGuida.style.bottom = ((window.innerHeight - ContenitoreTestoGuida.offsetTop - ContenitoreTestoGuida.offsetHeight) / window.innerHeight * 100) + "%"; await pausa(100); ContenitoreTestoGuida.style.height = "";}
-    if (ContenitoreTestoGuida.offsetWidth < soglia_larghezza) {ContenitoreTestoGuida.style.width = soglia_larghezza + "px"; await pausa(100); ContenitoreTestoGuida.style.right = ((window.innerWidth - ContenitoreTestoGuida.offsetLeft - ContenitoreTestoGuida.offsetWidth) / window.innerWidth * 100) + "%"; await pausa(100); ContenitoreTestoGuida.style.width = "";}
+    if (ContenitoreTestoGuida.offsetWidth < soglia_larghezza) {ContenitoreTestoGuida.style.width = soglia_larghezza + "px"; await pausa(100); const PixelSuperamentoMargineDestro = ((+ContenitoreTestoGuida.offsetLeft) + (+ContenitoreTestoGuida.offsetWidth)) - window.innerWidth; if (PixelSuperamentoMargineDestro > 0) {ContenitoreTestoGuida.style.left = ((ContenitoreTestoGuida.offsetLeft - PixelSuperamentoMargineDestro - 10) / window.innerWidth * 100) + "%"; await pausa(100);} ContenitoreTestoGuida.style.right = ((window.innerWidth - ContenitoreTestoGuida.offsetLeft - ContenitoreTestoGuida.offsetWidth) / window.innerWidth * 100) + "%"; await pausa(100); ContenitoreTestoGuida.style.width = "";}
 }
 
 function TrovaDatiCopioneID(NumID) {
