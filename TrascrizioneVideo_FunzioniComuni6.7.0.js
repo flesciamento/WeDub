@@ -210,13 +210,12 @@ var FunzioniCopione = {
     },
 
     RidimensionaTestoGuida_Disattiva: async function () {
-        const soglia_altezza = 200, soglia_larghezza = 580;
+        
 
         document.body.removeEventListener('mousemove', FunzioniCopione.RidimensionaTestoGuida);           document.body.removeEventListener('touchmove', FunzioniCopione.RidimensionaTestoGuida);
         document.body.removeEventListener('mouseup',   FunzioniCopione.RidimensionaTestoGuida_Disattiva); document.body.removeEventListener('touchend',  FunzioniCopione.RidimensionaTestoGuida_Disattiva);
 
-        if (ContenitoreTestoGuida.offsetHeight < soglia_altezza)   {ContenitoreTestoGuida.style.height = soglia_altezza + "px";  await pausa(100); ContenitoreTestoGuida.style.bottom = ((window.innerHeight - ContenitoreTestoGuida.offsetTop - ContenitoreTestoGuida.offsetHeight) / window.innerHeight * 100) + "%"; await pausa(100); ContenitoreTestoGuida.style.height = "";}
-        if (ContenitoreTestoGuida.offsetWidth  < soglia_larghezza) {ContenitoreTestoGuida.style.width = soglia_larghezza + "px"; await pausa(100); ContenitoreTestoGuida.style.right = ((window.innerWidth - ContenitoreTestoGuida.offsetLeft - ContenitoreTestoGuida.offsetWidth) / window.innerWidth * 100) + "%";    await pausa(100); ContenitoreTestoGuida.style.width = "";}
+        await VerificaSoglieAltezzaLarghezzaCopione();
 
         FunzioniCopione.SalvaPosizioneCopione();
 
@@ -359,10 +358,16 @@ var FunzioniCopione = {
 };
 
 /*** Caricamento iniziale posizione copione ***/
-if (typeof NonCaricarePosizioneCopione == 'undefined') {setTimeout(() => {AJAX("TrascrizioneVideo_CaricaPosizioneCopione.php", "I=" + encodeURIComponent(AcquisisciIdentificativoPiattaforma()), (Dati) => {if (!Dati.NessunaPosizioneSalvata) {ContenitoreTestoGuida.iStyle(Object.assign({}, PosizioneDefaultCopione, Dati)); ContenitoreTestoGuida.style.lineHeight = ContenitoreTestoGuida.style.fontSize;}}, "", "", true);}, 100);}
+if (typeof NonCaricarePosizioneCopione == 'undefined') {setTimeout(() => {AJAX("TrascrizioneVideo_CaricaPosizioneCopione.php", "I=" + encodeURIComponent(AcquisisciIdentificativoPiattaforma()), (Dati) => {if (!Dati.NessunaPosizioneSalvata) {ContenitoreTestoGuida.iStyle(Object.assign({}, PosizioneDefaultCopione, Dati)); ContenitoreTestoGuida.style.lineHeight = ContenitoreTestoGuida.style.fontSize; VerificaSoglieAltezzaLarghezzaCopione();} else {VerificaSoglieAltezzaLarghezzaCopione();}}, "", "", true);}, 100);} else {VerificaSoglieAltezzaLarghezzaCopione();}
 /**********************************************/
 
 /*** Varie ***/
+async function VerificaSoglieAltezzaLarghezzaCopione() {
+    const soglia_altezza = 200, soglia_larghezza = 580;
+    if (ContenitoreTestoGuida.offsetHeight < soglia_altezza) {ContenitoreTestoGuida.style.height = soglia_altezza + "px"; await pausa(100); ContenitoreTestoGuida.style.bottom = ((window.innerHeight - ContenitoreTestoGuida.offsetTop - ContenitoreTestoGuida.offsetHeight) / window.innerHeight * 100) + "%"; await pausa(100); ContenitoreTestoGuida.style.height = "";}
+    if (ContenitoreTestoGuida.offsetWidth < soglia_larghezza) {ContenitoreTestoGuida.style.width = soglia_larghezza + "px"; await pausa(100); ContenitoreTestoGuida.style.right = ((window.innerWidth - ContenitoreTestoGuida.offsetLeft - ContenitoreTestoGuida.offsetWidth) / window.innerWidth * 100) + "%"; await pausa(100); ContenitoreTestoGuida.style.width = "";}
+}
+
 function TrovaDatiCopioneID(NumID) {
     return DatiCopione.find(el => el.NumID == NumID);
 }
