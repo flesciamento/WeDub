@@ -4729,6 +4729,7 @@ function VideoGuidaPronto() {
         FunzioneAlCaricamentoCopioneWeDub = () => {if (Righello.dataset.DisattivaClick == "no") {pulCopioneWeDub.click();} else {setTimeout(FunzioneAlCaricamentoCopioneWeDub, 1000);}};
 
         AltreFunzioniVisualizzaCopioneWeDub = () => {
+            VerificaSoglieAltezzaLarghezzaCopione();
             AttivaScorrimentoCopione();
 
             if (DatiDoppiatori[ID_Utente] && !OpzEvidenzia_TestoGuida.selectedIndex && !DoppiatoreConsiderato) {
