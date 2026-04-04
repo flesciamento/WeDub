@@ -210,8 +210,6 @@ var FunzioniCopione = {
     },
 
     RidimensionaTestoGuida_Disattiva: async function () {
-        
-
         document.body.removeEventListener('mousemove', FunzioniCopione.RidimensionaTestoGuida);           document.body.removeEventListener('touchmove', FunzioniCopione.RidimensionaTestoGuida);
         document.body.removeEventListener('mouseup',   FunzioniCopione.RidimensionaTestoGuida_Disattiva); document.body.removeEventListener('touchend',  FunzioniCopione.RidimensionaTestoGuida_Disattiva);
 
