@@ -1259,57 +1259,71 @@ function ClipDaPrecaricare(Numero, DalMinutaggio, FinoAlMinutaggio) {
     return ((!datiAudio.buffer) && (!datiAudio.disattivato) && (!datiAudio.Rimosso) && (((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioIniziale)) < FinoAlMinutaggio) && (DalMinutaggio < ((+datiAudio.MinutaggioRegistrazione) + (+datiAudio.taglioFinale))));
 }
 
+function TrovaClipAudioConStessoBuffer(datiAudio) {
+    return DatiAudioRegistrato_Registrazione[datiAudio.Registrazione].find(el => el.buffer);
+}
+
 function CaricaBufferAudio(Numero, FunzioneAlTermine = () => {}, SoloBuffer = false) {
     const datiAudio = DatiAudioRegistrato[Numero];
     console.log("CaricaBufferAudio", datiAudio.numero, "RichiestoCaricamentoBuffer:", datiAudio.RichiestoCaricamentoBuffer);
     if (datiAudio.RichiestoCaricamentoBuffer) {return;}
 
     datiAudio.RichiestoCaricamentoBuffer = true;
-    CaricaAudio(Numero, datiAudio, 'arraybuffer', (ClipAudio) => {
-        audioContext.decodeAudioData(ClipAudio).then((buffer) => {
-            /** Se si tratta di colonna internazionale, manda alla funzione che si occupa di generare il buffer per concatenare gli spezzoni **/
-            if (DatiAudioRegistrato[Numero].ID_Utente == 'CI') {GeneraBufferCI(DatiAudioRegistrato[Numero], buffer, FunzioneAlTermine); return;}
-            /**********************************************************************************************************************************/
 
-            /** Memorizza la clip **/
-            DatiAudioRegistrato[Numero].buffer = buffer;
+    const DatiAudioConStessoBuffer = TrovaClipAudioConStessoBuffer(datiAudio);
+    if (DatiAudioConStessoBuffer) {
+        console.log("Trovata clip con stesso buffer già caricato", DatiAudioConStessoBuffer.numero);
+        AssegnaBuffer(DatiAudioConStessoBuffer.buffer);
+        
+    } else {
+        CaricaAudio(Numero, datiAudio, 'arraybuffer', (ClipAudio) => {
+            audioContext.decodeAudioData(ClipAudio).then(AssegnaBuffer).catch((err) => {
+                /** In caso di errore nel caricamento: **/
+                console.log(err, datiAudio.NumeroUnivoco, datiAudio.Registrazione);
+                /* Se in modalità streaming avvisa soltanto */
+                if (ModalitaStreaming) {Messaggio(strErroreCaricamentoClip); return;}
 
-            /** Verifica se era prevista una funzione al termine del precaricamento di tutte le clip considerate **/
-            VerificaFunzioneAlTerminePrecaricamento();
-
-            /** Se richiesto di memorizzare il solo buffer, manda la funzione eventualmente passata e termina **/
-            if (SoloBuffer) {FunzioneAlTermine(); return;}
-
-            /** Effettua le ulteriori operazioni sulla clip **/
-            OperazioniAlBufferCaricato(Numero, FunzioneAlTermine);
-
-            /** Se non è stata passata una funzione al termine del precaricamento di tutte le clip considerate, ma si sta facendo il precaricamento leggero, trova tutte le clip che devono avere lo stesso buffer e glielo assegna **/
-            if (!FunzioneAlTerminePrecaricamento) {
-                DatiAudioRegistrato_Registrazione[DatiAudioRegistrato[Numero].Registrazione].forEach((da) => {if (!da.buffer) {da.buffer = buffer; OperazioniAlBufferCaricato(da.numero);}});
+                if (datiAudio.Durata) {
+                    Messaggio(strErroreCaricamentoClip + " " + err);
+                } else {
+                    /* Se la prima volta che prova a caricarlo fallisce, flagga l'audio come danneggiato */
+                    AJAX("AggiornaAudioDanneggiato.php", "N=" + datiAudio.NumeroUnivoco + "&Info=" + encodeURIComponent(err + " - " + datiAudio.infoAggiuntive),
+                        () => {/* Passa avanti col caricamento 
+                            if (!CaricamentoInizialeTerminato) {AggiornaCaricamentoClip();}*/
+                            /* Lo manda nel cestino, così non interferisce con i caricamenti (tanto non verrà più aggiornato) */
+                            datiAudio.Rimosso = true; datiAudio.danneggiato = true;
+                        }, "", "", true);
+                    }
+                });
             }
+        );
+    }
 
-            /** In caso di riproduzione in corso, attiva la riproduzione delle clip appena caricate **/
-            if (RiproduzioneInCorso) {FunzioneRiproduzioneClip = RiproduciClipInSync;}
+    function AssegnaBuffer(buffer) {
+        /** Se si tratta di colonna internazionale, manda alla funzione che si occupa di generare il buffer per concatenare gli spezzoni **/
+        if (datiAudio.ID_Utente == 'CI') {GeneraBufferCI(datiAudio, buffer, FunzioneAlTermine); return;}
+        /**********************************************************************************************************************************/
 
-        }).catch((err) => {
-            /** In caso di errore nel caricamento: **/
-            console.log(err, datiAudio.NumeroUnivoco, datiAudio.Registrazione);
-            /* Se in modalità streaming avvisa soltanto */
-            if (ModalitaStreaming) {Messaggio(strErroreCaricamentoClip); return;}
+        /** Memorizza la clip **/
+        datiAudio.buffer = buffer;
 
-            if (datiAudio.Durata) {
-                Messaggio(strErroreCaricamentoClip + " " + err);
-            } else {
-                /* Se la prima volta che prova a caricarlo fallisce, flagga l'audio come danneggiato */
-                AJAX("AggiornaAudioDanneggiato.php", "N=" + datiAudio.NumeroUnivoco + "&Info=" + encodeURIComponent(err + " - " + datiAudio.infoAggiuntive),
-                    () => {/* Passa avanti col caricamento 
-                        if (!CaricamentoInizialeTerminato) {AggiornaCaricamentoClip();}*/
-                        /* Lo manda nel cestino, così non interferisce con i caricamenti (tanto non verrà più aggiornato) */
-                        datiAudio.Rimosso = true; datiAudio.danneggiato = true;
-                    }, "", "", true);
-            }
-        });
-    });
+        /** Verifica se era prevista una funzione al termine del precaricamento di tutte le clip considerate **/
+        VerificaFunzioneAlTerminePrecaricamento();
+
+        /** Se richiesto di memorizzare il solo buffer, manda la funzione eventualmente passata e termina **/
+        if (SoloBuffer) {FunzioneAlTermine(); return;}
+
+        /** Effettua le ulteriori operazioni sulla clip **/
+        OperazioniAlBufferCaricato(Numero, FunzioneAlTermine);
+
+        /** Se non è stata passata una funzione al termine del precaricamento di tutte le clip considerate, ma si sta facendo il precaricamento leggero, trova tutte le clip che devono avere lo stesso buffer e glielo assegna **/
+        if (!FunzioneAlTerminePrecaricamento) {
+            DatiAudioRegistrato_Registrazione[datiAudio.Registrazione].forEach((da) => {if (!da.buffer) {da.buffer = buffer; OperazioniAlBufferCaricato(da.numero);}});
+        }
+
+        /** In caso di riproduzione in corso, attiva la riproduzione delle clip appena caricate **/
+        if (RiproduzioneInCorso) {FunzioneRiproduzioneClip = RiproduciClipInSync;}
+    }
 }
 
 function VerificaFunzioneAlTerminePrecaricamento() {
