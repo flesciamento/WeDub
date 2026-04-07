@@ -1274,7 +1274,7 @@ function CaricaBufferAudio(Numero, FunzioneAlTermine = () => {}, SoloBuffer = fa
     if (DatiAudioConStessoBuffer) {
         console.log("Trovata clip con stesso buffer già caricato", DatiAudioConStessoBuffer.numero);
         AssegnaBuffer(DatiAudioConStessoBuffer.buffer);
-        
+
     } else {
         CaricaAudio(Numero, datiAudio, 'arraybuffer', (ClipAudio) => {
             audioContext.decodeAudioData(ClipAudio).then(AssegnaBuffer).catch((err) => {
@@ -2257,6 +2257,7 @@ function RidisegnaOndeSonore() {
     }
 }
 
+const max_pixel_onda_sonora = 4000;
 function RidisegnaOndaSonora(Numero) {
     clearTimeout(RidisegnaOndaSonora.tmr[Numero]);
 
@@ -2264,8 +2265,8 @@ function RidisegnaOndaSonora(Numero) {
         const datiAudio = DatiAudioRegistrato[Numero];
         if (!datiAudio.buffer || datiAudio.Cestinato || ModalitaLightAttiva || StoRegistrando || ModalitaStreaming || (GuadagnoPrincipale[Numero].gain.value == 0)) {return;}
 
-        const ELT_OndaSonora = document.getElementById("ELTReg" + Numero + 'OndaSonora'), datiDimensioneELT_OndaSonora = ELT_OndaSonora.getBoundingClientRect();
-        if (datiDimensioneELT_OndaSonora.width > ParametriOndaSonora.larghezzaMinimaRidisegno) {CreaOndaSonoraPNG(datiAudio.buffer.getChannelData(0), datiDimensioneELT_OndaSonora.width, datiDimensioneELT_OndaSonora.height).then(o => {URL.revokeObjectURL(ELT_OndaSonora.src); ELT_OndaSonora.src = URL.createObjectURL(o);});}
+        const ELT_OndaSonora = document.getElementById("ELTReg" + Numero + 'OndaSonora'), datiDimensioneELT_OndaSonora = {width: ELT_OndaSonora.offsetWidth, height: ELT_OndaSonora.offsetHeight};
+        if (datiDimensioneELT_OndaSonora.width > ParametriOndaSonora.larghezzaMinimaRidisegno) {CreaOndaSonoraPNG(datiAudio.buffer.getChannelData(0), datiDimensioneELT_OndaSonora.width * (datiDimensioneELT_OndaSonora.width < max_pixel_onda_sonora) || max_pixel_onda_sonora, datiDimensioneELT_OndaSonora.height * (datiDimensioneELT_OndaSonora.height < max_pixel_onda_sonora) || max_pixel_onda_sonora).then(o => {URL.revokeObjectURL(ELT_OndaSonora.src); ELT_OndaSonora.src = URL.createObjectURL(o);});}
     }, 500);
 }
 RidisegnaOndaSonora.tmr = [];
