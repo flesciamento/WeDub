@@ -1088,7 +1088,7 @@ function Posizionati(MinutaggioNuovo, RiabilitaTuttaLaSchermata = false, Funzion
         if ((Math.round(VideoGuidaMinutaggioCorrente())) != (Math.round(MinutaggioNuovo))) {Posizionati.tmr = setTimeout(RiattivaVideoGuida, 1000); return;}
         Posizionati.InAttesaRiattivazione = false;
         ImmagineAttesaVideoGuida(false);
-        if (stavoRiproducendo && !RiproduzioneInCorso) {
+        if (stavoRiproducendo) {
             PlayVideoGuida();
         } else {
             RiabilitaLaSchermataSeRichiesto();
@@ -1228,11 +1228,11 @@ function PrecaricaClip(DalMinutaggio, FinoAlMinutaggio, FunzioneAlTermine = fals
     FunzioneAlTerminePrecaricamento = FunzioneAlTermine;
     totClipDaPrecaricare = 0; ContatoreClipPrecaricate = 0;
 
-    for (var I = 0; I < totAudio; I++) {
+    for (let I = 0; I < totAudio; I++) {
         if (ClipDaPrecaricare(I, DalMinutaggio, FinoAlMinutaggio)) {
             if (FunzioneAlTermine) {
                 totClipDaPrecaricare++;
-                CaricaBufferAudio(I, AltreOpzioni.FunzioneAlTermineSingoloPrecaricamento, AltreOpzioni.SoloBuffer);
+                setTimeout(CaricaBufferAudio, 100, I, AltreOpzioni.FunzioneAlTermineSingoloPrecaricamento, AltreOpzioni.SoloBuffer); // Il timeout serve per evitare che, in caso di assegnazione buffer in maniera sincrona (ad es.: per clip con stesso buffer), la VerificaFunzioneAlTerminePrecaricamento() venga subito soddisfatta
             } else {
                 CaricaBufferAudio(I, AltreOpzioni.FunzioneAlTermineSingoloPrecaricamento, AltreOpzioni.SoloBuffer);
                 return;
