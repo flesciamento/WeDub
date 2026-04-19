@@ -1266,11 +1266,15 @@ function TrovaClipAudioConStessoBuffer(datiAudio) {
 function CaricaBufferAudio(Numero, FunzioneAlTermine = () => {}, SoloBuffer = false) {
     const datiAudio = DatiAudioRegistrato[Numero];
     console.log("CaricaBufferAudio", datiAudio.numero, "RichiestoCaricamentoBuffer:", datiAudio.RichiestoCaricamentoBuffer);
+
+    /** Verifica se è stata già caricata una clip con lo stesso buffer, in caso contrario verifica se quest'ultima è in corso di caricamento e ritenta successivamente **/
+    const DatiAudioConStessoBuffer = TrovaClipAudioConStessoBuffer(datiAudio);
+    if (!DatiAudioConStessoBuffer && DatiAudioRegistrato_Registrazione[datiAudio.Registrazione].find(el => ((el != datiAudio) && el.RichiestoCaricamentoBuffer))) {console.log(Numero, "in attesa caricamento clip con stesso buffer..."); setTimeout(CaricaBufferAudio, 300, Numero, FunzioneAlTermine, SoloBuffer); return;}
+
     if (datiAudio.RichiestoCaricamentoBuffer) {return;}
 
     datiAudio.RichiestoCaricamentoBuffer = true;
-
-    const DatiAudioConStessoBuffer = TrovaClipAudioConStessoBuffer(datiAudio);
+    
     if (DatiAudioConStessoBuffer) {
         console.log("Trovata clip con stesso buffer già caricato", DatiAudioConStessoBuffer.numero);
         AssegnaBuffer(DatiAudioConStessoBuffer.buffer);
