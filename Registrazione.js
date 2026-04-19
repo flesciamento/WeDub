@@ -1088,7 +1088,7 @@ function Posizionati(MinutaggioNuovo, RiabilitaTuttaLaSchermata = false, Funzion
         if ((Math.round(VideoGuidaMinutaggioCorrente())) != (Math.round(MinutaggioNuovo))) {Posizionati.tmr = setTimeout(RiattivaVideoGuida, 1000); return;}
         Posizionati.InAttesaRiattivazione = false;
         ImmagineAttesaVideoGuida(false);
-        if (stavoRiproducendo) {
+        if (stavoRiproducendo && !RiproduzioneInCorso) {
             PlayVideoGuida();
         } else {
             RiabilitaLaSchermataSeRichiesto();
