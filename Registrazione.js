@@ -2920,7 +2920,7 @@ async function TermineCaricamentoClip() {
         pulPlayIniziale.onclick = () => {if (pulPlay.disabled == false) {CancMex(); AttivaScorciatoieDiTastiera_ModalitaStreaming(); pulPlayIniziale.onclick = ""; divVetro.style.display = "none"; setTimeout(PlayVideoGuida, 100);}};
         DisattivaMessaggiAttesa();
         AttivaInterfaccia();
-        document.getElementById('LogoWEDUB').iStyle({top: 0, right: 0, opacity: 0.5, width: larghezzaLogo});
+        document.getElementById('LogoWEDUB').iStyle({top: "60px", right: 0, opacity: 0.5, width: larghezzaLogo});
 
     } else {
         let PosizioneInizialeCursore = InizioVideoGuida;
