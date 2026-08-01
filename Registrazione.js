@@ -2920,7 +2920,7 @@ async function TermineCaricamentoClip() {
         pulPlayIniziale.onclick = () => {if (pulPlay.disabled == false) {CancMex(); AttivaScorciatoieDiTastiera_ModalitaStreaming(); pulPlayIniziale.onclick = ""; divVetro.style.display = "none"; setTimeout(PlayVideoGuida, 100);}};
         DisattivaMessaggiAttesa();
         AttivaInterfaccia();
-        document.getElementById('LogoWEDUB').iStyle({top: "60px", right: 0, opacity: 0.5, width: larghezzaLogo});
+        document.getElementById('LogoWEDUB').iStyle({top: 0, right: 0, opacity: 0.5, width: larghezzaLogo});
 
     } else {
         let PosizioneInizialeCursore = InizioVideoGuida;
@@ -2997,11 +2997,12 @@ function AttivaScorciatoieDiTastiera_ModalitaStreaming() {
 function ComandiPlayer_Visualizzato() {
     clearTimeout(tmrComandiPlayerModalitaStreaming);
     ComandiPlayer.style.opacity = 1;
+    document.getElementById('LogoWEDUB').style.top = "60px";
 }
 
 function ComandiPlayer_ScomparsaAutomatica() {
     ComandiPlayer_Visualizzato();
-    tmrComandiPlayerModalitaStreaming = setTimeout(() => {ComandiPlayer.style.opacity = 0;}, latenzaScomparsaAutomaticaComandiPlayer);
+    tmrComandiPlayerModalitaStreaming = setTimeout(() => {ComandiPlayer.style.opacity = 0; document.getElementById('LogoWEDUB').style.top = 0;}, latenzaScomparsaAutomaticaComandiPlayer);
 }
 
 function AttivaPulsantiMultimediali() {
