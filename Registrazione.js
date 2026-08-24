@@ -1829,6 +1829,12 @@ function CheckMessaggiVocaliIstantanei() {
             if (!Dati.FileMessaggioIstantaneo) {CheckMessaggiVocaliIstantanei.tmr = setTimeout(CheckMessaggiVocaliIstantanei, 2500); return;}
 
             if ((!RegistraMessaggioVocale.RegistrazionePartita) && (!MessaggioIstantaneoInRiproduzione) && (!StoRegistrando)) {
+                function OperazioniAlTermineAscolto() {
+                    GeneraOndaSonoraMessaggioVocale.termina();
+                    pulMessaggioVocale.abilita(Righello.dataset.DisattivaClick == "no");
+                    AJAX("EliminaMessaggioIstantaneo.php", "ID=" + Dati.ID_MessaggioIstantaneo + "&N=" + N, () => {MessaggioIstantaneoInRiproduzione = false; CheckMessaggiVocaliIstantanei();}, "", "", true);
+                }
+
                 MessaggioIstantaneoInRiproduzione = true;
                 CaricaAudio(0, {Registrazione: Dati.FileMessaggioIstantaneo}, 'arraybuffer',
                     (Contenuto) => {
@@ -1836,11 +1842,11 @@ function CheckMessaggiVocaliIstantanei() {
                             const MI = new AudioBufferSourceNode(audioContext, {buffer: buffer});
                             const compressore = audioContext.createDynamicsCompressor(); compressore.threshold.value = -50; compressore.knee.value = 40;
                             MI.connect(compressore).connect(audioContext.destination);
-                            MI.onended = () => {GeneraOndaSonoraMessaggioVocale.termina(); pulMessaggioVocale.abilita(Righello.dataset.DisattivaClick == "no"); AJAX("EliminaMessaggioIstantaneo.php", "ID=" + Dati.ID_MessaggioIstantaneo + "&N=" + N, () => {MessaggioIstantaneoInRiproduzione = false; CheckMessaggiVocaliIstantanei();}, "", "", true);};
+                            MI.onended = OperazioniAlTermineAscolto;
                             GeneraOndaSonoraMessaggioVocale(MI, Dati.Nome);
                             pulMessaggioVocale.abilita(false);
                             setTimeout(() => {MI.start();}, 200);
-                        });
+                        }).catch(OperazioniAlTermineAscolto);
                     }
                 );
 
