@@ -2201,7 +2201,7 @@ function EffettuaTrattamentoAudio(buffer, sampleRate) {
 
     /** Auto taglia silenzi iniziali (se attivato) **/
     if (opzTagliaSilenzi.checked) {
-        taglioiniziale = buffer.indexOf(buffer.find((a) => {return a > TrattamentoClip.AutoTaglioIniziale.SogliaDB;})) - (TrattamentoClip.AutoTaglioIniziale.Tolleranza * sampleRate);
+        let taglioiniziale = buffer.indexOf(buffer.find((a) => {return a > TrattamentoClip.AutoTaglioIniziale.SogliaDB;})) - (TrattamentoClip.AutoTaglioIniziale.Tolleranza * sampleRate);
         EffettuatoAutoTaglioIniziale = (taglioiniziale > 0);
         taglioiniziale *= EffettuatoAutoTaglioIniziale;
         buffer = buffer.slice(taglioiniziale);
