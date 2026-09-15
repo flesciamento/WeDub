@@ -444,7 +444,7 @@ function EsportaSRT() {
         strFileSRT += `${DC.testo}\n`;
     }
 
-    MettiInDownload("data:text/plain;charset=utf-8," + encodeURIComponent(strFileSRT.trim()), TitoloDoppiaggio);
+    MettiInDownload("data:text/plain;charset=utf-8," + encodeURIComponent(strFileSRT.trim()), TitoloDoppiaggio + ".srt");
 }
 
 function VisualizzaSecondi(Secondi) {return Math.round(Secondi).toString().padStart(2, "0");}
