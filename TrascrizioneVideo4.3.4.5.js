@@ -439,10 +439,9 @@ function EsportaSRT() {
     let strFileSRT = "";
     for(let I = 0; I < totDatiCopione; I++) {
         const DC = DatiCopione[I], numSuccessivo = (+I + 1);
-        strFileSRT += `${numSuccessivo}
-        ${TimeCode(DC.minutaggio)} --> ${TimeCode((DatiCopione[numSuccessivo] || {minutaggio: totDurataVideoGuida}).minutaggio)}
-        ${DC.testo}
-        `;
+        strFileSRT += numSuccessivo + "\n";
+        strFileSRT += `${TimeCode(DC.minutaggio)} --> ${TimeCode((DatiCopione[numSuccessivo] || {minutaggio: totDurataVideoGuida}).minutaggio)}\n`;
+        strFileSRT += `${DC.testo}\n`;
     }
 
     MettiInDownload("data:text/plain;charset=utf-8," + encodeURIComponent(strFileSRT.trim()), TitoloDoppiaggio);
